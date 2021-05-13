@@ -1,0 +1,1095 @@
+Configuration Settings:
+
+ hyperkernel_type: SVL_Hyperkernel 	kernel_type: SE 	char_length_scale: 0.3 	sigma_len: 0.0001 	sigma_len_bounds:  [0.1, 1] 	signal_variance_bounds: [0.1, 1] 
+number_of_samples_in_X_for_grid: 4 	number_of_samples_in_Xs_for_grid: 5 	number_of_test_datapoints: 100 	noise: 0.0 
+hyper_lambda 0.1 	random_seed: 400 	max_X: 1 	min_X: 0 	max_Y: 2 	min_Y: 1 
+bounds: [[0, 1]] 	number_of_dimensions: 1 
+signal_variance: 1 	number_of_basis_vectors_chosen:  1 	basis_weights_bounds: [0.1, 1] 
+number_of_subspace_selection_iterations: 5 	number_of_iterations_best_solution: 5 
+number_of_init_random_kernel_y_observations: 4 	acq_fun_list: ['UCB'] 
+Length scale bounds:  [[0.1, 1]] 	number of restart likelihoods:  100 	hyper_char_len_scale:  0.1 len_scale_params:  [0.1 0.1] len_scale_param_bounds: [[0.01, 1], [0.01, 1]] 
+
+###################################################################
+ 
+Generating results Start time:  022948_22042021 
+[[ 0.        ]
+ [ 0.21428571]
+ [ 0.42857143]
+ [ 0.64285714]
+ [ 0.85714286]
+ [ 1.07142857]
+ [ 1.28571429]
+ [ 1.5       ]
+ [ 1.71428571]
+ [ 1.92857143]
+ [ 2.14285714]
+ [ 2.35714286]
+ [ 2.57142857]
+ [ 2.78571429]
+ [ 3.        ]
+ [ 7.        ]
+ [ 7.21428571]
+ [ 7.42857143]
+ [ 7.64285714]
+ [ 7.85714286]
+ [ 8.07142857]
+ [ 8.28571429]
+ [ 8.5       ]
+ [ 8.71428571]
+ [ 8.92857143]
+ [ 9.14285714]
+ [ 9.35714286]
+ [ 9.57142857]
+ [ 9.78571429]
+ [10.        ]] 
+************  Run: 1    ***************
+
+ 
+Initial Grid Values selected for this run
+--- X in Grid ---
+ [[0.        ]
+ [0.33333333]
+ [0.66666667]
+ [1.        ]] 
+Starting Optimization 
+Eigen values for the calculation of the dimensionality reduction... 
+######  run: 1  subspace  1   ###### 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-9.8106621e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-1.25176561e+09]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-3.60651686e+09]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-3.27544747e+09]] 
+
+Trying for best solution at iteration: 1    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.79996034e+18]]  found for l=  [0.2387816]  var: 1.0 
+New maximum log likelihood  [[-7.78355569e+18]]  found for l=  [0.17996335]  var: 1.0 
+New maximum log likelihood  [[-7.7828482e+18]]  found for l=  [0.18044866]  var: 1.0 
+New maximum log likelihood  [[-7.77194111e+18]]  found for l=  [0.19082595]  var: 1.0 
+New maximum log likelihood  [[-7.76868661e+18]]  found for l=  [0.19789346]  var: 1.0 
+New maximum log likelihood  [[-7.76818367e+18]]  found for l=  [0.20263832]  var: 1.0 
+New maximum log likelihood  [[-7.76817673e+18]]  found for l=  [0.20220441]  var: 1.0 
+New maximum log likelihood  [[-7.76817659e+18]]  found for l=  [0.20213277]  var: 1.0 
+Opt Length scale:  [0.20213277] 
+Opt variance:  1.0 
+optimised values: l =  [0.20213277]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-33933.52632447]]  found at:  [0.39590097] 
+New best Fval:  [[-33933.52632446]]  found at:  [0.39590097] 
+New best Fval:  [[-33933.52632438]]  found at:  [0.39590098] 
+New best Fval:  [[-33933.52632437]]  found at:  [0.39590099] 
+New best Fval:  [[-33933.52632437]]  found at:  [0.39590099] 
+New best Fval:  [[-33933.52632436]]  found at:  [0.39590099] 
+New best Fval:  [[-33933.52632436]]  found at:  [0.39590101] 
+UCB Best is  [[-33933.52632436]] at  [0.39590101] 
+Best weights:  [0.39590101] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-8.43368964e-01 -4.83966497e-03  5.15832177e-04 -1.93137925e-03
+  -9.26508291e-03  7.47840239e-01 -7.55544372e-03 -4.85424112e-02
+  -9.11196898e-01 -4.74136743e-02]] 
+with observation value:  [[-1.76570536e+09]] 
+
+Trying for best solution at iteration: 2    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-9.37160179e+18]]  found for l=  [0.16598813]  var: 1.0 
+New maximum log likelihood  [[-9.32721642e+18]]  found for l=  [0.1992845]  var: 1.0 
+New maximum log likelihood  [[-9.32697254e+18]]  found for l=  [0.20226922]  var: 1.0 
+New maximum log likelihood  [[-9.32697252e+18]]  found for l=  [0.20224372]  var: 1.0 
+Opt Length scale:  [0.20224372] 
+Opt variance:  1.0 
+optimised values: l =  [0.20224372]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-2.31418658e+08]]  found at:  [0.2686831] 
+New best Fval:  [[-74942357.21938117]]  found at:  [0.80335976] 
+New best Fval:  [[-74942357.16455545]]  found at:  [0.80335893] 
+New best Fval:  [[-74942357.16440815]]  found at:  [0.80335886] 
+UCB Best is  [[-74942357.16440815]] at  [0.80335886] 
+Best weights:  [0.80335886] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-1.71135692e+00 -9.82060579e-03  1.04672214e-03 -3.91913788e-03
+  -1.88006251e-02  1.51751087e+00 -1.53314403e-02 -9.85018359e-02
+  -1.84899277e+00 -9.62114130e-02]] 
+with observation value:  [[-1.09229749e+09]] 
+
+Trying for best solution at iteration: 3    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-9.71944434e+18]]  found for l=  [0.27392904]  var: 1.0 
+New maximum log likelihood  [[-9.71196495e+18]]  found for l=  [0.2851976]  var: 1.0 
+New maximum log likelihood  [[-9.71132373e+18]]  found for l=  [0.31440907]  var: 1.0 
+New maximum log likelihood  [[-9.70979291e+18]]  found for l=  [0.31038677]  var: 1.0 
+New maximum log likelihood  [[-9.70824684e+18]]  found for l=  [0.30153211]  var: 1.0 
+New maximum log likelihood  [[-9.70823309e+18]]  found for l=  [0.30005157]  var: 1.0 
+New maximum log likelihood  [[-9.70822987e+18]]  found for l=  [0.30053242]  var: 1.0 
+Opt Length scale:  [0.30053242] 
+Opt variance:  1.0 
+optimised values: l =  [0.30053242]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-6.89138629e+08]]  found at:  [1.] 
+UCB Best is  [[-6.89138629e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.13025214e+00 -1.22244321e-02  1.30293222e-03 -4.87843988e-03
+  -2.34025243e-02  1.88895766e+00 -1.90841741e-02 -1.22612498e-01
+  -2.30157763e+00 -1.19761439e-01]] 
+with observation value:  [[-9.44310483e+08]] 
+
+Trying for best solution at iteration: 4    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-9.79960602e+18]]  found for l=  [0.30043874]  var: 1.0 
+New maximum log likelihood  [[-9.7994737e+18]]  found for l=  [0.30561616]  var: 1.0 
+New maximum log likelihood  [[-9.79942859e+18]]  found for l=  [0.30361494]  var: 1.0 
+New maximum log likelihood  [[-9.79942763e+18]]  found for l=  [0.30382568]  var: 1.0 
+Opt Length scale:  [0.30382568] 
+Opt variance:  1.0 
+optimised values: l =  [0.30382568]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-9.73871141e+08]]  found at:  [0.27488912] 
+New best Fval:  [[-9.4430976e+08]]  found at:  [1.] 
+New best Fval:  [[-7.88807488e+08]]  found at:  [0.54659775] 
+New best Fval:  [[-7.8880739e+08]]  found at:  [0.54661834] 
+New best Fval:  [[-7.88807363e+08]]  found at:  [0.54663915] 
+New best Fval:  [[-7.88807363e+08]]  found at:  [0.5466385] 
+New best Fval:  [[-7.88807363e+08]]  found at:  [0.54663495] 
+New best Fval:  [[-7.88807363e+08]]  found at:  [0.54663669] 
+UCB Best is  [[-7.88807363e+08]] at  [0.54663669] 
+Best weights:  [0.54663669] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-1.16447399e+00 -6.68232315e-03  7.12230561e-04 -2.66673425e-03
+  -1.27926785e-02  1.03257357e+00 -1.04321098e-02 -6.70244904e-02
+  -1.25812679e+00 -6.54659973e-02]] 
+with observation value:  [[-1.41855614e+09]] 
+
+Trying for best solution at iteration: 5    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-9.93836573e+18]]  found for l=  [0.36655209]  var: 1.0 
+New maximum log likelihood  [[-9.93836048e+18]]  found for l=  [0.36616378]  var: 1.0 
+New maximum log likelihood  [[-9.93836044e+18]]  found for l=  [0.36612587]  var: 1.0 
+Opt Length scale:  [0.36612587] 
+Opt variance:  1.0 
+optimised values: l =  [0.36612587]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-9.44309583e+08]]  found at:  [1.] 
+UCB Best is  [[-9.44309583e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.13025214e+00 -1.22244321e-02  1.30293222e-03 -4.87843988e-03
+  -2.34025243e-02  1.88895766e+00 -1.90841741e-02 -1.22612498e-01
+  -2.30157763e+00 -1.19761439e-01]] 
+with observation value:  [[-9.44310483e+08]] 
+######    search in subspace 1  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-2.13025214e+00, -1.22244321e-02,  1.30293222e-03,
+        -4.87843988e-03, -2.34025243e-02,  1.88895766e+00,
+        -1.90841741e-02, -1.22612498e-01, -2.30157763e+00,
+        -1.19761439e-01]]), 'best_value': array([-9.44310483e+08])} 
+Subspace:  1  completed..
+
+
+
+ 
+Data set after: 1  subspace 
+Observation_y: [[-9.81066210e+08 -1.25176561e+09 -3.60651686e+09 -3.27544747e+09
+  -1.76570536e+09 -1.09229749e+09 -9.44310483e+08 -1.41855614e+09
+  -9.44310483e+08]] 
+ 
+######  run: 1  subspace  2   ###### 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-8.85434095e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-9.05287563e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-7.87180294e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-8.36188628e+08]] 
+
+Trying for best solution at iteration: 1    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-6.11186163e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-3.32870363e+08]]  found at:  [1.] 
+UCB Best is  [[-3.32870363e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.39671604 -0.30019139  0.03199568 -0.14886303 -0.71411574  3.11659152
+  -0.09412664 -0.60474728 -4.64031314 -0.12515927]] 
+with observation value:  [[-7.00110799e+08]] 
+
+Trying for best solution at iteration: 2    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.53945275e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-7.00110022e+08]]  found at:  [1.] 
+UCB Best is  [[-7.00110022e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.39671604 -0.30019139  0.03199568 -0.14886303 -0.71411574  3.11659152
+  -0.09412664 -0.60474728 -4.64031314 -0.12515927]] 
+with observation value:  [[-7.00110799e+08]] 
+
+Trying for best solution at iteration: 3    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.53945426e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-7.00110411e+08]]  found at:  [1.] 
+UCB Best is  [[-7.00110411e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.39671604 -0.30019139  0.03199568 -0.14886303 -0.71411574  3.11659152
+  -0.09412664 -0.60474728 -4.64031314 -0.12515927]] 
+with observation value:  [[-7.00110799e+08]] 
+
+Trying for best solution at iteration: 4    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.53945476e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-7.0011054e+08]]  found at:  [1.] 
+UCB Best is  [[-7.0011054e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.39671604 -0.30019139  0.03199568 -0.14886303 -0.71411574  3.11659152
+  -0.09412664 -0.60474728 -4.64031314 -0.12515927]] 
+with observation value:  [[-7.00110799e+08]] 
+
+Trying for best solution at iteration: 5    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.53945501e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-7.00110605e+08]]  found at:  [1.] 
+UCB Best is  [[-7.00110605e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-2.39671604 -0.30019139  0.03199568 -0.14886303 -0.71411574  3.11659152
+  -0.09412664 -0.60474728 -4.64031314 -0.12515927]] 
+with observation value:  [[-7.00110799e+08]] 
+######    search in subspace 2  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-2.39671604, -0.30019139,  0.03199568, -0.14886303, -0.71411574,
+         3.11659152, -0.09412664, -0.60474728, -4.64031314, -0.12515927]]), 'best_value': array([-7.00110799e+08])} 
+Subspace:  2  completed..
+
+
+
+ 
+Data set after: 2  subspace 
+Observation_y: [[-9.81066210e+08 -1.25176561e+09 -3.60651686e+09 -3.27544747e+09
+  -1.76570536e+09 -1.09229749e+09 -9.44310483e+08 -1.41855614e+09
+  -9.44310483e+08 -8.85434095e+08 -9.05287563e+08 -7.87180294e+08
+  -8.36188628e+08 -7.00110799e+08 -7.00110799e+08 -7.00110799e+08
+  -7.00110799e+08 -7.00110799e+08]] 
+ 
+######  run: 1  subspace  3   ###### 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.89644059e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-6.35115511e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-6.50341817e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.61176108e+08]] 
+
+Trying for best solution at iteration: 1    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.48539259e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.90451194e+08]]  found at:  [0.1] 
+New best Fval:  [[-5.32895919e+08]]  found at:  [1.] 
+UCB Best is  [[-5.32895919e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.2111763   0.07226589 -0.00770241  0.01756292  0.08425167  5.32059596
+  -0.12144644 -0.78027223 -6.6498688  -0.1050925 ]] 
+with observation value:  [[-5.55971942e+08]] 
+
+Trying for best solution at iteration: 2    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.9312974e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.55968077e+08]]  found at:  [1.] 
+UCB Best is  [[-5.55968077e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.2111763   0.07226589 -0.00770241  0.01756292  0.08425167  5.32059596
+  -0.12144644 -0.78027223 -6.6498688  -0.1050925 ]] 
+with observation value:  [[-5.55971942e+08]] 
+
+Trying for best solution at iteration: 3    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.93133475e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-6.1717442e+08]]  found at:  [0.1] 
+New best Fval:  [[-5.55970009e+08]]  found at:  [1.] 
+UCB Best is  [[-5.55970009e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.2111763   0.07226589 -0.00770241  0.01756292  0.08425167  5.32059596
+  -0.12144644 -0.78027223 -6.6498688  -0.1050925 ]] 
+with observation value:  [[-5.55971942e+08]] 
+
+Trying for best solution at iteration: 4    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.93134719e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.55970653e+08]]  found at:  [1.] 
+UCB Best is  [[-5.55970653e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.2111763   0.07226589 -0.00770241  0.01756292  0.08425167  5.32059596
+  -0.12144644 -0.78027223 -6.6498688  -0.1050925 ]] 
+with observation value:  [[-5.55971942e+08]] 
+
+Trying for best solution at iteration: 5    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.93135342e+17]]  found for l=  [1.]  var: 1.0 
+Opt Length scale:  [1.] 
+Opt variance:  1.0 
+optimised values: l =  [1.]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.55970975e+08]]  found at:  [1.] 
+UCB Best is  [[-5.55970975e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.2111763   0.07226589 -0.00770241  0.01756292  0.08425167  5.32059596
+  -0.12144644 -0.78027223 -6.6498688  -0.1050925 ]] 
+with observation value:  [[-5.55971942e+08]] 
+######    search in subspace 3  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-3.2111763 ,  0.07226589, -0.00770241,  0.01756292,  0.08425167,
+         5.32059596, -0.12144644, -0.78027223, -6.6498688 , -0.1050925 ]]), 'best_value': array([-5.55971942e+08])} 
+Subspace:  3  completed..
+
+
+
+ 
+Data set after: 3  subspace 
+Observation_y: [[-9.81066210e+08 -1.25176561e+09 -3.60651686e+09 -3.27544747e+09
+  -1.76570536e+09 -1.09229749e+09 -9.44310483e+08 -1.41855614e+09
+  -9.44310483e+08 -8.85434095e+08 -9.05287563e+08 -7.87180294e+08
+  -8.36188628e+08 -7.00110799e+08 -7.00110799e+08 -7.00110799e+08
+  -7.00110799e+08 -7.00110799e+08 -5.89644059e+08 -6.35115511e+08
+  -6.50341817e+08 -5.61176108e+08 -5.55971942e+08 -5.55971942e+08
+  -5.55971942e+08 -5.55971942e+08 -5.55971942e+08]] 
+ 
+######  run: 1  subspace  4   ###### 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.26005788e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.06703955e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.09549645e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-5.09151606e+08]] 
+
+Trying for best solution at iteration: 1    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.24633582e+17]]  found for l=  [0.61418516]  var: 1.0 
+New maximum log likelihood  [[-2.24625522e+17]]  found for l=  [0.61810639]  var: 1.0 
+New maximum log likelihood  [[-2.24625485e+17]]  found for l=  [0.6177657]  var: 1.0 
+New maximum log likelihood  [[-2.24625481e+17]]  found for l=  [0.61786645]  var: 1.0 
+New maximum log likelihood  [[-2.24625481e+17]]  found for l=  [0.61786563]  var: 1.0 
+New maximum log likelihood  [[-2.24625481e+17]]  found for l=  [0.61784694]  var: 1.0 
+Opt Length scale:  [0.61784694] 
+Opt variance:  1.0 
+optimised values: l =  [0.61784694]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-1.60078553e+08]]  found at:  [0.1] 
+UCB Best is  [[-1.60078553e+08]] at  [0.1] 
+Best weights:  [0.1] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.24809658  0.07911147 -0.00843204  0.01551163  0.07441133  5.53832378
+  -0.11728038 -0.75350605 -6.70787383 -0.10861439]] 
+with observation value:  [[-5.48459637e+08]] 
+
+Trying for best solution at iteration: 2    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.7995958e+17]]  found for l=  [0.8102707]  var: 1.0 
+New maximum log likelihood  [[-2.79950151e+17]]  found for l=  [0.81293417]  var: 1.0 
+New maximum log likelihood  [[-2.79950115e+17]]  found for l=  [0.81311479]  var: 1.0 
+New maximum log likelihood  [[-2.79950115e+17]]  found for l=  [0.81310374]  var: 1.0 
+Opt Length scale:  [0.81310374] 
+Opt variance:  1.0 
+optimised values: l =  [0.81310374]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.94654609e+08]]  found at:  [1.] 
+UCB Best is  [[-4.94654609e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.58037907e+00  1.40721735e-01 -1.49987240e-02 -2.95003551e-03
+  -1.41517123e-02  7.49787410e+00 -7.97858924e-02 -5.12610475e-01
+  -7.22991908e+00 -1.40311372e-01]] 
+with observation value:  [[-5.04351842e+08]] 
+
+Trying for best solution at iteration: 3    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-6.19959148e+17]]  found for l=  [1.]  var: 1.0 
+New maximum log likelihood  [[-4.51446922e+17]]  found for l=  [0.42802298]  var: 1.0 
+Opt Length scale:  [0.42802298] 
+Opt variance:  1.0 
+optimised values: l =  [0.42802298]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.04341437e+08]]  found at:  [0.99792665] 
+New best Fval:  [[-5.04341432e+08]]  found at:  [0.99786687] 
+New best Fval:  [[-4.83994842e+08]]  found at:  [0.69453211] 
+New best Fval:  [[-4.83994054e+08]]  found at:  [0.69511855] 
+New best Fval:  [[-4.83994054e+08]]  found at:  [0.69510213] 
+UCB Best is  [[-4.83994054e+08]] at  [0.69510213] 
+Best weights:  [0.69510213] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.46780993e+00  1.19849694e-01 -1.27740926e-02  3.30432169e-03
+   1.58512702e-02  6.83402663e+00 -9.24881040e-02 -5.94219974e-01
+  -7.05306298e+00 -1.29573213e-01]] 
+with observation value:  [[-5.19897578e+08]] 
+
+Trying for best solution at iteration: 4    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.45969244e+17]]  found for l=  [0.802935]  var: 1.0 
+New maximum log likelihood  [[-4.69702443e+17]]  found for l=  [0.36762869]  var: 1.0 
+New maximum log likelihood  [[-4.69440715e+17]]  found for l=  [0.35578585]  var: 1.0 
+New maximum log likelihood  [[-4.69424974e+17]]  found for l=  [0.3562877]  var: 1.0 
+New maximum log likelihood  [[-4.69417082e+17]]  found for l=  [0.35657118]  var: 1.0 
+New maximum log likelihood  [[-4.69378463e+17]]  found for l=  [0.3594847]  var: 1.0 
+Opt Length scale:  [0.3594847] 
+Opt variance:  1.0 
+optimised values: l =  [0.3594847]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-3.35258616e+08]]  found at:  [0.34326652] 
+New best Fval:  [[-3.35258615e+08]]  found at:  [0.34327389] 
+New best Fval:  [[-3.35258615e+08]]  found at:  [0.34327751] 
+New best Fval:  [[-3.35258615e+08]]  found at:  [0.34327743] 
+New best Fval:  [[-3.35258615e+08]]  found at:  [0.34327741] 
+UCB Best is  [[-3.35258615e+08]] at  [0.34327741] 
+Best weights:  [0.34327741] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.33791527  0.09576523 -0.01020707  0.01052129  0.05047201  6.06800636
+  -0.10714531 -0.68838999 -6.84898696 -0.11718234]] 
+with observation value:  [[-5.34868181e+08]] 
+
+Trying for best solution at iteration: 5    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.51642545e+17]]  found for l=  [0.75378951]  var: 1.0 
+New maximum log likelihood  [[-5.03961303e+17]]  found for l=  [0.38399048]  var: 1.0 
+New maximum log likelihood  [[-5.03062791e+17]]  found for l=  [0.37459716]  var: 1.0 
+New maximum log likelihood  [[-5.03058184e+17]]  found for l=  [0.3740739]  var: 1.0 
+New maximum log likelihood  [[-5.03057654e+17]]  found for l=  [0.37387621]  var: 1.0 
+New maximum log likelihood  [[-5.03057626e+17]]  found for l=  [0.37380448]  var: 1.0 
+New maximum log likelihood  [[-5.03057624e+17]]  found for l=  [0.37381611]  var: 1.0 
+New maximum log likelihood  [[-5.03057624e+17]]  found for l=  [0.37381663]  var: 1.0 
+Opt Length scale:  [0.37381663] 
+Opt variance:  1.0 
+optimised values: l =  [0.37381663]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-5.04259849e+08]]  found at:  [0.99129771] 
+New best Fval:  [[-5.03093133e+08]]  found at:  [0.44212426] 
+New best Fval:  [[-5.03093133e+08]]  found at:  [0.44212776] 
+New best Fval:  [[-5.03093133e+08]]  found at:  [0.44213022] 
+New best Fval:  [[-5.03093133e+08]]  found at:  [0.44213556] 
+UCB Best is  [[-5.03093133e+08]] at  [0.44213556] 
+Best weights:  [0.44213556] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.37441397  0.10253265 -0.01092837  0.00849341  0.04074404  6.28324804
+  -0.10302683 -0.66192945 -6.90632965 -0.12066402]] 
+with observation value:  [[-5.29647884e+08]] 
+######    search in subspace 4  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-3.58037907e+00,  1.40721735e-01, -1.49987240e-02,
+        -2.95003551e-03, -1.41517123e-02,  7.49787410e+00,
+        -7.97858924e-02, -5.12610475e-01, -7.22991908e+00,
+        -1.40311372e-01]]), 'best_value': array([-5.04351842e+08])} 
+Subspace:  4  completed..
+
+
+
+ 
+Data set after: 4  subspace 
+Observation_y: [[-9.81066210e+08 -1.25176561e+09 -3.60651686e+09 -3.27544747e+09
+  -1.76570536e+09 -1.09229749e+09 -9.44310483e+08 -1.41855614e+09
+  -9.44310483e+08 -8.85434095e+08 -9.05287563e+08 -7.87180294e+08
+  -8.36188628e+08 -7.00110799e+08 -7.00110799e+08 -7.00110799e+08
+  -7.00110799e+08 -7.00110799e+08 -5.89644059e+08 -6.35115511e+08
+  -6.50341817e+08 -5.61176108e+08 -5.55971942e+08 -5.55971942e+08
+  -5.55971942e+08 -5.55971942e+08 -5.55971942e+08 -5.26005788e+08
+  -5.06703955e+08 -5.09549645e+08 -5.09151606e+08 -5.48459637e+08
+  -5.04351842e+08 -5.19897578e+08 -5.34868181e+08 -5.29647884e+08]] 
+ 
+######  run: 1  subspace  5   ###### 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-4.79235818e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-4.84547078e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-4.82270296e+08]] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Generated new observation with observation_y:  [[-4.88885434e+08]] 
+
+Trying for best solution at iteration: 1    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.88687867e+17]]  found for l=  [0.52199323]  var: 1.0 
+New maximum log likelihood  [[-1.88687579e+17]]  found for l=  [0.52773905]  var: 1.0 
+New maximum log likelihood  [[-1.88686631e+17]]  found for l=  [0.5231995]  var: 1.0 
+New maximum log likelihood  [[-1.88685949e+17]]  found for l=  [0.52491281]  var: 1.0 
+New maximum log likelihood  [[-1.88685948e+17]]  found for l=  [0.52494906]  var: 1.0 
+Opt Length scale:  [0.52494906] 
+Opt variance:  1.0 
+optimised values: l =  [0.52494906]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.021345e+08]]  found at:  [1.] 
+New best Fval:  [[-3.62492599e+08]]  found at:  [0.1] 
+UCB Best is  [[-3.62492599e+08]] at  [0.1] 
+Best weights:  [0.1] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.60173151e+00  1.16094947e-01 -1.23738956e-02 -2.20485466e-03
+  -1.05769807e-02  7.62812704e+00 -7.60418952e-02 -4.88555945e-01
+  -7.32037787e+00 -1.46195190e-01]] 
+with observation value:  [[-5.012146e+08]] 
+
+Trying for best solution at iteration: 2    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.01876105e+17]]  found for l=  [0.73130933]  var: 1.0 
+New maximum log likelihood  [[-2.01852048e+17]]  found for l=  [0.72873296]  var: 1.0 
+New maximum log likelihood  [[-2.01846485e+17]]  found for l=  [0.72618889]  var: 1.0 
+New maximum log likelihood  [[-2.01846172e+17]]  found for l=  [0.72666724]  var: 1.0 
+New maximum log likelihood  [[-2.01846172e+17]]  found for l=  [0.72666749]  var: 1.0 
+New maximum log likelihood  [[-2.01846172e+17]]  found for l=  [0.72666751]  var: 1.0 
+Opt Length scale:  [0.72666751] 
+Opt variance:  1.0 
+optimised values: l =  [0.72666751]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.36220727e+08]]  found at:  [1.] 
+UCB Best is  [[-4.36220727e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.79390347e+00 -1.05546151e-01  1.12495599e-02  4.50177301e-03
+   2.15956033e-02  8.80040351e+00 -4.23459202e-02 -2.72065169e-01
+  -8.13450703e+00 -1.99149555e-01]] 
+with observation value:  [[-4.73750322e+08]] 
+
+Trying for best solution at iteration: 3    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.74211172e+17]]  found for l=  [0.52394311]  var: 1.0 
+New maximum log likelihood  [[-2.74184766e+17]]  found for l=  [0.52317758]  var: 1.0 
+New maximum log likelihood  [[-2.74050981e+17]]  found for l=  [0.51516831]  var: 1.0 
+New maximum log likelihood  [[-2.74050915e+17]]  found for l=  [0.51481898]  var: 1.0 
+New maximum log likelihood  [[-2.74050896e+17]]  found for l=  [0.51502311]  var: 1.0 
+Opt Length scale:  [0.51502311] 
+Opt variance:  1.0 
+optimised values: l =  [0.51502311]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.73748683e+08]]  found at:  [1.] 
+UCB Best is  [[-4.73748683e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.79390347e+00 -1.05546151e-01  1.12495599e-02  4.50177301e-03
+   2.15956033e-02  8.80040351e+00 -4.23459202e-02 -2.72065169e-01
+  -8.13450703e+00 -1.99149555e-01]] 
+with observation value:  [[-4.73750322e+08]] 
+
+Trying for best solution at iteration: 4    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.74052997e+17]]  found for l=  [0.51407722]  var: 1.0 
+New maximum log likelihood  [[-2.74052901e+17]]  found for l=  [0.51577585]  var: 1.0 
+New maximum log likelihood  [[-2.74051577e+17]]  found for l=  [0.51504685]  var: 1.0 
+New maximum log likelihood  [[-2.74051556e+17]]  found for l=  [0.51492918]  var: 1.0 
+Opt Length scale:  [0.51492918] 
+Opt variance:  1.0 
+optimised values: l =  [0.51492918]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.73749503e+08]]  found at:  [1.] 
+UCB Best is  [[-4.73749503e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.79390347e+00 -1.05546151e-01  1.12495599e-02  4.50177301e-03
+   2.15956033e-02  8.80040351e+00 -4.23459202e-02 -2.72065169e-01
+  -8.13450703e+00 -1.99149555e-01]] 
+with observation value:  [[-4.73750322e+08]] 
+
+Trying for best solution at iteration: 5    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.74145217e+17]]  found for l=  [0.50791976]  var: 1.0 
+New maximum log likelihood  [[-2.74083847e+17]]  found for l=  [0.51899371]  var: 1.0 
+New maximum log likelihood  [[-2.7408372e+17]]  found for l=  [0.51898572]  var: 1.0 
+New maximum log likelihood  [[-2.74051917e+17]]  found for l=  [0.51520803]  var: 1.0 
+New maximum log likelihood  [[-2.74051886e+17]]  found for l=  [0.51517533]  var: 1.0 
+New maximum log likelihood  [[-2.74051827e+17]]  found for l=  [0.51509806]  var: 1.0 
+New maximum log likelihood  [[-2.74051798e+17]]  found for l=  [0.515039]  var: 1.0 
+New maximum log likelihood  [[-2.74051783e+17]]  found for l=  [0.51489874]  var: 1.0 
+New maximum log likelihood  [[-2.7405178e+17]]  found for l=  [0.5149413]  var: 1.0 
+Opt Length scale:  [0.5149413] 
+Opt variance:  1.0 
+optimised values: l =  [0.5149413]   sig =  1.0 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[-4.73749776e+08]]  found at:  [1.] 
+UCB Best is  [[-4.73749776e+08]] at  [1.] 
+Best weights:  [1.] 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+New observation found in the given subspace 
+New kernel suggested:  [[-3.79390347e+00 -1.05546151e-01  1.12495599e-02  4.50177301e-03
+   2.15956033e-02  8.80040351e+00 -4.23459202e-02 -2.72065169e-01
+  -8.13450703e+00 -1.99149555e-01]] 
+with observation value:  [[-4.73750322e+08]] 
+######    search in subspace 5  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-3.79390347e+00, -1.05546151e-01,  1.12495599e-02,
+         4.50177301e-03,  2.15956033e-02,  8.80040351e+00,
+        -4.23459202e-02, -2.72065169e-01, -8.13450703e+00,
+        -1.99149555e-01]]), 'best_value': array([-4.73750322e+08])} 
+Subspace:  5  completed..
+
+
+
+ 
+Data set after: 5  subspace 
+Observation_y: [[-9.81066210e+08 -1.25176561e+09 -3.60651686e+09 -3.27544747e+09
+  -1.76570536e+09 -1.09229749e+09 -9.44310483e+08 -1.41855614e+09
+  -9.44310483e+08 -8.85434095e+08 -9.05287563e+08 -7.87180294e+08
+  -8.36188628e+08 -7.00110799e+08 -7.00110799e+08 -7.00110799e+08
+  -7.00110799e+08 -7.00110799e+08 -5.89644059e+08 -6.35115511e+08
+  -6.50341817e+08 -5.61176108e+08 -5.55971942e+08 -5.55971942e+08
+  -5.55971942e+08 -5.55971942e+08 -5.55971942e+08 -5.26005788e+08
+  -5.06703955e+08 -5.09549645e+08 -5.09151606e+08 -5.48459637e+08
+  -5.04351842e+08 -5.19897578e+08 -5.34868181e+08 -5.29647884e+08
+  -4.79235818e+08 -4.84547078e+08 -4.82270296e+08 -4.88885434e+08
+  -5.01214600e+08 -4.73750322e+08 -4.73750322e+08 -4.73750322e+08
+  -4.73750322e+08]] 
+ 
+plotting kernel
+ [[-0.21352439 -0.24626789  0.02624828  0.00745181  0.03574732  1.30252942
+   0.03743997  0.24054531 -0.90458795 -0.05883818]] 
+Best solution found for run:  1 {'best_kernel': array([[-3.79390347e+00, -1.05546151e-01,  1.12495599e-02,
+         4.50177301e-03,  2.15956033e-02,  8.80040351e+00,
+        -4.23459202e-02, -2.72065169e-01, -8.13450703e+00,
+        -1.99149555e-01]]), 'best_value': array([-4.73750322e+08])} 
+!!!!!!!!!!Gaussian Process Started!!!!!!!!! 
+Maximum log marginal likelihood obtained:  [[-4.73750322e+08]] 
+
+
+***************************Run  1  completed**********************
+
+
+
+ 
+Plotting posterior distribution 
+
+
+
+
+X: 
+ [[0.        ]
+ [0.02142857]
+ [0.04285714]
+ [0.06428571]
+ [0.08571429]
+ [0.10714286]
+ [0.12857143]
+ [0.15      ]
+ [0.17142857]
+ [0.19285714]
+ [0.21428571]
+ [0.23571429]
+ [0.25714286]
+ [0.27857143]
+ [0.3       ]
+ [0.7       ]
+ [0.72142857]
+ [0.74285714]
+ [0.76428571]
+ [0.78571429]
+ [0.80714286]
+ [0.82857143]
+ [0.85      ]
+ [0.87142857]
+ [0.89285714]
+ [0.91428571]
+ [0.93571429]
+ [0.95714286]
+ [0.97857143]
+ [1.        ]] y: 
+ [[0.1       ]
+ [0.21249279]
+ [0.17338837]
+ [0.06681685]
+ [0.08181685]
+ [0.21838837]
+ [0.28749279]
+ [0.205     ]
+ [0.12250721]
+ [0.19161163]
+ [0.32818315]
+ [0.34318315]
+ [0.23661163]
+ [0.19750721]
+ [0.31      ]
+ [0.59      ]
+ [0.70249279]
+ [0.66338837]
+ [0.55681685]
+ [0.57181685]
+ [0.70838837]
+ [0.77749279]
+ [0.695     ]
+ [0.61250721]
+ [0.68161163]
+ [0.81818315]
+ [0.83318315]
+ [0.72661163]
+ [0.68750721]
+ [0.8       ]] 
+
+mean: 
+ [ 9.99649772e-02  1.28244727e-01  1.50208100e-01  1.67147951e-01
+  1.80131213e-01  1.90021226e-01  1.97503277e-01  2.03107136e-01
+  2.07225998e-01  2.10140417e-01  2.12039269e-01  2.13036545e-01
+  2.13189111e-01  2.12512305e-01  2.10995069e-01  2.08614101e-01
+  2.05338143e-01  2.01143788e-01  1.96019733e-01  1.89970508e-01
+  1.83025328e-01  1.75234646e-01  1.66675306e-01  1.57449219e-01
+  1.47682467e-01  1.37521270e-01  1.27131470e-01  1.16692993e-01
+  1.06396587e-01  9.64392080e-02  8.70181993e-02  7.83296645e-02
+  7.05595422e-02  6.38833014e-02  5.84580641e-02  5.44212104e-02
+  5.18868352e-02  5.09431067e-02  5.16485469e-02  5.40333421e-02
+  5.80973023e-02  6.38063065e-02  7.11011178e-02  7.98884594e-02
+  9.00507557e-02  1.01442863e-01  1.13898661e-01  1.27231881e-01
+  1.41240588e-01  1.55712202e-01  1.70421510e-01  1.85144372e-01
+  1.99652357e-01  2.13723141e-01  2.27142878e-01  2.39708198e-01
+  2.51232083e-01  2.61545518e-01  2.70500795e-01  2.77972627e-01
+  2.83864195e-01  2.88107246e-01  2.90655480e-01  2.91497781e-01
+  2.90649211e-01  2.88152188e-01  2.84080797e-01  2.78528836e-01
+  2.71618857e-01  2.63493767e-01  2.54317261e-01  2.44265474e-01
+  2.33531558e-01  2.22317869e-01  2.10832139e-01  1.99284533e-01
+  1.87887114e-01  1.76845809e-01  1.66361534e-01  1.56620023e-01
+  1.47799024e-01  1.40057422e-01  1.33533855e-01  1.28348751e-01
+  1.24599285e-01  1.22357616e-01  1.21674313e-01  1.22570696e-01
+  1.25044388e-01  1.29068244e-01  1.34590691e-01  1.41537459e-01
+  1.49809284e-01  1.59291028e-01  1.69845903e-01  1.81325004e-01
+  1.93562708e-01  2.06385792e-01  2.19610920e-01  2.33053478e-01
+  2.46523476e-01  2.59835468e-01  2.72805388e-01  2.85260839e-01
+  2.97032240e-01  3.07968340e-01  3.17929395e-01  3.26792486e-01
+  3.34450881e-01  3.40821927e-01  3.45837183e-01  3.49454468e-01
+  3.51649868e-01  3.52423357e-01  3.51793745e-01  3.49800774e-01
+  3.46504760e-01  3.41981455e-01  3.36327680e-01  3.29652510e-01
+  3.22075992e-01  3.13733682e-01  3.04765427e-01  2.95318566e-01
+  2.85547998e-01  2.75603451e-01  2.65642208e-01  2.55812931e-01
+  2.46262767e-01  2.37130967e-01  2.28553091e-01  2.20652863e-01
+  2.13543687e-01  2.07333018e-01  2.02116317e-01  1.97980602e-01
+  1.95003462e-01  1.93256716e-01  1.92805311e-01  1.93712571e-01
+  1.96039395e-01  1.99851442e-01  2.05217994e-01  2.12221059e-01
+  2.20953297e-01  2.31528857e-01  2.44082899e-01  2.58780012e-01
+  2.75814577e-01  2.95426257e-01  3.17891010e-01  3.43538627e-01
+  3.72749193e-01  4.05964233e-01  4.43686896e-01  4.86489893e-01
+  5.35015218e-01  5.89982551e-01  6.52187710e-01  7.22509765e-01
+  8.01908771e-01  8.91429851e-01  9.92201169e-01  1.10543534e+00
+  1.23242965e+00  1.37455795e+00  1.53327743e+00  1.71011754e+00
+  1.90667638e+00  2.12461751e+00  2.36566399e+00  2.63158744e+00
+  2.92420389e+00  3.24536214e+00  3.59693617e+00  3.98081663e+00
+  4.39889122e+00  4.85304521e+00  5.34513968e+00  5.87700384e+00
+  6.45042025e+00  7.06711120e+00  7.72872907e+00  8.43683516e+00
+  9.19289337e+00  9.99825119e+00  1.08541330e+01  1.17616174e+01
+  1.27216322e+01  1.37349400e+01  1.48021239e+01  1.59235809e+01
+  1.70995059e+01  1.83298863e+01  1.96144942e+01  2.09528737e+01
+  2.23443384e+01  2.37879639e+01  2.52825859e+01  2.68267949e+01
+  2.84189339e+01  3.00571023e+01  3.17391507e+01  3.34626855e+01
+  3.52250759e+01  3.70234531e+01  3.88547218e+01  4.07155630e+01
+  4.26024480e+01  4.45116457e+01  4.64392319e+01  4.83811078e+01
+  5.03330096e+01  5.22905229e+01  5.42491034e+01  5.62040877e+01
+  5.81507122e+01  6.00841385e+01  6.19994595e+01  6.38917312e+01
+  6.57559850e+01  6.75872509e+01  6.93805769e+01  7.11310521e+01
+  7.28338221e+01  7.44841144e+01  7.60772560e+01  7.76086962e+01
+  7.90740203e+01  8.04689748e+01  8.17894809e+01  8.30316578e+01
+  8.41918296e+01  8.52665516e+01  8.62526185e+01  8.71470782e+01
+  8.79472542e+01  8.86507353e+01  8.92554118e+01  8.97594653e+01
+  9.01613781e+01  9.04599574e+01  9.06543074e+01  9.07438683e+01
+  9.07283849e+01  9.06079340e+01  9.03829056e+01  9.00540110e+01
+  8.96222694e+01  8.90890091e+01  8.84558617e+01  8.77247461e+01
+  8.68978727e+01  8.59777205e+01  8.49670269e+01  8.38687891e+01
+  8.26862269e+01  8.14227960e+01  8.00821474e+01  7.86681247e+01
+  7.71847543e+01  7.56362115e+01  7.40268066e+01  7.23609833e+01
+  7.06432822e+01  6.88783321e+01  6.70708194e+01  6.52254911e+01
+  6.33471192e+01  6.14404828e+01  5.95103595e+01  5.75614995e+01
+  5.55986114e+01  5.36263497e+01  5.16492964e+01  4.96719315e+01
+  4.76986447e+01  4.57336974e+01  4.37812237e+01  4.18452126e+01
+  3.99294937e+01  3.80377413e+01  3.61734344e+01  3.43398846e+01
+  3.25402048e+01  3.07773027e+01  2.90538907e+01  2.73724667e+01
+  2.57353199e+01  2.41445186e+01  2.26019122e+01  2.11091494e+01
+  1.96676359e+01  1.82785853e+01  1.69429800e+01  1.56616149e+01
+  1.44350483e+01  1.32636609e+01  1.21476300e+01  1.10869370e+01
+  1.00813903e+01  9.13061905e+00  8.23408722e+00  7.39109371e+00
+  6.60079743e+00  5.86220415e+00  5.17420312e+00  4.53555385e+00
+  3.94490063e+00  3.40080325e+00  2.90171048e+00  2.44601610e+00
+  2.03201017e+00  1.65795977e+00  1.32205096e+00  1.02246426e+00
+  7.57312836e-01  5.24715552e-01  3.22780824e-01  1.49602131e-01
+  3.28100414e-03 -1.18054924e-01 -2.16257343e-01 -2.93168594e-01
+ -3.50560906e-01 -3.90199251e-01 -4.13766929e-01 -4.22916928e-01
+ -4.19233981e-01 -4.04242366e-01 -3.79391638e-01 -3.46076431e-01
+ -3.05601696e-01 -2.59218667e-01 -2.08076457e-01 -1.53266010e-01
+ -9.57944246e-02 -3.65765807e-02  2.35156272e-02  8.37279992e-02
+  1.43361753e-01  2.01799615e-01  2.58489771e-01  3.12954836e-01
+  3.64811087e-01  4.13692012e-01  4.59344793e-01  5.01540171e-01
+  5.40125563e-01  5.74997935e-01  6.06104625e-01  6.33431139e-01
+  6.57014717e-01  6.76927635e-01  6.93284592e-01  7.06213667e-01
+  7.15894854e-01  7.22520071e-01  7.26275477e-01  7.27409986e-01
+  7.26147289e-01  7.22747046e-01  7.17451797e-01  7.10531131e-01
+  7.02227895e-01  6.92808536e-01  6.82518450e-01  6.71600525e-01
+  6.60286673e-01  6.48792778e-01  6.37340024e-01  6.26116857e-01
+  6.15296275e-01  6.05060331e-01  5.95527902e-01  5.86841297e-01
+  5.79119431e-01  5.72433893e-01  5.66859286e-01  5.62464778e-01
+  5.59273887e-01  5.57304869e-01  5.56571307e-01  5.57034602e-01
+  5.58700217e-01  5.61496491e-01  5.65388141e-01  5.70291667e-01
+  5.76132860e-01  5.82828411e-01  5.90284445e-01  5.98391972e-01
+  6.07051414e-01  6.16145273e-01  6.25565321e-01  6.35198659e-01
+  6.44941485e-01  6.54663968e-01  6.64263156e-01  6.73643744e-01
+  6.82711983e-01  6.91353200e-01  6.99492019e-01  7.07048236e-01
+  7.13965025e-01  7.20166726e-01  7.25601017e-01  7.30243568e-01
+  7.34050244e-01  7.37004513e-01  7.39090913e-01  7.40333104e-01
+  7.40711892e-01  7.40258460e-01  7.39005544e-01  7.37001977e-01
+  7.34292374e-01  7.30926369e-01  7.26985652e-01  7.22508403e-01
+  7.17606491e-01  7.12339425e-01  7.06802998e-01  7.01083597e-01
+  6.95263249e-01  6.89442562e-01  6.83720168e-01  6.78157718e-01
+  6.72870383e-01  6.67938856e-01  6.63436782e-01  6.59451995e-01
+  6.56043554e-01  6.53277292e-01  6.51213233e-01  6.49899129e-01
+  6.49369204e-01  6.49661906e-01  6.50798063e-01  6.52784667e-01
+  6.55631651e-01  6.59322386e-01  6.63833395e-01  6.69137480e-01
+  6.75201628e-01  6.81977441e-01  6.89391906e-01  6.97402033e-01
+  7.05906180e-01  7.14826400e-01  7.24082483e-01  7.33566895e-01
+  7.43183678e-01  7.52828179e-01  7.62380946e-01  7.71745570e-01
+  7.80805270e-01  7.89446623e-01  7.97557507e-01  8.05045152e-01
+  8.11813595e-01  8.17737430e-01  8.22774529e-01  8.26808849e-01
+  8.29791312e-01  8.31652683e-01  8.32357622e-01  8.31878945e-01
+  8.30197266e-01  8.27302035e-01  8.23215129e-01  8.17964773e-01
+  8.11619680e-01  8.04214040e-01  7.95856799e-01  7.86652181e-01
+  7.76717284e-01  7.66182409e-01  7.55214843e-01  7.43984885e-01
+  7.32686289e-01  7.21510766e-01  7.10685693e-01  7.00443433e-01
+  6.90998027e-01  6.82619453e-01  6.75545282e-01  6.70027869e-01
+  6.66322232e-01  6.64664663e-01  6.65301677e-01  6.68467344e-01
+  6.74350845e-01  6.83170908e-01  6.95080369e-01  7.10227592e-01
+  7.28707915e-01  7.50601884e-01  7.75914869e-01  8.04633608e-01] 
+
+std_dev: 
+ [9.99991160e-06 2.18212434e-05 3.26171408e-05 3.75575957e-05
+ 3.80372914e-05 3.54597545e-05 3.10014066e-05 2.56202923e-05
+ 2.00992306e-05 1.51346510e-05 1.14391237e-05 9.67433146e-06
+ 9.80183840e-06 1.08604831e-05 1.19741563e-05 1.27407630e-05
+ 1.30498786e-05 1.29221165e-05 1.24449588e-05 1.17351540e-05
+ 1.09218091e-05 1.01331402e-05 9.48163592e-06 9.04440338e-06
+ 8.84240480e-06 8.84200301e-06 8.97322143e-06 9.15819112e-06
+ 9.32922182e-06 9.44446835e-06 9.48013702e-06 9.43223494e-06
+ 9.30882588e-06 9.13371899e-06 8.92956358e-06 8.72246315e-06
+ 8.53679189e-06 8.39304515e-06 8.29918430e-06 8.25540468e-06
+ 8.25561986e-06 8.28718940e-06 8.33250763e-06 8.37864084e-06
+ 8.41143822e-06 8.42388883e-06 8.40995980e-06 8.37333891e-06
+ 8.31479454e-06 8.24162198e-06 8.16257265e-06 8.08494768e-06
+ 8.01610456e-06 7.96207403e-06 7.92517666e-06 7.90587704e-06
+ 7.90430407e-06 7.91373722e-06 7.92876211e-06 7.94487658e-06
+ 7.95850359e-06 7.96430474e-06 7.95939635e-06 7.94308770e-06
+ 7.91867391e-06 7.88607969e-06 7.84973032e-06 7.81184760e-06
+ 7.77720711e-06 7.75089597e-06 7.73139106e-06 7.72311530e-06
+ 7.72127504e-06 7.72725429e-06 7.73896939e-06 7.75204179e-06
+ 7.76440586e-06 7.77332324e-06 7.77423727e-06 7.76966607e-06
+ 7.75753937e-06 7.73896939e-06 7.71644227e-06 7.69315652e-06
+ 7.67049485e-06 7.65287430e-06 7.64195704e-06 7.64172459e-06
+ 7.64985619e-06 7.66609351e-06 7.68992322e-06 7.71690266e-06
+ 7.74470561e-06 7.76920880e-06 7.78633797e-06 7.79864767e-06
+ 7.79728088e-06 7.78793477e-06 7.76806551e-06 7.74355871e-06
+ 7.71667247e-06 7.69107813e-06 7.67466221e-06 7.66956846e-06
+ 7.67905864e-06 7.70699812e-06 7.75112515e-06 7.80752594e-06
+ 7.87345547e-06 7.94241677e-06 8.00945385e-06 8.06514939e-06
+ 8.10316322e-06 8.12111918e-06 8.11564901e-06 8.09109727e-06
+ 8.04839291e-06 7.99769073e-06 7.94957049e-06 7.91575714e-06
+ 7.90789897e-06 7.94017991e-06 8.01787715e-06 8.14274495e-06
+ 8.30774149e-06 8.50029945e-06 8.70289049e-06 8.89368413e-06
+ 9.05088239e-06 9.15411697e-06 9.18665954e-06 9.14421506e-06
+ 9.02907087e-06 8.86186977e-06 8.67979529e-06 8.54324001e-06
+ 8.52971415e-06 8.71675900e-06 9.15431102e-06 9.85028747e-06
+ 1.07533123e-05 1.17675028e-05 1.27727900e-05 1.36296678e-05
+ 1.41896616e-05 1.43012648e-05 1.38253227e-05 1.26780074e-05
+ 1.09858653e-05 9.58356687e-06 1.08029205e-05 1.64414851e-05
+ 2.59734036e-05 3.89446003e-05 5.54237628e-05 7.57121651e-05
+ 1.00207605e-04 1.29367718e-04 1.63687464e-04 2.03694851e-04
+ 2.49943029e-04 3.03009496e-04 3.63491590e-04 4.32005411e-04
+ 5.09182547e-04 5.95665321e-04 6.92107746e-04 7.99170331e-04
+ 9.17515483e-04 1.04780590e-03 1.19070224e-03 1.34685558e-03
+ 1.51690817e-03 1.70148497e-03 1.90119424e-03 2.11662228e-03
+ 2.34832461e-03 2.59683061e-03 2.86263252e-03 3.14618450e-03
+ 3.44789907e-03 3.76814162e-03 4.10722923e-03 4.46542479e-03
+ 4.84293467e-03 5.23990706e-03 5.65642708e-03 6.09251477e-03
+ 6.54812367e-03 7.02313767e-03 7.51736903e-03 8.03055898e-03
+ 8.56237304e-03 9.11240374e-03 9.68016849e-03 1.02651089e-02
+ 1.08665924e-02 1.14839115e-02 1.21162861e-02 1.27628638e-02
+ 1.34227219e-02 1.40948701e-02 1.47782512e-02 1.54717449e-02
+ 1.61741718e-02 1.68842950e-02 1.76008250e-02 1.83224222e-02
+ 1.90477029e-02 1.97752429e-02 2.05035824e-02 2.12312294e-02
+ 2.19566673e-02 2.26783588e-02 2.33947506e-02 2.41042803e-02
+ 2.48053808e-02 2.54964862e-02 2.61760376e-02 2.68424885e-02
+ 2.74943108e-02 2.81299999e-02 2.87480794e-02 2.93471087e-02
+ 2.99256859e-02 3.04824537e-02 3.10161045e-02 3.15253851e-02
+ 3.20091004e-02 3.24661185e-02 3.28953743e-02 3.32958730e-02
+ 3.36666935e-02 3.40069920e-02 3.43160043e-02 3.45930480e-02
+ 3.48375249e-02 3.50489234e-02 3.52268183e-02 3.53708735e-02
+ 3.54808417e-02 3.55565654e-02 3.55979764e-02 3.56050952e-02
+ 3.55780315e-02 3.55169817e-02 3.54222287e-02 3.52941397e-02
+ 3.51331641e-02 3.49398321e-02 3.47147505e-02 3.44586020e-02
+ 3.41721402e-02 3.38561876e-02 3.35116319e-02 3.31394212e-02
+ 3.27405623e-02 3.23161145e-02 3.18671865e-02 3.13949322e-02
+ 3.09005456e-02 3.03852572e-02 2.98503298e-02 2.92970520e-02
+ 2.87267356e-02 2.81407100e-02 2.75403191e-02 2.69269142e-02
+ 2.63018524e-02 2.56664902e-02 2.50221805e-02 2.43702677e-02
+ 2.37120842e-02 2.30489458e-02 2.23821484e-02 2.17129654e-02
+ 2.10426421e-02 2.03723943e-02 1.97034047e-02 1.90368203e-02
+ 1.83737488e-02 1.77152573e-02 1.70623703e-02 1.64160666e-02
+ 1.57772781e-02 1.51468890e-02 1.45257332e-02 1.39145937e-02
+ 1.33142023e-02 1.27252389e-02 1.21483301e-02 1.15840493e-02
+ 1.10329182e-02 1.04954046e-02 9.97192525e-03 9.46284270e-03
+ 8.96847153e-03 8.48907382e-03 8.02486355e-03 7.57600654e-03
+ 7.14262227e-03 6.72478433e-03 6.32252312e-03 5.93582793e-03
+ 5.56464615e-03 5.20888879e-03 4.86842906e-03 4.54310683e-03
+ 4.23272929e-03 3.93707223e-03 3.65588560e-03 3.38889091e-03
+ 3.13578758e-03 2.89625248e-03 2.66994326e-03 2.45649853e-03
+ 2.25554389e-03 2.06669051e-03 1.88953613e-03 1.72367282e-03
+ 1.56868279e-03 1.42414168e-03 1.28962343e-03 1.16469919e-03
+ 1.04893808e-03 9.41912571e-04 8.43194686e-04 7.52362485e-04
+ 6.68998826e-04 5.92692167e-04 5.23038342e-04 4.59643741e-04
+ 4.02120261e-04 3.50094801e-04 3.03200720e-04 2.61086667e-04
+ 2.23411901e-04 1.89849037e-04 1.60085526e-04 1.33819516e-04
+ 1.10768766e-04 9.06615841e-05 7.32452084e-05 5.82845963e-05
+ 4.55622443e-05 3.48916854e-05 2.61171747e-05 1.91394960e-05
+ 1.39446847e-05 1.06086221e-05 9.12613099e-06 9.03615065e-06
+ 9.58078615e-06 1.02089377e-05 1.06755563e-05 1.09083014e-05
+ 1.09099297e-05 1.07192288e-05 1.03809664e-05 9.94915617e-06
+ 9.47207640e-06 8.99595825e-06 8.55861266e-06 8.19038092e-06
+ 7.90789897e-06 7.71851383e-06 7.61261227e-06 7.57846748e-06
+ 7.59485742e-06 7.64125967e-06 7.69961903e-06 7.75272920e-06
+ 7.79158337e-06 7.80707089e-06 7.79864767e-06 7.76394829e-06
+ 7.70538455e-06 7.62846315e-06 7.53662964e-06 7.43721717e-06
+ 7.33355164e-06 7.23306724e-06 7.14037772e-06 7.05881076e-06
+ 6.99205928e-06 6.94285382e-06 6.90797004e-06 6.88865710e-06
+ 6.88220741e-06 6.88504601e-06 6.89638877e-06 6.91131213e-06
+ 6.92671627e-06 6.94131853e-06 6.95282497e-06 6.95767753e-06
+ 6.95691156e-06 6.95129188e-06 6.93568621e-06 6.91568012e-06
+ 6.88968849e-06 6.85971520e-06 6.82778946e-06 6.79179169e-06
+ 6.75849390e-06 6.72582361e-06 6.69379003e-06 6.66746626e-06
+ 6.64237542e-06 6.62470166e-06 6.61128099e-06 6.60456044e-06
+ 6.60106304e-06 6.60267745e-06 6.60966868e-06 6.61772631e-06
+ 6.62979439e-06 6.64237542e-06 6.65653401e-06 6.66853186e-06
+ 6.68077405e-06 6.69272845e-06 6.69989084e-06 6.70731044e-06
+ 6.71022303e-06 6.71075246e-06 6.70704559e-06 6.70121637e-06
+ 6.69193215e-06 6.68236921e-06 6.66853186e-06 6.65466573e-06
+ 6.64103814e-06 6.62845458e-06 6.61584708e-06 6.60590509e-06
+ 6.59944823e-06 6.59783303e-06 6.59971740e-06 6.60671176e-06
+ 6.62067832e-06 6.63889794e-06 6.66213569e-06 6.69219759e-06
+ 6.72397459e-06 6.75875673e-06 6.79545233e-06 6.83195084e-06
+ 6.86644473e-06 6.89741900e-06 6.92466436e-06 6.94566765e-06
+ 6.95946446e-06 6.96609763e-06 6.96533258e-06 6.95767753e-06
+ 6.94643485e-06 6.92953664e-06 6.91259712e-06 6.89690390e-06
+ 6.88556200e-06 6.88323976e-06 6.89200855e-06 6.91413879e-06
+ 6.95461315e-06 7.01032726e-06 7.08568626e-06 7.17338866e-06
+ 7.27542996e-06 7.38424333e-06 7.49408419e-06 7.60140351e-06
+ 7.69754238e-06 7.77720711e-06 7.83410038e-06 7.86487749e-06
+ 7.86849041e-06 7.84452380e-06 7.79728088e-06 7.73552561e-06
+ 7.67396781e-06 7.63055860e-06 7.62566833e-06 7.68691966e-06
+ 7.83273978e-06 8.07769394e-06 8.42473227e-06 8.86407444e-06
+ 9.37101791e-06 9.90567510e-06 1.04233170e-05 1.08681678e-05
+ 1.11825049e-05 1.13062014e-05 1.11842521e-05 1.07848177e-05
+ 1.01326143e-05 9.39373740e-06 9.04931214e-06 9.98302179e-06] 
+
+
+@@@@@@@Mean likelihood for Bayesian Optimisation :  -473750322.44989413 

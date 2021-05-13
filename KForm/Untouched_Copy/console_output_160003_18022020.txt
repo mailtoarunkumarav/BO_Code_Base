@@ -1,0 +1,98 @@
+
+
+Parameters
+True Func michalewicz2d 	Dim: 2 	obs_samp: 3 	iter: 30 	kernel_types: ['ard', 'fix_l'] 	lenscale_fun_types: ['quadratic', 'quadratic'] 	seed: 200 
+Runs: 3 	Acq_re: 100 	likeli_re: 100 	Bounds: [[0, 3.141592653589793], [0, 3.141592653589793]] 	l_params: [[-2.   1.   1.1]
+ [-2.   1.   1.1]] 
+l_param_bds: [[[2, 2.1], [-2.1, 2], [0.65, 0.75]], [[2, 2.1], [-2.1, 2], [0.65, 0.75]]] 	ard_len_scale_bds: [[0.5, 3], [0.5, 3]] 
+xmax: [3.14159265] 	xmin: [0] 	ymax: 2 	ymin: 0 	eps1: 0.001 	eps2: 0.001 	fixed_l: [1, 1] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.7, 0.4, 0.3, 0.01] 
+
+
+
+###################################################################
+
+Generating results Start time:  160003_18022020
+True function: michalewicz2d  
+Maximum is  [[1.80116404]]
+Regret for initial points:  [matrix([[0.82018216]]), matrix([[0.82018216]]), matrix([[0.82018216]])]
+L Recaluated with new data
+Testing with ARD Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[8.03998594e-02]
+ [3.64799505e-07]
+ [5.28407204e-02]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      ard   ######
+New maximum log likelihood  [[4.39829004]]  found for l=  [1.77597212 1.75182656]  var: 0.11164046471335089
+New maximum log likelihood  [[4.40707506]]  found for l=  [1.93973062 2.19013838]  var: 0.1300975504127374
+New maximum log likelihood  [[4.96742642]]  found for l=  [0.83836995 2.1341268 ]  var: 0.10527995379476904
+New maximum log likelihood  [[5.27388141]]  found for l=  [0.90454152 2.88620808]  var: 0.1
+New maximum log likelihood  [[5.30530976]]  found for l=  [0.96365441 3.        ]  var: 0.1
+Opt Length scale:  [0.96365441 3.        ] 
+Opt variance:  0.1
+ACQ Function : EI 
+New best Fval:  [[8.79939524e-55]]  found at:  [0.46810987 0.05469621]
+New best Fval:  [[1.34061727e-06]]  found at:  [0.55152626 0.94577042]
+New best Fval:  [[6.00580831e-05]]  found at:  [0.76106489 0.68280409]
+New best Fval:  [[0.0006377]]  found at:  [0.85841566 0.94908281]
+New best Fval:  [[0.00118151]]  found at:  [0.94743657 0.90178642]
+New best Fval:  [[0.00532241]]  found at:  [1.         0.22988145]
+New best Fval:  [[0.00753072]]  found at:  [0.99678095 0.04646028]
+New best Fval:  [[0.00798669]]  found at:  [1.        0.0242083]
+EI Best is  [[0.00798669]] at  [1.        0.0242083]
+( [1.        0.0242083] [[7.97660056e-51]] ) is the new value added..    Original:  (array([3.14159265, 0.07605263]), matrix([[1.59532011e-50]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      ard   ######
+New maximum log likelihood  [[6.20362981]]  found for l=  [0.5 0.5]  var: 0.1
+Opt Length scale:  [0.5 0.5] 
+Opt variance:  0.1
+ACQ Function : EI 
+New best Fval:  [[0.01290642]]  found at:  [0.68933576 0.39416295]
+New best Fval:  [[0.01928389]]  found at:  [0.83820408 0.86902658]
+New best Fval:  [[0.02042904]]  found at:  [0.91066561 0.749337  ]
+New best Fval:  [[0.02227063]]  found at:  [1.         0.95417692]
+EI Best is  [[0.02227063]] at  [1.         0.95417692]
+( [1.         0.95417692] [[2.49494502e-07]] ) is the new value added..    Original:  (array([3.14159265, 2.9976352 ]), matrix([[4.98989004e-07]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      ard   ######
+New maximum log likelihood  [[3.94372271]]  found for l=  [1.85319797 1.34450781]  var: 0.6030985129342241
+New maximum log likelihood  [[4.83184961]]  found for l=  [1.38523074 1.1171351 ]  var: 0.37872289234087697
+New maximum log likelihood  [[5.21903346]]  found for l=  [1.64404423 0.98004541]  var: 0.2631097060910531
+New maximum log likelihood  [[5.73443894]]  found for l=  [1.71029202 0.84803979]  var: 0.22523232987166475
+New maximum log likelihood  [[6.98708953]]  found for l=  [1.40460535 0.5       ]  var: 0.19210832220896268
+New maximum log likelihood  [[8.43540976]]  found for l=  [0.59099626 0.5       ]  var: 0.1
+Opt Length scale:  [0.59099626 0.5       ] 
+Opt variance:  0.1
+ACQ Function : EI 
+New best Fval:  [[0.01369054]]  found at:  [0.13690203 0.07369609]
+New best Fval:  [[0.01466849]]  found at:  [0.63521823 0.33298676]
+New best Fval:  [[0.01482828]]  found at:  [0.05436202 0.06822694]
+New best Fval:  [[0.0150049]]  found at:  [0.02707128 0.0971721 ]
+New best Fval:  [[0.01526006]]  found at:  [0.536984   0.36141942]
+EI Best is  [[0.01526006]] at  [0.536984   0.36141942]
+( [0.536984   0.36141942] [[0.00499886]] ) is the new value added..    Original:  (array([1.68698498, 1.13543259]), matrix([[0.00999771]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  4      ard   ######
+New maximum log likelihood  [[3.11652797]]  found for l=  [0.80857092 0.98144097]  var: 0.8099202774271457
+New maximum log likelihood  [[4.70551991]]  found for l=  [1.60583853 0.59134634]  var: 0.42283167065825056
+New maximum log likelihood  [[5.24785339]]  found for l=  [0.61968276 0.88943499]  var: 0.36858334344700994
+New maximum log likelihood  [[6.59313162]]  found for l=  [0.5        0.80205313]  var: 0.26166688458686327
+New maximum log likelihood  [[6.5995968]]  found for l=  [1.10242049 0.5       ]  var: 0.24267085952915274
+New maximum log likelihood  [[9.00028858]]  found for l=  [0.5 0.5]  var: 0.12610306792523898

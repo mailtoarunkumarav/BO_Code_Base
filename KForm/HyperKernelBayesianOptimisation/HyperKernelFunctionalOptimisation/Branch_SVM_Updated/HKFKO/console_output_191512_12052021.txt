@@ -1,0 +1,2025 @@
+Configuration Settings:
+
+ hyperkernel_type: matern_harmonic_kernel 	kernel_type: SE 	char_length_scale: 0.3 	sigma_len: 0.0001 	sigma_len_bounds:  [0.1, 1] 	signal_variance_bounds: [0.1, 1] 
+number_of_samples_in_X_for_grid: 4 	number_of_samples_in_Xs_for_grid: 5 	number_of_test_datapoints: 100 	noise: 0.0 
+hyper_lambda 0.01 	random_seed: 400 	max_X: 1 	min_X: 0 	max_Y: 2 	min_Y: 1 
+bounds: [[0, 1]] 	number_of_dimensions: 1 
+signal_variance: 1 	number_of_basis_vectors_chosen:  2 	basis_weights_bounds: [0.1, 1] 
+number_of_subspace_selection_iterations: 5 	number_of_iterations_best_solution: 5 
+number_of_init_random_kernel_y_observations: 4 	acq_fun_list: ['UCB'] 
+Length scale bounds:  [[0.1, 1]] 	number of restart likelihoods:  100 	hyper_char_len_scale:  0.105 
+
+Dataset: SEED 
+
+###################################################################
+ 
+Generating results Start time:  191512_12052021 
+************  Run: 1    ***************
+
+ 
+Initial Grid Values selected for this run
+--- X in Grid ---
+ [[0.        ]
+ [0.33333333]
+ [0.66666667]
+ [1.        ]] 
+Starting Optimization 
+Eigen values for the calculation of the dimensionality reduction... 
+######  run: 1  subspace  1   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+
+Trying for best solution at iteration: 1    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.62567575]]  found for l=  [1.]  var: 0.6907880429370351 
+New maximum log likelihood  [[-2.62496366]]  found for l=  [1.]  var: 0.7000253613414411 
+Opt Length scale:  [1.] 
+Opt variance:  0.7000253613414411 
+optimised values: l =  [1.]   sig =  0.7000253613414411 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.98516937]]  found at:  [0.68922227 0.18394031 0.4057763 ] 
+New best Fval:  [[1.99297592]]  found at:  [0.70843448 0.1        0.46348164] 
+New best Fval:  [[1.99298257]]  found at:  [0.9713554  0.1        0.46463081] 
+New best Fval:  [[1.99298274]]  found at:  [0.67907892 0.1        0.46406803] 
+New best Fval:  [[2.07763628]]  found at:  [0.9960797  0.62028694 0.13512549] 
+New best Fval:  [[2.09648681]]  found at:  [0.92685189 0.65559684 0.1       ] 
+New best Fval:  [[2.09648723]]  found at:  [0.73283436 0.65497289 0.1       ] 
+New best Fval:  [[2.09648729]]  found at:  [0.75107611 0.65501654 0.1       ] 
+New best Fval:  [[2.09648734]]  found at:  [0.87583478 0.6553072  0.1       ] 
+New best Fval:  [[2.09648738]]  found at:  [0.64569585 0.65514196 0.1       ] 
+UCB Best is  [[2.09648738]] at  [0.64569585 0.65514196 0.1       ] 
+Best weights:  [0.64569585 0.65514196 0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.31113620e-01  3.15068409e-01 -1.04856905e-01  1.77469483e+00
+  -1.13765515e-01  2.37312953e-12  3.19761866e-01 -4.83519831e-02
+  -2.72329382e-02  2.42352751e-02]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 2    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.84464403]]  found for l=  [1.]  var: 0.6212315442044661 
+New maximum log likelihood  [[-2.84211594]]  found for l=  [1.]  var: 0.6378476582763851 
+New maximum log likelihood  [[-2.84206796]]  found for l=  [1.]  var: 0.6340919029236033 
+New maximum log likelihood  [[-2.84204513]]  found for l=  [1.]  var: 0.6354975251199897 
+New maximum log likelihood  [[-2.84204511]]  found for l=  [1.]  var: 0.6354724468385007 
+New maximum log likelihood  [[-2.8420451]]  found for l=  [1.]  var: 0.6354498204346892 
+Opt Length scale:  [1.] 
+Opt variance:  0.6354498204346892 
+optimised values: l =  [1.]   sig =  0.6354498204346892 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.19911938]]  found at:  [0.86391502 0.1        0.1       ] 
+New best Fval:  [[1.99301272]]  found at:  [0.65524491 0.1        0.4754173 ] 
+New best Fval:  [[2.1344699]]  found at:  [0.46544825 1.         0.99162734] 
+New best Fval:  [[2.13447038]]  found at:  [0.96987894 1.         0.99161523] 
+New best Fval:  [[2.13449287]]  found at:  [0.84423543 1.         0.99102886] 
+New best Fval:  [[2.13468065]]  found at:  [0.94774223 1.         0.98153067] 
+UCB Best is  [[2.13468065]] at  [0.94774223 1.         0.98153067] 
+Best weights:  [0.94774223 1.         0.98153067] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.76668499e-01  7.73709291e-01 -2.57495703e-01  5.09220609e+00
+  -3.70075474e-01  6.40884553e-12  2.12833065e-01 -3.21830145e-02
+   5.86156681e-01 -5.21635540e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 3    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.09187815]]  found for l=  [1.]  var: 0.6722572899145284 
+Opt Length scale:  [1.] 
+Opt variance:  0.6722572899145284 
+optimised values: l =  [1.]   sig =  0.6722572899145284 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.9458735]]  found at:  [0.57914166 1.         0.72574036] 
+New best Fval:  [[1.9458746]]  found at:  [0.69756984 1.         0.72697336] 
+New best Fval:  [[1.94587972]]  found at:  [0.46916959 1.         0.72643203] 
+New best Fval:  [[1.94587975]]  found at:  [0.63495288 1.         0.72638298] 
+New best Fval:  [[2.19471885]]  found at:  [0.432244   0.1        0.48794685] 
+New best Fval:  [[2.19471997]]  found at:  [0.73666569 0.1        0.48755364] 
+New best Fval:  [[2.19471999]]  found at:  [0.30758691 0.1        0.48758551] 
+New best Fval:  [[2.19471999]]  found at:  [0.4970272  0.1        0.48760704] 
+UCB Best is  [[2.19471999]] at  [0.4970272  0.1        0.48760704] 
+Best weights:  [0.4970272  0.1        0.48760704] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.20613223e-01  2.14939414e-01 -7.15332958e-02  1.62902809e+00
+  -1.29297755e-01  1.95013353e-12 -1.08041286e-01  1.63371903e-02
+   3.53551404e-01 -3.14634267e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 4    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.92507001]]  found for l=  [1.]  var: 0.6251059049353808 
+New maximum log likelihood  [[-3.92502316]]  found for l=  [1.]  var: 0.6205975624929785 
+New maximum log likelihood  [[-3.92496201]]  found for l=  [1.]  var: 0.6232456030450221 
+New maximum log likelihood  [[-3.92495403]]  found for l=  [1.]  var: 0.6227353930654899 
+New maximum log likelihood  [[-3.92495382]]  found for l=  [1.]  var: 0.6226982491253 
+New maximum log likelihood  [[-3.92495373]]  found for l=  [1.]  var: 0.6226803118595011 
+New maximum log likelihood  [[-3.92495349]]  found for l=  [1.]  var: 0.6225966997201939 
+New maximum log likelihood  [[-3.92495346]]  found for l=  [1.]  var: 0.6225577489454837 
+Opt Length scale:  [1.] 
+Opt variance:  0.6225577489454837 
+optimised values: l =  [1.]   sig =  0.6225577489454837 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.7233402]]  found at:  [0.82416132 1.         0.10975297] 
+New best Fval:  [[1.81337456]]  found at:  [0.8396971  0.75351239 0.93272312] 
+New best Fval:  [[1.89678995]]  found at:  [0.54687505 1.         0.7324286 ] 
+New best Fval:  [[1.89682428]]  found at:  [0.72602049 1.         0.73086211] 
+New best Fval:  [[1.89682429]]  found at:  [0.42814258 1.         0.73090573] 
+New best Fval:  [[1.89682429]]  found at:  [0.96606297 1.         0.73090187] 
+UCB Best is  [[1.89682429]] at  [0.96606297 1.         0.73090187] 
+Best weights:  [0.96606297 1.         0.73090187] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.23289277e-01  6.85178612e-01 -2.28032093e-01  4.37156636e+00
+  -3.10683131e-01  5.56629281e-12  2.96058478e-01 -4.47677353e-02
+   3.96354046e-01 -3.52725412e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 5    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.39056862]]  found for l=  [1.]  var: 0.5856236500896237 
+New maximum log likelihood  [[-3.39037403]]  found for l=  [1.]  var: 0.5829187798010668 
+New maximum log likelihood  [[-3.3903739]]  found for l=  [1.]  var: 0.5829030845155863 
+New maximum log likelihood  [[-3.39037378]]  found for l=  [1.]  var: 0.5825765597193723 
+New maximum log likelihood  [[-3.39037325]]  found for l=  [1.]  var: 0.5827754947897459 
+Opt Length scale:  [1.] 
+Opt variance:  0.5827754947897459 
+optimised values: l =  [1.]   sig =  0.5827754947897459 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.68055811]]  found at:  [0.35939379 1.         0.1       ] 
+UCB Best is  [[1.68055811]] at  [0.35939379 1.         0.1       ] 
+Best weights:  [0.35939379 1.         0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.88919044e-01  4.62322461e-01 -1.53864053e-01  2.55751727e+00
+  -1.61176212e-01  3.44535511e-12  5.05559811e-01 -7.64469503e-02
+  -8.14315671e-02  7.24679951e-02]] 
+with observation value:  [[0.97619048]] 
+######    search in subspace 1  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Subspace:  1  completed..
+
+
+
+ 
+Data set after: 1  subspace 
+Observation_y: [[0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048]] 
+ 
+######  run: 1  subspace  2   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+
+Trying for best solution at iteration: 1    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.58017723]]  found for l=  [0.17003138]  var: 0.9902768733575 
+New maximum log likelihood  [[-4.64572823]]  found for l=  [1.]  var: 0.862754702083442 
+New maximum log likelihood  [[-4.61806956]]  found for l=  [1.]  var: 0.7904337705804317 
+New maximum log likelihood  [[-4.61806276]]  found for l=  [1.]  var: 0.7932173817751158 
+Opt Length scale:  [1.] 
+Opt variance:  0.7932173817751158 
+optimised values: l =  [1.]   sig =  0.7932173817751158 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.34755914]]  found at:  [0.1        0.27101194 0.80001118] 
+New best Fval:  [[2.34942778]]  found at:  [0.17846487 0.13230325 0.76038856] 
+New best Fval:  [[2.34964805]]  found at:  [0.20663168 0.1        0.74986423] 
+UCB Best is  [[2.34964805]] at  [0.20663168 0.1        0.74986423] 
+Best weights:  [0.20663168 0.1        0.74986423] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 4.57275236e-01  1.53794337e-01 -5.11837992e-02  2.35432099e+00
+  -6.20169417e-01  2.54824323e-12 -3.30729645e-01  5.00104482e-02
+   1.38578275e+00 -1.23324284e+00]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 2    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.33449796]]  found for l=  [1.]  var: 0.7453866339771578 
+New maximum log likelihood  [[-5.33444651]]  found for l=  [1.]  var: 0.74299743727273 
+Opt Length scale:  [1.] 
+Opt variance:  0.74299743727273 
+optimised values: l =  [1.]   sig =  0.74299743727273 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.59170798]]  found at:  [1.         1.         0.66921927] 
+New best Fval:  [[2.59171007]]  found at:  [1.         1.         0.66951449] 
+New best Fval:  [[2.59171073]]  found at:  [1.         1.         0.66964366] 
+New best Fval:  [[2.59171167]]  found at:  [1.         1.         0.67027041] 
+UCB Best is  [[2.59171167]] at  [1.         1.         0.67027041] 
+Best weights:  [1.         1.         0.67027041] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 7.27163818e-01  2.96835357e-01 -9.87888214e-02  5.83273738e+00
+  -4.55713721e-01  6.58842694e-12  1.13746286e-01 -1.71998574e-02
+   1.39354871e+00 -1.24015397e+00]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 3    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.96791421]]  found for l=  [1.]  var: 0.705584407985387 
+New maximum log likelihood  [[-5.96791369]]  found for l=  [1.]  var: 0.7053883376776766 
+New maximum log likelihood  [[-5.96791369]]  found for l=  [1.]  var: 0.7053781166648019 
+Opt Length scale:  [1.] 
+Opt variance:  0.7053781166648019 
+optimised values: l =  [1.]   sig =  0.7053781166648019 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.46135575]]  found at:  [0.80990194 1.         0.1       ] 
+New best Fval:  [[2.58264546]]  found at:  [0.1        0.34234746 0.1       ] 
+New best Fval:  [[2.66166219]]  found at:  [0.31514227 0.10488533 0.19084682] 
+New best Fval:  [[2.66227661]]  found at:  [0.14984465 0.17476374 0.31870345] 
+New best Fval:  [[2.66319306]]  found at:  [0.15981808 0.23841288 0.27615625] 
+New best Fval:  [[2.66344073]]  found at:  [0.1655486  0.23938459 0.28200474] 
+New best Fval:  [[2.66376422]]  found at:  [0.10165489 0.29543343 0.32062579] 
+New best Fval:  [[2.6637932]]  found at:  [0.21073795 0.14989286 0.27176644] 
+New best Fval:  [[2.66381343]]  found at:  [0.14803505 0.23170896 0.29740301] 
+New best Fval:  [[2.66382883]]  found at:  [0.19041613 0.183063   0.27729251] 
+New best Fval:  [[2.6638638]]  found at:  [0.26464065 0.1        0.24214847] 
+New best Fval:  [[2.66387574]]  found at:  [0.26207469 0.1        0.2416217 ] 
+UCB Best is  [[2.66387574]] at  [0.26207469 0.1        0.2416217 ] 
+Best weights:  [0.26207469 0.1        0.2416217 ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.99769992e-01  1.17195469e-01 -3.90034477e-02  1.42430565e+00
+  -2.21775126e-01  1.62066240e-12 -7.71963704e-02  1.16730542e-02
+   5.19069003e-01 -4.61932532e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 4    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-6.93655007]]  found for l=  [1.]  var: 0.7207998289585901 
+New maximum log likelihood  [[-6.93336421]]  found for l=  [1.]  var: 0.7129279721889958 
+New maximum log likelihood  [[-6.93167033]]  found for l=  [1.]  var: 0.7026829082885462 
+New maximum log likelihood  [[-6.9316601]]  found for l=  [1.]  var: 0.7018337558319465 
+Opt Length scale:  [1.] 
+Opt variance:  0.7018337558319465 
+optimised values: l =  [1.]   sig =  0.7018337558319465 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.68423026]]  found at:  [0.1 1.  0.1] 
+UCB Best is  [[2.68423026]] at  [0.1 1.  0.1] 
+Best weights:  [0.1 1.  0.1] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 2.33201016e-01 -1.42347122e-01  4.73740882e-02  2.01848509e+00
+   2.00322765e-01  2.13077473e-12  4.06061218e-01 -6.14015217e-02
+  -1.44376377e-02  1.28484161e-02]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 5    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.53067871]]  found for l=  [1.]  var: 0.6754183138377 
+New maximum log likelihood  [[-7.53033374]]  found for l=  [1.]  var: 0.6814988931470742 
+New maximum log likelihood  [[-7.53029893]]  found for l=  [1.]  var: 0.6801117369654829 
+New maximum log likelihood  [[-7.53029891]]  found for l=  [1.]  var: 0.6800894490670971 
+Opt Length scale:  [1.] 
+Opt variance:  0.6800894490670971 
+optimised values: l =  [1.]   sig =  0.6800894490670971 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.3853933]]  found at:  [0.77532863 0.1        0.4927724 ] 
+New best Fval:  [[2.44933778]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.65508768]]  found at:  [1. 1. 1.] 
+UCB Best is  [[2.65508768]] at  [1. 1. 1.] 
+Best weights:  [1. 1. 1.] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 9.01888500e-01  3.35461855e-01 -1.11643982e-01  6.53967406e+00
+  -7.21991337e-01  7.31793797e-12 -5.10300991e-02  7.71638754e-03
+   1.97212137e+00 -1.75504030e+00]] 
+with observation value:  [[0.97619048]] 
+######    search in subspace 2  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Subspace:  2  completed..
+
+
+
+ 
+Data set after: 2  subspace 
+Observation_y: [[0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048]] 
+ 
+######  run: 1  subspace  3   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+
+Trying for best solution at iteration: 1    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.82844303]]  found for l=  [1.]  var: 0.7494436498213044 
+New maximum log likelihood  [[-3.82843656]]  found for l=  [1.]  var: 0.7485131743923891 
+New maximum log likelihood  [[-3.82843656]]  found for l=  [1.]  var: 0.7484905008104772 
+New maximum log likelihood  [[-3.82843656]]  found for l=  [1.]  var: 0.7484904986225694 
+Opt Length scale:  [1.] 
+Opt variance:  0.7484904986225694 
+optimised values: l =  [1.]   sig =  0.7484904986225694 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.08686934]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.1359288]]  found at:  [0.72038849 0.47947957 0.50921064] 
+New best Fval:  [[2.25832145]]  found at:  [0.32314959 0.73116521 0.85281933] 
+New best Fval:  [[2.2596647]]  found at:  [0.32349823 0.67305756 0.95559571] 
+New best Fval:  [[2.27461163]]  found at:  [0.40808219 1.         0.16963852] 
+New best Fval:  [[2.27809058]]  found at:  [0.43763214 1.         0.1       ] 
+UCB Best is  [[2.27809058]] at  [0.43763214 1.         0.1       ] 
+Best weights:  [0.43763214 1.         0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.01144848e+00  2.39450918e+00 -7.96908908e-01  3.57535647e+00
+   8.00872118e-01  2.67021058e-12  6.40148832e-01 -9.67984893e-02
+   7.82836306e-01 -6.96665674e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 2    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.32550533]]  found for l=  [1.]  var: 0.7000842275466996 
+New maximum log likelihood  [[-4.32476819]]  found for l=  [1.]  var: 0.6962805797170172 
+New maximum log likelihood  [[-4.32459509]]  found for l=  [1.]  var: 0.695079969129709 
+New maximum log likelihood  [[-4.32416809]]  found for l=  [1.]  var: 0.6886665183532346 
+New maximum log likelihood  [[-4.32416809]]  found for l=  [1.]  var: 0.6886665230625006 
+Opt Length scale:  [1.] 
+Opt variance:  0.6886665230625006 
+optimised values: l =  [1.]   sig =  0.6886665230625006 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.44856656]]  found at:  [0.39072103 0.9166605  1.        ] 
+New best Fval:  [[2.44980976]]  found at:  [0.37011101 0.91190249 0.99147234] 
+New best Fval:  [[2.45001217]]  found at:  [0.37288765 0.90692893 1.        ] 
+New best Fval:  [[2.45002155]]  found at:  [0.37380434 0.90425062 1.        ] 
+New best Fval:  [[2.45003407]]  found at:  [0.37044177 0.90558493 1.        ] 
+UCB Best is  [[2.45003407]] at  [0.37044177 0.90558493 1.        ] 
+Best weights:  [0.37044177 0.90558493 1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.10315497e+00  3.16195331e+00 -1.05231952e+00  4.55308749e+00
+   1.39878237e+00  3.27674734e-12  7.00835473e-01 -1.05975066e-01
+   4.91940921e-01 -4.37790571e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 3    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.1253233]]  found for l=  [1.]  var: 0.676886347502662 
+New maximum log likelihood  [[-5.12522478]]  found for l=  [1.]  var: 0.6700326959371653 
+New maximum log likelihood  [[-5.12513409]]  found for l=  [1.]  var: 0.6741052908235069 
+New maximum log likelihood  [[-5.12511495]]  found for l=  [1.]  var: 0.6729081667149415 
+Opt Length scale:  [1.] 
+Opt variance:  0.6729081667149415 
+optimised values: l =  [1.]   sig =  0.6729081667149415 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.09204954]]  found at:  [1.  0.1 0.1] 
+New best Fval:  [[2.44814744]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.54121209]]  found at:  [0.90431772 0.84090403 0.95103967] 
+New best Fval:  [[2.55164621]]  found at:  [1.         0.77458291 0.88087576] 
+New best Fval:  [[2.56154701]]  found at:  [1.         1.         0.50037561] 
+New best Fval:  [[2.56157867]]  found at:  [1.         1.         0.50663323] 
+UCB Best is  [[2.56157867]] at  [1.         1.         0.50663323] 
+Best weights:  [1.         1.         0.50663323] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.21744721e+00  3.07620427e+00 -1.02378166e+00  5.81613663e+00
+   9.77345308e-01  5.09221228e-12  6.89631277e-01 -1.04280852e-01
+   9.45580519e-01 -8.41495834e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 4    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-6.02685875]]  found for l=  [1.]  var: 0.6346765189330881 
+New maximum log likelihood  [[-6.0076308]]  found for l=  [1.]  var: 0.6694003584560498 
+New maximum log likelihood  [[-6.00761386]]  found for l=  [1.]  var: 0.6687471262769679 
+New maximum log likelihood  [[-6.00761229]]  found for l=  [1.]  var: 0.6686350744157064 
+New maximum log likelihood  [[-6.0076121]]  found for l=  [1.]  var: 0.6686193216394021 
+New maximum log likelihood  [[-6.0076099]]  found for l=  [1.]  var: 0.6682451693332316 
+Opt Length scale:  [1.] 
+Opt variance:  0.6682451693332316 
+optimised values: l =  [1.]   sig =  0.6682451693332316 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.55309308]]  found at:  [0.1 0.1 0.1] 
+UCB Best is  [[2.55309308]] at  [0.1 0.1 0.1] 
+Best weights:  [0.1 0.1 0.1] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.32199410e-01  3.62099119e-01 -1.20509044e-01  6.57009314e-01
+   1.33967971e-01  5.60786144e-13  7.55227269e-02 -1.14199785e-02
+   8.34220288e-02 -7.42393570e-02]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 5    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-7.11779194]]  found for l=  [0.97959057]  var: 0.6752200418867055 
+New maximum log likelihood  [[-6.96753878]]  found for l=  [1.]  var: 0.6801488550238417 
+New maximum log likelihood  [[-6.96692707]]  found for l=  [1.]  var: 0.6713865558487644 
+New maximum log likelihood  [[-6.96682824]]  found for l=  [1.]  var: 0.6738159710367374 
+New maximum log likelihood  [[-6.9668282]]  found for l=  [1.]  var: 0.6737971170590413 
+Opt Length scale:  [1.] 
+Opt variance:  0.6737971170590413 
+optimised values: l =  [1.]   sig =  0.6737971170590413 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.46836129]]  found at:  [0.61639245 0.1        0.1       ] 
+New best Fval:  [[2.54279143]]  found at:  [1. 1. 1.] 
+New best Fval:  [[2.55672037]]  found at:  [0.97234942 0.1        0.78301011] 
+New best Fval:  [[2.65805375]]  found at:  [0.62511254 0.26836667 1.        ] 
+New best Fval:  [[2.65805398]]  found at:  [0.62309339 0.26989907 1.        ] 
+UCB Best is  [[2.65805398]] at  [0.62309339 0.26989907 1.        ] 
+Best weights:  [0.62309339 0.26989907 1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 5.86776768e-01  1.92963154e+00 -6.42194472e-01  3.90603466e+00
+   8.21048744e-01  3.53084677e-12  2.98028712e-01 -4.50656591e-02
+   2.20216176e-01 -1.95975901e-01]] 
+with observation value:  [[0.97619048]] 
+######    search in subspace 3  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Subspace:  3  completed..
+
+
+
+ 
+Data set after: 3  subspace 
+Observation_y: [[0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048]] 
+ 
+######  run: 1  subspace  4   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+
+Trying for best solution at iteration: 1    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.16841716]]  found for l=  [1.]  var: 0.6692951672658768 
+New maximum log likelihood  [[-2.16647367]]  found for l=  [1.]  var: 0.6610276082121306 
+New maximum log likelihood  [[-2.16609385]]  found for l=  [1.]  var: 0.6583141001760634 
+New maximum log likelihood  [[-2.1657259]]  found for l=  [1.]  var: 0.6520639026601774 
+New maximum log likelihood  [[-2.16572587]]  found for l=  [1.]  var: 0.6520100158001468 
+Opt Length scale:  [1.] 
+Opt variance:  0.6520100158001468 
+optimised values: l =  [1.]   sig =  0.6520100158001468 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.91763896]]  found at:  [0.94557052 0.56447978 0.96378564] 
+New best Fval:  [[2.04003199]]  found at:  [0.1        0.88011996 0.97928618] 
+New best Fval:  [[2.04004475]]  found at:  [0.1        0.8790315  0.97605833] 
+New best Fval:  [[2.04004626]]  found at:  [0.1       0.8800519 0.9740977] 
+UCB Best is  [[2.04004626]] at  [0.1       0.8800519 0.9740977] 
+Best weights:  [0.1       0.8800519 0.9740977] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.35045841e+00  1.48390998e+00 -4.93855312e-01  2.83812481e+00
+  -8.97621977e-01  4.53915301e-12  2.95487406e-03 -4.46813822e-04
+   2.26208340e-01 -2.01308479e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 2    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.43557452]]  found for l=  [1.]  var: 0.5983911582742399 
+New maximum log likelihood  [[-2.43557448]]  found for l=  [1.]  var: 0.5983644501280322 
+New maximum log likelihood  [[-2.43557446]]  found for l=  [1.]  var: 0.5983315480205262 
+New maximum log likelihood  [[-2.43557446]]  found for l=  [1.]  var: 0.5983282085819415 
+Opt Length scale:  [1.] 
+Opt variance:  0.5983282085819415 
+optimised values: l =  [1.]   sig =  0.5983282085819415 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.08392209]]  found at:  [0.72999304 0.98435431 1.        ] 
+New best Fval:  [[2.09994646]]  found at:  [0.1 0.1 1. ] 
+UCB Best is  [[2.09994646]] at  [0.1 0.1 1. ] 
+Best weights:  [0.1 0.1 1. ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 8.31209728e-01  7.22090379e-01 -2.40316579e-01  1.84566917e+00
+  -6.90514495e-01  3.57928271e-12  2.21613532e-01 -3.35107307e-02
+  -3.75881801e-01  3.34506648e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 3    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.78676505]]  found for l=  [1.]  var: 0.5698366956898349 
+New maximum log likelihood  [[-2.78660859]]  found for l=  [1.]  var: 0.5744014204289875 
+New maximum log likelihood  [[-2.78657514]]  found for l=  [1.]  var: 0.5730605685975642 
+New maximum log likelihood  [[-2.78657514]]  found for l=  [1.]  var: 0.5730457159652772 
+Opt Length scale:  [1.] 
+Opt variance:  0.5730457159652772 
+optimised values: l =  [1.]   sig =  0.5730457159652772 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.20276119]]  found at:  [0.1        0.1        0.25975831] 
+New best Fval:  [[2.20276153]]  found at:  [0.1        0.1        0.25936591] 
+New best Fval:  [[2.20276156]]  found at:  [0.1        0.1        0.25921574] 
+UCB Best is  [[2.20276156]] at  [0.1        0.1        0.25921574] 
+Best weights:  [0.1        0.1        0.25921574] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 2.82380925e-01  2.91603800e-01 -9.70477237e-02  7.89496016e-01
+  -2.16327025e-01  1.28962161e-12  3.66910799e-02 -5.54814900e-03
+  -7.95026656e-03  7.07514172e-03]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 4    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.71830315]]  found for l=  [1.]  var: 0.5916224621459412 
+New maximum log likelihood  [[-3.71829656]]  found for l=  [1.]  var: 0.5915845878289079 
+New maximum log likelihood  [[-3.71791745]]  found for l=  [1.]  var: 0.5872363768146821 
+Opt Length scale:  [1.] 
+Opt variance:  0.5872363768146821 
+optimised values: l =  [1.]   sig =  0.5872363768146821 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.76601727]]  found at:  [0.22922476 0.1        0.45617819] 
+New best Fval:  [[2.2741481]]  found at:  [0.9581242  0.82996699 0.92213929] 
+New best Fval:  [[2.2748639]]  found at:  [0.86243463 0.99810925 0.93153771] 
+New best Fval:  [[2.27604359]]  found at:  [0.86965694 0.93856622 0.96184337] 
+New best Fval:  [[2.27807533]]  found at:  [0.80669937 0.99181439 0.99760788] 
+New best Fval:  [[2.27816201]]  found at:  [0.78700267 1.         1.        ] 
+New best Fval:  [[2.27825932]]  found at:  [0.7917342 1.        1.       ] 
+New best Fval:  [[2.27828504]]  found at:  [0.79575038 1.         1.        ] 
+New best Fval:  [[2.27838168]]  found at:  [1.         0.65336039 1.        ] 
+New best Fval:  [[2.27838169]]  found at:  [1.         0.65349711 1.        ] 
+UCB Best is  [[2.27838169]] at  [1.         0.65349711 1.        ] 
+Best weights:  [1.         0.65349711 1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.40504178e+00  1.64570875e+00 -5.47703041e-01  5.16768347e+00
+  -1.04474237e+00  7.51313664e-12  6.37165364e-02 -9.63473517e-03
+   4.49550863e-01 -4.00066594e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 5    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.98142505]]  found for l=  [1.]  var: 0.6256207235740536 
+New maximum log likelihood  [[-4.98115809]]  found for l=  [1.]  var: 0.6155132152669454 
+New maximum log likelihood  [[-4.98084216]]  found for l=  [1.]  var: 0.6178364861780731 
+New maximum log likelihood  [[-4.98078429]]  found for l=  [1.]  var: 0.6211186324394831 
+New maximum log likelihood  [[-4.98075645]]  found for l=  [1.]  var: 0.6202852503160605 
+New maximum log likelihood  [[-4.98075422]]  found for l=  [1.]  var: 0.620106103237972 
+New maximum log likelihood  [[-4.98075333]]  found for l=  [1.]  var: 0.6199309203912963 
+New maximum log likelihood  [[-4.98075331]]  found for l=  [1.]  var: 0.6199029048931163 
+Opt Length scale:  [1.] 
+Opt variance:  0.6199029048931163 
+optimised values: l =  [1.]   sig =  0.6199029048931163 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.20177591]]  found at:  [1. 1. 1.] 
+New best Fval:  [[2.25157419]]  found at:  [0.1 1.  0.1] 
+New best Fval:  [[2.47049032]]  found at:  [1.  0.1 1. ] 
+UCB Best is  [[2.47049032]] at  [1.  0.1 1. ] 
+Best weights:  [1.  0.1 1. ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.02298455e+00  1.09446797e+00 -3.64246368e-01  4.43726785e+00
+  -8.86021349e-01  6.77523875e-12  2.14280902e-01 -3.24019455e-02
+   3.14577168e-02 -2.79950116e-02]] 
+with observation value:  [[0.97619048]] 
+######    search in subspace 4  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Subspace:  4  completed..
+
+
+
+ 
+Data set after: 4  subspace 
+Observation_y: [[0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048]] 
+ 
+######  run: 1  subspace  5   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Generated new observation with observation_y:  [[0.97619048]] 
+
+Trying for best solution at iteration: 1    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.94753948]]  found for l=  [1.]  var: 0.7646297475685748 
+New maximum log likelihood  [[-3.94205189]]  found for l=  [1.]  var: 0.7176902208821562 
+New maximum log likelihood  [[-3.94040292]]  found for l=  [1.]  var: 0.7347390162911501 
+New maximum log likelihood  [[-3.94037546]]  found for l=  [1.]  var: 0.7312973539874797 
+New maximum log likelihood  [[-3.94037182]]  found for l=  [1.]  var: 0.7334340556482897 
+New maximum log likelihood  [[-3.94036942]]  found for l=  [1.]  var: 0.7332470663355485 
+New maximum log likelihood  [[-3.94036801]]  found for l=  [1.]  var: 0.7318459239995415 
+New maximum log likelihood  [[-3.94036513]]  found for l=  [1.]  var: 0.7325985099855337 
+New maximum log likelihood  [[-3.94036503]]  found for l=  [1.]  var: 0.7324818066351797 
+Opt Length scale:  [1.] 
+Opt variance:  0.7324818066351797 
+optimised values: l =  [1.]   sig =  0.7324818066351797 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.04154566]]  found at:  [0.72186596 0.99284285 0.98159178] 
+New best Fval:  [[2.24927796]]  found at:  [0.38443115 0.1        0.70969283] 
+New best Fval:  [[2.25051629]]  found at:  [0.41159098 0.1        0.62988459] 
+New best Fval:  [[2.25869981]]  found at:  [0.30553948 0.1        0.74690593] 
+New best Fval:  [[2.25878588]]  found at:  [0.28486286 0.1        0.76263951] 
+New best Fval:  [[2.25880539]]  found at:  [0.2969997  0.1        0.75072321] 
+UCB Best is  [[2.25880539]] at  [0.2969997  0.1        0.75072321] 
+Best weights:  [0.2969997  0.1        0.75072321] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.38606410e+00  2.32210942e-01 -7.72813775e-02  2.32485848e+00
+  -2.34007362e-01  2.68847629e-12  2.38785506e-01 -3.61073474e-02
+   6.95790689e-01 -6.19201595e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 2    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-6.97706129]]  found for l=  [0.17338536]  var: 1.0 
+New maximum log likelihood  [[-4.3798384]]  found for l=  [1.]  var: 0.6710226027655776 
+New maximum log likelihood  [[-4.37983826]]  found for l=  [1.]  var: 0.6709127440113583 
+Opt Length scale:  [1.] 
+Opt variance:  0.6709127440113583 
+optimised values: l =  [1.]   sig =  0.6709127440113583 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.13439975]]  found at:  [1.  0.1 1. ] 
+New best Fval:  [[2.26541997]]  found at:  [0.93537358 0.79507723 0.96321403] 
+New best Fval:  [[2.26824718]]  found at:  [0.81481894 0.87108775 1.        ] 
+New best Fval:  [[2.26928766]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.33323119]]  found at:  [0.7406422 0.1       0.1      ] 
+New best Fval:  [[2.34753255]]  found at:  [0.1        1.         0.22798112] 
+UCB Best is  [[2.34753255]] at  [0.1        1.         0.22798112] 
+Best weights:  [0.1        1.         0.22798112] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.25417899e+00 -5.99491383e-02  1.99514801e-02  2.46788140e+00
+  -1.83919281e-01  3.20666399e-12  1.06396635e+00 -1.60884985e-01
+   2.00362348e-01 -1.78307482e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 3    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.05240827]]  found for l=  [1.]  var: 0.46416700827135815 
+New maximum log likelihood  [[-4.47779117]]  found for l=  [1.]  var: 0.6234716731255998 
+New maximum log likelihood  [[-4.47678458]]  found for l=  [1.]  var: 0.6111870242713716 
+New maximum log likelihood  [[-4.47665301]]  found for l=  [1.]  var: 0.6166685942375866 
+New maximum log likelihood  [[-4.47659125]]  found for l=  [1.]  var: 0.6149534008062734 
+New maximum log likelihood  [[-4.47659085]]  found for l=  [1.]  var: 0.6144370149960909 
+New maximum log likelihood  [[-4.47659018]]  found for l=  [1.]  var: 0.6145596897046905 
+New maximum log likelihood  [[-4.47659]]  found for l=  [1.]  var: 0.6147054328779699 
+Opt Length scale:  [1.] 
+Opt variance:  0.6147054328779699 
+optimised values: l =  [1.]   sig =  0.6147054328779699 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.27192465]]  found at:  [0.90306291 0.87819497 0.93581087] 
+New best Fval:  [[2.2723418]]  found at:  [0.75204999 0.1        0.83479557] 
+New best Fval:  [[2.31860163]]  found at:  [0.7482262 0.1       0.1      ] 
+New best Fval:  [[2.31860195]]  found at:  [0.74786166 0.1        0.1       ] 
+New best Fval:  [[2.31860198]]  found at:  [0.7479272 0.1       0.1      ] 
+UCB Best is  [[2.31860198]] at  [0.7479272 0.1       0.1      ] 
+Best weights:  [0.7479272 0.1       0.1      ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 4.09872756e-01  3.11994093e-01 -1.03833752e-01  2.50443509e+00
+  -1.94947217e-01  3.08412686e-12  1.14673292e-01 -1.73400323e-02
+   4.11914060e-01 -3.66572659e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 4    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.73467086]]  found for l=  [1.]  var: 0.5511856878369221 
+New maximum log likelihood  [[-4.71431836]]  found for l=  [1.]  var: 0.5912426851791396 
+New maximum log likelihood  [[-4.71276859]]  found for l=  [1.]  var: 0.5838575170456182 
+New maximum log likelihood  [[-4.71272089]]  found for l=  [1.]  var: 0.5822942199870711 
+New maximum log likelihood  [[-4.71272086]]  found for l=  [1.]  var: 0.5823462806082109 
+New maximum log likelihood  [[-4.71272085]]  found for l=  [1.]  var: 0.5823393728699704 
+Opt Length scale:  [1.] 
+Opt variance:  0.5823393728699704 
+optimised values: l =  [1.]   sig =  0.5823393728699704 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.14799466]]  found at:  [1.  0.1 1. ] 
+New best Fval:  [[2.27747217]]  found at:  [0.94980955 0.8964549  0.84384545] 
+New best Fval:  [[2.27920336]]  found at:  [0.91975243 0.89147731 0.90678317] 
+New best Fval:  [[2.28866657]]  found at:  [0.68486812 1.         1.        ] 
+New best Fval:  [[2.28866772]]  found at:  [0.68589477 1.         1.        ] 
+New best Fval:  [[2.28866772]]  found at:  [0.68589374 1.         1.        ] 
+UCB Best is  [[2.28866772]] at  [0.68589374 1.         1.        ] 
+Best weights:  [0.68589374 1.         1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 2.65117320e+00  3.09161163e-01 -1.02890933e-01  5.48245086e+00
+  -4.73747722e-01  6.71755955e-12  1.20208107e+00 -1.81769653e-01
+   1.04446126e+00 -9.29492283e-01]] 
+with observation value:  [[0.97619048]] 
+
+Trying for best solution at iteration: 5    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.90329202]]  found for l=  [1.]  var: 0.6564675059556802 
+New maximum log likelihood  [[-5.86716297]]  found for l=  [1.]  var: 0.5873118736692262 
+New maximum log likelihood  [[-5.85795789]]  found for l=  [1.]  var: 0.6107025702311156 
+New maximum log likelihood  [[-5.85783748]]  found for l=  [1.]  var: 0.6096162366660698 
+New maximum log likelihood  [[-5.85779209]]  found for l=  [1.]  var: 0.6061445546878753 
+New maximum log likelihood  [[-5.85777047]]  found for l=  [1.]  var: 0.606548803114391 
+New maximum log likelihood  [[-5.85776777]]  found for l=  [1.]  var: 0.6085399476320785 
+New maximum log likelihood  [[-5.85774768]]  found for l=  [1.]  var: 0.6076265960309467 
+New maximum log likelihood  [[-5.85774762]]  found for l=  [1.]  var: 0.6075905804768169 
+New maximum log likelihood  [[-5.85774762]]  found for l=  [1.]  var: 0.6075748925319614 
+New maximum log likelihood  [[-5.85774762]]  found for l=  [1.]  var: 0.6075744476591427 
+Opt Length scale:  [1.] 
+Opt variance:  0.6075744476591427 
+optimised values: l =  [1.]   sig =  0.6075744476591427 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.31908394]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.36193731]]  found at:  [1.        0.2475547 1.       ] 
+New best Fval:  [[2.39029988]]  found at:  [0.30420731 1.         1.        ] 
+New best Fval:  [[2.39029988]]  found at:  [0.30433424 1.         1.        ] 
+New best Fval:  [[2.39029989]]  found at:  [0.30420999 1.         1.        ] 
+New best Fval:  [[2.39029991]]  found at:  [0.30431056 1.         1.        ] 
+UCB Best is  [[2.39029991]] at  [0.30431056 1.         1.        ] 
+Best weights:  [0.30431056 1.         1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+New observation found in the given subspace 
+New kernel suggested:  [[ 2.56986426e+00  1.51280024e-01 -5.03470189e-02  4.38366145e+00
+  -3.90856469e-01  5.36253391e-12  1.20518996e+00 -1.82239757e-01
+   8.71756912e-01 -7.75798353e-01]] 
+with observation value:  [[0.97619048]] 
+######    search in subspace 5  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Subspace:  5  completed..
+
+
+
+ 
+Data set after: 5  subspace 
+Observation_y: [[0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048 0.97619048 0.97619048 0.97619048
+  0.97619048 0.97619048 0.97619048]] 
+ 
+Best solution found for run:  1 {'best_kernel': array([[ 2.13083141e-01,  4.13752875e-01, -1.37699765e-01,
+         2.87955409e+00, -2.17229838e-01,  3.55106227e-12,
+        -8.14736686e-03,  1.23198350e-03,  4.52599465e-01,
+        -4.02779622e-01]]), 'best_value': array([0.97619048])} 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9761904761904762 
+Maximum accuracy obtained:  [[0.97619048]] 
+
+
+***************************Run  1  completed**********************
+
+
+
+ 
+************  Run: 2    ***************
+
+ 
+Initial Grid Values selected for this run
+--- X in Grid ---
+ [[0.        ]
+ [0.33333333]
+ [0.66666667]
+ [1.        ]] 
+Starting Optimization 
+Eigen values for the calculation of the dimensionality reduction... 
+######  run: 2  subspace  1   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+
+Trying for best solution at iteration: 1    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.94829773]]  found for l=  [1.]  var: 0.6095410278179931 
+New maximum log likelihood  [[-1.94829707]]  found for l=  [1.]  var: 0.6101690377935911 
+New maximum log likelihood  [[-1.94829677]]  found for l=  [1.]  var: 0.6101097218981463 
+New maximum log likelihood  [[-1.94829648]]  found for l=  [1.]  var: 0.6100276895233754 
+New maximum log likelihood  [[-1.94829632]]  found for l=  [1.]  var: 0.6099237131075025 
+Opt Length scale:  [1.] 
+Opt variance:  0.6099237131075025 
+optimised values: l =  [1.]   sig =  0.6099237131075025 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.78555049]]  found at:  [0.10253526 1.         0.77678747] 
+New best Fval:  [[1.7865017]]  found at:  [0.90912994 1.         0.81714258] 
+New best Fval:  [[1.7865017]]  found at:  [0.12344268 1.         0.8171386 ] 
+UCB Best is  [[1.7865017]] at  [0.12344268 1.         0.8171386 ] 
+Best weights:  [0.12344268 1.         0.8171386 ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.54677682e-01  1.41327419e+00 -4.70347244e-01  3.79614573e+00
+  -3.03853228e-01  4.51309423e-12 -1.64061320e-01  2.48081182e-02
+   7.45583108e-01 -6.63513118e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 2    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.81484993]]  found for l=  [1.]  var: 0.6155050689734995 
+New maximum log likelihood  [[-2.8148183]]  found for l=  [1.]  var: 0.6183369138150601 
+New maximum log likelihood  [[-2.81480976]]  found for l=  [1.]  var: 0.616765846175412 
+New maximum log likelihood  [[-2.81480647]]  found for l=  [1.]  var: 0.6176315332408423 
+New maximum log likelihood  [[-2.81480568]]  found for l=  [1.]  var: 0.6174945605977993 
+New maximum log likelihood  [[-2.8148054]]  found for l=  [1.]  var: 0.617384553937884 
+New maximum log likelihood  [[-2.81480538]]  found for l=  [1.]  var: 0.617346999049125 
+Opt Length scale:  [1.] 
+Opt variance:  0.617346999049125 
+optimised values: l =  [1.]   sig =  0.617346999049125 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.4741337]]  found at:  [0.58133396 0.1        0.1       ] 
+New best Fval:  [[2.05060246]]  found at:  [0.41232615 1.         0.11037726] 
+New best Fval:  [[2.05060432]]  found at:  [0.26319135 1.         0.1114339 ] 
+New best Fval:  [[2.05060432]]  found at:  [0.1367478  1.         0.11145307] 
+UCB Best is  [[2.05060432]] at  [0.1367478  1.         0.11145307] 
+Best weights:  [0.1367478  1.         0.11145307] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 8.49484175e-02  1.37348191e+00 -4.57104101e-01  2.71197471e+00
+  -2.72369122e-01  3.44275898e-12  6.66103085e-02 -1.00723096e-02
+   3.35132055e-01 -2.98242426e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 3    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.85953137]]  found for l=  [1.]  var: 0.5737749927011461 
+New maximum log likelihood  [[-2.85952567]]  found for l=  [1.]  var: 0.5718783642656099 
+New maximum log likelihood  [[-2.85951279]]  found for l=  [1.]  var: 0.5729568021620826 
+New maximum log likelihood  [[-2.85951202]]  found for l=  [1.]  var: 0.5728033680033033 
+New maximum log likelihood  [[-2.85951196]]  found for l=  [1.]  var: 0.5727473842692887 
+New maximum log likelihood  [[-2.85951196]]  found for l=  [1.]  var: 0.572743284218266 
+Opt Length scale:  [1.] 
+Opt variance:  0.572743284218266 
+optimised values: l =  [1.]   sig =  0.572743284218266 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.56733186]]  found at:  [0.94396636 0.71259415 1.        ] 
+New best Fval:  [[1.56733205]]  found at:  [0.22139418 0.71255846 1.        ] 
+New best Fval:  [[1.5673325]]  found at:  [0.11227874 0.71234906 1.        ] 
+New best Fval:  [[1.5673325]]  found at:  [0.15285985 0.71237244 1.        ] 
+UCB Best is  [[1.5673325]] at  [0.15285985 0.71237244 1.        ] 
+Best weights:  [0.15285985 0.71237244 1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.51480405e-01  1.03034178e+00 -3.42904739e-01  3.34629416e+00
+  -2.35100928e-01  3.84883526e-12 -2.53471927e-01  3.83281175e-02
+   7.74193831e-01 -6.88974519e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 4    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.02184106]]  found for l=  [1.]  var: 0.5650564620063774 
+New maximum log likelihood  [[-2.02140106]]  found for l=  [1.]  var: 0.5647136106177487 
+New maximum log likelihood  [[-2.00146965]]  found for l=  [1.]  var: 0.533833014866222 
+New maximum log likelihood  [[-2.00144653]]  found for l=  [1.]  var: 0.5350832050074241 
+New maximum log likelihood  [[-2.00144622]]  found for l=  [1.]  var: 0.5346136137088685 
+New maximum log likelihood  [[-2.00144512]]  found for l=  [1.]  var: 0.5348986426797516 
+New maximum log likelihood  [[-2.00144502]]  found for l=  [1.]  var: 0.534835807317025 
+Opt Length scale:  [1.] 
+Opt variance:  0.534835807317025 
+optimised values: l =  [1.]   sig =  0.534835807317025 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.46099472]]  found at:  [0.98916722 0.1        0.1       ] 
+UCB Best is  [[1.46099472]] at  [0.98916722 0.1        0.1       ] 
+Best weights:  [0.98916722 0.1        0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.72746340e-02  1.42358540e-01 -4.73778885e-02  4.07708251e-01
+  -3.12011575e-02  4.79044582e-13 -2.23834313e-02  3.38465404e-03
+   8.51941605e-02 -7.58164214e-02]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 5    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.79558404]]  found for l=  [1.]  var: 0.5232959957205956 
+New maximum log likelihood  [[-1.79160929]]  found for l=  [1.]  var: 0.5333702049136326 
+New maximum log likelihood  [[-1.79156829]]  found for l=  [1.]  var: 0.536419176948125 
+New maximum log likelihood  [[-1.79152652]]  found for l=  [1.]  var: 0.534736237811685 
+New maximum log likelihood  [[-1.79152216]]  found for l=  [1.]  var: 0.535131517220945 
+Opt Length scale:  [1.] 
+Opt variance:  0.535131517220945 
+optimised values: l =  [1.]   sig =  0.535131517220945 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.46131963]]  found at:  [0.73689612 1.         0.47470515] 
+New best Fval:  [[1.46131963]]  found at:  [0.70321066 1.         0.47474247] 
+New best Fval:  [[1.46131963]]  found at:  [0.54069212 1.         0.47473838] 
+New best Fval:  [[1.46131963]]  found at:  [0.413756   1.         0.47473764] 
+UCB Best is  [[1.46131963]] at  [0.413756   1.         0.47473764] 
+Best weights:  [0.413756   1.         0.47473764] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.20844812e-01  1.39396684e+00 -4.63921627e-01  3.27010235e+00
+  -2.88577035e-01  3.99376402e-12 -5.21386813e-02  7.88401903e-03
+   5.46430896e-01 -4.86282567e-01]] 
+with observation value:  [[0.92857143]] 
+######    search in subspace 1  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Subspace:  1  completed..
+
+
+
+ 
+Data set after: 1  subspace 
+Observation_y: [[0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143]] 
+ 
+######  run: 2  subspace  2   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+
+Trying for best solution at iteration: 1    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.37217931]]  found for l=  [1.]  var: 0.5247341230666877 
+New maximum log likelihood  [[-1.36736894]]  found for l=  [1.]  var: 0.543045184395871 
+New maximum log likelihood  [[-1.36736894]]  found for l=  [1.]  var: 0.5430426562652987 
+New maximum log likelihood  [[-1.36736894]]  found for l=  [1.]  var: 0.5430379111567405 
+New maximum log likelihood  [[-1.36736894]]  found for l=  [1.]  var: 0.5430368043892231 
+Opt Length scale:  [1.] 
+Opt variance:  0.5430368043892231 
+optimised values: l =  [1.]   sig =  0.5430368043892231 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.63861344]]  found at:  [0.84705248 0.1        0.78330163] 
+New best Fval:  [[1.63861456]]  found at:  [0.84637769 0.1        0.78120259] 
+New best Fval:  [[1.6386149]]  found at:  [0.84722887 0.1        0.78164582] 
+New best Fval:  [[1.63861688]]  found at:  [0.84524569 0.1        0.78201009] 
+New best Fval:  [[1.63861732]]  found at:  [0.84376299 0.1        0.78252217] 
+UCB Best is  [[1.63861732]] at  [0.84376299 0.1        0.78252217] 
+Best weights:  [0.84376299 0.1        0.78252217] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.62047349e-01  2.16304632e-01 -7.19876496e-02  3.04524507e+00
+  -2.18357486e-01  4.36753409e-12  4.58371120e-01 -6.93114314e-02
+  -2.99467588e-01  2.66503721e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 2    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.90216661]]  found for l=  [1.]  var: 0.5368728837811332 
+New maximum log likelihood  [[-1.90210889]]  found for l=  [1.]  var: 0.5425446222735142 
+New maximum log likelihood  [[-1.9019981]]  found for l=  [1.]  var: 0.5399932671451018 
+Opt Length scale:  [1.] 
+Opt variance:  0.5399932671451018 
+optimised values: l =  [1.]   sig =  0.5399932671451018 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.90269591]]  found at:  [1.         1.         0.56914646] 
+New best Fval:  [[1.90269709]]  found at:  [1.         1.         0.57403882] 
+New best Fval:  [[1.90270219]]  found at:  [1.         1.         0.57170977] 
+UCB Best is  [[1.90270219]] at  [1.         1.         0.57170977] 
+Best weights:  [1.         1.         0.57170977] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 5.67376833e-01  2.59287729e-01 -8.62927160e-02  3.85299312e+00
+  -1.12581574e-01  4.79055298e-12  5.33680297e-01 -8.06991185e-02
+   2.77798582e-01 -2.47219930e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 3    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.75937328]]  found for l=  [1.]  var: 0.4866119588661456 
+New maximum log likelihood  [[-2.66024909]]  found for l=  [1.]  var: 0.5555014326122716 
+New maximum log likelihood  [[-2.65983981]]  found for l=  [1.]  var: 0.5488587163906882 
+New maximum log likelihood  [[-2.65978014]]  found for l=  [1.]  var: 0.5507321164360005 
+New maximum log likelihood  [[-2.65978]]  found for l=  [1.]  var: 0.5507023132558051 
+New maximum log likelihood  [[-2.65977988]]  found for l=  [1.]  var: 0.5506676791002868 
+New maximum log likelihood  [[-2.65977988]]  found for l=  [1.]  var: 0.5506676735167034 
+New maximum log likelihood  [[-2.65977981]]  found for l=  [1.]  var: 0.5506355795272726 
+Opt Length scale:  [1.] 
+Opt variance:  0.5506355795272726 
+optimised values: l =  [1.]   sig =  0.5506355795272726 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.05205253]]  found at:  [1. 1. 1.] 
+UCB Best is  [[2.05205253]] at  [1. 1. 1.] 
+Best weights:  [1. 1. 1.] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8571428571428571 
+New observation found in the given subspace 
+New kernel suggested:  [[ 5.94072462e-01  2.57331900e-01 -8.56418028e-02  4.77303019e+00
+  -2.02221033e-01  6.38992507e-12  8.65515601e-01 -1.30876756e-01
+  -1.12594289e-01  1.00200484e-01]] 
+with observation value:  [[0.85714286]] 
+
+Trying for best solution at iteration: 4    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.20698402]]  found for l=  [1.]  var: 0.5520612886201184 
+New maximum log likelihood  [[-3.20540627]]  found for l=  [1.]  var: 0.5440477231609304 
+New maximum log likelihood  [[-3.20540469]]  found for l=  [1.]  var: 0.5437898601709612 
+Opt Length scale:  [1.] 
+Opt variance:  0.5437898601709612 
+optimised values: l =  [1.]   sig =  0.5437898601709612 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.03033217]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.06173254]]  found at:  [0.28679114 1.         1.        ] 
+New best Fval:  [[2.0617327]]  found at:  [0.28732499 1.         1.        ] 
+New best Fval:  [[2.06173273]]  found at:  [0.28714795 1.         1.        ] 
+New best Fval:  [[2.06173273]]  found at:  [0.28716339 1.         1.        ] 
+UCB Best is  [[2.06173273]] at  [0.28716339 1.         1.        ] 
+Best weights:  [0.28716339 1.         1.        ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 5.36473377e-01  7.16973964e-02 -2.38613802e-02  3.71706955e+00
+  -1.49233706e-01  5.25919523e-12  1.01598001e+00 -1.53628851e-01
+  -4.32630420e-01  3.85008667e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 5    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.17592696]]  found for l=  [1.]  var: 0.5174240464694944 
+New maximum log likelihood  [[-3.17592694]]  found for l=  [1.]  var: 0.5174172354039329 
+New maximum log likelihood  [[-3.17592691]]  found for l=  [1.]  var: 0.517395939420066 
+Opt Length scale:  [1.] 
+Opt variance:  0.517395939420066 
+optimised values: l =  [1.]   sig =  0.517395939420066 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.01407283]]  found at:  [0.1 0.1 0.1] 
+UCB Best is  [[2.01407283]] at  [0.1 0.1 0.1] 
+Best weights:  [0.1 0.1 0.1] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8571428571428571 
+New observation found in the given subspace 
+New kernel suggested:  [[ 5.94072462e-02  2.57331900e-02 -8.56418028e-03  4.77303019e-01
+  -2.02221033e-02  6.38992507e-13  8.65515601e-02 -1.30876756e-02
+  -1.12594289e-02  1.00200484e-02]] 
+with observation value:  [[0.85714286]] 
+######    search in subspace 2  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Subspace:  2  completed..
+
+
+
+ 
+Data set after: 2  subspace 
+Observation_y: [[0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.85714286]] 
+ 
+######  run: 2  subspace  3   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8571428571428571 
+Generated new observation with observation_y:  [[0.85714286]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+
+Trying for best solution at iteration: 1    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.9653524]]  found for l=  [1.]  var: 0.6823175961333182 
+New maximum log likelihood  [[-2.96535238]]  found for l=  [1.]  var: 0.6822825200516472 
+New maximum log likelihood  [[-2.96535238]]  found for l=  [1.]  var: 0.6822679183679708 
+Opt Length scale:  [1.] 
+Opt variance:  0.6822679183679708 
+optimised values: l =  [1.]   sig =  0.6822679183679708 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.70667552]]  found at:  [1.  0.1 1. ] 
+New best Fval:  [[1.86528848]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[1.88269053]]  found at:  [1.         0.1        0.27346571] 
+New best Fval:  [[1.88269059]]  found at:  [1.         0.1        0.27358958] 
+New best Fval:  [[1.8826906]]  found at:  [1.         0.1        0.27360871] 
+UCB Best is  [[1.8826906]] at  [1.         0.1        0.27360871] 
+Best weights:  [1.         0.1        0.27360871] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.37619211e-01  4.72980243e-01 -1.57411035e-01  2.16933941e+00
+   5.54865588e-02  2.11928954e-12  2.02888251e-02 -3.06792347e-03
+   5.94090780e-01 -5.28696294e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 2    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.85148115]]  found for l=  [1.]  var: 0.6169485097647213 
+New maximum log likelihood  [[-2.85112529]]  found for l=  [1.]  var: 0.6139187258825709 
+New maximum log likelihood  [[-2.85108929]]  found for l=  [1.]  var: 0.6134156721987035 
+New maximum log likelihood  [[-2.85100947]]  found for l=  [1.]  var: 0.6110256835912987 
+New maximum log likelihood  [[-2.85100942]]  found for l=  [1.]  var: 0.6109801846987634 
+New maximum log likelihood  [[-2.85100942]]  found for l=  [1.]  var: 0.6109708721870855 
+Opt Length scale:  [1.] 
+Opt variance:  0.6109708721870855 
+optimised values: l =  [1.]   sig =  0.6109708721870855 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.91300664]]  found at:  [1. 1. 1.] 
+UCB Best is  [[1.91300664]] at  [1. 1. 1.] 
+Best weights:  [1. 1. 1.] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8809523809523809 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.73804409e-01  1.38842389e+00 -4.62076894e-01  5.37095742e+00
+   8.04418789e-01  4.47293073e-12  9.81479382e-01 -1.48411927e-01
+   1.11378246e+00 -9.91182965e-01]] 
+with observation value:  [[0.88095238]] 
+
+Trying for best solution at iteration: 3    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-5.3147592]]  found for l=  [0.75113973]  var: 0.6085453322454744 
+New maximum log likelihood  [[-3.63033341]]  found for l=  [1.]  var: 0.5574805541726727 
+New maximum log likelihood  [[-3.56811523]]  found for l=  [1.]  var: 0.6252151934893607 
+New maximum log likelihood  [[-3.56681607]]  found for l=  [1.]  var: 0.6178163467509254 
+New maximum log likelihood  [[-3.56677395]]  found for l=  [1.]  var: 0.6146789633386246 
+New maximum log likelihood  [[-3.56675354]]  found for l=  [1.]  var: 0.6159402796113002 
+New maximum log likelihood  [[-3.56675331]]  found for l=  [1.]  var: 0.6158240506991018 
+Opt Length scale:  [1.] 
+Opt variance:  0.6158240506991018 
+optimised values: l =  [1.]   sig =  0.6158240506991018 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.89848009]]  found at:  [0.1        0.1        0.87637747] 
+New best Fval:  [[1.97717298]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.01923459]]  found at:  [0.1 1.  1. ] 
+UCB Best is  [[2.01923459]] at  [0.1 1.  1. ] 
+Best weights:  [0.1 1.  1. ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.01082027e-01  1.15404893e+00 -3.84075317e-01  4.03774227e+00
+   8.71318544e-01  3.04531487e-12  1.17144993e+00 -1.77137844e-01
+   7.09717196e-01 -6.31595143e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 4    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.55677886]]  found for l=  [1.]  var: 0.5839055743445183 
+New maximum log likelihood  [[-3.55664863]]  found for l=  [1.]  var: 0.5813344525541606 
+New maximum log likelihood  [[-3.55664857]]  found for l=  [1.]  var: 0.5813989151904081 
+New maximum log likelihood  [[-3.55664857]]  found for l=  [1.]  var: 0.581393676181476 
+Opt Length scale:  [1.] 
+Opt variance:  0.581393676181476 
+optimised values: l =  [1.]   sig =  0.581393676181476 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.76338785]]  found at:  [1.  0.1 1. ] 
+New best Fval:  [[1.96611386]]  found at:  [0.1 0.1 0.1] 
+UCB Best is  [[1.96611386]] at  [0.1 0.1 0.1] 
+Best weights:  [0.1 0.1 0.1] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8809523809523809 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.73804409e-02  1.38842389e-01 -4.62076894e-02  5.37095742e-01
+   8.04418789e-02  4.47293073e-13  9.81479382e-02 -1.48411927e-02
+   1.11378246e-01 -9.91182965e-02]] 
+with observation value:  [[0.88095238]] 
+
+Trying for best solution at iteration: 5    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.97161457]]  found for l=  [1.]  var: 0.6097199982518157 
+New maximum log likelihood  [[-3.94651395]]  found for l=  [1.]  var: 0.5784085345630338 
+New maximum log likelihood  [[-3.94639495]]  found for l=  [1.]  var: 0.5744003541403717 
+New maximum log likelihood  [[-3.94635291]]  found for l=  [1.]  var: 0.5761991053068423 
+New maximum log likelihood  [[-3.94634874]]  found for l=  [1.]  var: 0.5758177668784255 
+New maximum log likelihood  [[-3.94634873]]  found for l=  [1.]  var: 0.575809213405204 
+New maximum log likelihood  [[-3.94634871]]  found for l=  [1.]  var: 0.57578270059164 
+Opt Length scale:  [1.] 
+Opt variance:  0.57578270059164 
+optimised values: l =  [1.]   sig =  0.57578270059164 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.7321183]]  found at:  [0.1        0.44152744 0.47942168] 
+New best Fval:  [[1.80933582]]  found at:  [1.  0.1 1. ] 
+New best Fval:  [[1.81356968]]  found at:  [0.1        0.78727979 0.1       ] 
+New best Fval:  [[1.81356968]]  found at:  [0.1       0.7872885 0.1      ] 
+UCB Best is  [[1.81356968]] at  [0.1       0.7872885 0.1      ] 
+Best weights:  [0.1       0.7872885 0.1      ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.29824302e-01  5.19163818e-01 -1.72781242e-01  2.02657304e+00
+   5.18346761e-01  1.46381965e-12  4.73948315e-01 -7.16668978e-02
+   2.56950438e-01 -2.28666643e-01]] 
+with observation value:  [[0.92857143]] 
+######    search in subspace 3  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Subspace:  3  completed..
+
+
+
+ 
+Data set after: 3  subspace 
+Observation_y: [[0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.85714286
+  0.92857143 0.92857143 0.85714286 0.92857143 0.92857143 0.88095238
+  0.92857143 0.88095238 0.92857143]] 
+ 
+######  run: 2  subspace  4   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+
+Trying for best solution at iteration: 1    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.11955987]]  found for l=  [1.]  var: 0.6622228523632693 
+New maximum log likelihood  [[-1.11416045]]  found for l=  [1.]  var: 0.6385467680624969 
+New maximum log likelihood  [[-1.11415837]]  found for l=  [1.]  var: 0.6382548577393581 
+New maximum log likelihood  [[-1.11415794]]  found for l=  [1.]  var: 0.6380982269133872 
+New maximum log likelihood  [[-1.1141579]]  found for l=  [1.]  var: 0.6380379186590647 
+Opt Length scale:  [1.] 
+Opt variance:  0.6380379186590647 
+optimised values: l =  [1.]   sig =  0.6380379186590647 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.83703389]]  found at:  [0.87260008 0.92899699 0.77396624] 
+New best Fval:  [[1.85601025]]  found at:  [0.81715601 0.73992637 0.94375156] 
+New best Fval:  [[1.87200275]]  found at:  [0.43267674 1.         1.        ] 
+New best Fval:  [[1.87200286]]  found at:  [0.4332477 1.        1.       ] 
+UCB Best is  [[1.87200286]] at  [0.4332477 1.        1.       ] 
+Best weights:  [0.4332477 1.        1.       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.26409914e+00  1.52167439e+00 -5.06423564e-01  4.13054770e+00
+   1.00824663e+00  3.64220436e-12  4.07286659e-01 -6.15868237e-02
+   3.92323737e-01 -3.49138739e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 2    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.92626916]]  found for l=  [1.]  var: 0.6410062920846845 
+New maximum log likelihood  [[-1.92585435]]  found for l=  [1.]  var: 0.6379621582343286 
+New maximum log likelihood  [[-1.92578062]]  found for l=  [1.]  var: 0.6371426658415252 
+New maximum log likelihood  [[-1.92565105]]  found for l=  [1.]  var: 0.6342224833292309 
+New maximum log likelihood  [[-1.92565072]]  found for l=  [1.]  var: 0.6335880622133532 
+New maximum log likelihood  [[-1.92564965]]  found for l=  [1.]  var: 0.6339218944312276 
+Opt Length scale:  [1.] 
+Opt variance:  0.6339218944312276 
+optimised values: l =  [1.]   sig =  0.6339218944312276 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.55322852]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[1.67019901]]  found at:  [0.1        0.95081561 1.        ] 
+New best Fval:  [[1.82110227]]  found at:  [1.         0.20875167 0.48174866] 
+New best Fval:  [[1.92752022]]  found at:  [0.1      0.1      0.864947] 
+New best Fval:  [[1.99142561]]  found at:  [1. 1. 1.] 
+New best Fval:  [[1.99714591]]  found at:  [1.         1.         0.42020715] 
+UCB Best is  [[1.99714591]] at  [1.         1.         0.42020715] 
+Best weights:  [1.         1.         0.42020715] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 8.91313018e-01  1.12198998e+00 -3.73405880e-01  3.91448920e+00
+   4.56831101e-01  3.89905496e-12  1.28235858e-01 -1.93908616e-02
+   6.27868882e-01 -5.58756275e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 3    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.05360796]]  found for l=  [1.]  var: 0.5967612628373797 
+New maximum log likelihood  [[-2.05359803]]  found for l=  [1.]  var: 0.596246736701737 
+New maximum log likelihood  [[-2.05359636]]  found for l=  [1.]  var: 0.5959579982230744 
+Opt Length scale:  [1.] 
+Opt variance:  0.5959579982230744 
+optimised values: l =  [1.]   sig =  0.5959579982230744 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.88047481]]  found at:  [1.         0.29315149 0.39612171] 
+New best Fval:  [[2.04305558]]  found at:  [1. 1. 1.] 
+UCB Best is  [[2.04305558]] at  [1. 1. 1.] 
+Best weights:  [1. 1. 1.] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.8571428571428571 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.30989423e+00  1.66926611e+00 -5.55543090e-01  4.97010631e+00
+   9.66118194e-01  4.54120944e-12  2.87657494e-01 -4.34974016e-02
+   6.46773649e-01 -5.75580101e-01]] 
+with observation value:  [[0.85714286]] 
+
+Trying for best solution at iteration: 4    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.44474449]]  found for l=  [1.]  var: 0.5803009385162213 
+New maximum log likelihood  [[-2.44474169]]  found for l=  [1.]  var: 0.5799371027545048 
+New maximum log likelihood  [[-2.44474169]]  found for l=  [1.]  var: 0.5799342835988639 
+Opt Length scale:  [1.] 
+Opt variance:  0.5799342835988639 
+optimised values: l =  [1.]   sig =  0.5799342835988639 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.00843747]]  found at:  [1.         0.61368063 0.1       ] 
+New best Fval:  [[2.01287066]]  found at:  [1.         0.65305572 0.1       ] 
+New best Fval:  [[2.01293108]]  found at:  [1.        0.6574519 0.1      ] 
+New best Fval:  [[2.01293133]]  found at:  [1.         0.65903391 0.1       ] 
+New best Fval:  [[2.01293223]]  found at:  [1.         0.65785422 0.1       ] 
+New best Fval:  [[2.01293255]]  found at:  [1.        0.6580816 0.1      ] 
+New best Fval:  [[2.01293263]]  found at:  [1.         0.65827721 0.1       ] 
+New best Fval:  [[2.01293263]]  found at:  [1.         0.65827751 0.1       ] 
+UCB Best is  [[2.01293263]] at  [1.         0.65827751 0.1       ] 
+Best weights:  [1.         0.65827751 0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 4.86837769e-01  6.60863107e-01 -2.19939728e-01  2.76147530e+00
+   1.20184468e-01  2.91310487e-12 -3.62774878e-02  5.48560870e-03
+   5.60973521e-01 -4.99224414e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 5    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.82668948]]  found for l=  [1.]  var: 0.5164524341918568 
+New maximum log likelihood  [[-2.74435599]]  found for l=  [1.]  var: 0.5713343197524041 
+New maximum log likelihood  [[-2.74429434]]  found for l=  [1.]  var: 0.570000794156389 
+New maximum log likelihood  [[-2.74429247]]  found for l=  [1.]  var: 0.5697337314392705 
+New maximum log likelihood  [[-2.74429247]]  found for l=  [1.]  var: 0.5697277130847888 
+New maximum log likelihood  [[-2.74429247]]  found for l=  [1.]  var: 0.5697275214526034 
+Opt Length scale:  [1.] 
+Opt variance:  0.5697275214526034 
+optimised values: l =  [1.]   sig =  0.5697275214526034 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.71518524]]  found at:  [1.  0.1 0.1] 
+New best Fval:  [[2.00186196]]  found at:  [0.1        0.1        0.89063976] 
+New best Fval:  [[2.00186199]]  found at:  [0.1       0.1       0.8907088] 
+UCB Best is  [[2.00186199]] at  [0.1       0.1       0.8907088] 
+Best weights:  [0.1       0.1       0.8907088] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 7.01841320e-01  9.13289825e-01 -3.03949053e-01  1.93663816e+00
+   7.91166419e-01  1.32987719e-12  2.46181490e-01 -3.72257123e-02
+   9.04592727e-02 -8.05019768e-02]] 
+with observation value:  [[0.92857143]] 
+######    search in subspace 4  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Subspace:  4  completed..
+
+
+
+ 
+Data set after: 4  subspace 
+Observation_y: [[0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.85714286
+  0.92857143 0.92857143 0.85714286 0.92857143 0.92857143 0.88095238
+  0.92857143 0.88095238 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.92857143]] 
+ 
+######  run: 2  subspace  5   ###### 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Generated new observation with observation_y:  [[0.92857143]] 
+
+Trying for best solution at iteration: 1    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.34869466]]  found for l=  [1.]  var: 0.6750021807079726 
+New maximum log likelihood  [[-3.34857265]]  found for l=  [1.]  var: 0.6712860847335171 
+New maximum log likelihood  [[-3.34857265]]  found for l=  [1.]  var: 0.6712782226178002 
+Opt Length scale:  [1.] 
+Opt variance:  0.6712782226178002 
+optimised values: l =  [1.]   sig =  0.6712782226178002 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.89139282]]  found at:  [0.22749188 0.1        0.1       ] 
+New best Fval:  [[2.03041915]]  found at:  [0.89040612 0.58641093 0.51941769] 
+New best Fval:  [[2.0896378]]  found at:  [1.         0.1        0.61326467] 
+New best Fval:  [[2.08965479]]  found at:  [1.         0.1        0.60423219] 
+New best Fval:  [[2.08978399]]  found at:  [1.        0.1       0.6087722] 
+New best Fval:  [[2.08978416]]  found at:  [1.         0.1        0.60862625] 
+New best Fval:  [[2.08978416]]  found at:  [1.       0.1      0.608602] 
+New best Fval:  [[2.08978416]]  found at:  [1.         0.1        0.60861326] 
+UCB Best is  [[2.08978416]] at  [1.         0.1        0.60861326] 
+Best weights:  [1.         0.1        0.60861326] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.64509853e+00  7.09358454e-01 -2.36079308e-01  2.39573128e+00
+  -1.09868243e-01  2.84118295e-12 -3.52222841e-01  5.32604875e-02
+   4.71463765e-01 -4.19567436e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 2    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.36531969]]  found for l=  [1.]  var: 0.612052563477202 
+New maximum log likelihood  [[-3.36361766]]  found for l=  [1.]  var: 0.6010281349298064 
+New maximum log likelihood  [[-3.36361692]]  found for l=  [1.]  var: 0.6008417697430312 
+New maximum log likelihood  [[-3.36361689]]  found for l=  [1.]  var: 0.60078951948629 
+Opt Length scale:  [1.] 
+Opt variance:  0.60078951948629 
+optimised values: l =  [1.]   sig =  0.60078951948629 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.037861]]  found at:  [0.1 0.1 0.1] 
+New best Fval:  [[2.14275752]]  found at:  [0.32416323 1.         0.49439771] 
+New best Fval:  [[2.14276762]]  found at:  [0.31904249 1.         0.49457773] 
+New best Fval:  [[2.14277927]]  found at:  [0.31862638 1.         0.49535225] 
+New best Fval:  [[2.14278325]]  found at:  [0.31870009 1.         0.49662816] 
+UCB Best is  [[2.14278325]] at  [0.31870009 1.         0.49662816] 
+Best weights:  [0.31870009 1.         0.49662816] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.72903477e+00  1.23958932e+00 -4.12543739e-01  2.09254836e+00
+   3.77945331e-01  1.99411075e-12 -1.22266684e-01  1.84882479e-02
+   2.88879546e-01 -2.57081158e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 3    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.2500293]]  found for l=  [1.]  var: 0.5769934324855556 
+New maximum log likelihood  [[-3.23546884]]  found for l=  [1.]  var: 0.5490403007384251 
+New maximum log likelihood  [[-3.23546787]]  found for l=  [1.]  var: 0.5488862123073355 
+New maximum log likelihood  [[-3.23546777]]  found for l=  [1.]  var: 0.5488405685187762 
+New maximum log likelihood  [[-3.23546774]]  found for l=  [1.]  var: 0.548806329071113 
+Opt Length scale:  [1.] 
+Opt variance:  0.548806329071113 
+optimised values: l =  [1.]   sig =  0.548806329071113 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.75324366]]  found at:  [0.1 1.  0.1] 
+New best Fval:  [[1.83731618]]  found at:  [1. 1. 1.] 
+New best Fval:  [[1.87809747]]  found at:  [1.         1.         0.39534178] 
+New best Fval:  [[1.93438864]]  found at:  [0.94887623 0.1        0.1       ] 
+New best Fval:  [[2.0242885]]  found at:  [0.1 0.1 0.1] 
+UCB Best is  [[2.0242885]] at  [0.1 0.1 0.1] 
+Best weights:  [0.1 0.1 0.1] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.03944562e-01  1.71715397e-01 -5.71480495e-02  3.77932125e-01
+   2.59130527e-02  4.07091897e-13 -3.88231533e-02  5.87054509e-03
+   6.01891922e-02 -5.35638726e-02]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 4    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.36409016]]  found for l=  [1.]  var: 0.5812293408129766 
+New maximum log likelihood  [[-4.36408548]]  found for l=  [1.]  var: 0.5807551425526785 
+Opt Length scale:  [1.] 
+Opt variance:  0.5807551425526785 
+optimised values: l =  [1.]   sig =  0.5807551425526785 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[2.04172701]]  found at:  [1.         1.         0.39192082] 
+New best Fval:  [[2.0678029]]  found at:  [0.1        0.1        0.92108691] 
+New best Fval:  [[2.16197232]]  found at:  [0.85681297 0.1        0.1       ] 
+New best Fval:  [[2.16204533]]  found at:  [0.86536074 0.1        0.1       ] 
+New best Fval:  [[2.16204753]]  found at:  [0.86387449 0.1        0.1       ] 
+New best Fval:  [[2.16204758]]  found at:  [0.86420819 0.1        0.1       ] 
+UCB Best is  [[2.16204758]] at  [0.86420819 0.1        0.1       ] 
+Best weights:  [0.86420819 0.1        0.1       ] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 3.65694607e-01  3.70727913e-01 -1.23380766e-01  1.50999206e+00
+  -3.08928810e-02  1.61930938e-12 -2.00130990e-01  3.02623023e-02
+   4.03289179e-01 -3.58897161e-01]] 
+with observation value:  [[0.92857143]] 
+
+Trying for best solution at iteration: 5    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.23918515]]  found for l=  [1.]  var: 0.5477878187598535 
+New maximum log likelihood  [[-4.23917475]]  found for l=  [1.]  var: 0.5477045708108979 
+New maximum log likelihood  [[-4.23908163]]  found for l=  [1.]  var: 0.5467499544718438 
+New maximum log likelihood  [[-4.23903295]]  found for l=  [1.]  var: 0.5454955554166298 
+Opt Length scale:  [1.] 
+Opt variance:  0.5454955554166298 
+optimised values: l =  [1.]   sig =  0.5454955554166298 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.93594231]]  found at:  [1. 1. 1.] 
+New best Fval:  [[2.00452368]]  found at:  [0.1        0.1        0.94218916] 
+New best Fval:  [[2.00453034]]  found at:  [0.1       0.1       0.9428882] 
+New best Fval:  [[2.00453263]]  found at:  [0.1        0.1        0.94430419] 
+New best Fval:  [[2.00758798]]  found at:  [1.         1.         0.39789232] 
+New best Fval:  [[2.00759473]]  found at:  [1.         1.         0.39872372] 
+New best Fval:  [[2.00759477]]  found at:  [1.        1.        0.3987938] 
+UCB Best is  [[2.00759477]] at  [1.        1.        0.3987938] 
+Best weights:  [1.        1.        0.3987938] 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.54009629e+00  1.35867597e+00 -4.52176584e-01  2.97010885e+00
+   3.40551941e-01  2.88121515e-12 -2.42332146e-01  3.66436435e-02
+   5.93370165e-01 -5.28055000e-01]] 
+with observation value:  [[0.92857143]] 
+######    search in subspace 5  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Subspace:  5  completed..
+
+
+
+ 
+Data set after: 5  subspace 
+Observation_y: [[0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.85714286
+  0.92857143 0.92857143 0.85714286 0.92857143 0.92857143 0.88095238
+  0.92857143 0.88095238 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.85714286 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143 0.92857143 0.92857143 0.92857143
+  0.92857143 0.92857143 0.92857143]] 
+ 
+Best solution found for run:  2 {'best_kernel': array([[ 8.08026471e-02,  2.60416622e-01, -8.66684193e-02,
+         1.48135016e+00, -7.43330602e-02,  1.58623984e-12,
+        -2.11078392e-01,  3.19176860e-02,  4.48961408e-01,
+        -3.99542024e-01]]), 'best_value': array([0.92857143])} 
+Computing Xtr_Xtr ....  
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Predicting Values... 
+Accuracy:  0.9285714285714286 
+Maximum accuracy obtained:  [[0.92857143]] 
+
+
+***************************Run  2  completed**********************
+
+
+
+ 
+
+
+@@@@@@@Mean Max accuracy after Bayesian Optimisation :  0.9523809523809523 

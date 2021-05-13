@@ -1,0 +1,93 @@
+Configuration Settings:
+
+ hyperkernel_type: matern_harmonic_kernel 	kernel_type: SE 	char_length_scale: 0.3 	sigma_len: 0.0001 	sigma_len_bounds:  [0.1, 1] 	signal_variance_bounds: [0.1, 10] 
+number_of_samples_in_X_for_grid: 4 	number_of_samples_in_Xs_for_grid: 5 	number_of_test_datapoints: 100 	noise: 0.0 
+hyper_lambda 0.1 	random_seed: 400 	max_X: 1 	min_X: 0 	max_Y: 2 	min_Y: 1 
+bounds: [[0, 1]] 	number_of_dimensions: 1 
+signal_variance: 1 	number_of_basis_vectors_chosen:  2 	basis_weights_bounds: [0.1, 1] 
+number_of_subspace_selection_iterations: 5 	number_of_iterations_best_solution: 5 
+number_of_init_random_kernel_y_observations: 4 	acq_fun_list: ['UCB'] 
+Length scale bounds:  [[0.1, 10]] 	number of restart likelihoods:  100
+
+###################################################################
+
+Generating results Start time:  213733_14072020
+[[ 2.19214345]
+ [ 2.43323017]
+ [ 2.96276434]
+ [ 3.87453034]
+ [ 3.91497631]
+ [ 4.03951311]
+ [ 4.54332442]
+ [ 6.77077269]
+ [ 7.11277749]
+ [ 7.59546128]
+ [ 7.73820903]
+ [ 7.97831401]
+ [15.36052736]
+ [15.74902047]
+ [16.08084353]
+ [16.31432616]
+ [16.35883791]
+ [17.64481183]
+ [17.86025608]
+ [19.99155822]]
+************  Run: 1    ***************
+
+
+Initial Grid Values selected for this run
+--- X in Grid ---
+ [[0.        ]
+ [0.33333333]
+ [0.66666667]
+ [1.        ]]
+Starting Optimization
+######  run: 1  subspace  1   ######
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!
+Backend TkAgg is interactive backend. Turning interactive mode on.
+Generated new observation with observation_y:  [[-1308.2552962]]
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!
+Generated new observation with observation_y:  [[-1858.72755416]]
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!
+Generated new observation with observation_y:  [[-18808.5691004]]
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!
+Generated new observation with observation_y:  [[-11098.45027816]]
+
+Trying for best solution at iteration: 1    in subspace:  1
+Using log marginal likelihood to compute the optimised length scale for the kernels
+Hyper Params for kernel observations
+New maximum log likelihood  [[-2410534.2130979]]  found for l=  [0.1]  var: 10.0
+New maximum log likelihood  [[-2410528.12922118]]  found for l=  [0.26982345]  var: 10.0
+New maximum log likelihood  [[-2394046.78281151]]  found for l=  [0.69037689]  var: 10.0
+Opt Length scale:  [0.69037689] 
+Opt variance:  10.0
+optimised values: l =  [0.69037689]   sig =  10.0
+pre-calculating COV matrix for kernel observations
+ACQ Function : UCB 
+New best Fval:  [[-1405.11365454]]  found at:  [0.35563105 0.1        0.1       ]
+New best Fval:  [[62.96141821]]  found at:  [0.76448592 0.5270952  0.67988202]
+New best Fval:  [[64.39678785]]  found at:  [0.17156265 0.49746879 0.71799634]
+New best Fval:  [[73.06165961]]  found at:  [0.54146957 0.27791096 1.        ]
+UCB Best is  [[73.06165961]] at  [0.54146957 0.27791096 1.        ]
+Best weights:  [0.54146957 0.27791096 1.        ]
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!
+New observation found in the given subspace
+New kernel suggested:  [[1.43571239 1.57789627 1.71197266 1.80963306 1.68471586 1.88826681
+  2.05819486 2.14214127 1.906671   2.13738617 2.29807722 2.48304763
+  2.04619664 2.28515021 2.44418715 2.69132555]]
+with observation value:  [[-1099.54453567]]
+
+Trying for best solution at iteration: 2    in subspace:  1
+Using log marginal likelihood to compute the optimised length scale for the kernels
+Hyper Params for kernel observations
+New maximum log likelihood  [[-2416582.42549063]]  found for l=  [0.1]  var: 10.0
+New maximum log likelihood  [[-2398868.3115799]]  found for l=  [0.61351169]  var: 10.0
+Opt Length scale:  [0.61351169] 
+Opt variance:  10.0
+optimised values: l =  [0.61351169]   sig =  10.0
+pre-calculating COV matrix for kernel observations
+ACQ Function : UCB 
+New best Fval:  [[32.3304781]]  found at:  [0.82774826 1.         1.        ]
+UCB Best is  [[32.3304781]] at  [0.82774826 1.         1.        ]
+Best weights:  [0.82774826 1.         1.        ]
+!!!!!!!!!!Gaussian Process Started!!!!!!!!!

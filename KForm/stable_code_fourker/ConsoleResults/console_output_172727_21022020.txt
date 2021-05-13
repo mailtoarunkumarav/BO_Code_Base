@@ -1,0 +1,113 @@
+
+
+Parameters
+True Func custom 	Dim: 1 	obs_samp: 2 	iter: 5 	kernel_types: ['fix_l'] 	lenscale_fun_types: ['linear'] 	seed: 200 
+Runs: 1 	Acq_re: 100 	likeli_re: 15 	Bounds: [[0, 10]] 	l_params: [[0.06 0.01]] 
+l_param_bds: [[[0.001, 2], [0.001, 2]]] 	ard_len_scale_bds: [[0.1, 0.8]] 
+xmax: [10] 	xmin: [0] 	ymax: 2 	ymin: 0 	eps1: 0.005 	eps2: 0.001 	fixed_l: [0.9] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.7, 0.4, 0.3, 0.01] 
+ beta_params: [0.5, 0.5] beta_bounds: [[-1, 1], [-1, 1]] Random Vectors:  [0.2 0.5] 
+
+
+
+###################################################################
+
+Generating results Start time:  172727_21022020
+True function: custom  
+Maximum is  1.4015729346972057
+Regret for initial points:  [array([0.54595474]), array([0.02931954])]
+L Recaluated with new data
+Testing with fixed Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226]
+ [0.22654742]]
+---y---
+ [[0.15483173]
+ [0.67146692]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.00097706]]  found at:  [0.57972494]
+New best Fval:  [[0.00453581]]  found at:  [0.41135462]
+New best Fval:  [[0.10357551]]  found at:  [0.00286059]
+New best Fval:  [[0.10472197]]  found at:  [0.]
+EI Best is  [[0.10472197]] at  [0.]
+
+zeroes encountered in run:  1  iteration:  1
+( [0.] [[0.52281968]] ) is the new value added..    Original:  (array([0.]), matrix([[1.04563936]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.01676433]]  found at:  [0.33861446]
+New best Fval:  [[0.01676556]]  found at:  [0.33759895]
+EI Best is  [[0.01676556]] at  [0.33759895]
+( [0.33759895] [[0.36676852]] ) is the new value added..    Original:  (array([3.37598948]), matrix([[0.73353704]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.]]  found at:  [0.95478872]
+New best Fval:  [[0.08871759]]  found at:  [0.13671045]
+New best Fval:  [[0.08872232]]  found at:  [0.13660814]
+New best Fval:  [[0.08875152]]  found at:  [0.13366698]
+New best Fval:  [[0.08876309]]  found at:  [0.13509996]
+New best Fval:  [[0.08876455]]  found at:  [0.13486724]
+New best Fval:  [[0.0887648]]  found at:  [0.13470071]
+EI Best is  [[0.0887648]] at  [0.13470071]
+( [0.13470071] [[0.56145665]] ) is the new value added..    Original:  (array([1.34700711]), matrix([[1.1229133]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  4      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.]]  found at:  [0.00607258]
+New best Fval:  [[2.56035136e-160]]  found at:  [0.98941032]
+EI Best is  [[2.56035136e-160]] at  [0.98941032]
+( [0.98941032] [[0.11480585]] ) is the new value added..    Original:  (array([9.89410325]), matrix([[0.2296117]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  5      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.]]  found at:  [0.4372916]
+EI Best is  [[0.]] at  [0.4372916]
+( [0.4372916] [[0.41034355]] ) is the new value added..    Original:  (array([4.372916]), matrix([[0.8206871]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.         0.33759895 0.13470071 0.98941032
+  0.4372916 ]] 
+$y:
+ [[0.15483173 0.67146692 0.52281968 0.36676852 0.56145665 0.11480585
+  0.41034355]]
+True Max:  0.7007864673486028
+EI fix_l , Observed Maximum value:  0.6714669234451345
+Regret:  [0.02931954 0.02931954 0.02931954 0.02931954 0.02931954]
+
+
+
+
+
+
+Total EI FIX Regret
+ [[0.54595474 0.02931954 0.02931954 0.02931954 0.02931954 0.02931954
+  0.02931954]] 
+
+FIX Regret Mean [0.54595474 0.02931954 0.02931954 0.02931954 0.02931954 0.02931954
+ 0.02931954] 
+
+FIX Regret Deviation
+ [0. 0. 0. 0. 0. 0. 0.]
+
+End time:  172734_21022020

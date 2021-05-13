@@ -1,0 +1,118 @@
+
+
+Parameters
+True Func custom 	Dim: 1 	obs_samp: 2 	iter: 5 	kernel_types: ['fix_l'] 	lenscale_fun_types: ['linear'] 	seed: 200 
+Runs: 1 	Acq_re: 100 	likeli_re: 15 	Bounds: [[0, 10]] 	l_params: [[0.06 0.01]] 
+l_param_bds: [[[0.001, 2], [0.001, 2]]] 	ard_len_scale_bds: [[0.1, 0.8]] 
+xmax: [10] 	xmin: [0] 	ymax: 2 	ymin: 0 	eps1: 0.005 	eps2: 0.001 	fixed_l: [0.7] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.7, 0.4, 0.3, 0.01] 
+ beta_params: [0.5, 0.5] beta_bounds: [[-1, 1], [-1, 1]] Random Vectors:  [0.2 0.5] 
+
+
+
+###################################################################
+
+Generating results Start time:  173022_21022020
+True function: custom  
+Maximum is  1.4015729346972057
+Regret for initial points:  [array([0.54595474]), array([0.02931954])]
+L Recaluated with new data
+Testing with fixed Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226]
+ [0.22654742]]
+---y---
+ [[0.15483173]
+ [0.67146692]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.01880461]]  found at:  [0.49732745]
+New best Fval:  [[0.02167858]]  found at:  [0.41803117]
+New best Fval:  [[0.10931689]]  found at:  [0.00286059]
+New best Fval:  [[0.11049853]]  found at:  [0.]
+EI Best is  [[0.11049853]] at  [0.]
+
+zeroes encountered in run:  1  iteration:  1
+( [0.] [[0.52281968]] ) is the new value added..    Original:  (array([0.]), matrix([[1.04563936]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[1.45273134e-105]]  found at:  [0.02937608]
+New best Fval:  [[4.16159131e-08]]  found at:  [0.12929325]
+New best Fval:  [[0.02058912]]  found at:  [0.37782894]
+New best Fval:  [[0.0205908]]  found at:  [0.37133481]
+New best Fval:  [[0.0205951]]  found at:  [0.37618364]
+New best Fval:  [[0.02059735]]  found at:  [0.37454514]
+EI Best is  [[0.02059735]] at  [0.37454514]
+( [0.37454514] [[0.35778939]] ) is the new value added..    Original:  (array([3.74545138]), matrix([[0.71557877]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.05307562]]  found at:  [0.14724904]
+New best Fval:  [[0.05309072]]  found at:  [0.14580931]
+New best Fval:  [[0.05309079]]  found at:  [0.14584643]
+New best Fval:  [[0.05309087]]  found at:  [0.14591939]
+New best Fval:  [[0.05309087]]  found at:  [0.14594028]
+EI Best is  [[0.05309087]] at  [0.14594028]
+( [0.14594028] [[0.59666299]] ) is the new value added..    Original:  (array([1.45940276]), matrix([[1.19332598]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  4      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.]]  found at:  [0.3354273]
+New best Fval:  [[1.82238217e-239]]  found at:  [0.19976517]
+New best Fval:  [[0.25714526]]  found at:  [1.]
+EI Best is  [[0.25714526]] at  [1.]
+( [1.] [[0.10589875]] ) is the new value added..    Original:  (array([10.]), matrix([[0.21179751]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  5      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.]]  found at:  [0.67801549]
+New best Fval:  [[1.453e-321]]  found at:  [0.17314994]
+New best Fval:  [[4.07605066e-304]]  found at:  [0.16799105]
+EI Best is  [[4.07605066e-304]] at  [0.16799105]
+( [0.16799105] [[0.65947266]] ) is the new value added..    Original:  (array([1.6799105]), matrix([[1.31894532]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.         0.37454514 0.14594028 1.
+  0.16799105]] 
+$y:
+ [[0.15483173 0.67146692 0.52281968 0.35778939 0.59666299 0.10589875
+  0.65947266]]
+True Max:  0.7007864673486028
+EI fix_l , Observed Maximum value:  0.6714669234451345
+Regret:  [0.02931954 0.02931954 0.02931954 0.02931954 0.02931954]
+
+
+
+
+
+
+Total EI FIX Regret
+ [[0.54595474 0.02931954 0.02931954 0.02931954 0.02931954 0.02931954
+  0.02931954]] 
+
+FIX Regret Mean [0.54595474 0.02931954 0.02931954 0.02931954 0.02931954 0.02931954
+ 0.02931954] 
+
+FIX Regret Deviation
+ [0. 0. 0. 0. 0. 0. 0.]
+
+End time:  173028_21022020

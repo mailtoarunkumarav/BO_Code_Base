@@ -1,0 +1,115 @@
+# SVMHeavy
+SVM, machine learning and Bayesian Optimisation library
+
+Svmheavy started out as an SVM library in about 2001 and has since morphed
+as my research interests have changed.  Some parts of the code are extremely
+well tested and reliable due to constant use and debugging, while others are
+very flaky and in some cases simply unfinished and abandonded.  As a general
+rule the more standard (and incremental) SVM/LS-SVM/GP stuff is very reliable,
+followed by the more esoteric SVM stuff.  KNN is useble at a pinch, but all
+NN code should be avoided entirely (I abandonded it long ago and do not plan
+to finish it as the alternatives are vastly superior to anything I could hope
+to write).
+
+To generate instructions and get an idea of scope, compile and run
+./svmheavyv7.exe -?? > instruct.txt to generate a full instruction file.
+Currently the most active areas of development currently are m-kernels and
+Bayesian Optimisation.
+
+
+Main Features
+=============
+
+Learning types supported:
+
+- classification: binary and multiclass
+- regression: scalar, vector, complex, quaternion and octonion
+- one-class learning: various methods
+- others include variations on similarity learning, multi-instance learning,
+  classification and regression with scoring, planar regression, multi-
+  expert learning...
+
+You can train with a "standard" data, but also symbolic features, vector-
+features, function features (treated as vectors in L2), RKHS embedding,
+graphs, Bernstein-functions and various other oddities.  Constraints on
+gradients (and higher order) can be included in regression for most models,
+as can constraints of the form "g(xa)-g(xb) > y", "g(xa)-g(xb) = y" etc.
+Distributions are doable... see instruct.txt for details.
+
+Reliable (mostly) learning models include SVM, LS-SVM and GPs, as well as
+various function "blocks" that can be connected together.
+
+The code also does various types of optimisation (grid, nelder-mead, DIRect,
+Bayesian etc).  This is primarily for hyperparameters, but can be used much
+more generally - eg there is a built-in suite of test functions available,
+and when compiled in MATLAB you can call MATLAB functions and scripts to
+connect to (and optimise) pretty much anything you feel like.
+
+The kernel support is quite extensive and can do many "non-standard" things
+alongside the typical "SE/Linear/Polynomial/RationalQuadratic".
+
+Other features have accumulated over time but I'll keep it short here -
+see instruct.txt for a full description.
+
+
+Citing
+======
+
+@Misc{svmheavyv7,
+author =   {Shilton, Alistair},
+title =    {{SVMHeavy}: {SVM}, Machine Learning and Optimisation Libary},
+howpublished = {\url{https://github.com/apshsh/SVMHeavy}},
+year = {2001--2020}
+}
+
+
+Compilation instructions
+========================
+
+Make under cygwin is the best option - see makefile for details.  Main
+options are:
+
+1. Standard (slow but reliable): make
+2. Optimised (much faster code but without lots of checks): make opt
+3. Cleanup: make clean
+4. Debugging: make debug (also debugmore etc - see makefile)
+
+Different systems are selected by commenting/uncommenting relevant lines in
+Makefile.  There are various options depending on what your compiler/system
+supports (threaded, sockets etc).  Other options are available in basefn.h,
+but that's a bit of a mess so best avoid except as a last resort (basefn.h/cc
+are where all the ugly hacks, quirks and system-dependent chicanery have been
+quarantined).
+
+GCC: Mostly I use gcc under cygwin, so that's probably the most reliable.  By
+default the Makefile is set up for this.  In theory any *nix systems running
+gcc should also work fine, but there are so many variants it's hard to be
+certain, particularly if you enable things like threads and sockets.
+
+MATLAB (MEX): compilation is possible using mex.  Either use the premade
+mexmake.m script or roll your own by (un)commenting the relevant lines in the
+Makefile, running make (on cygwin or *nix), then adjusting the resulting
+scriptfile to replace svmheavyv7.cc with svmmatlab.cpp.  NB: for some reason
+the "default" mex compiler hangs, so you'll want to use MinGW instead.  The
+problem appears to originate in vector.h, but I haven't had time to
+investigate.
+
+VISUAL STUDIO: In theory it should compile in visual studio, but it's been a
+while since I've tested this so ymmv.  You'll need to create your own project:
+svmheavyv7.exe is what you're aiming to create.
+
+DJGPP: You can compile for djgpp if you feel the need to compile for oldschool
+dos version (or at least you could last time I tried, under win xp).
+
+Test run - the following will train a binary SVM on the dataset tr1s.txt
+(provided) with an RBF kernel and then do 5-fold (incremental)
+cross-validation to measure accuracy:
+
+./svmheavyv7.exe -c 1 -kt 3 -kg sqrt\(20\) -tc 5 -AA tr1s.txt -N 1605
+
+Enjoy!
+
+
+
+Alistair Shilton
+29/1/2020
