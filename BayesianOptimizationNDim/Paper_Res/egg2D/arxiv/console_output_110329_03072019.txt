@@ -1,0 +1,52 @@
+
+
+Parameters
+True Func egg2d 	Dim: 2 	obs_samp: 3 	iter: 30 	kernel_types: ['var_l', 'm_ker', 'ard', 'fix_l'] 	lenscale_fun_types: ['gaussian', 'gaussian'] 	seed: 200 
+Runs: 5 	Acq_re: 100 	likeli_re: 100 	Bounds: [[-512, 512], [-512, 512]] 	l_params: [[0.5 0.2]
+ [0.5 0.3]] 
+l_param_bds: [[[0.5, 0.6], [0.35, 0.4]], [[0.5, 0.6], [0.35, 0.4]]] 	ard_len_scale_bds: [[0.5, 2], [0.5, 2]] 
+xmax: [512] 	xmin: [-512] 	ymax: 1000 	ymin: -1000 	eps1: 0.001 	eps2: 0.001 	fixed_l: [0.3, 0.3] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.7, 0.4, 0.3, 0.01] 
+
+
+
+###################################################################
+
+Generating results Start time:  110329_03072019
+True function: egg2d  
+Maximum is  [[959.64008971]]
+Regret for initial points:  [matrix([[0.49908366]]), matrix([[0.28196479]]), matrix([[0.28196479]])]
+L Recaluated with new data
+Testing with Varying Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[0.48073639]
+ [0.69785526]
+ [0.22150137]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      var_l   ######
+0  New maximum log likelihood  [[-1.8863897]]  found for params  [0.6        0.35006794 0.5        0.37990058 0.6455063 ]
+1  New maximum log likelihood  [[-1.57455996]]  found for params  [0.59701615 0.3658163  0.52172158 0.39259079 0.38125056]
+3  New maximum log likelihood  [[-1.53248757]]  found for params  [0.59914111 0.36412188 0.50376134 0.36417126 0.39359675]
+5  New maximum log likelihood  [[-1.50370011]]  found for params  [0.6        0.36055325 0.50411782 0.35       0.41807248]
+59  New maximum log likelihood  [[-1.5019493]]  found for params  [0.6        0.3650327  0.5        0.35407028 0.43177737]
+Opt Params:  [array([0.6      , 0.3650327]), array([0.5       , 0.35407028])]    variance: 0.43177736610552864
+ACQ Function : EI 
+New best Fval:  [[0.00174799]]  found at:  [0.87950189 0.06980167]
+New best Fval:  [[0.04277731]]  found at:  [0.22470794 0.46073733]
+New best Fval:  [[0.05434205]]  found at:  [0.66439426 0.87222695]
+New best Fval:  [[0.06069676]]  found at:  [0.5106792  0.88433328]
+New best Fval:  [[0.06117231]]  found at:  [0.53589724 0.86065042]
+New best Fval:  [[0.06167882]]  found at:  [0.51218507 0.85377805]
+New best Fval:  [[0.06178684]]  found at:  [0.51062572 0.84247846]
+New best Fval:  [[0.06180814]]  found at:  [0.49075487 0.83870495]
+New best Fval:  [[0.06182237]]  found at:  [0.50485109 0.84143439]

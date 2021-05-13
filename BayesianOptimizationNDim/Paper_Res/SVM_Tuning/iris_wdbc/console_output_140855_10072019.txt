@@ -1,0 +1,166 @@
+
+
+Parameters
+True Func svm 	Dim: 2 	obs_samp: 3 	iter: 20 	kernel_types: ['var_l', 'fix_l', 'ard', 'm_ker'] 	lenscale_fun_types: ['gaussian', 'gaussian'] 	seed: 300 
+Runs: 3 	Acq_re: 100 	likeli_re: 100 	Bounds: [[0.001, 1000.0], [1e-05, 1.0]] 	l_params: [[0.5 0.2]
+ [0.5 0.2]] 
+l_param_bds: [[[0.3, 0.7], [0.5, 1]], [[0.3, 0.7], [0.5, 1]]] 	ard_len_scale_bds: [[0.1, 1], [0.1, 1]] 
+xmax: [100000.] 	xmin: [1.e-05] 	ymax: 1 	ymin: 0 	eps1: 0.001 	eps2: 0.001 	fixed_l: [0.1, 0.1] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.7, 0.4, 0.3, 0.1] 	p:-1,+1.1 
+
+
+
+###################################################################
+
+Generating results Start time:  140855_10072019
+Working with IRIS Data
+Regret for initial points:  [0.8666666666666667, 0.9666666666666667, 0.9666666666666667]
+L Recaluated with new data
+Testing with Varying Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[8.87153730e-03 4.80778260e-06]
+ [6.19904327e-03 6.78613621e-07]
+ [7.14344484e-04 2.59201346e-06]]
+---y---
+ [0.86666667 0.96666667 0.93333333] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      var_l   ######
+0  New maximum log likelihood  -12474209.280436102  found for params  [0.3        0.5        0.3        0.50000003 0.99999986]
+2  New maximum log likelihood  -12364926.363695512  found for params  [0.57748059 0.9800874  0.35955983 0.7553543  0.97633817]
+3  New maximum log likelihood  -10917226.237260642  found for params  [0.7       0.9999987 0.7       1.        1.       ]
+8  New maximum log likelihood  -10345710.978544284  found for params  [0.7 1.  0.7 0.5 1. ]
+21  New maximum log likelihood  -6978160.828071839  found for params  [0.7        0.5        0.7        0.99999998 0.99999993]
+36  New maximum log likelihood  -6978160.637981517  found for params  [0.7        0.5        0.7        0.99999998 0.99999989]
+76  New maximum log likelihood  -6734925.02299184  found for params  [0.7        0.50000001 0.7        0.5        1.        ]
+Opt Params:  [array([0.7       , 0.50000001]), array([0.7, 0.5])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [1.59532945e-121]  found at:  [1.09851926e-03 1.93475750e-06]
+New best Fval:  [2.7379739e-64]  found at:  [3.50407721e-04 8.47955237e-07]
+New best Fval:  [6.74572348e-52]  found at:  [1.16318213e-04 6.59593587e-06]
+EI Best is  [6.74572348e-52] at  [1.16318213e-04 6.59593587e-06]
+( [1.16318213e-04 6.59593587e-06] 0.9333333333333333 ) is the new value added..    Original:  (array([11.63183127,  0.65960359]), 0.9333333333333333)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      var_l   ######
+0  New maximum log likelihood  -10483733.624923885  found for params  [0.3        0.5        0.7        0.50000027 1.        ]
+8  New maximum log likelihood  -7169345.542159138  found for params  [0.7 0.5 0.7 1.  1. ]
+59  New maximum log likelihood  -6989960.356413283  found for params  [0.7 0.5 0.7 0.5 1. ]
+Opt Params:  [array([0.7, 0.5]), array([0.7, 0.5])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [6.15095754e-03 5.90220906e-06]
+New best Fval:  [6.48543858e-298]  found at:  [2.77276571e-04 8.49078056e-06]
+New best Fval:  [3.40153967e-254]  found at:  [1.90758173e-05 8.60923784e-06]
+EI Best is  [3.40153967e-254] at  [1.90758173e-05 8.60923784e-06]
+( [1.90758173e-05 8.60923784e-06] 0.9333333333333333 ) is the new value added..    Original:  (array([1.90759173, 0.86093378]), 0.9333333333333333)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      var_l   ######
+0  New maximum log likelihood  -7512116.71297547  found for params  [0.69999998 0.50000003 0.3        1.         1.        ]
+5  New maximum log likelihood  -7188048.575969942  found for params  [0.7        0.5        0.7        0.5        0.99999991]
+Opt Params:  [array([0.7, 0.5]), array([0.7, 0.5])]    variance: 0.9999999095017246
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [5.18474253e-03 2.74832194e-07]
+EI Best is  [0.] at  [5.18474253e-03 2.74832194e-07]
+( [5.18474253e-03 2.74832194e-07] 0.9666666666666667 ) is the new value added..    Original:  (array([5.18474263e+02, 2.74932194e-02]), 0.9666666666666667)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  4      var_l   ######
+0  New maximum log likelihood  -27261634.864663042  found for params  [0.44173701 0.61156868 0.46509818 0.90774817 0.25794937]
+1  New maximum log likelihood  -7597868.04367815  found for params  [0.69999985 0.50000019 0.3        1.         1.        ]
+5  New maximum log likelihood  -7247300.62849344  found for params  [0.7 0.5 0.7 0.5 1. ]
+Opt Params:  [array([0.7, 0.5]), array([0.7, 0.5])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [2.98408566e-03 3.90225367e-06]
+EI Best is  [0.] at  [2.98408566e-03 3.90225367e-06]
+( [2.98408566e-03 3.90225367e-06] 0.9333333333333333 ) is the new value added..    Original:  (array([298.40857549,   0.39023537]), 0.9333333333333333)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  5      var_l   ######
+0  New maximum log likelihood  -27746957.961015485  found for params  [0.41572387 0.77505234 0.5258966  0.79063968 0.25644674]
+1  New maximum log likelihood  -22796201.45096959  found for params  [0.5427634  0.81416131 0.39980856 0.71594874 0.51331545]
+3  New maximum log likelihood  -15241283.415203173  found for params  [0.51605634 0.61767167 0.315397   0.75015579 0.98970232]
+4  New maximum log likelihood  -14528951.04190587  found for params  [0.7        0.9999993  0.7        0.99999916 1.        ]
+17  New maximum log likelihood  -12271943.704332817  found for params  [0.69999895 0.5        0.30000105 0.5        1.        ]
+32  New maximum log likelihood  -11865508.586651115  found for params  [0.7 0.5 0.7 1.  1. ]
+56  New maximum log likelihood  -11603209.84298908  found for params  [0.69999978 0.5        0.7        0.5        1.        ]
+Opt Params:  [array([0.69999978, 0.5       ]), array([0.7, 0.5])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [7.32160014e-03 7.59501407e-06]
+EI Best is  [0.] at  [7.32160014e-03 7.59501407e-06]
+( [7.32160014e-03 7.59501407e-06] 0.9 ) is the new value added..    Original:  (array([732.16002405,   0.75951141]), 0.9)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  6      var_l   ######
+0  New maximum log likelihood  -15137808.478146417  found for params  [0.7        0.99999988 0.7        0.99999983 0.99999979]
+1  New maximum log likelihood  -13075015.29366163  found for params  [0.69999957 0.5        0.30000009 0.5        1.        ]
+22  New maximum log likelihood  -13075014.42713361  found for params  [0.6999999  0.5        0.30000003 0.5        1.        ]
+24  New maximum log likelihood  -12273595.521666057  found for params  [0.69999867 0.5        0.7        0.5        0.99999994]
+Opt Params:  [array([0.69999867, 0.5       ]), array([0.7, 0.5])]    variance: 0.9999999358183508
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [2.91857034e-03 2.48830867e-06]
+EI Best is  [0.] at  [2.91857034e-03 2.48830867e-06]
+( [2.91857034e-03 2.48830867e-06] 0.9333333333333333 ) is the new value added..    Original:  (array([2.91857044e+02, 2.48840867e-01]), 0.9333333333333333)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  7      var_l   ######
+0  New maximum log likelihood  -20894428.89628103  found for params  [0.56586724 0.78417375 0.5551466  0.6422936  0.67532845]
+3  New maximum log likelihood  -16807062.90022823  found for params  [0.7        0.99999854 0.7        0.99999777 1.        ]
+11  New maximum log likelihood  -14602328.675410647  found for params  [0.69999998 0.50000004 0.7        0.50000003 1.        ]
+Opt Params:  [array([0.69999998, 0.50000004]), array([0.7       , 0.50000003])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [9.80525083e-03 5.24564063e-06]
+EI Best is  [0.] at  [9.80525083e-03 5.24564063e-06]
+( [9.80525083e-03 5.24564063e-06] 0.8666666666666667 ) is the new value added..    Original:  (array([9.80525093e+02, 5.24574063e-01]), 0.8666666666666667)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  8      var_l   ######
+0  New maximum log likelihood  -16918245.617057614  found for params  [0.44643263 0.51871204 0.35321591 0.54374928 1.        ]
+1  New maximum log likelihood  -16344138.532857759  found for params  [0.56066654 0.60414245 0.622163   0.60138366 0.99803517]
+14  New maximum log likelihood  -15967820.407966455  found for params  [0.61660763 0.56534323 0.66944863 0.91775377 1.        ]
+17  New maximum log likelihood  -14788207.398303587  found for params  [0.7 0.5 0.7 0.5 1. ]
+23  New maximum log likelihood  -14788207.074835418  found for params  [0.69999999 0.50000011 0.7        0.5000001  1.        ]
+Opt Params:  [array([0.69999999, 0.50000011]), array([0.7      , 0.5000001])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [2.33503294e-03 3.75119943e-06]
+EI Best is  [0.] at  [2.33503294e-03 3.75119943e-06]
+( [2.33503294e-03 3.75119943e-06] 0.9333333333333333 ) is the new value added..    Original:  (array([233.50330421,   0.37512994]), 0.9333333333333333)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  9      var_l   ######
+0  New maximum log likelihood  -24781366.765484814  found for params  [0.51986382 0.57616622 0.64413302 0.60438066 0.44546223]
+3  New maximum log likelihood  -17586775.761401728  found for params  [0.7 1.  0.7 1.  1. ]
+5  New maximum log likelihood  -17586768.589500293  found for params  [0.7        0.99999974 0.7        0.9999993  1.        ]
+6  New maximum log likelihood  -16889305.261213064  found for params  [0.7        1.         0.7        0.5        0.99999983]
+9  New maximum log likelihood  -16331674.362526884  found for params  [0.69999949 0.50000064 0.3        0.5        1.        ]
+48  New maximum log likelihood  -16316571.890646392  found for params  [0.68114419 0.52774383 0.68131272 0.51279215 0.93292624]
+65  New maximum log likelihood  -16091004.347801026  found for params  [0.7        0.5        0.7        1.         0.99999857]
+78  New maximum log likelihood  -15722244.9727887  found for params  [0.7 0.5 0.7 0.5 1. ]
+80  New maximum log likelihood  -15722240.483800294  found for params  [0.6999992  0.50000059 0.69999938 0.50000042 1.        ]
+Opt Params:  [array([0.6999992 , 0.50000059]), array([0.69999938, 0.50000042])]    variance: 1.0
+ACQ Function : EI 
+New best Fval:  [0.]  found at:  [5.86039789e-03 8.85749787e-06]
+EI Best is  [0.] at  [5.86039789e-03 8.85749787e-06]
+( [5.86039789e-03 8.85749787e-06] 0.9 ) is the new value added..    Original:  (array([586.03979915,   0.88575979]), 0.9)
+L Recaluated with new data
+
+
+######  run: 1  iteration:  10      var_l   ######
+0  New maximum log likelihood  -19734878.80874328  found for params  [0.3       0.5       0.7       0.9999992 1.       ]
+1  New maximum log likelihood  -19648832.6932187  found for params  [0.7        1.         0.3        0.99999876 1.        ]
+2  New maximum log likelihood  -18682194.746076353  found for params  [0.3        0.50000003 0.7        0.50000002 1.        ]
+5  New maximum log likelihood  -18486952.791184552  found for params  [0.7 0.5 0.3 0.5 1. ]
+8  New maximum log likelihood  -17600724.218872044  found for params  [0.7 0.5 0.7 0.5 1. ]

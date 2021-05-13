@@ -1,0 +1,80 @@
+# List of true functions to choose from
+    # 1D functions : sin, cos, custom
+    # 2D functions : branin2d, sphere
+    # true_func = 'sin'
+    # true_func = 'cos'
+    # true_func = 'custom'
+    # true_func = 'sphere'
+    # true_func = 'branin2d'
+    true_func = 'hartmann6d'
+
+    # Required for plotting graphs in the casse of 1D
+    linspacexmin = 0
+    linspacexmax = 10
+    linspaceymin = -3
+    linspaceymax = 3
+
+    # Number of samples for which we have the y values to be known
+    number_of_observed_samples = 4
+
+    # Number of the dimensions being used in the optimization
+    # number_of_dimensions = 1
+    # number_of_dimensions = 2
+    number_of_dimensions = 6
+
+    # Different bounds used for different problems
+    # bounds used for 1D Sin and custom function
+    # bounds used for 1D, branin and sphere functions
+    oned_bounds = [[linspacexmin,linspacexmax]]
+    branin_bounds = [[-5,10],[0,15]]
+    sphere_bounds = [[0,10],[0,10]]
+    hartmann6d_bounds = [[0,1], [0,1], [0,1], [0,1], [0,1], [0,1] ]
+    # bounds = sphere_bounds
+    # bounds = oned_bounds
+    # bounds = branin_bounds
+    bounds = hartmann6d_bounds
+
+    # Type of kernel to be used in the optimization process
+    # 0 - Squared Exponential; 1 - Rational Quadratic Function; 2 - Exponential; 3 - Periodic***(To be fixed)
+    kernel_type = 0
+
+    # Characteristic length scale to be used in the kernel function
+    # charcteristic_length_scale = 0.1
+    charcteristic_length_scale = 1
+
+    #Signal Variance
+    signal_variance = 1
+
+    # Number of unseen data points in order to evaluate the function
+    number_of_test_datapoints = 100
+
+    # Noise to be added in the system***
+    noise = 0.0
+
+    # To fix the random number genration, currently not able, so as to retain the random selection of points
+    random_seed = 500
+
+    # Number of points required to be observed to evaluate the unknown function
+    number_of_iterations = 40
+
+    # Number of restarts required during the calculation of the maxima during the maximization of acq functions
+    number_of_restarts = 15
+
+    # Number of runs the BO has to be run for calculating the regret and the corresponding means and the standard devs
+    number_of_runs = 4
+
+    # Kappa value to be used during the maximization of UCB ACQ function, but this is overriden in the case if
+    # Kappa is calculated at each iteration as a function of the iteration and other parameters
+    # kappa=10 is more of exploration and kappa = 0.1 is more of exploitation
+    kappa = 0.1
+
+    # Epsilons is the value used during the maximization of PI and EI ACQ functions
+    # Greater value like Epsilon = 10 is more of exploration and Epsilon = 0.0001 (exploitation)
+    # Epsilon1 used in PI
+    epsilon1 = 3
+    # epsilon2 used in EI
+    epsilon2 = 4
+
+    # Initial value to denote the type of ACQ function to be used, but ignored as all ACQs are run in the sequence
+    acq_type = 'ei'
+    

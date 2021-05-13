@@ -1,0 +1,667 @@
+
+
+Parameters
+True Func syn2d 	Dim: 2 	obs_samp: 3 	iter: 3 	kernel_types: ['var_l', 'm_ker', 'ard', 'fix_l'] 	lenscale_fun_types: ['linear', 'linear'] 	seed: 200 
+Runs: 2 	Acq_re: 100 	likeli_re: 100 	Bounds: [[0, 4], [0, 4]] 	l_params: [[0.3 0.1]
+ [0.3 0.1]] 
+l_param_bds: [[[0.1, 1], [0.1, 0.5]], [[0.1, 1], [0.1, 0.5]]] 	ard_len_scale_bds: [[0.1, 1], [0.1, 1]] 
+xmax: [4] 	xmin: [0] 	ymax: 1 	ymin: -1 	eps1: 0.001 	eps2: 0.001 	fixed_l: [0.1, 0.1] 	Sig_var: 1 	Sig_var_bds: [0.1, 1] 
+Test_points: 100 	len_weights:  [1, 1, 1, 1] 	multi_len_scales [0.2, 0.01, 0.01, 0.01] 
+
+
+
+###################################################################
+
+Generating results Start time:  163049_03072019
+True function: syn2d  
+Maximum is  [[0.62198323]]
+Regret for initial points:  [matrix([[0.30907389]]), matrix([[0.30907389]]), matrix([[0.30870204]])]
+L Recaluated with new data
+Testing with Varying Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[0.50191773]
+ [0.49816142]
+ [0.50228957]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      var_l   ######
+0  New maximum log likelihood  [[-0.77947382]]  found for params  [1.         0.5        1.         0.5        0.32244281]
+4  New maximum log likelihood  [[-0.77898819]]  found for params  [1.         0.5        1.         0.5        0.32268166]
+21  New maximum log likelihood  [[-0.74961327]]  found for params  [1.        0.5       1.        0.5       0.3648115]
+85  New maximum log likelihood  [[-0.74792597]]  found for params  [1.         0.5        1.         0.5        0.35746948]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.3574694756357002
+ACQ Function : EI 
+New best Fval:  [[0.04269556]]  found at:  [0.84731903 0.07630763]
+New best Fval:  [[0.09115474]]  found at:  [0.41602729 0.41703338]
+New best Fval:  [[0.09412889]]  found at:  [0.47131559 0.38256208]
+New best Fval:  [[0.09424345]]  found at:  [0.47970478 0.37098005]
+New best Fval:  [[0.09425685]]  found at:  [0.48764781 0.37126476]
+New best Fval:  [[0.09425998]]  found at:  [0.48390903 0.37369123]
+EI Best is  [[0.09425998]] at  [0.48390903 0.37369123]
+( [0.48390903 0.37369123] [[0.49979054]] ) is the new value added..    Original:  (array([1.9356361 , 1.49476491]), matrix([[-0.00041893]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      var_l   ######
+0  New maximum log likelihood  [[0.4899071]]  found for params  [0.83014194 0.43359944 0.97883008 0.33545742 0.38247705]
+3  New maximum log likelihood  [[0.668974]]  found for params  [0.99960426 0.43404517 0.78730286 0.46068599 0.2702377 ]
+4  New maximum log likelihood  [[1.12950961]]  found for params  [0.96856668 0.5        1.         0.5        0.34778288]
+15  New maximum log likelihood  [[1.16197324]]  found for params  [1.         0.5        1.         0.5        0.33091153]
+25  New maximum log likelihood  [[1.16246984]]  found for params  [1.         0.5        1.         0.5        0.32986359]
+37  New maximum log likelihood  [[1.163781]]  found for params  [1.         0.5        1.         0.5        0.32464548]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.32464547585826964
+ACQ Function : EI 
+New best Fval:  [[0.04850577]]  found at:  [0.57742638 0.93146115]
+EI Best is  [[0.04850577]] at  [0.57742638 0.93146115]
+( [0.57742638 0.93146115] [[0.49889988]] ) is the new value added..    Original:  (array([2.30970551, 3.72584459]), matrix([[-0.00220023]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      var_l   ######
+0  New maximum log likelihood  [[2.27378729]]  found for params  [0.81244718 0.44002112 0.81442685 0.43712177 0.23698079]
+1  New maximum log likelihood  [[3.23516599]]  found for params  [1.         0.5        1.         0.5        0.28089052]
+4  New maximum log likelihood  [[3.23996041]]  found for params  [1.         0.5        1.         0.5        0.29098952]
+7  New maximum log likelihood  [[3.23997791]]  found for params  [1.         0.5        1.         0.5        0.29086664]
+63  New maximum log likelihood  [[3.2400041]]  found for params  [1.         0.5        1.         0.5        0.29065333]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.2906533338807572
+ACQ Function : EI 
+New best Fval:  [[0.00986338]]  found at:  [0.88430692 0.95012226]
+New best Fval:  [[0.01131283]]  found at:  [0.2499159  0.01598734]
+New best Fval:  [[0.01182355]]  found at:  [0.22003266 0.91736752]
+New best Fval:  [[0.02650788]]  found at:  [0.68194374 0.52252789]
+New best Fval:  [[0.03621589]]  found at:  [0.7470848  0.16451883]
+New best Fval:  [[0.03831675]]  found at:  [0.85794231 0.0612182 ]
+New best Fval:  [[0.03865321]]  found at:  [0.80539647 0.08479241]
+New best Fval:  [[0.03869312]]  found at:  [0.84211889 0.0456834 ]
+EI Best is  [[0.03869312]] at  [0.84211889 0.0456834 ]
+( [0.84211889 0.0456834 ] [[0.50962222]] ) is the new value added..    Original:  (array([3.36847555, 0.18273359]), matrix([[0.01924444]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.59442014 0.48390903 0.57742638 0.84211889]
+ [0.42830868 0.76414069 0.00286059 0.37369123 0.93146115 0.0456834 ]] 
+$y:
+ [[0.50191773 0.49816142 0.50228957 0.49979054 0.49889988 0.50962222]]
+True Max:  [[0.81099162]]
+EI var_l , Observed Maximum value:  0.5096222188437476
+Regret:  [0.30870204 0.30870204 0.3013694 ]
+
+
+
+
+L Recaluated with new data
+Testing with multi Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[0.50191773]
+ [0.49816142]
+ [0.50228957]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      m_ker   ######
+New maximum log likelihood  [[-2.19160678]]  found for params  [0.42172324 0.44972972 0.45659973 0.20913346 0.43404897]
+New maximum log likelihood  [[-2.17576824]]  found for params  [0.66597099 0.29645158 0.76664452 0.62145261 0.32643257]
+Opt weights:  [0.66597099 0.29645158 0.76664452 0.62145261]    variance: 0.32643257308752166
+ACQ Function : EI 
+New best Fval:  [[0.04837711]]  found at:  [0.65332118 0.60701099]
+New best Fval:  [[0.04967001]]  found at:  [0.46183195 0.28205342]
+New best Fval:  [[0.05438913]]  found at:  [0.11314414 0.93080756]
+New best Fval:  [[0.06293793]]  found at:  [0.64032288 0.06785218]
+New best Fval:  [[0.06401518]]  found at:  [0.20456958 0.7505473 ]
+New best Fval:  [[0.07997092]]  found at:  [0.59313583 0.01392662]
+EI Best is  [[0.07997092]] at  [0.59313583 0.01392662]
+( [0.59313583 0.01392662] [[0.51085581]] ) is the new value added..    Original:  (array([2.37254332, 0.05570649]), matrix([[0.02171163]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      m_ker   ######
+New maximum log likelihood  [[-1.23037995]]  found for params  [0.28417255 0.3315025  0.12604449 0.14724249 0.45344934]
+Opt weights:  [0.28417255 0.3315025  0.12604449 0.14724249]    variance: 0.4534493399369855
+ACQ Function : EI 
+New best Fval:  [[0.03404462]]  found at:  [0.36908273 0.5745478 ]
+New best Fval:  [[0.04180432]]  found at:  [0.21148878 0.69300549]
+New best Fval:  [[0.04206524]]  found at:  [0.28325382 0.73317194]
+New best Fval:  [[0.05724063]]  found at:  [0.23682646 0.76692845]
+New best Fval:  [[0.05851171]]  found at:  [0.95184283 0.41869128]
+EI Best is  [[0.05851171]] at  [0.95184283 0.41869128]
+( [0.95184283 0.41869128] [[0.50173306]] ) is the new value added..    Original:  (array([3.80737132, 1.67476513]), matrix([[0.00346611]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      m_ker   ######
+New maximum log likelihood  [[-0.20815444]]  found for params  [0.30060385 0.23298795 0.41772445 0.13272153 0.38453668]
+New maximum log likelihood  [[-0.11533221]]  found for params  [0.38923662 0.10339683 0.33253157 0.28878869 0.3578195 ]
+New maximum log likelihood  [[-0.01341587]]  found for params  [0.48475728 0.17401597 0.31411465 0.27933531 0.36643274]
+Opt weights:  [0.48475728 0.17401597 0.31411465 0.27933531]    variance: 0.36643274144997723
+ACQ Function : EI 
+New best Fval:  [[0.04432281]]  found at:  [0.77850355 0.17783293]
+New best Fval:  [[0.04462772]]  found at:  [0.75977606 0.19700715]
+New best Fval:  [[0.04797296]]  found at:  [0.56538852 0.04992761]
+New best Fval:  [[0.06262031]]  found at:  [0.95757885 0.42784245]
+EI Best is  [[0.06262031]] at  [0.95757885 0.42784245]
+( [0.95757885 0.42784245] [[0.50166536]] ) is the new value added..    Original:  (array([3.83031542, 1.7113698 ]), matrix([[0.00333072]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.59442014 0.59313583 0.95184283 0.95757885]
+ [0.42830868 0.76414069 0.00286059 0.01392662 0.41869128 0.42784245]] 
+$y:
+ [[0.50191773 0.49816142 0.50228957 0.51085581 0.50173306 0.50166536]]
+True Max:  [[0.81099162]]
+EI m_ker , Observed Maximum value:  0.5108558138351289
+Regret:  [0.3001358 0.3001358 0.3001358]
+
+
+
+
+L Recaluated with new data
+Testing with ARD Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[0.50191773]
+ [0.49816142]
+ [0.50228957]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      ard   ######
+New maximum log likelihood  [[-0.2093811]]  found for l=  [0.80714851 0.82511447]  var: 0.29001174542143004
+New maximum log likelihood  [[0.03132325]]  found for l=  [0.92802998 0.94424516]  var: 0.26926497292807966
+New maximum log likelihood  [[0.11787875]]  found for l=  [0.8882864  0.99117114]  var: 0.3462852474820142
+Opt Length scale:  [0.8882864  0.99117114] 
+Opt variance:  0.3462852474820142
+ACQ Function : EI 
+New best Fval:  [[0.01183753]]  found at:  [0.82141829 0.07049652]
+New best Fval:  [[0.02693314]]  found at:  [0.01783019 0.24670093]
+New best Fval:  [[0.02976227]]  found at:  [0.19479415 0.4010313 ]
+New best Fval:  [[0.04881235]]  found at:  [0.53374679 0.45666457]
+EI Best is  [[0.04881235]] at  [0.53374679 0.45666457]
+( [0.53374679 0.45666457] [[0.49367458]] ) is the new value added..    Original:  (array([2.13498716, 1.82665826]), matrix([[-0.01265084]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      ard   ######
+New maximum log likelihood  [[2.6231951]]  found for l=  [1. 1.]  var: 0.38475414921466
+New maximum log likelihood  [[2.62839218]]  found for l=  [1. 1.]  var: 0.33723761348716347
+New maximum log likelihood  [[2.62992949]]  found for l=  [1. 1.]  var: 0.37950502754414506
+Opt Length scale:  [1. 1.] 
+Opt variance:  0.37950502754414506
+ACQ Function : EI 
+New best Fval:  [[0.03551918]]  found at:  [1.        0.0672415]
+New best Fval:  [[0.03632346]]  found at:  [0.94939957 0.        ]
+New best Fval:  [[0.03867896]]  found at:  [0.98666085 0.        ]
+New best Fval:  [[0.0394565]]  found at:  [1. 0.]
+EI Best is  [[0.0394565]] at  [1. 0.]
+( [1. 0.] [[0.5]] ) is the new value added..    Original:  (array([4., 0.]), matrix([[-0.]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      ard   ######
+New maximum log likelihood  [[5.43196854]]  found for l=  [1. 1.]  var: 0.33800892114602266
+Opt Length scale:  [1. 1.] 
+Opt variance:  0.33800892114602266
+ACQ Function : EI 
+New best Fval:  [[0.02845843]]  found at:  [0.84008155 1.        ]
+New best Fval:  [[0.02924161]]  found at:  [0.71231635 1.        ]
+EI Best is  [[0.02924161]] at  [0.71231635 1.        ]
+( [0.71231635 1.        ] [[0.5]] ) is the new value added..    Original:  (array([2.84926541, 4.        ]), matrix([[8.43159273e-19]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.59442014 0.53374679 1.         0.71231635]
+ [0.42830868 0.76414069 0.00286059 0.45666457 0.         1.        ]] 
+$y:
+ [[0.50191773 0.49816142 0.50228957 0.49367458 0.5        0.5       ]]
+True Max:  [[0.81099162]]
+EI ard , Observed Maximum value:  0.5022895724598428
+Regret:  [0.30870204 0.30870204 0.30870204]
+
+
+
+
+L Recaluated with new data
+Testing with fixed Kernel in Run:  1
+************  Run: 1     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.94763226 0.42830868]
+ [0.22654742 0.76414069]
+ [0.59442014 0.00286059]]
+---y---
+ [[0.50191773]
+ [0.49816142]
+ [0.50228957]] 
+
+
+Starting Optimization
+######  run: 1  iteration:  1      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.22914484]]  found at:  [0.0746791  0.80209877]
+New best Fval:  [[0.23467724]]  found at:  [0.72047926 0.01827349]
+New best Fval:  [[0.2346797]]  found at:  [0.71751485 0.0344379 ]
+EI Best is  [[0.2346797]] at  [0.71751485 0.0344379 ]
+( [0.71751485 0.0344379 ] [[0.48629491]] ) is the new value added..    Original:  (array([2.8700594 , 0.13775158]), matrix([[-0.02741017]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  2      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.2143831]]  found at:  [0.44069976 0.0433099 ]
+New best Fval:  [[0.23398109]]  found at:  [0.23349012 0.63630114]
+New best Fval:  [[0.23461103]]  found at:  [0.84081895 0.49710747]
+New best Fval:  [[0.23488928]]  found at:  [0.94197769 0.29999568]
+New best Fval:  [[0.24134669]]  found at:  [0.58567836 0.12064128]
+New best Fval:  [[0.24847818]]  found at:  [0.61424318 0.11903345]
+EI Best is  [[0.24847818]] at  [0.61424318 0.11903345]
+( [0.61424318 0.11903345] [[0.50106192]] ) is the new value added..    Original:  (array([2.45697273, 0.4761338 ]), matrix([[0.00212384]]))
+L Recaluated with new data
+
+
+######  run: 1  iteration:  3      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.23398205]]  found at:  [0.10289121 0.79533768]
+New best Fval:  [[0.2354195]]  found at:  [0.88648225 0.31530156]
+EI Best is  [[0.2354195]] at  [0.88648225 0.31530156]
+( [0.88648225 0.31530156] [[0.49884015]] ) is the new value added..    Original:  (array([3.54592899, 1.26120626]), matrix([[-0.0023197]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.94763226 0.22654742 0.59442014 0.71751485 0.61424318 0.88648225]
+ [0.42830868 0.76414069 0.00286059 0.0344379  0.11903345 0.31530156]] 
+$y:
+ [[0.50191773 0.49816142 0.50228957 0.48629491 0.50106192 0.49884015]]
+True Max:  [[0.81099162]]
+EI fix_l , Observed Maximum value:  0.5022895724598428
+Regret:  [0.30870204 0.30870204 0.30870204]
+
+
+
+
+True function: syn2d  
+Maximum is  [[0.62198323]]
+Regret for initial points:  [matrix([[0.31209591]]), matrix([[0.31209591]]), matrix([[0.31000267]])]
+L Recaluated with new data
+Testing with Varying Kernel in Run:  2
+************  Run: 2     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.74611062 0.09641862]
+ [0.1708638  0.00285107]
+ [0.58265778 0.77123347]]
+---y---
+ [[0.4988957 ]
+ [0.48367137]
+ [0.50098895]] 
+
+
+Starting Optimization
+######  run: 2  iteration:  1      var_l   ######
+0  New maximum log likelihood  [[-1.4897913]]  found for params  [0.61067647 0.46572941 0.7131952  0.38513276 0.31971335]
+1  New maximum log likelihood  [[-1.27157579]]  found for params  [0.57919866 0.43649635 0.46229123 0.5        0.42400908]
+4  New maximum log likelihood  [[-1.00060377]]  found for params  [1.         0.5        1.         0.5        0.44382482]
+13  New maximum log likelihood  [[-0.99560505]]  found for params  [1.         0.5        1.         0.5        0.44162874]
+15  New maximum log likelihood  [[-0.97427567]]  found for params  [1.         0.5        1.         0.5        0.43184736]
+31  New maximum log likelihood  [[-0.90692282]]  found for params  [1.         0.5        1.         0.5        0.39149554]
+33  New maximum log likelihood  [[-0.90666889]]  found for params  [1.         0.5        1.         0.5        0.39127507]
+35  New maximum log likelihood  [[-0.89341448]]  found for params  [1.         0.5        1.         0.5        0.34591183]
+49  New maximum log likelihood  [[-0.88850669]]  found for params  [1.         0.5        1.         0.5        0.36576809]
+84  New maximum log likelihood  [[-0.88813481]]  found for params  [1.         0.5        1.         0.5        0.35794589]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.3579458868178667
+ACQ Function : EI 
+New best Fval:  [[0.0721031]]  found at:  [0.35641337 0.54328609]
+New best Fval:  [[0.10056317]]  found at:  [0.43920783 0.28669573]
+New best Fval:  [[0.10086592]]  found at:  [0.41306301 0.2896582 ]
+New best Fval:  [[0.10086683]]  found at:  [0.41192475 0.29132739]
+New best Fval:  [[0.10087739]]  found at:  [0.41621538 0.29468692]
+EI Best is  [[0.10087739]] at  [0.41621538 0.29468692]
+( [0.41621538 0.29468692] [[0.47742662]] ) is the new value added..    Original:  (array([1.66486151, 1.17874768]), matrix([[-0.04514676]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  2      var_l   ######
+0  New maximum log likelihood  [[0.07471814]]  found for params  [0.65069591 0.44886356 0.42810873 0.46028587 0.30090386]
+1  New maximum log likelihood  [[0.46926685]]  found for params  [0.87655119 0.5        0.9801474  0.5        0.26773924]
+2  New maximum log likelihood  [[0.57321419]]  found for params  [0.87538028 0.37876472 0.9232287  0.5        0.37172088]
+3  New maximum log likelihood  [[0.78839874]]  found for params  [1.         0.5        1.         0.5        0.38640115]
+5  New maximum log likelihood  [[0.83924288]]  found for params  [1.         0.5        1.         0.5        0.34555258]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.34555258116666654
+ACQ Function : EI 
+New best Fval:  [[0.060141]]  found at:  [1.         0.52172427]
+New best Fval:  [[0.06016347]]  found at:  [1.         0.53044668]
+New best Fval:  [[0.06016511]]  found at:  [1.         0.53255053]
+New best Fval:  [[0.06016539]]  found at:  [1.         0.53415793]
+New best Fval:  [[0.0601654]]  found at:  [1.         0.53372326]
+EI Best is  [[0.0601654]] at  [1.         0.53372326]
+( [1.         0.53372326] [[0.5]] ) is the new value added..    Original:  (array([4.        , 2.13489304]), matrix([[-1.59081154e-18]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  3      var_l   ######
+0  New maximum log likelihood  [[2.70911164]]  found for params  [1.         0.5        1.         0.5        0.35255648]
+2  New maximum log likelihood  [[2.76478773]]  found for params  [1.         0.5        1.         0.5        0.33296463]
+25  New maximum log likelihood  [[2.79494483]]  found for params  [1.         0.5        1.         0.5        0.30931637]
+31  New maximum log likelihood  [[2.79494511]]  found for params  [1.       0.5      1.       0.5      0.309315]
+86  New maximum log likelihood  [[2.79496272]]  found for params  [1.         0.5        1.         0.5        0.30922628]
+Opt Params:  [array([1. , 0.5]), array([1. , 0.5])]    variance: 0.3092262847832803
+ACQ Function : EI 
+New best Fval:  [[0.00671811]]  found at:  [0.8201052 0.       ]
+New best Fval:  [[0.02658515]]  found at:  [0.73467606 0.55021748]
+New best Fval:  [[0.02774245]]  found at:  [0.74368258 0.4754435 ]
+New best Fval:  [[0.04200452]]  found at:  [0.44203315 0.        ]
+New best Fval:  [[0.04201117]]  found at:  [0.4389116 0.       ]
+EI Best is  [[0.04201117]] at  [0.4389116 0.       ]
+( [0.4389116 0.       ] [[0.5]] ) is the new value added..    Original:  (array([1.75564642, 0.        ]), matrix([[-0.]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.74611062 0.1708638  0.58265778 0.41621538 1.         0.4389116 ]
+ [0.09641862 0.00285107 0.77123347 0.29468692 0.53372326 0.        ]] 
+$y:
+ [[0.4988957  0.48367137 0.50098895 0.47742662 0.5        0.5       ]]
+True Max:  [[0.81099162]]
+EI var_l , Observed Maximum value:  0.5009889466405928
+Regret:  [0.31000267 0.31000267 0.31000267]
+
+
+
+
+L Recaluated with new data
+Testing with multi Kernel in Run:  2
+************  Run: 2     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.74611062 0.09641862]
+ [0.1708638  0.00285107]
+ [0.58265778 0.77123347]]
+---y---
+ [[0.4988957 ]
+ [0.48367137]
+ [0.50098895]] 
+
+
+Starting Optimization
+######  run: 2  iteration:  1      m_ker   ######
+New maximum log likelihood  [[-2.13905531]]  found for params  [0.85949473 0.49375307 0.340266   0.58878893 0.33159233]
+New maximum log likelihood  [[-2.1388064]]  found for params  [0.83167705 0.44237678 0.22896499 0.85870021 0.32146581]
+Opt weights:  [0.83167705 0.44237678 0.22896499 0.85870021]    variance: 0.3214658133914722
+ACQ Function : EI 
+New best Fval:  [[0.04473209]]  found at:  [0.20705306 0.39678179]
+New best Fval:  [[0.065174]]  found at:  [0.59238785 0.81095511]
+New best Fval:  [[0.06567661]]  found at:  [0.72312813 0.13001071]
+New best Fval:  [[0.06841579]]  found at:  [0.5816213  0.79399459]
+EI Best is  [[0.06841579]] at  [0.5816213  0.79399459]
+( [0.5816213  0.79399459] [[0.50161549]] ) is the new value added..    Original:  (array([2.3264852 , 3.17597838]), matrix([[0.00323097]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  2      m_ker   ######
+New maximum log likelihood  [[-1.80455971]]  found for params  [0.47836946 0.32915345 0.27800862 0.29479722 0.51292015]
+New maximum log likelihood  [[-1.46158411]]  found for params  [0.58954604 0.11029457 0.18398414 0.44389379 0.37248402]
+Opt weights:  [0.58954604 0.11029457 0.18398414 0.44389379]    variance: 0.37248402210206744
+ACQ Function : EI 
+New best Fval:  [[0.03241535]]  found at:  [0.23596717 0.91153262]
+New best Fval:  [[0.04675105]]  found at:  [0.46582257 0.03445436]
+New best Fval:  [[0.05119017]]  found at:  [0.74956794 0.17086064]
+New best Fval:  [[0.08554643]]  found at:  [0.58688945 0.78205549]
+New best Fval:  [[0.08621305]]  found at:  [0.58545237 0.7827578 ]
+New best Fval:  [[0.08640641]]  found at:  [0.58200086 0.78262292]
+EI Best is  [[0.08640641]] at  [0.58200086 0.78262292]
+( [0.58200086 0.78262292] [[0.50137388]] ) is the new value added..    Original:  (array([2.32800346, 3.13049168]), matrix([[0.00274775]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  3      m_ker   ######
+New maximum log likelihood  [[-0.50424218]]  found for params  [0.20850815 0.21981159 0.56876477 0.39051977 0.3700283 ]
+New maximum log likelihood  [[0.04034082]]  found for params  [0.83350326 0.20694425 0.42734185 0.4016222  0.28160293]
+Opt weights:  [0.83350326 0.20694425 0.42734185 0.4016222 ]    variance: 0.281602929792408
+ACQ Function : EI 
+New best Fval:  [[0.01824913]]  found at:  [0.09114585 0.97119321]
+New best Fval:  [[0.0375196]]  found at:  [0.66100875 0.57125211]
+New best Fval:  [[0.03997237]]  found at:  [0.6869507  0.61421825]
+New best Fval:  [[0.05452185]]  found at:  [0.55323419 0.79148243]
+New best Fval:  [[0.05857302]]  found at:  [0.56803493 0.80203657]
+New best Fval:  [[0.05953821]]  found at:  [0.59513658 0.76774582]
+New best Fval:  [[0.06213542]]  found at:  [0.59507452 0.78679798]
+New best Fval:  [[0.0622634]]  found at:  [0.5701709  0.77482467]
+New best Fval:  [[0.06231351]]  found at:  [0.56944445 0.78978749]
+EI Best is  [[0.06231351]] at  [0.56944445 0.78978749]
+( [0.56944445 0.78978749] [[0.50180353]] ) is the new value added..    Original:  (array([2.2777778 , 3.15914997]), matrix([[0.00360707]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.74611062 0.1708638  0.58265778 0.5816213  0.58200086 0.56944445]
+ [0.09641862 0.00285107 0.77123347 0.79399459 0.78262292 0.78978749]] 
+$y:
+ [[0.4988957  0.48367137 0.50098895 0.50161549 0.50137388 0.50180353]]
+True Max:  [[0.81099162]]
+EI m_ker , Observed Maximum value:  0.501803533265004
+Regret:  [0.30937613 0.30937613 0.30918808]
+
+
+
+
+L Recaluated with new data
+Testing with ARD Kernel in Run:  2
+************  Run: 2     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.74611062 0.09641862]
+ [0.1708638  0.00285107]
+ [0.58265778 0.77123347]]
+---y---
+ [[0.4988957 ]
+ [0.48367137]
+ [0.50098895]] 
+
+
+Starting Optimization
+######  run: 2  iteration:  1      ard   ######
+New maximum log likelihood  [[0.3465774]]  found for l=  [1. 1.]  var: 0.31366586169999444
+Opt Length scale:  [1. 1.] 
+Opt variance:  0.31366586169999444
+ACQ Function : EI 
+New best Fval:  [[0.01590179]]  found at:  [0.06781489 0.26063328]
+New best Fval:  [[0.01820175]]  found at:  [0.81652502 0.48157582]
+New best Fval:  [[0.0372006]]  found at:  [0.46545859 0.3775841 ]
+New best Fval:  [[0.03734717]]  found at:  [0.43898077 0.38911482]
+EI Best is  [[0.03734717]] at  [0.43898077 0.38911482]
+( [0.43898077 0.38911482] [[0.50632248]] ) is the new value added..    Original:  (array([1.75592307, 1.55645927]), matrix([[0.01264496]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  2      ard   ######
+New maximum log likelihood  [[3.31314184]]  found for l=  [1. 1.]  var: 0.324156876117996
+New maximum log likelihood  [[3.33863735]]  found for l=  [1. 1.]  var: 0.3027676091499903
+Opt Length scale:  [1. 1.] 
+Opt variance:  0.3027676091499903
+ACQ Function : EI 
+New best Fval:  [[0.01180854]]  found at:  [0.7953673  0.79033103]
+New best Fval:  [[0.01743118]]  found at:  [0.87911348 0.71095569]
+New best Fval:  [[0.01770841]]  found at:  [0.87311877 0.67009305]
+New best Fval:  [[0.01854199]]  found at:  [1.         0.87238459]
+New best Fval:  [[0.02056942]]  found at:  [1.         0.64855177]
+EI Best is  [[0.02056942]] at  [1.         0.64855177]
+( [1.         0.64855177] [[0.5]] ) is the new value added..    Original:  (array([4.        , 2.59420707]), matrix([[7.47950563e-19]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  3      ard   ######
+New maximum log likelihood  [[5.81013376]]  found for l=  [0.92947025 0.99002603]  var: 0.2821818486727262
+New maximum log likelihood  [[6.04489359]]  found for l=  [1. 1.]  var: 0.25914241835283425
+Opt Length scale:  [1. 1.] 
+Opt variance:  0.25914241835283425
+ACQ Function : EI 
+New best Fval:  [[0.00277025]]  found at:  [0.79171538 0.92142369]
+New best Fval:  [[0.00293021]]  found at:  [0.09776615 0.8635797 ]
+New best Fval:  [[0.00699357]]  found at:  [0.57633891 0.33833273]
+New best Fval:  [[0.00882078]]  found at:  [0.66972229 0.41174484]
+New best Fval:  [[0.00885522]]  found at:  [0.65346047 0.4419158 ]
+EI Best is  [[0.00885522]] at  [0.65346047 0.4419158 ]
+( [0.65346047 0.4419158 ] [[0.50407588]] ) is the new value added..    Original:  (array([2.61384188, 1.7676632 ]), matrix([[0.00815177]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.74611062 0.1708638  0.58265778 0.43898077 1.         0.65346047]
+ [0.09641862 0.00285107 0.77123347 0.38911482 0.64855177 0.4419158 ]] 
+$y:
+ [[0.4988957  0.48367137 0.50098895 0.50632248 0.5        0.50407588]]
+True Max:  [[0.81099162]]
+EI ard , Observed Maximum value:  0.5063224817716558
+Regret:  [0.30466913 0.30466913 0.30466913]
+
+
+
+
+L Recaluated with new data
+Testing with fixed Kernel in Run:  2
+************  Run: 2     ACQ:EI    ***************
+
+
+Initial Values for this run
+---X---
+ [[0.74611062 0.09641862]
+ [0.1708638  0.00285107]
+ [0.58265778 0.77123347]]
+---y---
+ [[0.4988957 ]
+ [0.48367137]
+ [0.50098895]] 
+
+
+Starting Optimization
+######  run: 2  iteration:  1      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.19731285]]  found at:  [0.46779976 0.35539889]
+New best Fval:  [[0.20193075]]  found at:  [0.84545374 0.77259964]
+New best Fval:  [[0.22863369]]  found at:  [0.89827936 0.04673608]
+New best Fval:  [[0.23413332]]  found at:  [0.66256765 0.88363416]
+New best Fval:  [[0.23459463]]  found at:  [0.75749267 0.22347322]
+New best Fval:  [[0.23494516]]  found at:  [0.70771111 0.74651294]
+New best Fval:  [[0.23494602]]  found at:  [0.6456169  0.66093784]
+New best Fval:  [[0.23494612]]  found at:  [0.45744739 0.79326369]
+EI Best is  [[0.23494612]] at  [0.45744739 0.79326369]
+( [0.45744739 0.79326369] [[0.49739163]] ) is the new value added..    Original:  (array([1.82978955, 3.17305477]), matrix([[-0.00521674]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  2      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.24300982]]  found at:  [0.55908085 0.86769055]
+New best Fval:  [[0.25143068]]  found at:  [0.50212813 0.67378252]
+EI Best is  [[0.25143068]] at  [0.50212813 0.67378252]
+( [0.50212813 0.67378252] [[0.49977202]] ) is the new value added..    Original:  (array([2.00851252, 2.69513009]), matrix([[-0.00045596]]))
+L Recaluated with new data
+
+
+######  run: 2  iteration:  3      fix_l   ######
+ACQ Function : EI 
+New best Fval:  [[0.23210284]]  found at:  [0.04080675 0.        ]
+New best Fval:  [[0.23459569]]  found at:  [0.66282152 0.        ]
+New best Fval:  [[0.2345974]]  found at:  [0.64197055 0.02289477]
+New best Fval:  [[0.23459767]]  found at:  [0.62052512 0.07127633]
+EI Best is  [[0.23459767]] at  [0.62052512 0.07127633]
+( [0.62052512 0.07127633] [[0.50344066]] ) is the new value added..    Original:  (array([2.48210048, 0.28510534]), matrix([[0.00688132]]))
+L Recaluated with new data
+
+
+Final values:
+$X: 
+ [[0.74611062 0.1708638  0.58265778 0.45744739 0.50212813 0.62052512]
+ [0.09641862 0.00285107 0.77123347 0.79326369 0.67378252 0.07127633]] 
+$y:
+ [[0.4988957  0.48367137 0.50098895 0.49739163 0.49977202 0.50344066]]
+True Max:  [[0.81099162]]
+EI fix_l , Observed Maximum value:  0.5034406582619596
+Regret:  [0.31000267 0.31000267 0.30755096]
+
+
+
+
+
+
+Total EI VAR Regret
+ [[0.30907389 0.30907389 0.30870204 0.30870204 0.30870204 0.3013694 ]
+ [0.31209591 0.31209591 0.31000267 0.31000267 0.31000267 0.31000267]] 
+
+VAR Regret Mean [0.3105849  0.3105849  0.30935236 0.30935236 0.30935236 0.30568603] 
+
+VAR Regret Deviation
+ [0.00151101 0.00151101 0.00065031 0.00065031 0.00065031 0.00431664]
+
+
+Total EI FIX Regret
+ [[0.30907389 0.30907389 0.30870204 0.3001358  0.3001358  0.3001358 ]
+ [0.31209591 0.31209591 0.31000267 0.30937613 0.30937613 0.30918808]] 
+
+FIX Regret Mean [0.3105849  0.3105849  0.30935236 0.30475597 0.30475597 0.30466194] 
+
+FIX Regret Deviation
+ [0.00151101 0.00151101 0.00065031 0.00462016 0.00462016 0.00452614]
+
+
+Total EI ARD Regret
+ [[0.30907389 0.30907389 0.30870204 0.30870204 0.30870204 0.30870204]
+ [0.31209591 0.31209591 0.31000267 0.30466913 0.30466913 0.30466913]] 
+
+ARD Regret Mean [0.3105849  0.3105849  0.30935236 0.30668559 0.30668559 0.30668559] 
+
+ARD Regret Deviation
+ [0.00151101 0.00151101 0.00065031 0.00201645 0.00201645 0.00201645]
+
+
+Total EI FIX Regret
+ [[0.30907389 0.30907389 0.30870204 0.30870204 0.30870204 0.30870204]
+ [0.31209591 0.31209591 0.31000267 0.31000267 0.31000267 0.30755096]] 
+
+FIX Regret Mean [0.3105849  0.3105849  0.30935236 0.30935236 0.30935236 0.3081265 ] 
+
+FIX Regret Deviation
+ [0.00151101 0.00151101 0.00065031 0.00065031 0.00065031 0.00057554]
+
+End time:  163133_03072019
