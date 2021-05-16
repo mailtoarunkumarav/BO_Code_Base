@@ -6,6 +6,49 @@ import sys, getopt
 import datetime
 
 
+# Gaussian Mixtures
+x = np.linspace(0, 15, 1000)
+
+y = np.array([])
+for each_x in x:
+    if each_x <= 5:
+        sig = 0.4
+        mean = 2.5
+
+    elif each_x > 5 and each_x <= 10:
+        sig = 0.7
+        mean= 7.5
+
+    elif each_x > 10 and each_x <= 15:
+        sig = 0.6
+        mean= 12.5
+
+    val = 1/(sig*np.sqrt(2*np.pi))*np.exp(-0.5*((each_x - mean)/sig)*(each_x - mean)/sig)
+    y = np.append(y, val)
+y = y.reshape(-1, 1)
+
+x_obs = np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5])
+y_obs=np.array([])
+for each_xo in x_obs:
+    if each_xo <= 5:
+        sig = 0.4
+        mean = 2.5
+
+    elif each_xo > 5 and each_xo <= 10:
+        sig = 0.7
+        mean= 7.5
+
+    elif each_xo > 10 and each_xo <= 15:
+        sig = 0.6
+        mean= 12.5
+
+    val = 1/(sig*np.sqrt(2*np.pi))*np.exp(-0.5*((each_xo - mean)/sig)*(each_xo - mean)/sig)
+    y_obs = np.append(y_obs, val)
+plt.plot(x, y)
+plt.plot(x_obs,y_obs,"r+")
+plt.show()
+exit(0)
+
 argv = sys.argv[1:]
 dataset = ""
 subspaces =""
@@ -76,29 +119,6 @@ exit(0)
 
 
 
-
-# Gaussian Mixtures
-x = np.linspace(0, 15, 1000)
-y = np.array([])
-for each_x in x:
-    if each_x <= 5:
-        sig = 0.4
-        mean = 2.5
-
-    elif each_x > 5 and each_x <= 10:
-        sig = 0.7
-        mean= 7.5
-
-    elif each_x > 10 and each_x <= 15:
-        sig = 0.6
-        mean= 12.5
-
-    val = 1/(sig*np.sqrt(2*np.pi))*np.exp(-0.5*((each_x - mean)/sig)*(each_x - mean)/sig)
-    y = np.append(y, val)
-y = y.reshape(-1, 1)
-plt.plot(x, y)
-plt.show()
-exit(0)
 
 
 # Sinc mixtures

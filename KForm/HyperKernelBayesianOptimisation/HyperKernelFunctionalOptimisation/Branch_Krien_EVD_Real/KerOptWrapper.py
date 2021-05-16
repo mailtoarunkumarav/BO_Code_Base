@@ -166,11 +166,11 @@ class KernelOptimizationWrapper:
         # dataset = 'challenger'
         # dataset = 'concrete'
         # dataset = 'fertility'
-        # dataset = 'yacht'
+        dataset = 'yacht'
         # dataset = 'boston'
         # dataset = 'airfoil'
         # dataset = 'concreteslump'
-        dataset = 'auto'
+        # dataset = 'auto'
 
         # Initial value to denote the type of ACQ function to be used, but ignored as all ACQs are run in the sequence
         # acq_fun_list = ['ei', 'pi', 'rs', 'ucb']

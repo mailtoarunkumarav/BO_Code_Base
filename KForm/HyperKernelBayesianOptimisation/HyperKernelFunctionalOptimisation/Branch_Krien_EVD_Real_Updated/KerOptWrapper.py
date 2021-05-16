@@ -166,8 +166,8 @@ class KernelOptimizationWrapper:
         synthetic_data = False
         # dataset = 'challenger'
         # dataset = 'concrete'
-        dataset = 'fertility'
-        # dataset = 'yacht'
+        # dataset = 'fertility'
+        dataset = 'yacht'
         # dataset = 'boston'
         # dataset = 'airfoil'
         # dataset = 'concreteslump'

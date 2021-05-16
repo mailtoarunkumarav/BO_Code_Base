@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 import sys
-sys.path.insert(0, 'C:\Arun_Stuff\GitHubCodes\KForm\HyperKernelBayesianOptimisation\HyperKernelFunctionalOptimisation\Branch_Krien_EVD\GP_Regressor')
+sys.path.insert(0, 'C:\Arun_Stuff\GitHubCodes\KForm\HyperKernelBayesianOptimisation\HyperKernelFunctionalOptimisation\KFO_Krien_EVD'
+                   '\GP_Regressor')
 from GaussianProcessWrapper import GaussianProcessWrapper
 from Functions import FunctionHelper
 
@@ -17,10 +18,10 @@ from HelperUtility.PrintHelper import PrintHelper as PH
 
 # setting up the global parameters for plotting graphs i.e, graph size and suppress warning from multiple graphs
 # being plotted
-plt.rcParams["figure.figsize"] = (6, 6)
-# plt.rcParams["font.size"] = 12
-plt.rcParams['figure.max_open_warning'] = 0
-# np.seterr(divide='ignore', invalid='ignore')
+# plt.rcParams["figure.figsize"] = (6, 6)
+# # plt.rcParams["font.size"] = 12
+# plt.rcParams['figure.max_open_warning'] = 0
+# # np.seterr(divide='ignore', invalid='ignore')
 
 # To fix the random number genration, currently not able, so as to retain the random selection of points
 random_seed = 400
@@ -33,7 +34,7 @@ class KernelOptimizationWrapper:
     def kernel_wrapper(self, start_time, input):
 
         # Number of data points in X  for the grid
-        number_of_samples_in_X_for_grid = 21
+        number_of_samples_in_X_for_grid = 4
         number_of_samples_in_Xs_for_grid = 5
 
         # Lower bound considered, required for sample generation

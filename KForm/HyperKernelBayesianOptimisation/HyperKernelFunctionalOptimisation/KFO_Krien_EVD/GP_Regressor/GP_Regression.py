@@ -6,7 +6,10 @@ import sys
 from Functions import FunctionHelper
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from mpl_toolkits.mplot3d import Axes3D
-
+plt.rcParams["figure.figsize"] = (10, 10)
+plt.rcParams["font.size"] = 38
+plt.rc('xtick', labelsize=38)
+plt.rc('ytick', labelsize=38)
 import os
 sys.path.append("../..")
 from HelperUtility.PrintHelper import PrintHelper as PH
@@ -74,7 +77,7 @@ class GaussianProcess:
             elif (len(eachplot) == 4):
                 if(eachplot[3].startswith("label=")):
                     plt.plot(eachplot[0], eachplot[1], eachplot[2], label=eachplot[3][6:])
-                    plt.legend(loc='upper right',prop={'size': 14})
+                    plt.legend(loc='upper right',prop={'size': 22})
                 else:
                     flag = eachplot[3]
                     if flag.startswith('lw'):
@@ -90,7 +93,7 @@ class GaussianProcess:
                         plt.plot(eachplot[0], eachplot[1], eachplot[2], label=eachplot[3][6:], lw=eachplot[4][2:])
                     elif flag.startswith('ms'):
                         plt.plot(eachplot[0], eachplot[1], eachplot[2], label=eachplot[3][6:], ms=eachplot[4][2:])
-                    plt.legend(loc='upper right',prop={'size': 14})
+                    plt.legend(loc='upper right',prop={'size': 22})
 
                 else:
                     flag = eachplot[3]
@@ -103,7 +106,7 @@ class GaussianProcess:
             if len(plot_params['gca_fill']) == 3:
                 plt.gca().fill_between(plot_params['gca_fill'][0], plot_params['gca_fill'][1],
                                        plot_params['gca_fill'][2],
-                                       color="#ddddee")
+                                       color="#66cc66", alpha=0.5)
             else:
                 if plot_params['gca_fill'][3].startswith('color'):
                     color = plot_params['gca_fill'][3][6:]
@@ -115,7 +118,12 @@ class GaussianProcess:
         plt.title(plot_params['title'])
         plt.xlabel(plot_params['xlabel'])
         plt.ylabel(plot_params['ylabel'])
-        plt.savefig(plot_params['file']+".pdf", bbox_inches='tight')
+        timenow = datetime.datetime.now()
+        stamp = timenow.strftime("%H%M%S_%d%m%Y")
+        file = stamp+"_"+plot_params['file']+"_"+plot_params['title']
+        file = file.replace("/","")
+        print(file)
+        plt.savefig(file+".pdf", bbox_inches='tight')
 
 
     # Define the kernel function
@@ -334,15 +342,40 @@ class GaussianProcess:
 
         # compute the covariances between the test data points i.e K**
         # K_xs_xs = self.computekernel(self.Xs, self.Xs)
+        print("compute for test points ")
         K_xs_xs = self.compute_kernel_matrix_hyperkernel(self.Xs, self.Xs, observations_kernel)
+
+        #Test
+        # kernel_mat_eigen_values_xs, kernel_mat_eigen_vectors_xs = np.linalg.eigh(K_xs_xs)
+        # kernel_mat_eigen_values_xs[kernel_mat_eigen_values_xs < 0] = 0
+        # kernel_mat_eigen_values_xs[kernel_mat_eigen_values_xs > 0] = 1
+        # updated_eigen_diag_xs = np.diag(kernel_mat_eigen_values_xs)
+        # K_xs_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors_xs, updated_eigen_diag_xs), kernel_mat_eigen_vectors_xs.T), K_xs_xs)
 
         # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
         # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
-        L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-6 * np.eye(self.number_of_test_datapoints))
-
+        # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
 
         # K_x_x = self.computekernel(self.X, self.X)
         K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
+
+        # # #NeurIPS Post processing of the gram matrix
+        kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
+
+        # Flip
+        eig_sign = np.sign(kernel_mat_eigen_values)
+        updated_eigen_diag = np.diag(eig_sign)
+
+        # Clip
+        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+
+        # Clip Indicator Function
+        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
+        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+
+        K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
 
         eye = 1e-10 * np.eye(len(self.X))
         L_x_x = np.linalg.cholesky(K_x_x + eye)
@@ -350,9 +383,13 @@ class GaussianProcess:
         # K_x_xs = self.computekernel(self.X, self.Xs)
         K_x_xs = self.compute_kernel_matrix_hyperkernel(self.X, self.Xs, observations_kernel)
 
+        # # #NeurIPS added
+        K_x_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_xs)
+
         factor1 = np.linalg.solve(L_x_x, K_x_xs)
         factor2 = np.linalg.solve(L_x_x, self.y)
         mean = np.dot(factor1.T, factor2).flatten()
+
 
         variance = K_xs_xs - np.dot(factor1.T, factor1)
         diag_variance = np.diag(variance)
@@ -378,14 +415,14 @@ class GaussianProcess:
                                        # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                        # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
                                        'axis': [0, 1, 0, 1],
-                                       'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
-                                                      [self.Xs, mean, 'g--', 'label=Mean Fn', 'lw2']],
+                                       'plotvalues': [[self.X, self.y, 'ro', 'ms15'], [self.Xs, self.ys, 'b-', 'label=True Fn','lw5'],
+                                                      [self.Xs, mean, 'g--', 'label=Mean Fn', 'lw5']],
                                        'title': 'KFO',
                                        'file': 'GP_Posterior_Distr' + str(count),
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation],
                                        'xlabel': 'x',
-                                       'ylabel': 'output, f(x)'
+                                       'ylabel': 'f(x)'
                                        }
 
         PH.printme(PH.p1, "\n\n\n\nX: \n", self.X,
@@ -399,7 +436,38 @@ class GaussianProcess:
     def compute_log_marginal_likelihood_hyperkernel(self, observations_kernel):
 
         K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
-        eye = 1e-12 * np.eye(len(self.X))
+
+        # # #NIPS Post processing of the gram matrix
+        kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
+
+        # Method 1 (P_flip=|\lambda_i|), commented as post processing is done on-the-fly in necessary packages
+        # for eig_index in range(len(kernel_mat_eigen_values)):
+        #     if kernel_mat_eigen_values[eig_index] < 0:
+        #         PH.printme(PH.p1, "Negative Eigen for gram matrix, updating the value")
+        #         # # Flip
+        #         kernel_mat_eigen_values[eig_index] = abs(kernel_mat_eigen_values[eig_index])
+        #         # Clip
+        #         # kernel_mat_eigen_values[eig_index] = 0
+        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
+
+        # # Method 2 - sgn(\lambda_i)
+        # # Spectrum Flip
+        eig_sign = np.sign(kernel_mat_eigen_values)
+        updated_eigen_diag = np.diag(eig_sign)
+
+        # Spectrum Clip
+        # kernel_mat_eigen_values[kernel_mat_eigen_values<0]=0
+        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+
+        # Clip Indicator Function
+        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
+        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+
+        K_x_x = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_x)
+
+        eye = 1e-12* np.eye(len(self.X))
         Knoise = K_x_x + eye
 
         # Find L from K = L *L.T instead of inversing the covariance function
@@ -463,8 +531,8 @@ class GaussianProcess:
         for xb_i in range(len(xbound)):
             for xb_j in range(len(xbound)):
                 if(self.kernel_type =='HYPER'):
-                    if(xb_i == 99 and xb_j == 99):
-                        PH.printme(PH.p1, "here")
+                    # if(xb_i == 99 and xb_j == 99):
+                    #     PH.printme(PH.p1, "here")
                     kernel_mat[xb_i][xb_j] = self.hyper_gp_obj.estimate_kernel_for_Xtil(np.array([xbound[xb_i]]), np.array([xbound[xb_j]]),
                                                                                       observations_kernel)
                 else:
@@ -765,14 +833,14 @@ class GaussianProcess:
                                        # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                        # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
                                        'axis': [0, 1, 0, 1],
-                                       'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
-                                                      [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
+                                       'plotvalues': [[self.X, self.y, 'ro', 'ms15'], [self.Xs, self.ys, 'b-', 'label=True Fn', 'lw5'],
+                                                      [self.Xs, mean, 'g--','label=Mean Fn','lw5']],
                                        'title': title,
                                        'file': 'GP_Posterior_Distr'+ str(count),
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation] ,
                                        'xlabel': 'x',
-                                       'ylabel': 'output, f(x)'
+                                       'ylabel': 'f(x)'
                                        }
         self.plot_graph(plot_posterior_distr_params)
         return log_like_max
@@ -842,10 +910,10 @@ if __name__ == "__main__":
     # linspaceymax = 1.5
 
     # # Gaussian Mixture
-    # linspacexmin = 0
-    # linspacexmax = 15
-    # linspaceymin = -0.5
-    # linspaceymax = 1.5
+    linspacexmin = 0
+    linspacexmax = 15
+    linspaceymin = -0.5
+    linspaceymax = 1.5
 
     # Linear
     # linspacexmin = 0
@@ -854,13 +922,13 @@ if __name__ == "__main__":
     # linspaceymax = 0.5
 
     # Linear Sin Function
-    linspacexmin = 0
-    linspacexmax = 10
-    linspaceymin = 0
-    linspaceymax = 10
+    # linspacexmin = 0
+    # linspacexmax = 10
+    # linspaceymin = 0
+    # linspaceymax = 10
 
     number_of_dimensions = 1
-    number_of_observed_samples = 30
+    number_of_observed_samples = 40
     hyper_params_estimation = False
     weight_params_estimation = False
     degree_estimation = False
@@ -880,12 +948,12 @@ if __name__ == "__main__":
 
     a = 0.14
     b = 0.1
-    lengthscale_bounds = [[0.1, 1]]
-    signal_variance_bounds = [0.1, 1]
+    lengthscale_bounds = [[0.1, 10]]
+    signal_variance_bounds = [0.1, 10]
     true_func_type = "custom"
     fun_helper_obj = FunctionHelper(true_func_type)
     len_weights = [0.1, 0.3, 0.2]
-    len_weights_bounds = [[0.1, 5] for i in range(4)]
+    len_weights_bounds = [[0.1, 1] for i in range(4)]
 
     # Commenting for regression data - Forestfire
     random_points = []
@@ -914,9 +982,10 @@ if __name__ == "__main__":
     # X= x_obs.reshape(-1, 1)
 
     # Gaussian
-    # x_obs = np.linspace(0, 5,  20)
-    # x_obs = np.append(x_obs, np.linspace(10, 15, 20))
-    # X= x_obs.reshape(-1, 1)
+    x_obs = np.linspace(0, 5, 15)
+    x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
+    x_obs = np.append(x_obs, np.linspace(10, 15, 15))
+    X= x_obs.reshape(-1, 1)
 
     # #Linear
     # # X = np.linspace(linspacexmin, linspacexmax, 10).reshape(-1, 1)
@@ -925,9 +994,9 @@ if __name__ == "__main__":
     # X= x_obs.reshape(-1, 1)
 
     # Linear Sin Function
-    x_obs = np.linspace(linspacexmin, 3, 15)
-    x_obs = np.append(x_obs, np.linspace(7, linspacexmax, 15))
-    X = x_obs.reshape(-1, 1)
+    # x_obs = np.linspace(linspacexmin, 3, 15)
+    # x_obs = np.append(x_obs, np.linspace(7, linspacexmax, 15))
+    # X = x_obs.reshape(-1, 1)
 
  #    X= np.array([[2.67491564],
  # [0.90399388],

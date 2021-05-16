@@ -846,16 +846,16 @@ if __name__ == "__main__":
     # linspaceymax = 3
 
     #Sinc Mixture
-    # linspacexmin = -15
-    # linspacexmax = 15
-    # linspaceymin = -0.5
-    # linspaceymax = 1.5
-
-    # # Gaussian Mixture
-    linspacexmin = 0
+    linspacexmin = -15
     linspacexmax = 15
     linspaceymin = -0.5
     linspaceymax = 1.5
+
+    # # Gaussian Mixture
+    # linspacexmin = 0
+    # linspacexmax = 15
+    # linspaceymin = -0.5
+    # linspaceymax = 1.5
 
     # Linear
     # linspacexmin = 0
@@ -919,14 +919,14 @@ if __name__ == "__main__":
     X = np.vstack(X)
 
     # Sinc
-    # x_obs = np.linspace(-15, -5,  20)
-    # x_obs = np.append(x_obs, np.linspace(5, 15, 20))
-    # X= x_obs.reshape(-1, 1)
+    x_obs = np.linspace(-15, -5,  20)
+    x_obs = np.append(x_obs, np.linspace(5, 15, 20))
+    X= x_obs.reshape(-1, 1)
 
     # Gaussian
-    x_obs = np.linspace(0, 5,  20)
-    x_obs = np.append(x_obs, np.linspace(10, 15, 20))
-    X= x_obs.reshape(-1, 1)
+    # x_obs = np.linspace(0, 5,  20)
+    # x_obs = np.append(x_obs, np.linspace(10, 15, 20))
+    # X= x_obs.reshape(-1, 1)
 
     # #Linear
     # # X = np.linspace(linspacexmin, linspacexmax, 10).reshape(-1, 1)

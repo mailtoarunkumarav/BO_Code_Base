@@ -319,27 +319,27 @@ class BayesianOptimization:
             # Refit the GP model to use the updated prior knowledge
             self.gp_obj.gaussian_fit(X, y)
 
-            # # #commented as it is required only for debugging
-            # # #plot posterior after each iteration
-            # mean, diag_variance, f_prior, f_post = self.gp_obj.gaussian_predict(Xs)
-            # standard_deviation = np.sqrt(diag_variance)
-            # if(self.gp_obj.number_of_dimensions==1
-            #         and i == self.no_iterations-1
-            # ):
-            #     self.gp_obj.plot_posterior_predictions(self.acq_func_obj.acq_type + str(run_count) + '_' + str(i + 1)+
-            #                                            "_"+self.gp_obj.kernel_char,Xs, ys, mean, standard_deviation)
-                # plot_axes = [self.gp_obj.linspacexmin, self.gp_obj.linspacexmax, 0, 1]
-                # self.acq_func_obj.plot_acquisition_function(str(run_count) + '_' + str(i + 1), Xs, np.diagonal(acq_func_values), plot_axes)
-            ######################
+            # #commented as it is required only for debugging
+            # #plot posterior after each iteration
+            mean, diag_variance, f_prior, f_post = self.gp_obj.gaussian_predict(Xs)
+            standard_deviation = np.sqrt(diag_variance)
+            if(self.gp_obj.number_of_dimensions==1
+                    and i == self.no_iterations-1
+            ):
+                self.gp_obj.plot_posterior_predictions(self.acq_func_obj.acq_type + str(run_count) + '_' + str(i + 1)+
+                                                       "_"+self.gp_obj.kernel_char,Xs, ys, mean, standard_deviation)
+                plot_axes = [self.gp_obj.linspacexmin, self.gp_obj.linspacexmax, 0, 1]
+                self.acq_func_obj.plot_acquisition_function(str(run_count) + '_' + str(i + 1), Xs, np.diagonal(acq_func_values), plot_axes)
+            #####################
 
-            # # plot acq functions and posteriors if its required to verify [0] being added to X
-            # if(zero_value_bool):
-            #     mean, diag_variance, f_prior, f_post = self.gp_obj.gaussian_predict(Xs)
-            #     standard_deviation = np.sqrt(diag_variance)
-            #     # self.gp_obj.plot_posterior_predictions(str(run_count)+'_'+str(i + 1), Xs, ys, mean, standard_deviation)
-            #     plot_axes = [self.gp_obj.linspacexmin, self.gp_obj.linspacexmax, 0, 20]
-            #     self.acq_func_obj.plot_acquisition_function(i+1, Xs, acq_func_values, plot_axes)
-            #     zero_value_bool =False
+            # plot acq functions and posteriors if its required to verify [0] being added to X
+            if(zero_value_bool):
+                mean, diag_variance, f_prior, f_post = self.gp_obj.gaussian_predict(Xs)
+                standard_deviation = np.sqrt(diag_variance)
+                # self.gp_obj.plot_posterior_predictions(str(run_count)+'_'+str(i + 1), Xs, ys, mean, standard_deviation)
+                plot_axes = [self.gp_obj.linspacexmin, self.gp_obj.linspacexmax, 0, 20]
+                self.acq_func_obj.plot_acquisition_function(i+1, Xs, acq_func_values, plot_axes)
+                zero_value_bool =False
 
 
             # Calculate the regret after each iteration as the difference of the maximum value observed and the true

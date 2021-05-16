@@ -51,10 +51,10 @@ class FunctionHelper:
             # true_max = self.get_true_func_value(0.3783)
 
             # Sinc function
-            # true_max = self.get_true_func_value(-10.05)
+            true_max = self.get_true_func_value(-10.05)
 
             # Gaussian Mixture
-            true_max = self.get_true_func_value(2.502)
+            # true_max = self.get_true_func_value(2.502)
 
             # Linear Function
             # true_max = self.get_true_func_value(1.99)
@@ -179,23 +179,23 @@ class FunctionHelper:
             # return y.reshape(-1, 1)
 
             # Sinc Function
-            # return np.sinc(x - 10) + np.sinc(x) + np.sinc(x + 10)
+            return np.sinc(x - 10) + np.sinc(x) + np.sinc(x + 10)
 
             # Gaussian Mixtures
-            y = np.array([])
-            for each_x in x:
-                if each_x <= 5:
-                    sig = 0.4
-                    mean = 2.5
-                elif each_x > 5 and each_x <= 10:
-                    sig = 0.7
-                    mean = 7.5
-                elif each_x > 10 and each_x <= 15:
-                    sig = 0.6
-                    mean= 12.5
-                val = 1 / (sig * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((each_x - mean) / sig) * (each_x - mean) / sig)
-                y = np.append(y, val)
-            return y.reshape(-1, 1)
+            # y = np.array([])
+            # for each_x in x:
+            #     if each_x <= 5:
+            #         sig = 0.4
+            #         mean = 2.5
+            #     elif each_x > 5 and each_x <= 10:
+            #         sig = 0.7
+            #         mean = 7.5
+            #     elif each_x > 10 and each_x <= 15:
+            #         sig = 0.6
+            #         mean= 12.5
+            #     val = 1 / (sig * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((each_x - mean) / sig) * (each_x - mean) / sig)
+            #     y = np.append(y, val)
+            # return y.reshape(-1, 1)
 
             # Linear function
             # return 0.1 * x + 0.2

@@ -17,6 +17,7 @@ class GaussianProcessWrapper:
         self.synthetic_data = synthetic_data
 
     def construct_gp_regressor_real(self, stamp, dataset, posterior_plot):
+
         kernel_type = 'SE'
         char_len_scale = 0.3
         number_of_test_datapoints = 500
@@ -282,10 +283,10 @@ class GaussianProcessWrapper:
         # linspaceymax = 1.5
 
         # # Gaussian Mixture
-        # linspacexmin = 0
-        # linspacexmax = 15
-        # linspaceymin = -0.5
-        # linspaceymax = 1.5
+        linspacexmin = 0
+        linspacexmax = 15
+        linspaceymin = -0.5
+        linspaceymax = 1.5
 
         # Linear
         # linspacexmin = 0
@@ -295,14 +296,14 @@ class GaussianProcessWrapper:
 
 
         # Linear Sin Function
-        linspacexmin = 0
-        linspacexmax = 10
-        linspaceymin = 0
-        linspaceymax = 10
+        # linspacexmin = 0
+        # linspacexmax = 10
+        # linspaceymin = 0
+        # linspaceymax = 10
 
 
         number_of_dimensions = 1
-        number_of_observed_samples = 30
+        number_of_observed_samples = 40
         hyper_params_estimation = True
         number_of_restarts_likelihood = 100
         oned_bounds = [[linspacexmin, linspacexmax]]
@@ -358,9 +359,10 @@ class GaussianProcessWrapper:
         # X = x_obs.reshape(-1, 1)
 
         # Gaussian Mixtures
-        # x_obs = np.linspace(0, 5, 20)
-        # x_obs = np.append(x_obs, np.linspace(10, 15, 20))
-        # X = x_obs.reshape(-1, 1)
+        x_obs = np.linspace(0, 5, 15)
+        x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
+        x_obs = np.append(x_obs, np.linspace(10, 15, 15))
+        X = x_obs.reshape(-1, 1)
 
         # # Linear
         # x_obs = np.linspace(linspacexmin, 0.5, 5)
@@ -368,9 +370,9 @@ class GaussianProcessWrapper:
         # X = x_obs.reshape(-1, 1)
 
         # Linear Sin Function
-        x_obs = np.linspace(linspacexmin, 3, 15)
-        x_obs = np.append(x_obs, np.linspace(7, linspacexmax, 15))
-        X = x_obs.reshape(-1, 1)
+        # x_obs = np.linspace(linspacexmin, 3, 15)
+        # x_obs = np.append(x_obs, np.linspace(7, linspacexmax, 15))
+        # X = x_obs.reshape(-1, 1)
 
         # Selecting observations for Chirpwave
         # X = np.array([
@@ -573,7 +575,7 @@ class GaussianProcessWrapper:
         #               # [19.86206897],
         #               [20.]])
 
-        PH.printme(PH.p1, X)
+        PH.printme(PH.p1, "Data points: ",X)
         # X = np.linspace(linspacexmin, linspacexmax, 10).reshape(-1, 1)
 
         # Commenting to adopt to Oscillator function multiple instances merged input domain

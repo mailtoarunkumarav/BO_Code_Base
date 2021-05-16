@@ -71,6 +71,7 @@ class HyperGaussianProcess:
         self.number_of_restarts_likelihood = number_of_restarts_likelihood
         self.no_principal_components = no_principal_components
         self.hyper_char_len_scale = hyper_char_len_scale
+        self.bool = True
 
     def gaussian_harmonic_hyperkernel(self, datapoint1, datapoint2, datapoint3, datapoint4):
 
@@ -305,6 +306,9 @@ class HyperGaussianProcess:
         # kernel_samples = np.dot(self.L_kappa_kernel_Xtil_Xtil, standard_normals).T
         # # # EOF Restricted version # # # #
 
+        # Random generation with EVD
+        # standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+
         std_norms_array = []
         count = 0
         total_samples = self.number_of_basis_vectors_chosen * self.no_principal_components
@@ -315,13 +319,16 @@ class HyperGaussianProcess:
                 count = count + 1
         standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
 
-        updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        # # NeurIPS Commented to have positive definiteness enforced at data gram matrix level.
+        # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
 
         # # # Commented to use new decomposition with krien kernel
-        # kernel_samples = standard_normals.T
+        # Uncommented NeurIPS
+        kernel_samples = standard_normals.T
 
+        # NeurIPS Commented
         # # new method with Krien decomposition
-        kernel_samples = updated_mercer_kernels.T
+        # kernel_samples = updated_mercer_kernels.T
         return kernel_samples
 
     def SE_Kernel_gnorm(self, data_point1, data_point2, char_length_scale, signal_variance):
@@ -516,6 +523,13 @@ class HyperGaussianProcess:
 
         # New method with Eigen values
         current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
+        alpha = np.dot(self.inv_kappa_matrix, current_observations_with_eigen)
+
+        if self.bool:
+            if np.any(alpha<0):
+                PH.printme(PH.p1, "$$Negative value$$")
+                self.bool = False
+
         estimated_kernel_value = np.dot(kernel_mat, np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
 
         return estimated_kernel_value
