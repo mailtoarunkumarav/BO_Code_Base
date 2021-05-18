@@ -32,7 +32,7 @@ class BayesianOptimizationWrapper:
 
         # Initial value to denote the type of ACQ function to be used
         # acq_fun_list : 'ei', 'pi', 'rs', 'ucb'
-        acq_fun_list = ['ucb', 'ei']
+        acq_fun_list = ['ucb']
 
         # Number of points required to be observed to evaluate the unknown function ((10 to 20)*no_dimensions )
         # number_of_iterations = number_of_dimensions * 10

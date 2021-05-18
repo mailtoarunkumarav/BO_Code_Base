@@ -25,7 +25,7 @@ plt.rcParams['figure.max_open_warning'] = 0
 # np.seterr(divide='ignore', invalid='ignore')
 
 # To fix the random number genration, currently not able, so as to retain the random selection of points
-random_seed = 400
+random_seed = 200
 np.random.seed(random_seed)
 
 
