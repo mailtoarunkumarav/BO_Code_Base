@@ -73,6 +73,13 @@ class HyperGaussianProcess:
         self.no_principal_components = no_principal_components
         self.hyper_char_len_scale = hyper_char_len_scale
 
+        #KFO-MKL Additions
+        self.mkl_len_scale = 0.2
+        self.mkl_signal_variance = 0.5
+        self.SE_kernel_on_grid = None
+        self.LIN_kernel_on_grid = None
+        self.MAT_kernel_on_grid = None
+
     def gaussian_harmonic_hyperkernel(self, datapoint1, datapoint2, datapoint3, datapoint4):
 
         num = 1 - self.hyper_lambda
@@ -142,6 +149,36 @@ class HyperGaussianProcess:
         kernel_val = num / den
         return kernel_val
 
+    # Additions for KFO-MKL with kernel in K(x,x)
+    def mkl_sq_exp_kernel(self, data_point1, data_point2):
+        kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
+        for i in np.arange(len(data_point1)):
+            for j in np.arange(len(data_point2)):
+                difference = (data_point1[i, :] - data_point2[j, :])
+                l2_difference_sq = np.dot(difference, difference.T)
+                each_kernel_val = (self.mkl_signal_variance ** 2) * (np.exp((-1 / (2*self.mkl_len_scale**2)) * l2_difference_sq))
+                kernel_mat[i, j] = each_kernel_val
+        return kernel_mat
+
+    def mkl_matern3_kernel(self, data_point1, data_point2):
+        kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
+        for i in np.arange(len(data_point1)):
+            for j in np.arange(len(data_point2)):
+                difference = (data_point1[i, :] - data_point2[j, :])
+                l2_difference = np.sqrt(np.dot(difference, difference.T))
+                each_kernel_val = (self.mkl_signal_variance ** 2) * (1 + (np.sqrt(3)*l2_difference/self.mkl_len_scale)) * \
+                                  (np.exp((-1 * np.sqrt(3) / self.mkl_len_scale) * l2_difference))
+                kernel_mat[i, j] = each_kernel_val
+        return kernel_mat
+
+    def mkl_linear_kernel(self, data_point1, data_point2):
+        kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
+        for i in np.arange(len(data_point1)):
+            for j in np.arange(len(data_point2)):
+                each_kernel_val = self.mkl_signal_variance + np.dot(data_point1[i, :], data_point2[j, :].T) * (self.mkl_len_scale**2)
+                # each_kernel_val = each_kernel_val/number_of_observed_samples
+                kernel_mat[i, j] = each_kernel_val
+        return kernel_mat
 
     def compute_kernel_with_hyperkernel(self, x1, x2, x3, x4):
         if self.hyperkernel_type == 'gaussian_harmonic_kernel':
@@ -165,7 +202,6 @@ class HyperGaussianProcess:
         return covariance
 
     def compute_covariance_in_X2(self, X):
-
         # #old method
         total_possible_sample_X_tils = len(X) * len(X)
         kappa_kernel_Xtil_Xtil = np.zeros(shape=(total_possible_sample_X_tils, total_possible_sample_X_tils))
@@ -220,7 +256,6 @@ class HyperGaussianProcess:
             updated_krien_matrix = np.dot(product1, krien_eigen_vectors.T)
             updated_krien_vector = updated_krien_matrix.reshape(self.number_of_samples_in_X_for_grid * self.number_of_samples_in_X_for_grid,
                                                                 1)
-
             product1 = np.dot(self.inv_sqrt_eigen_diag, self.principal_eigen_vectors.T)
             updated_mercer_kernel_sample = np.dot(product1, updated_krien_vector)
             mercer_kernel_samples.append(updated_mercer_kernel_sample)
@@ -229,7 +264,6 @@ class HyperGaussianProcess:
         mercer_kernel_samples = np.hstack(mercer_kernel_samples)
         mercer_kernel_samples = mercer_kernel_samples.reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
         return mercer_kernel_samples.reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
-
 
     def compute_kappa_utils(self):
 
@@ -277,6 +311,19 @@ class HyperGaussianProcess:
         self.sqrt_kappa = np.dot(self.principal_eigen_vectors, self.sqrt_eigen_diag)
         self.inv_kappa_matrix = np.dot(self.principal_eigen_vectors, np.dot(self.inv_eigen_diag, self.principal_eigen_vectors.T))
 
+        # KFO-MKL Additions
+        # # Adding precalculated grid based kernel functionals for standard kernels
+        SE_mat = np.zeros(shape=(self.number_of_samples_in_X_for_grid, self.number_of_samples_in_X_for_grid))
+        LIN_mat = np.zeros(shape=(self.number_of_samples_in_X_for_grid, self.number_of_samples_in_X_for_grid))
+        MAT_mat = np.zeros(shape=(self.number_of_samples_in_X_for_grid, self.number_of_samples_in_X_for_grid))
+        for i in range(len(self.X)):
+            for j in range(len(self.X)):
+                SE_mat[i][j] = self.mkl_sq_exp_kernel(np.array([self.X[i]]), np.array([self.X[j]]))
+                LIN_mat[i][j] = self.mkl_linear_kernel(np.array([self.X[i]]), np.array([self.X[j]]))
+                MAT_mat[i][j] = self.mkl_matern3_kernel(np.array([self.X[i]]), np.array([self.X[j]]))
+        self.SE_kernel_on_grid = SE_mat.reshape(self.number_of_samples_in_X_for_grid*self.number_of_samples_in_X_for_grid, 1)
+        self.LIN_kernel_on_grid = LIN_mat.reshape(self.number_of_samples_in_X_for_grid*self.number_of_samples_in_X_for_grid, 1)
+        self.MAT_kernel_on_grid = MAT_mat.reshape(self.number_of_samples_in_X_for_grid*self.number_of_samples_in_X_for_grid, 1)
 
     def generate_basis_as_kernel_samples(self):
 
@@ -320,13 +367,22 @@ class HyperGaussianProcess:
         # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
 
         # # # Commented to use new decomposition with krien kernel
-        # # NeurIPS uncommented
-        standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
-        kernel_samples = standard_normals.T
+        # # NeurIPS uncommented but commented for KFO-MKL implementation
+        # standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        # kernel_samples = standard_normals.T
 
         # # new method with Krien decomposition
         # # NeurIPS Commented
         # kernel_samples = updated_mercer_kernels.T
+
+        #KFO-MKL
+        # # Append SE kernel, Mat kernel and Lin kernel to the kernel samples generated
+        standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        kernel_samples = np.dot(self.sqrt_kappa, standard_normals).T
+        kernel_samples = np.append(kernel_samples, self.SE_kernel_on_grid.T, axis=0)
+        kernel_samples = np.append(kernel_samples, self.LIN_kernel_on_grid.T, axis=0)
+        kernel_samples = np.append(kernel_samples, self.MAT_kernel_on_grid.T, axis=0)
+
         return kernel_samples
 
     def SE_Kernel_gnorm(self, data_point1, data_point2, char_length_scale, signal_variance):
@@ -449,7 +505,6 @@ class HyperGaussianProcess:
                                           np.log(np.linalg.det(Knoise)))
         return log_likelihood
 
-
     def compute_covariance_matrix_for_kernels(self, data_point1, data_point2):
 
         # Kernel_type = SE represents the Squared Exponential Kernel
@@ -477,12 +532,20 @@ class HyperGaussianProcess:
         # k_new = np.zeros(shape=(len(lambda_weights), self.number_of_samples_in_X_for_grid * self.number_of_samples_in_X_for_grid))
 
         # # Eigen way to predict
-        k_new = np.zeros(shape=(len(lambda_weights), self.no_principal_components))
+        # k_new = np.zeros(shape=(len(lambda_weights), self.no_principal_components))
+
+        # KFO-MKL Sqrt of kappa already multiplied, therefore whole vector and not just principal components
+        k_new = np.zeros(shape=(len(lambda_weights), self.number_of_samples_in_X_for_grid * self.number_of_samples_in_X_for_grid))
 
         # lambda_weights = np.append(lambda_weights, [[1,2,1]], axis=0)
         # PH.printme(PH.p1, "*****",lambda_weights, self.current_kernel_samples, "******" )
+
+        #KFO-MKL modifications : adding more vectorised kernels on the grid
         for i in range(len(lambda_weights)):
-            k_new[i] = self.current_kernel_bias + lambda_weights[i][0] * self.current_kernel_samples[0]
+            k_new[i] = self.current_kernel_bias + lambda_weights[i][0] * self.current_kernel_samples[0] \
+                       + lambda_weights[i][1] * self.current_kernel_samples[1] + lambda_weights[i][2] * self.current_kernel_samples[2]+ \
+                       lambda_weights[i][3] * self.current_kernel_samples[3]
+
         cov_K_xs_x = self.compute_covariance_matrix_for_kernels(self.observations_kernel, k_new)
         factor1 = np.linalg.solve(self.L_K_K_hypergp, cov_K_xs_x)
         factor2 = np.linalg.solve(self.L_K_K_hypergp, self.observations_y)
@@ -519,9 +582,13 @@ class HyperGaussianProcess:
         # L_sol_ker_new_obs_old = np.linalg.solve(self.L_kappa_kernel_Xtil_Xtil, kernel_mat)
         # estimated_kernel_value_old = np.dot(L_sol_ker_new_obs_old.T, L_sol_ker_obs_old)
 
+        # Commented for new KFO-MKL experiments
         # New method with Eigen values
-        current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
-        estimated_kernel_value = np.dot(kernel_mat,  np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+        # current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
+        # estimated_kernel_value = np.dot(kernel_mat,  np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+
+        # KFO-MKL: Multiplied with the sqrt of kappa matrix already in the beginning when generating basis samples
+        estimated_kernel_value = np.dot(kernel_mat, np.dot(self.inv_kappa_matrix, current_observations_kernel.T))
 
         # estimated_kernel_value = np.dot(kernel_mat,  np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
 

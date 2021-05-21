@@ -18,14 +18,16 @@ class KernelOptimiser:
         self.best_solution = {}
         self.svm_wrapper_obj = svm_wrapper_obj
         #
-        self.complete_dataset_kernel_observations = np.array([]).reshape(-1, self.hyper_gaussian_object.no_principal_components)
+        self.complete_dataset_kernel_observations = np.array([]).reshape(-1, self.hyper_gaussian_object.number_of_samples_in_X_for_grid**2)
         self.complete_dataset_y = np.array([]).reshape(-1, 1)
 
     def generate_observations(self, kernel_bias, basis_weights, kernel_samples):
 
         # Generate initial observations for the kernel optimisation with the selected basis
 
-        observations_kernel =  kernel_bias + basis_weights[0] * kernel_samples[0]
+        # added for KFO-MKL implementation with 3 extra weights for K_SE, K_LIN, K_MAT basis_weights[1,2,3]
+        observations_kernel =  kernel_bias + basis_weights[0] * kernel_samples[0] + basis_weights[1] * kernel_samples[1] +     \
+                               basis_weights[2] * kernel_samples[2] + basis_weights[3] * kernel_samples[3]
 
         # Process for running observations
         observations_y = self.svm_wrapper_obj.compute_accuracy('HYPER', observations_kernel, self.hyper_gaussian_object)
@@ -34,8 +36,9 @@ class KernelOptimiser:
 
     def sample_basis_weights(self):
         # Generate weights to the selected basis vectors
+        # +3 added for KFO-MKL
         weights = np.random.uniform(self.hyper_gaussian_object.basis_weights_bounds[0], self.hyper_gaussian_object.basis_weights_bounds[
-            1], self.hyper_gaussian_object.number_of_basis_vectors_chosen).reshape(-1, 1)
+            1], self.hyper_gaussian_object.number_of_basis_vectors_chosen+3).reshape(-1, 1)
 
         return weights
 
@@ -49,8 +52,12 @@ class KernelOptimiser:
         # self.best_solution['best_kernel'] = np.zeros(shape=(np.square(self.hyper_gaussian_object.number_of_samples_in_X_for_grid),
         #                                                     1)).reshape(1, -1)
 
+        # NeurIPS commented for implementing best solution with E Sqrt(kappa) in the kernel sample generation itself
         # # Eigen based best solution
-        self.best_solution['best_kernel'] = np.zeros(shape=(1, self.hyper_gaussian_object.no_principal_components))
+        # self.best_solution['best_kernel'] = np.zeros(shape=(1, self.hyper_gaussian_object.no_principal_components))
+
+        # KFO-MKL
+        self.best_solution['best_kernel'] = np.zeros(shape=(1, self.hyper_gaussian_object.number_of_samples_in_X_for_grid**2))
         PH.printme(PH.p1, "Starting Optimization")
 
         bool_comp = False
@@ -80,7 +87,8 @@ class KernelOptimiser:
 
             # Search for the best solution in the subspace selected
             for best_solution_count in range(self.number_of_iterations_best_solution):
-                PH.printme(PH.p1, "\nTrying for best solution at iteration:", best_solution_count+1, "   in subspace: ", (subspace_selection_count+1))
+                PH.printme(PH.p1, "\nTrying for best solution at iteration:", best_solution_count+1, "   in subspace: ",
+                           (subspace_selection_count+1))
                 PH.printme(PH.p1, "Using log marginal likelihood to compute the optimised length scale for the kernels")
                 self.hyper_gaussian_object.compute_hyperparams_kernel_observations()
                 PH.printme(PH.p1, "optimised values: l = ", self.hyper_gaussian_object.char_length_scale, "  sig = ",

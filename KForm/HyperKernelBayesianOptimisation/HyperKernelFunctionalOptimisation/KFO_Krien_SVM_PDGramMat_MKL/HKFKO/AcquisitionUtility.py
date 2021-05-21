@@ -62,9 +62,10 @@ class AcquisitionUtility():
         self.hyper_gaussian_object = hyper_gaussian_object
         # Initialize the xmax value and the function values to zeroes
 
-        max_basis_weights = np.zeros(self.hyper_gaussian_object.number_of_basis_vectors_chosen)
+        # KFO-MKL : +3 added with number of vectors chosen
+        max_basis_weights = np.zeros(self.hyper_gaussian_object.number_of_basis_vectors_chosen+3)
         basis_weights_bounds = [self.hyper_gaussian_object.basis_weights_bounds for count in
-                                range(self.hyper_gaussian_object.number_of_basis_vectors_chosen)]
+                                range(self.hyper_gaussian_object.number_of_basis_vectors_chosen+3)]
         function_best = self.extrema_type * float("inf")
 
         # Temporary data structures to store xmax's, function values of each run of finding maxima using scipy.minimize
@@ -77,7 +78,7 @@ class AcquisitionUtility():
         for restart_count in np.arange(self.number_of_restarts):
             random_data_point_each_dim = np.random.uniform(self.hyper_gaussian_object.basis_weights_bounds[0],
                                                            self.hyper_gaussian_object.basis_weights_bounds[1],
-                                                           self.hyper_gaussian_object.number_of_basis_vectors_chosen)
+                                                           self.hyper_gaussian_object.number_of_basis_vectors_chosen+3)
             random_starting_points.append(random_data_point_each_dim)
 
         # Vertically stack the arrays of randomly generated starting points as a matrix
