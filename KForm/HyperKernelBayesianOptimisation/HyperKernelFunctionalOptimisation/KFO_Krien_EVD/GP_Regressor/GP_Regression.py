@@ -345,13 +345,6 @@ class GaussianProcess:
         print("compute for test points ")
         K_xs_xs = self.compute_kernel_matrix_hyperkernel(self.Xs, self.Xs, observations_kernel)
 
-        #Test
-        # kernel_mat_eigen_values_xs, kernel_mat_eigen_vectors_xs = np.linalg.eigh(K_xs_xs)
-        # kernel_mat_eigen_values_xs[kernel_mat_eigen_values_xs < 0] = 0
-        # kernel_mat_eigen_values_xs[kernel_mat_eigen_values_xs > 0] = 1
-        # updated_eigen_diag_xs = np.diag(kernel_mat_eigen_values_xs)
-        # K_xs_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors_xs, updated_eigen_diag_xs), kernel_mat_eigen_vectors_xs.T), K_xs_xs)
-
         # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
         # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
         # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
@@ -359,23 +352,23 @@ class GaussianProcess:
         # K_x_x = self.computekernel(self.X, self.X)
         K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
 
-        # # #NeurIPS Post processing of the gram matrix
-        kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
-
-        # Flip
-        eig_sign = np.sign(kernel_mat_eigen_values)
-        updated_eigen_diag = np.diag(eig_sign)
-
-        # Clip
-        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
-        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-        # Clip Indicator Function
-        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
-        # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
-        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-        K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
+        # # # #NeurIPS Post processing of the gram matrix
+        #         # kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
+        #         #
+        #         # # Flip
+        #         # eig_sign = np.sign(kernel_mat_eigen_values)
+        #         # updated_eigen_diag = np.diag(eig_sign)
+        #         #
+        #         # # Clip
+        #         # # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        #         # # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #         #
+        #         # # Clip Indicator Function
+        #         # # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        #         # # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
+        #         # # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #         #
+        #         # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
 
         eye = 1e-10 * np.eye(len(self.X))
         L_x_x = np.linalg.cholesky(K_x_x + eye)
@@ -383,8 +376,8 @@ class GaussianProcess:
         # K_x_xs = self.computekernel(self.X, self.Xs)
         K_x_xs = self.compute_kernel_matrix_hyperkernel(self.X, self.Xs, observations_kernel)
 
-        # # #NeurIPS added
-        K_x_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_xs)
+        # # #NeurIPS addition: But commented as alpha is made >0
+        # K_x_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_xs)
 
         factor1 = np.linalg.solve(L_x_x, K_x_xs)
         factor2 = np.linalg.solve(L_x_x, self.y)
@@ -437,35 +430,36 @@ class GaussianProcess:
 
         K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
 
-        # # #NIPS Post processing of the gram matrix
-        kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
-
-        # Method 1 (P_flip=|\lambda_i|), commented as post processing is done on-the-fly in necessary packages
-        # for eig_index in range(len(kernel_mat_eigen_values)):
-        #     if kernel_mat_eigen_values[eig_index] < 0:
-        #         PH.printme(PH.p1, "Negative Eigen for gram matrix, updating the value")
-        #         # # Flip
-        #         kernel_mat_eigen_values[eig_index] = abs(kernel_mat_eigen_values[eig_index])
-        #         # Clip
-        #         # kernel_mat_eigen_values[eig_index] = 0
-        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-        # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
-
-        # # Method 2 - sgn(\lambda_i)
-        # # Spectrum Flip
-        eig_sign = np.sign(kernel_mat_eigen_values)
-        updated_eigen_diag = np.diag(eig_sign)
-
-        # Spectrum Clip
-        # kernel_mat_eigen_values[kernel_mat_eigen_values<0]=0
-        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-        # Clip Indicator Function
-        # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
-        # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
-        # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-        K_x_x = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_x)
+        # Not required if alpha is made >0 at hypergaussianprocess.py
+        # # # #NIPS Post processing of the gram matrix
+        # kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
+        #
+        # # Method 1 (P_flip=|\lambda_i|), commented as post processing is done on-the-fly in necessary packages
+        # # for eig_index in range(len(kernel_mat_eigen_values)):
+        # #     if kernel_mat_eigen_values[eig_index] < 0:
+        # #         PH.printme(PH.p1, "Negative Eigen for gram matrix, updating the value")
+        # #         # # Flip
+        # #         kernel_mat_eigen_values[eig_index] = abs(kernel_mat_eigen_values[eig_index])
+        # #         # Clip
+        # #         # kernel_mat_eigen_values[eig_index] = 0
+        # # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        # # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
+        #
+        # # # Method 2 - sgn(\lambda_i)
+        # # # Spectrum Flip
+        # eig_sign = np.sign(kernel_mat_eigen_values)
+        # updated_eigen_diag = np.diag(eig_sign)
+        #
+        # # Spectrum Clip
+        # # kernel_mat_eigen_values[kernel_mat_eigen_values<0]=0
+        # # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #
+        # # Clip Indicator Function
+        # # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        # # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
+        # # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #
+        # K_x_x = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_x)
 
         eye = 1e-12* np.eye(len(self.X))
         Knoise = K_x_x + eye

@@ -309,22 +309,21 @@ class HyperGaussianProcess:
         # Random generation with EVD
         # standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
 
-        std_norms_array = []
-        count = 0
-        total_samples = self.number_of_basis_vectors_chosen * self.no_principal_components
-        while count < total_samples:
-            each_normal = np.random.normal()
-            if each_normal > 0:
-                std_norms_array.append(each_normal)
-                count = count + 1
-        standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
-
-        # # NeurIPS Commented to have positive definiteness enforced at data gram matrix level.
-        # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        # std_norms_array = []
+        # count = 0
+        # total_samples = self.number_of_basis_vectors_chosen * self.no_principal_components
+        # while count < total_samples:
+        #     each_normal = np.random.normal()
+        #     if each_normal > 0:
+        #         std_norms_array.append(each_normal)
+        #         count = count + 1
+        # standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
 
         # # # Commented to use new decomposition with krien kernel
         # Uncommented NeurIPS
-        kernel_samples = standard_normals.T
+        standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        kernel_samples = updated_mercer_kernels.T
 
         # NeurIPS Commented
         # # new method with Krien decomposition

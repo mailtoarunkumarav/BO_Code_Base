@@ -570,86 +570,71 @@ class GaussianProcess:
         self.kernel_type = kernel_type
         K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
 
-        K_x_x = K_x_x[:150, :150]
-
-        # # #NIPS Post processing of the gram matrix
-        kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
-        # kernel_mat_eigen_values_sp, kernel_mat_eigen_vectors_sp = sp.linalg.eigh(K_x_x)
-
-        bool_pd = np.any(kernel_mat_eigen_values<0)
-
-        # # Tests
-
-        # K_x_x = np.round(K_x_x, 5)
-
-        T, Z = sp.linalg.schur(K_x_x)
-
-        Z_ZT = np.dot(np.dot(Z, T), Z.T)
-
-        cond = np.linalg.cond(K_x_x)
-        E_ET = np.dot(kernel_mat_eigen_vectors, kernel_mat_eigen_vectors.T)
-        ET_E = np.dot(kernel_mat_eigen_vectors.T, kernel_mat_eigen_vectors)
-        value = np.dot(kernel_mat_eigen_vectors, np.dot(np.diag(kernel_mat_eigen_values),kernel_mat_eigen_vectors.T))
-        eig_sign = np.sign(kernel_mat_eigen_values)
-        diag_eig_sign = np.diag(eig_sign)
-        E_sig_ET = np.dot(kernel_mat_eigen_vectors, np.dot(diag_eig_sign,kernel_mat_eigen_vectors.T))
-
-        # sample kernel matrix
-        K_try = np.array([[1, 0.76874, 0.30910, 0.61064, 0.85482, 0.05214],
-                         [0.76874, 1, 0.05928, 0.30631, 0.14850, 0.38863],
-                         [0.30910, 0.05928, 1, 0.63645, 0.60783, 0.27042],
-                         [0.61064, 0.30631, 0.63645, 1, 0.24063, 0.07955],
-                         [0.85482,0.14850, 0.60783, 0.24063, 1, 0.02620],
-                         [0.05214, 0.38863, 0.27042, 0.07955, 0.02620, 1]])
-        K_try = np.dot(K_try, K_try.T)
-        eig_vals, eig_vecs = np.linalg.eigh(K_try)
-        E_ET_try = np.dot(eig_vecs, eig_vecs.T)
-        eig_sign_try = np.sign(eig_vals)
-        diag_eig_sign_try = np.diag(eig_sign_try)
-        E_sig_ET_try = np.dot(eig_vecs, np.dot(diag_eig_sign_try, eig_vecs.T))
-
-        if not bool_pd:
-
-            # Method 1 (P_flip=|\lambda_i|), commented as post processing is done on-the-fly in necessary packages
-            # for eig_index in range(len(kernel_mat_eigen_values)):
-            #     if kernel_mat_eigen_values[eig_index] < 0:
-            #         PH.printme(PH.p1, "Negative Eigen for gram matrix, updating the value")
-            #         # # Flip
-            #         kernel_mat_eigen_values[eig_index] = abs(kernel_mat_eigen_values[eig_index])
-            #         # Clip
-            #         # kernel_mat_eigen_values[eig_index] = 0
-            # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-            # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
-            # # Method 2 - sgn(\lambda_i)
-            # # Spectrum Flip
-            eig_sign = np.sign(kernel_mat_eigen_values)
-            updated_eigen_diag = np.diag(eig_sign)
-
-            # Spectrum Clip
-            # kernel_mat_eigen_values[kernel_mat_eigen_values<0]=0
-            # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-            # Clip Indicator Function
-            # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
-            # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
-            # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
-
-            # product4 = np.dot(kernel_mat_eigen_vectors, kernel_mat_eigen_vectors.T)
-            # product5 = np.dot(kernel_mat_eigen_vectors_sp, kernel_mat_eigen_vectors_sp.T)
-            # product1 = np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T)
-            # product2 = np.dot(kernel_mat_eigen_vectors, product1)
-            # product3 = np.dot(product2, K_x_x)
-            # evals, evecs =  np.linalg.eigh(K_x_x)
-
-            K_x_x = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_x)
-
+        # # NeurIPS comments : alpha > 0 for GP Regression problems, therefore no need for gram matrix post processing (flip)
+        # # # #NIPS Post processing of the gram matrix
+        # kernel_mat_eigen_values, kernel_mat_eigen_vectors = np.linalg.eigh(K_x_x)
+        # # kernel_mat_eigen_values_sp, kernel_mat_eigen_vectors_sp = sp.linalg.eigh(K_x_x)
+        #
+        # bool_pd = np.any(kernel_mat_eigen_values<0)
+        #
+        # # # Tests
+        # # cond = np.linalg.cond(K_x_x)
+        # # E_ET = np.dot(kernel_mat_eigen_vectors, kernel_mat_eigen_vectors.T)
+        # # ET_E = np.dot(kernel_mat_eigen_vectors.T, kernel_mat_eigen_vectors)
+        # # value = np.dot(kernel_mat_eigen_vectors, np.dot(np.diag(kernel_mat_eigen_values),kernel_mat_eigen_vectors.T))
+        # # eig_sign = np.sign(kernel_mat_eigen_values)
+        # # diag_eig_sign = np.diag(eig_sign)
+        # # E_sig_ET = np.dot(kernel_mat_eigen_vectors, np.dot(diag_eig_sign,kernel_mat_eigen_vectors.T))
+        # #
+        # # # sample kernel matrix
+        # # K_try = np.array([[1, 0.76874, 0.30910, 0.61064, 0.85482, 0.05214],
+        # #                  [0.76874, 1, 0.05928, 0.30631, 0.14850, 0.38863],
+        # #                  [0.30910, 0.05928, 1, 0.63645, 0.60783, 0.27042],
+        # #                  [0.61064, 0.30631, 0.63645, 1, 0.24063, 0.07955],
+        # #                  [0.85482,0.14850, 0.60783, 0.24063, 1, 0.02620],
+        # #                  [0.05214, 0.38863, 0.27042, 0.07955, 0.02620, 1]])
+        # # K_try = np.dot(K_try, K_try.T)
+        # # eig_vals, eig_vecs = np.linalg.eigh(K_try)
+        # # E_ET_try = np.dot(eig_vecs, eig_vecs.T)
+        # # eig_sign_try = np.sign(eig_vals)
+        # # diag_eig_sign_try = np.diag(eig_sign_try)
+        # # E_sig_ET_try = np.dot(eig_vecs, np.dot(diag_eig_sign_try, eig_vecs.T))
+        #
+        # if not bool_pd:
+        #
+        #     # Method 1 (P_flip=|\lambda_i|), commented as post processing is done on-the-fly in necessary packages
+        #     # for eig_index in range(len(kernel_mat_eigen_values)):
+        #     #     if kernel_mat_eigen_values[eig_index] < 0:
+        #     #         PH.printme(PH.p1, "Negative Eigen for gram matrix, updating the value")
+        #     #         # # Flip
+        #     #         kernel_mat_eigen_values[eig_index] = abs(kernel_mat_eigen_values[eig_index])
+        #     #         # Clip
+        #     #         # kernel_mat_eigen_values[eig_index] = 0
+        #     # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #     # K_x_x = np.dot(np.dot(kernel_mat_eigen_vectors, (np.dot(updated_eigen_diag, kernel_mat_eigen_vectors.T))), K_x_x)
+        #     # # Method 2 - sgn(\lambda_i)
+        #     # # Spectrum Flip
+        #     eig_sign = np.sign(kernel_mat_eigen_values)
+        #     updated_eigen_diag = np.diag(eig_sign)
+        #
+        #     # Spectrum Clip
+        #     # kernel_mat_eigen_values[kernel_mat_eigen_values<0]=0
+        #     # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #
+        #     # Clip Indicator Function
+        #     # kernel_mat_eigen_values[kernel_mat_eigen_values < 0] = 0
+        #     # kernel_mat_eigen_values[kernel_mat_eigen_values > 0] = 1
+        #     # updated_eigen_diag = np.diag(kernel_mat_eigen_values)
+        #
+        #     K_x_x = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_x)
         eye = 1e-1 * np.eye(len(self.X))
         Knoise = K_x_x + eye
         L_x_x = np.linalg.cholesky(Knoise)
         K_x_xs = self.compute_kernel_matrix_hyperkernel(self.X, self.Xs, observations_kernel)
 
-        if not bool_pd:
-            K_x_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_xs)
+        # Post processing (linear transformation) not required if alpha is made >0
+        # if not bool_pd:
+        #     K_x_xs = np.dot(np.dot(np.dot(kernel_mat_eigen_vectors, updated_eigen_diag), kernel_mat_eigen_vectors.T), K_x_xs)
 
         factor1 = np.linalg.solve(L_x_x, K_x_xs)
         factor2 = np.linalg.solve(L_x_x, self.y)
@@ -661,7 +646,6 @@ class GaussianProcess:
         variance = np.diag(variance_mat)
 
         PH.printme(PH.p1,"\n\n\n\nMean: ", mean, "\nVariance: ", variance, "\nys: ",self.ys.shape,".....\n")
-
 
         neg_log_sum = 0
         for i in range(len(self.Xs)):

@@ -304,22 +304,24 @@ class HyperGaussianProcess:
         # kernel_samples = np.dot(self.L_kappa_kernel_Xtil_Xtil, standard_normals).T
         # # # EOF Restricted version # # # #
 
-        std_norms_array = []
-        count = 0
-        total_samples = self.number_of_basis_vectors_chosen * self.no_principal_components
-        while count < total_samples:
-            each_normal = np.random.normal()
-            if each_normal > 0:
-                std_norms_array.append(each_normal)
-                count = count + 1
-        standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
-
         # # NeurIPS Commented
+        # std_norms_array = []
+        # count = 0
+        # total_samples = self.number_of_basis_vectors_chosen * self.no_principal_components
+        # while count < total_samples:
+        #     each_normal = np.random.normal()
+        #     if each_normal > 0:
+        #         std_norms_array.append(each_normal)
+        #         count = count + 1
+        # standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
+
         # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
 
-        # # NeurIPS uncommented
+        # # NeurIPS modification
         # # # Commented to use new decomposition with krien kernel
-        kernel_samples = standard_normals.T
+        standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        kernel_samples = updated_mercer_kernels.T
 
         # # NeurIPS Commented
         # # new method with Krien decomposition
@@ -519,9 +521,9 @@ class HyperGaussianProcess:
         # New method with Eigen values
         current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
         # Positive alpha restriction
-        # positive_alpha = np.absolute(np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
-        # estimated_kernel_value = np.dot(kernel_mat,  positive_alpha)
-        estimated_kernel_value = np.dot(kernel_mat,  np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+        positive_alpha = np.absolute(np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+        estimated_kernel_value = np.dot(kernel_mat,  positive_alpha)
+        # estimated_kernel_value = np.dot(kernel_mat,  np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
 
         return estimated_kernel_value
 
