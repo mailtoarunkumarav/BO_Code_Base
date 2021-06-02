@@ -18,7 +18,6 @@ class KernelOptimiser:
         self.number_of_init_random_kernel_y_observations = number_of_init_random_kernel_y_observations
         self.best_solution = {}
         self.gp_wrapper_obj = gp_wrapper_obj
-        #
         self.complete_dataset_kernel_observations = np.array([]).reshape(-1, self.hyper_gaussian_object.no_principal_components)
         self.complete_dataset_y = np.array([]).reshape(-1, 1)
 

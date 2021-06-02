@@ -171,7 +171,7 @@ class SVM_Wrapper:
             D_std = onehotlabel_cols
 
         elif dataset == "wine":
-            self.dataset_input_file = "../../DatasetUtils/Dataset/Wine.csv"
+            self.dataset_input_file = "../DatasetUtils/Dataset/Wine.csv"
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
             D = total_data.drop(total_data.columns[-1], axis=1)

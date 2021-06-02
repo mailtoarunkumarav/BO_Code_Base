@@ -4,6 +4,18 @@ import math
 import scipy as scy_lin
 import sys, getopt
 import datetime
+import numpy as np
+
+# Triangular wave
+
+X = np.linspace(0, 10,1000)
+y_arr = (2*np.arcsin(np.sin(np.pi*X)))/(np.pi)
+plt.xlabel("X")
+plt.ylabel("f(x)")
+plt.plot(X,y_arr)
+plt.show()
+exit(0)
+
 
 
 # Gaussian Mixtures
@@ -16,7 +28,7 @@ for each_x in x:
         mean = 2.5
 
     elif each_x > 5 and each_x <= 10:
-        sig = 0.7
+        sig = 0.9
         mean= 7.5
 
     elif each_x > 10 and each_x <= 15:

@@ -320,10 +320,14 @@ class HyperGaussianProcess:
         # standard_normals = np.array(std_norms_array).reshape(self.no_principal_components, self.number_of_basis_vectors_chosen)
 
         # # # Commented to use new decomposition with krien kernel
-        # Uncommented NeurIPS
+        # Commented NeurIPS
+        # standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        # kernel_samples = updated_mercer_kernels.T
+
+        # # Standard normals with alpha clipping without Mercer kernel
         standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
-        updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
-        kernel_samples = updated_mercer_kernels.T
+        kernel_samples = standard_normals.T
 
         # NeurIPS Commented
         # # new method with Krien decomposition
@@ -521,15 +525,19 @@ class HyperGaussianProcess:
         # estimated_kernel_value_old = np.dot(L_sol_ker_new_obs_old.T, L_sol_ker_obs_old)
 
         # New method with Eigen values
+        # current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
+        # alpha = np.dot(self.inv_kappa_matrix, current_observations_with_eigen)
+        #
+        # if self.bool:
+        #     if np.any(alpha<0):
+        #         PH.printme(PH.p1, "$$Negative value$$")
+        #         self.bool = False
+        #
+        # estimated_kernel_value = np.dot(kernel_mat, np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+
         current_observations_with_eigen = np.dot(self.sqrt_kappa, current_observations_kernel[0].T)
-        alpha = np.dot(self.inv_kappa_matrix, current_observations_with_eigen)
-
-        if self.bool:
-            if np.any(alpha<0):
-                PH.printme(PH.p1, "$$Negative value$$")
-                self.bool = False
-
-        estimated_kernel_value = np.dot(kernel_mat, np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+        positive_alpha = np.absolute(np.dot(self.inv_kappa_matrix, current_observations_with_eigen))
+        estimated_kernel_value = np.dot(kernel_mat,  positive_alpha)
 
         return estimated_kernel_value
 

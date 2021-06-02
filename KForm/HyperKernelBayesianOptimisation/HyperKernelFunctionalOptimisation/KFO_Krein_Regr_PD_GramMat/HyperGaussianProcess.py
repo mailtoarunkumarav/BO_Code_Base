@@ -319,9 +319,12 @@ class HyperGaussianProcess:
 
         # # NeurIPS modification
         # # # Commented to use new decomposition with krien kernel
+        # standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
+        # updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
+        # kernel_samples = updated_mercer_kernels.T
+
         standard_normals = np.random.normal(size=(self.no_principal_components, self.number_of_basis_vectors_chosen))
-        updated_mercer_kernels = self.obtain_mercer_from_krien(standard_normals)
-        kernel_samples = updated_mercer_kernels.T
+        kernel_samples = standard_normals.T
 
         # # NeurIPS Commented
         # # new method with Krien decomposition

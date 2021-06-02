@@ -93,7 +93,7 @@ class GaussianProcess:
                         plt.plot(eachplot[0], eachplot[1], eachplot[2], label=eachplot[3][6:], lw=eachplot[4][2:])
                     elif flag.startswith('ms'):
                         plt.plot(eachplot[0], eachplot[1], eachplot[2], label=eachplot[3][6:], ms=eachplot[4][2:])
-                    plt.legend(loc='upper right',prop={'size': 22})
+                    plt.legend(loc='upper right',prop={'size': 32})
 
                 else:
                     flag = eachplot[3]
@@ -546,8 +546,11 @@ class GaussianProcess:
         # Apply the kernel function to our training points
         K_x_x = self.computekernel(X, X)
 
-        eye = 1e-10 * np.eye(len(X))
+        eye = 1e-4 * np.eye(len(X))
         L_x_x = np.linalg.cholesky(K_x_x + eye)
+
+        if kernel_type == 'SE':
+            print("cond: ", np.linalg.cond(K_x_x))
 
         K_x_xs = self.computekernel(X, Xs)
         factor1 = np.linalg.solve(L_x_x, K_x_xs)
@@ -664,6 +667,7 @@ class GaussianProcess:
                 if (log_likelihood > log_like_max):
                     PH.printme(PH.p1, "New maximum log likelihood ", log_likelihood, " found for l= ",
                           maxima['x'][: self.number_of_dimensions], " var:", maxima['x'][len(maxima['x']) - 1])
+
                     x_max_value = maxima
                     log_like_max = log_likelihood
 
@@ -886,10 +890,10 @@ if __name__ == "__main__":
     # linspaceymax = 0
 
     # Triangular wave
-    # linspacexmin = 0
-    # linspacexmax = 10
-    # linspaceymin = -1.5
-    # linspaceymax = 1.5
+    linspacexmin = 0
+    linspacexmax = 10
+    linspaceymin = -1.5
+    linspaceymax = 1.5
 
     # Chirpwave wave
     # linspacexmin = 0
@@ -904,10 +908,10 @@ if __name__ == "__main__":
     # linspaceymax = 1.5
 
     # # Gaussian Mixture
-    linspacexmin = 0
-    linspacexmax = 15
-    linspaceymin = -0.5
-    linspaceymax = 1.5
+    # linspacexmin = 0
+    # linspacexmax = 15
+    # linspaceymin = -0.5
+    # linspaceymax = 1.5
 
     # Linear
     # linspacexmin = 0
@@ -942,8 +946,8 @@ if __name__ == "__main__":
 
     a = 0.14
     b = 0.1
-    lengthscale_bounds = [[0.1, 10]]
-    signal_variance_bounds = [0.1, 10]
+    lengthscale_bounds = [[0.4, 5]]
+    signal_variance_bounds = [0.4, 5]
     true_func_type = "custom"
     fun_helper_obj = FunctionHelper(true_func_type)
     len_weights = [0.1, 0.3, 0.2]
@@ -975,11 +979,71 @@ if __name__ == "__main__":
     # x_obs = np.append(x_obs, np.linspace(5, 15, 20))
     # X= x_obs.reshape(-1, 1)
 
+    # SINC working
+    # x_obs = np.random.uniform(-15, -5, 20)
+    # # x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
+    # x_obs = np.append(x_obs, np.random.uniform(5, 15, 20))
+
     # Gaussian
-    x_obs = np.linspace(0, 5, 15)
-    x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
-    x_obs = np.append(x_obs, np.linspace(10, 15, 15))
-    X= x_obs.reshape(-1, 1)
+    # x_obs = np.linspace(0, 5, 15)
+    # x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
+    # x_obs = np.append(x_obs, np.linspace(10, 15, 15))
+
+    # GMIX Working
+    # x_obs = np.random.uniform(0, 5, 20)
+    # # x_obs = np.append(x_obs, np.array([6.6,6.5,6.3,6.0,5.6,8.4,8.5,8.6,9.0,9.5]))
+    # x_obs = np.append(x_obs, np.random.uniform(10, 15, 20))
+
+    # Triangular wave held-out
+    # x_obs = np.random.uniform(0, 3, 19)
+    # x_obs = np.append(x_obs, np.array([5.4, 3.53]))
+    # x_obs = np.append(x_obs, np.random.uniform(6, 10, 19))
+    # X = x_obs.reshape(-1, 1)
+
+    # specifically held-out
+    X = np.array([[1.98374429],
+                  [2.76161919],
+                  [2.86582988],
+                  [2.47132143],
+                  [0.40446358],
+                  [2.31061289],
+                  [1.72025315],
+                  [2.2358835],
+                  [0.79675022],
+                  [2.65802889],
+                  [0.84020809],
+                  [0.75838666],
+                  [1.31315769],
+                  [2.17905185],
+                  [0.33677998],
+                  [0.16528382],
+                  [2.71195694],
+                  [1.90388832],
+                  [2.80386227],
+                  [2.72677023],
+                  [7.81258206],
+                  [8.95946382],
+                  [9.00916488],
+                  [7.37425157],
+                  [9.9597001],
+                  [8.36505652],
+                  [8.03489678],
+                  [9.12868954],
+                  [9.26203272],
+                  [8.75773013],
+                  [8.68427466],
+                  [9.19858215],
+                  [9.91722636],
+                  [7.37211341],
+                  [9.97463614],
+                  [7.40384526],
+                  [9.97376045],
+                  [8.31310333],
+                  [5.40044845],
+                  [3.53362604]])
+
+
+    print (X,"\n\n")
 
     # #Linear
     # # X = np.linspace(linspacexmin, linspacexmax, 10).reshape(-1, 1)
@@ -1496,15 +1560,29 @@ if __name__ == "__main__":
           "\tymax:", ymax, "\tchar_len_scale:", char_len_scale, "\tlen_weights:", len_weights, "\tlen_weights_bounds:",
           len_weights_bounds, "\tweight_params_estimation:", weight_params_estimation, "\nX:", X, "\ty:", y)
 
-    kernel_types = ['SE', 'MATERN3', 'MKL']
+    # kernel_types = ['SE', 'MATERN3', 'MKL']
     # kernel_types = ['LIN', 'PER', 'POLY', 'MKL']
-    # kernel_types = ['SE']
+    kernel_types = ['MATERN3']
 
     runs = 1
 
     for run in range(runs):
         for kernel in kernel_types:
             PH.printme(PH.p1, "\n\nKernel: ", kernel)
+
+            if kernel == 'SE':
+                # GMIX
+                # gaussianObject.lengthscale_bounds = [[0.05, 0.06]]
+                # gaussianObject.signal_variance_bounds = [0.01, 0.085]
+
+                # SINC
+                gaussianObject.lengthscale_bounds = [[0.01, 0.055]]
+                gaussianObject.signal_variance_bounds = [0.01, 0.08]
+
+            else:
+                gaussianObject.lengthscale_bounds = [[0.5, 1]]
+                gaussianObject.signal_variance_bounds = [0.5, 1]
+
             if kernel == 'MKL':
                 gaussianObject.weight_params_estimation = True
                 gaussianObject.hyper_params_estimation = False

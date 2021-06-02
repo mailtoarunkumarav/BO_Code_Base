@@ -92,13 +92,29 @@ class KernelOptimizationWrapper:
         #original
         # hyper_lambda = 0.01
         #exp linsin 28
-        hyper_lambda = 0.1
+        # hyper_lambda = 0.01
 
-        # Matern Harmonic Kernel
-        # hyper_char_len_scale = 0.43114668
-        # hyper_char_len_scale = 0.105
-        hyper_char_len_scale = 0.1
+        # GMIX
+        # Plot
+        # hyper_lambda = 0.01
         # hyper_char_len_scale = 0.05
+        # Max
+        # hyper_lambda = 0.1
+        # hyper_char_len_scale = 0.1
+
+        # SINC
+        #Max
+        # hyper_lambda = 0.05
+        # hyper_char_len_scale = 0.05
+        #Plot
+        # hyper_lambda = 0.1
+        # hyper_char_len_scale = 0.1
+
+        # Triangular function
+        hyper_lambda = 0.01
+        hyper_char_len_scale = 0.05
+
+
 
         if input is not None:
             hyper_lambda = input[0]
@@ -181,7 +197,7 @@ class KernelOptimizationWrapper:
                    "\tnumber_of_iterations_best_solution:", number_of_iterations_best_solution,
                    "\nnumber_of_init_random_kernel_y_observations:", number_of_init_random_kernel_y_observations, "\tacq_fun_list:",
                    acq_fun_list, "\nLength scale bounds: ", len_scale_bounds, "\tnumber of restart likelihoods: ",
-                   number_of_restarts_likelihood, "\thyper_char_len_scale: ", hyper_char_len_scale)
+                   number_of_restarts_likelihood, "\thyper_char_len_scale: ", hyper_char_len_scale,"\nClipping indicator")
 
         if not synthetic_data:
             PH.printme(PH.p1, "Dataset: ", dataset)
@@ -265,14 +281,14 @@ class KernelOptimizationWrapper:
         # # #Commenting the following code for integration with Outer Bayesian Optimisation
         # # # PH.printme(PH.p1, "Initiating kernel plotting...")
         # # # gp_wrapper_obj.plot_GP_Reg__kernel("Kernel Learnt", best_solution_found['best_kernel'])
-        PH.printme(PH.p1, "Plotting posterior distribution")
-        gp_wrapper_obj.compute_posterior_distribution('HYPER', best_solution_found['best_kernel'], hyper_gaussian_object, "final posterior")
+        # PH.printme(PH.p1, "Plotting posterior distribution")
+        # gp_wrapper_obj.compute_posterior_distribution('HYPER', best_solution_found['best_kernel'], hyper_gaussian_object, "final posterior")
 
         mean_max_likelihood = np.mean(tot_max_loglik)
 
         PH.printme(PH.p1, "\n\n@@@@@@@Mean likelihood for Bayesian Optimisation : ", mean_max_likelihood)
         # # Uncomment to see the graph if not integrated with BO
-        plt.show()
+        # plt.show()
         return mean_max_likelihood
 
                 # Store the regret obtained in each run so that mean and variance can be calculated to plot the simple regret
