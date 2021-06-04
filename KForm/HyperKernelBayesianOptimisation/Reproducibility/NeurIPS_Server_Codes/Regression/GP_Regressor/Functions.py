@@ -45,7 +45,7 @@ class FunctionHelper:
             # true_max = self.get_true_func_value(0.2)
 
             #Triangular wave
-            true_max = self.get_true_func_value(0.5)
+            # true_max = self.get_true_func_value(0.5)
 
             # chirpwave
             # true_max = self.get_true_func_value(0.3783)
@@ -60,9 +60,7 @@ class FunctionHelper:
             # true_max = self.get_true_func_value(1.99)
 
             #Linear Sin Function
-            # true_max = self.get_true_func_value(9.268)
-
-
+            true_max = self.get_true_func_value(9.268)
 
         elif (self.true_func_type == 'sin'):
             true_max = self.get_true_func_value(1.57079)
@@ -151,9 +149,9 @@ class FunctionHelper:
             # y = np.array([])
             #
             # for each_x in x:
-            #     each_y = np.sin(np.pi * each_x)
+            #     each_y = np.sin(2 * np.pi * each_x)
             #     if each_y < 0:
-            #         each_y = 0
+            #         each_y = -1
             #     elif each_y > 0:
             #         each_y = 1
             #     else:
@@ -162,7 +160,7 @@ class FunctionHelper:
             # return y.reshape(-1, 1)
 
             # Triangular wave function
-            return (2 * np.arcsin(np.sin(np.pi * x))) / (np.pi)
+            # return (2 * np.arcsin(np.sin(np.pi * x))) / (np.pi)
 
             # Chirpwave function
             # y = np.array([])
@@ -188,7 +186,7 @@ class FunctionHelper:
             #         sig = 0.4
             #         mean = 2.5
             #     elif each_x > 5 and each_x <= 10:
-            #         sig = 0.9
+            #         sig = 0.7
             #         mean = 7.5
             #     elif each_x > 10 and each_x <= 15:
             #         sig = 0.6
@@ -201,7 +199,7 @@ class FunctionHelper:
             # return 0.1 * x + 0.2
 
             # Linear Sin Function
-            # return 0.7*x + 1 + np.sin(2*np.pi*x)
+            return 0.7*x + 1 + np.sin(2*np.pi*x)
 
         elif (self.true_func_type == 'branin2d'):
             # branin 2d fucntion

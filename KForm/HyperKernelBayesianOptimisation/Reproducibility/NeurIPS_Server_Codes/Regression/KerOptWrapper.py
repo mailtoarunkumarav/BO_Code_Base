@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 import sys
-sys.path.insert(0, 'C:\Arun_Stuff\GitHubCodes\KForm\HyperKernelBayesianOptimisation\HyperKernelFunctionalOptimisation\KFO_Krien_EVD'
-                   '\GP_Regressor')
+import sys, getopt
+sys.path.insert(0, 'GP_Regressor')
+
 from GaussianProcessWrapper import GaussianProcessWrapper
 from Functions import FunctionHelper
 
@@ -18,23 +19,23 @@ from HelperUtility.PrintHelper import PrintHelper as PH
 
 # setting up the global parameters for plotting graphs i.e, graph size and suppress warning from multiple graphs
 # being plotted
-# plt.rcParams["figure.figsize"] = (6, 6)
-# # plt.rcParams["font.size"] = 12
-# plt.rcParams['figure.max_open_warning'] = 0
-# # np.seterr(divide='ignore', invalid='ignore')
+plt.rcParams["figure.figsize"] = (6, 6)
+# plt.rcParams["font.size"] = 12
+plt.rcParams['figure.max_open_warning'] = 0
+# np.seterr(divide='ignore', invalid='ignore')
 
 # To fix the random number genration, currently not able, so as to retain the random selection of points
-random_seed = 400
+random_seed = 200
 np.random.seed(random_seed)
 
 
 # Class for starting Bayesian Optimization with the specified parameters
 class KernelOptimizationWrapper:
 
-    def kernel_wrapper(self, start_time, input):
+    def kernel_wrapper(self, start_time, input, cmd_inputs):
 
         # Number of data points in X  for the grid
-        number_of_samples_in_X_for_grid = 4
+        number_of_samples_in_X_for_grid = 10
         number_of_samples_in_Xs_for_grid = 5
 
         # Lower bound considered, required for sample generation
@@ -52,19 +53,29 @@ class KernelOptimizationWrapper:
         # Number of points required to be observed to evaluate the unknown function ((10:20)*no_dimensions )
         # number_of_iterations = number_of_dimensions * 10
         number_of_subspace_selection_iterations = 5
-        number_of_iterations_best_solution = 5
+        number_of_iterations_best_solution = 20
 
-        # LINEBO
-        # number_of_basis_vectors_chosen = 2
+        if "subspace" in cmd_inputs:
+            number_of_subspace_selection_iterations = cmd_inputs["subspace"]
+        else:
+            number_of_subspace_selection_iterations = 5
+
+        if "iteration" in cmd_inputs:
+            number_of_iterations_best_solution = cmd_inputs["iteration"]
+        else:
+            number_of_iterations_best_solution = 5
+
         number_of_basis_vectors_chosen = 1
 
         basis_weights_bounds = [0.1, 1]
 
         number_of_init_random_kernel_y_observations = 4
 
+        #Commenting to modify the code for calculating the minimum negative likelihood
         # extrema_type = -1 if function maxima is considered
         # extrema_type = 1  if function minima is considered Ex: Regret is +infinity, as Regret reduces over iterations
-        extrema_type = -1
+        # extrema_type = -1
+        extrema_type = 1
 
         # Number of samples for which we have the y values to be known (no_dimensions+1)
         # number_of_observed_samples = number_of_dimensions + 1
@@ -76,7 +87,11 @@ class KernelOptimizationWrapper:
         number_of_restarts_likelihood = 100
 
         # Number of runs the BO has to be run for calculating the regret and the corresponding means and the standard devs
-        number_of_runs = 2
+        number_of_runs = 10
+        if "run" in cmd_inputs:
+            number_of_runs = cmd_inputs["runs"]
+        else:
+            number_of_runs = 5
 
         # Type of kernel to be used in the optimization process
         # 0 - Squared Exponential; 1 - Rational Quadratic Function; 2 - Exponential; 3 - Periodic***(To be fixed)
@@ -87,32 +102,10 @@ class KernelOptimizationWrapper:
         # hyperkernel_type = 'free_rbf_kernel'
         # hyperkernel_type = 'linear_kernel'
 
-        #exp1 Linsin 27
-        # hyper_lambda = 0.13733357
-        #original
-        # hyper_lambda = 0.01
-        #exp linsin 28
-        # hyper_lambda = 0.01
 
-        # GMIX
-        # Plot
-        # hyper_lambda = 0.01
-        # hyper_char_len_scale = 0.05
-        # Max
-        # hyper_lambda = 0.1
-        # hyper_char_len_scale = 0.1
-
-        # SINC
-        #Max
-        # hyper_lambda = 0.05
-        # hyper_char_len_scale = 0.05
-        #Plot
-        # hyper_lambda = 0.1
-        # hyper_char_len_scale = 0.1
-
-        # Triangular function - Working for 1 peak and multi peak
-        hyper_lambda = 0.01
-        hyper_char_len_scale = 0.05
+        # Matern Harmonic Kernel
+        hyper_lambda = 0.1
+        hyper_char_len_scale = 0.1
 
 
         if input is not None:
@@ -120,16 +113,10 @@ class KernelOptimizationWrapper:
             hyper_char_len_scale = input[1]
             PH.printme(PH.p1, "Inputs Supplied: ", input)
 
-        # Free RBF
-        # hyper_char_len_scale = 1.2
-
-
         # Characteristics of the Kernel being used, currently implemented for the square exponential kernel
-        # Required to set up the GP Object initially
+        # Required in the instantiation of GP Object
         kernel_char = 'ard'
 
-        # characteristic_length_scale = np.array([1 for nd in np.arange(number_of_dimensions)])
-        # char_length_scale = [1 for nd in np.arange(number_of_dimensions)]
         char_length_scale = 0.3
         len_scale_bounds = [[0.1, 1]]
 
@@ -168,17 +155,25 @@ class KernelOptimizationWrapper:
         kernel_iter_types = ['fix_l']
         # kernel_iter_types = ['m_ker']
 
-        tot_max_loglik = np.array([])
+        tot_min_loglik = np.array([])
         tot_best_sol = np.array([])
 
         kernel_type = "SE"
 
-        synthetic_data = True
-        dataset = None
-        # synthetic_data = False
-        # dataset = 'challenger'
-        # dataset = 'concrete'
-        # dataset = 'fertility'
+        # synthetic_data = True
+        # dataset = None
+        synthetic_data = False
+        if "dataset" in cmd_inputs:
+            dataset = cmd_inputs["dataset"]
+        else:
+            # dataset = 'challenger'
+            # dataset = 'concrete'
+            # dataset = 'fertility'
+            # dataset = 'yacht'
+            # dataset = 'boston'
+            # dataset = 'airfoil'
+            dataset = 'concreteslump'
+            # dataset = 'auto'
 
         # Initial value to denote the type of ACQ function to be used, but ignored as all ACQs are run in the sequence
         # acq_fun_list = ['ei', 'pi', 'rs', 'ucb']
@@ -196,15 +191,15 @@ class KernelOptimizationWrapper:
                    "\tnumber_of_iterations_best_solution:", number_of_iterations_best_solution,
                    "\nnumber_of_init_random_kernel_y_observations:", number_of_init_random_kernel_y_observations, "\tacq_fun_list:",
                    acq_fun_list, "\nLength scale bounds: ", len_scale_bounds, "\tnumber of restart likelihoods: ",
-                   number_of_restarts_likelihood, "\thyper_char_len_scale: ", hyper_char_len_scale,"\nClipping indicator")
+                   number_of_restarts_likelihood, "\thyper_char_len_scale: ", hyper_char_len_scale)
 
         if not synthetic_data:
             PH.printme(PH.p1, "Dataset: ", dataset)
-
+            number_of_samples_in_X_for_grid = 4
 
         PH.printme(PH.p1, "\n###################################################################\n")
         timenow = datetime.datetime.now()
-        PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
+        PH.printme(PH.p4, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
         # Run Optimization for the specified number of runs
         for i in range(number_of_runs):
@@ -234,9 +229,6 @@ class KernelOptimizationWrapper:
                 X.append(array)
             X = np.vstack(X)
 
-            # Normalisation code
-            # X = np.divide((X - min_X), (max_X - min_X))
-
             # Create Gaussian Process  object to carry on the prediction and model fitting tasks
             hyper_gaussian_object = HyperGaussianProcess(X, hyperkernel_type, kernel_type, char_length_scale, sigma_len, sigma_len_bounds,
                                                          signal_variance_bounds, number_of_samples_in_X_for_grid,
@@ -263,93 +255,23 @@ class KernelOptimizationWrapper:
                                                    number_of_subspace_selection_iterations, number_of_iterations_best_solution,
                                                    number_of_init_random_kernel_y_observations, gp_wrapper_obj)
 
-            # #Algorithm running for PI acquisition function
+            # #Algorithm running for UCB acquisition function
             if 'UCB' in acq_fun_list:
                 acq_type = 'UCB'
                 kernel_optimiser_obj.acquisition_utility_object.set_acq_func_type(acq_type)
                 best_solution_found = kernel_optimiser_obj.optimise_kernel(i + 1)
-                PH.printme(PH.p1, "Best solution found for run: ", i+1, kernel_optimiser_obj.best_solution)
-                maximum_likelihood = gp_wrapper_obj.compute_likelihood_for_kernel('HYPER', best_solution_found['best_kernel'],
+                PH.printme(PH.p2, "*************BestR", i+1, kernel_optimiser_obj.best_solution)
+                minimum_likelihood = gp_wrapper_obj.compute_likelihood_for_kernel('HYPER', best_solution_found['best_kernel'],
                                                                                   hyper_gaussian_object)
-                PH.printme(PH.p1, "Maximum log marginal likelihood obtained: ", maximum_likelihood)
-                tot_max_loglik = np.append(tot_max_loglik, maximum_likelihood)
+                PH.printme(PH.p1, "Maximum log marginal likelihood obtained: ", minimum_likelihood)
+                tot_min_loglik = np.append(tot_min_loglik, minimum_likelihood)
                 tot_best_sol = np.append(tot_best_sol, best_solution_found)
-                PH.printme(PH.p1, "\n\n***************************Run ", i+1, " completed**********************\n\n\n\n")
+                PH.printme(PH.p1, "\n\n***************************R", i+1, "comp**********************\n\n\n\n")
 
+        mean_min_likelihood = np.mean(tot_min_loglik)
 
-        # #Commenting the following code for integration with Outer Bayesian Optimisation
-        # # PH.printme(PH.p1, "Initiating kernel plotting...")
-        # # gp_wrapper_obj.plot_GP_Reg__kernel("Kernel Learnt", best_solution_found['best_kernel'])
-        PH.printme(PH.p1, "Plotting posterior distribution")
-        gp_wrapper_obj.compute_posterior_distribution('HYPER', best_solution_found['best_kernel'], hyper_gaussian_object, "final posterior")
-
-        mean_max_likelihood = np.mean(tot_max_loglik)
-
-        PH.printme(PH.p1, "\n\n@@@@@@@Mean likelihood for Bayesian Optimisation : ", mean_max_likelihood)
-        # # Uncomment to see the graph if not integrated with BO
-        plt.show()
-        return mean_max_likelihood
-
-                # Store the regret obtained in each run so that mean and variance can be calculated to plot the simple regret
-                # pi_regret_eachrun = bay_opt_obj.run_bayes_opt(i + 1)
-                # pi_regret_eachrun = np.append(init_regret, pi_regret_eachrun)
-                # total_pi_regret.append(pi_regret_eachrun)
-
-            # for kernel in kernels_list:
-            #     lik = gp_wrapper_obj.compute_likelihood_for_kernel(kernel)
-
-
-        # iterations_axes_values = [i + 1 for i in np.arange(number_of_iterations+(number_of_dimensions+1))]
-        # fig_name = 'Regret_'+'_iter'+str(number_of_iterations)+'_runs'+str(number_of_runs)+'_'
-        # plt.figure(str(fig_name))
-        # plt.clf()
-        #
-        # ax = plt.subplot(111)
-        # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-        #
-        # if ('pi' in acq_fun_list):
-        #     # Accumulated values for the regret is used to calculate the mean and deviations at each evaluations/iterations
-        #     # Vertically stack the arrays obtained in each run as a matrix rows and columns to calculate the mean and deviations
-        #     total_pi_regret = np.vstack(total_pi_regret)
-        #
-        #     # Calculate the mean and deviations of regrets for each evaluations in each run
-        #     pi_regret_mean = np.mean(total_pi_regret, axis=0)
-        #     pi_regret_std_dev = np.std(total_pi_regret, axis=0)
-        #
-        #     # Display the values of the regret to help debugging if required
-        #     PH.printme(PH.p1, "\n\nTotal PI Regret\n", total_pi_regret, "\n\nPI Regret Mean",
-        #           pi_regret_mean, "\n\nPI Regret Deviation\n", pi_regret_std_dev)
-        #
-        #     # Plot the deviations observed for each of the ACQ type and errorbar if required
-        #     ax.plot(iterations_axes_values, pi_regret_mean, 'g')
-        #     # plt.errorbar(iterations_axes_values, pi_regret_mean, yerr=pi_regret_std_dev)
-        #     plt.gca().fill_between(iterations_axes_values, pi_regret_mean + pi_regret_std_dev,
-        #                            pi_regret_mean - pi_regret_std_dev, color="green", alpha=0.25, label='PI')
-        #
-        #
-        #  if ('ucb' in acq_fun_list):
-        #     total_ucb_regret = np.vstack(total_ucb_regret)
-        #     ucb_regret_mean = np.mean(total_ucb_regret, axis=0)
-        #     ucb_regret_std_dev = np.std(total_ucb_regret, axis=0)
-        #     PH.printme(PH.p1, "\n\nTotal UCB Regret\n", total_ucb_regret, "\n\nUCB Regret Mean", ucb_regret_mean,
-        #           "\n\nUCB Regret Deviation\n", ucb_regret_std_dev)
-        #
-        #     ax.plot(iterations_axes_values, ucb_regret_mean, 'r')
-        #     # plt.errorbar(iterations_axes_values, ucb_regret_mean, yerr=ucb_regret_std_dev)
-        #     plt.gca().fill_between(iterations_axes_values, ucb_regret_mean + ucb_regret_std_dev,
-        #                            ucb_regret_mean - ucb_regret_std_dev, color="red", alpha=0.25, label='UCB')
-        #
-        # timenow = datetime.datetime.now()
-        # PH.printme(PH.p1, "\nEnd time: ", timenow.strftime("%H%M%S_%d%m%Y"))
-        #
-        # # Set the parameters of the simple regret graph
-        # plt.axis([1, len(iterations_axes_values), 0, 0.5])
-        # plt.title('Regret')
-        # plt.xlabel('Evaluations')
-        # plt.ylabel('Simple Regret')
-        # plt.savefig(fig_name+str(start_time)+'.png')
-        # legend = ax.legend(loc=1, fontsize='x-small')
-        # plt.show()
+        PH.printme(PH.p1, "\n\n*******************************M", mean_min_likelihood," completed******************************")
+        return mean_min_likelihood
 
 
 if __name__ == "__main__":
@@ -357,5 +279,26 @@ if __name__ == "__main__":
     stamp = timenow.strftime("%H%M%S_%d%m%Y")
     PH(os.getcwd())
     input = None
+
+    argv = sys.argv[1:]
+    cmd_inputs = {}
+
+    try:
+        opts, args = getopt.getopt(argv, "d:s:t:r:", ["dataset=", "subspaces=", "iterations=", "runs="])
+    except getopt.GetoptError:
+        print('python KerOptWrapper.py -d <dataset> -s <number_of_subspaces> -t <number_of_iterations> -r <runs>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-d", "--dataset"):
+            cmd_inputs["dataset"] = arg
+        elif opt in ("-s", "--subspaces"):
+            cmd_inputs["subspaces"] = int(arg)
+        elif opt in ("-t", "--iterations"):
+            cmd_inputs["iterations"] = int(arg)
+        elif opt in ("-r", "--runs"):
+            cmd_inputs["runs"] = int(arg)
+        else:
+            print('python KerOptWrapper.py -d <dataset> -s <number_of_subspaces> -t <number_of_iterations> -r <runs>')
+            sys.exit()
     ker_opt_wrapper_obj = KernelOptimizationWrapper()
-    ker_opt_wrapper_obj.kernel_wrapper(stamp, input)
+    ker_opt_wrapper_obj.kernel_wrapper(stamp, input, cmd_inputs)

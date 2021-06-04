@@ -6,16 +6,35 @@ import sys, getopt
 import datetime
 import numpy as np
 
-# Triangular wave
 
-X = np.linspace(0, 10,1000)
-y_arr = (2*np.arcsin(np.sin(np.pi*X)))/(np.pi)
-plt.xlabel("X")
-plt.ylabel("f(x)")
-plt.plot(X,y_arr)
+
+x = np.linspace(-1,10,100)
+y = np.array([])
+
+for each_x in x:
+    each_y = np.sin(np.pi * each_x)
+    if each_y < 0:
+        each_y = 0
+    elif each_y > 0:
+        each_y = 1
+    else:
+        each_y = 0
+    y = np.append(y, each_y)
+
+plt.plot(x,y)
 plt.show()
 exit(0)
 
+# Triangular wave
+#
+# X = np.linspace(0, 10,1000)
+# y_arr = (2*np.arcsin(np.sin(np.pi*X)))/(np.pi)
+# plt.xlabel("X")
+# plt.ylabel("f(x)")
+# plt.plot(X,y_arr)
+# plt.show()
+# exit(0)
+#
 
 
 # Gaussian Mixtures

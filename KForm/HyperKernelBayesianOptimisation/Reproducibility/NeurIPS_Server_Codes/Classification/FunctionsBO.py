@@ -1,14 +1,73 @@
 import numpy as np
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report, confusion_matrix
+import os
+import sys
+import datetime
+sys.path.insert(0, 'HKFKO')
+from KerOptWrapper import KernelOptimizationWrapper
 
 import sys
-sys.path.append("../..")
+sys.path.append("..")
 from HelperUtility.PrintHelper import PrintHelper as PH
 
 
-class FunctionHelper:
+class FunctionHelperBO:
 
-    def __init__(self, func_type):
+
+
+    def __init__(self, func_type, cmd_inputs):
         self.true_func_type = func_type
+        self.cmd_inputs = cmd_inputs
+        if(func_type =="svm"):
+            # #Iris data
+
+            # type = 'iris'
+            # type = 'wine'
+            type = 'wdbc'
+            # type = 'vehicle'
+
+            if(type == 'iris'):
+                PH.printme(PH.p3, "Working with IRIS Data")
+                url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+                # Assign colum names to the dataset
+                colnames = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
+                # Read dataset to pandas dataframe
+                irisdata = pd.read_csv(url, names=colnames)
+                D = irisdata.drop('Class', axis=1)
+                f = irisdata['Class']
+
+            elif(type == 'wdbc'):
+                url = "https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data"
+                # bcdata = pd.read_csv("Dataset/wdbc.data")
+                PH.printme(PH.p3, "Working with WDBC Data")
+                bcdata = pd.read_csv(url)
+                D = bcdata.drop(bcdata.columns[[0, 1]], axis=1)
+                f = bcdata.iloc[:, 1]
+
+            elif (type == 'wine'):
+                url = "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+                PH.printme(PH.p3, "Working with wine Data")
+                winedata = pd.read_csv(url)
+                D = winedata.drop(winedata.columns[[0]], axis=1)
+                f = winedata.iloc[:, 0]
+
+            elif (type == 'vehicle'):
+                files = os.listdir("Dataset/Vehicle")
+                PH.printme(PH.p3, "working with vehicle data")
+                total_data_frame = pd.DataFrame()
+                for each_file in files:
+                    each_data_frame = pd.read_csv("Dataset/Vehicle/" + str(each_file), header=None, sep=r'[ ]', engine='python')
+                    total_data_frame = pd.concat([total_data_frame, each_data_frame], ignore_index=True)
+
+                D = total_data_frame.drop(total_data_frame.columns[[-1]], axis=1)
+                f = total_data_frame.iloc[:, -1]
+
+
+            self.D_train, self.D_test, self.f_train, self.f_test = train_test_split(D, f, test_size=0.20)
+
 
     def get_true_max(self):
 
@@ -17,20 +76,15 @@ class FunctionHelper:
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             # true_max = self.get_true_func_value(2.0202)
 
-            # oscillator
-            # exp(-x)sin(3x) + 1
+            # exp(-x)sin(3x) + 0.3
             # true_max = self.get_true_func_value(0.15545)
-
-            # complicated oscillator
-            # (np.exp(-each_x) * np.sin(1.5 * np.pi * each_x)) + 1
-            # true_max = self.get_true_func_value(0.3001)
 
             # exp(-x)sin(8.pi.x) + 1
             # true_max = self.get_true_func_value(0.061)
 
             # Gramacy and Lee function sin(10.pi.x/2x)+(x-1)^4; minima = -2.874 @ x=0.144; -sin(10.pi.x/2x)-x-1)^4; maxima = 2.874 @x=0.144
             # in the range [0.5, 2.5] max is 0.869 @x = 0.5486
-            # true_max = self.get_true_func_value(0.5486)
+            true_max = self.get_true_func_value(0.5486)
 
             # Standardised y maxima = 1.23880 @ x= 0.024024
             # true_max = self.get_true_func_value(0.024024)
@@ -40,29 +94,6 @@ class FunctionHelper:
 
             # Benchmark Function exp(-x)*sin(2.pi.x)(maxima = 0.7887), -exp(-x)*sin(2.pi.x) (minima)
             # true_max = self.get_true_func_value(0.22488)
-
-            # Square wave
-            # true_max = self.get_true_func_value(0.2)
-
-            #Triangular wave
-            true_max = self.get_true_func_value(0.5)
-
-            # chirpwave
-            # true_max = self.get_true_func_value(0.3783)
-
-            # Sinc function
-            # true_max = self.get_true_func_value(-10.05)
-
-            # Gaussian Mixture
-            # true_max = self.get_true_func_value(2.502)
-
-            # Linear Function
-            # true_max = self.get_true_func_value(1.99)
-
-            #Linear Sin Function
-            # true_max = self.get_true_func_value(9.268)
-
-
 
         elif (self.true_func_type == 'sin'):
             true_max = self.get_true_func_value(1.57079)
@@ -101,7 +132,13 @@ class FunctionHelper:
         elif (self.true_func_type == 'michalewicz2d'):
             true_max = self.get_true_func_value(np.matrix([2.20446091, 1.56922396]))
 
-        PH.printme(PH.p1, "True function:",self.true_func_type," \nMaximum is ", true_max)
+        elif (self.true_func_type == 'svm'):
+            true_max = 1
+
+        elif (self.true_func_type == 'HKFKO'):
+            true_max = 1
+
+        PH.printme(PH.p3, "True function:",self.true_func_type," \nMaximum is ", true_max)
         return true_max
 
     # function to evaluate the true function depending on the selection
@@ -116,21 +153,8 @@ class FunctionHelper:
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
 
-            #oscillator
             # exp(-x)sin(3.pi.x) + 0.3
-            # return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
-
-            # Complicated Oscillator circuit
-            # val = 0
-            # if x < 10:
-            #     val = (np.exp(-x) * np.sin(1.5 * np.pi * x)) + 1
-            # elif x > 10 and x <= 20:
-            #     x = x - 10
-            #     val = (np.exp(-x) * np.sin(1.5 * np.pi * x)) + 1
-            # elif x > 20 and x <= 30:
-            #     x = x - 20
-            #     val = (np.exp(-x) * np.sin(1.5 * np.pi * x)) + 1
-            # return val
+            # return (np.exp(-x) * np.sin(3 * np.pi * x)) + 0.3
 
             # exp(-x)sin(8.pi.x) + 1
             # return (np.exp(-x) * np.sin(8 * np.pi * x)) + 1
@@ -139,69 +163,13 @@ class FunctionHelper:
             # return (np.exp(-x) * np.sin(2 * np.pi * x))
 
             # Gramacy and Lee function sin(10.pi.x/2x)+(x-1)^4; minima = -2.874 @ x=0.144; -sin(10.pi.x/2x)-x-1)^4; maxima = 2.874 @x=0.144
-            # return -1 * ((((np.sin(10 * np.pi * x))/(2*(x)))) +(x-1) ** 4)
+            return -1 * ((((np.sin(10 * np.pi * x))/(2*(x)))) +(x-1) ** 4)
 
             # Levy function w = 1+(x-1)/4  y = (sin(w*pi))^2 + (w-1)^2(1+(sin(2w*pi))^2) max =0
             # w = -0.5+((x-1)/4)
             # w = 1+((x-1)/4)
             # value = ((np.sin(w * np.pi))**2 + ((w-1)**2)*(1+((np.sin(2*w*np.pi)) ** 2 )))
             # return -1 * value
-
-            # square wave function
-            # y = np.array([])
-            #
-            # for each_x in x:
-            #     each_y = np.sin(np.pi * each_x)
-            #     if each_y < 0:
-            #         each_y = 0
-            #     elif each_y > 0:
-            #         each_y = 1
-            #     else:
-            #         each_y = 0
-            #     y = np.append(y, each_y)
-            # return y.reshape(-1, 1)
-
-            # Triangular wave function
-            return (2 * np.arcsin(np.sin(np.pi * x))) / (np.pi)
-
-            # Chirpwave function
-            # y = np.array([])
-            # f = 1
-            # for each_x in x:
-            #     if each_x < 8:
-            #         f = 0.35
-            #     elif each_x > 8 and each_x <= 15:
-            #         f = 1.25
-            #     elif each_x > 15 and each_x <= 20:
-            #         f = 0.35
-            #     val = np.sin(2 * np.pi * f * each_x)
-            #     y = np.append(y, val)
-            # return y.reshape(-1, 1)
-
-            # Sinc Function
-            # return np.sinc(x - 10) + np.sinc(x) + np.sinc(x + 10)
-
-            # Gaussian Mixtures
-            # y = np.array([])
-            # for each_x in x:
-            #     if each_x <= 5:
-            #         sig = 0.4
-            #         mean = 2.5
-            #     elif each_x > 5 and each_x <= 10:
-            #         sig = 0.9
-            #         mean = 7.5
-            #     elif each_x > 10 and each_x <= 15:
-            #         sig = 0.6
-            #         mean= 12.5
-            #     val = 1 / (sig * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((each_x - mean) / sig) * (each_x - mean) / sig)
-            #     y = np.append(y, val)
-            # return y.reshape(-1, 1)
-
-            # Linear function
-            # return 0.1 * x + 0.2
-
-            # Linear Sin Function
-            # return 0.7*x + 1 + np.sin(2*np.pi*x)
 
         elif (self.true_func_type == 'branin2d'):
             # branin 2d fucntion
@@ -225,9 +193,7 @@ class FunctionHelper:
             x1 = x[:, 0]
             x2 = x[:, 1]
             value = (x1 ** 2 + x2 ** 2)
-            # Regression setting
-            # value = -1 * value.reshape(-1, 1)
-            value = 1 * value.reshape(-1, 1)
+            value = -1 * value.reshape(-1, 1)
             return value
 
         elif (self.true_func_type == 'hartmann3d'):
@@ -347,3 +313,26 @@ class FunctionHelper:
             value = (1* value).reshape((-1, 1))
             return value
 
+        elif(self.true_func_type == "svm"):
+
+            c = np.power(10,x[0])
+            g = np.power(10,x[1])
+            # c = x[0]
+            # g = x[1]
+
+            # PH.printme(PH.p3, "Original", x[0],x[1],"\tc,g being queried is ", c, g )
+            svclassifier = SVC(kernel='rbf', C=c, gamma=g, random_state=42)
+            svclassifier.fit(self.D_train, self.f_train)
+            accuracy = svclassifier.score(self.D_test, self.f_test)
+            return accuracy
+
+
+        elif(self.true_func_type == "HKFKO"):
+
+            PH.printme(PH.p3, "\n\n***********#### Running HKFKO for:", x, "##################***********\n\n")
+            timenow = datetime.datetime.now()
+            stamp = timenow.strftime("%H%M%S_%d%m%Y")
+
+            ker_opt_wrapper_obj = KernelOptimizationWrapper()
+            mean_accuracy = ker_opt_wrapper_obj.kernel_wrapper(stamp, x, self.cmd_inputs)
+            return mean_accuracy
