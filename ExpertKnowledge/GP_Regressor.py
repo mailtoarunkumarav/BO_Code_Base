@@ -485,7 +485,7 @@ class GaussianProcessRegressor:
                                        'axis': [0, 1, 0, 1],
                                        'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
-                                       'file': 'GP_Posterior_Distr_'+msg+".pdf",
+                                       'file': 'GP_Posterior_Distr_'+msg,
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation],
                                        'title':"MKL",

@@ -107,7 +107,7 @@ class GPRegressorWrapper:
         fun_helper_obj = FunctionHelper(true_func_type)
         len_weights = [0.1, 0.3, 0.2]
         len_weights_bounds = [[0.1, 1] for i in range(3)]
-        number_of_restarts_likelihood = 20
+        number_of_restarts_likelihood = 100
 
 
         if role != "ai" and role != "baseline":

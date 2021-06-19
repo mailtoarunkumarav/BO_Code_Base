@@ -25,17 +25,17 @@ class HumanExpertModel:
         gp_humanexpert.runGaussian("R" + str(run_count) + "_" + start_time, "HE_Initial")
 
         # Obtain Suggestions
-        suggestions_X, suggestions_y = self.obtain_expert_suggestions(run_count, gp_humanexpert, acq_func_obj,
+        suggestions_X, suggestions_y = self.obtain_expert_suggestions(run_count, start_time, gp_humanexpert, acq_func_obj,
                                                                       number_of_humanexpert_suggestions)
 
         PH.printme(PH.p1, number_of_humanexpert_suggestions, "Expert suggestions:\n", suggestions_X.T, "\n", suggestions_y.T)
-        gp_humanexpert.runGaussian("R" + str(run_count) + start_time, "HE_final")
+        gp_humanexpert.runGaussian("R" + str(run_count) + "_" + start_time, "_HE_final")
 
         gp_humanexpert.suggestions = {"suggestions_X": suggestions_X, "suggestions_y": suggestions_y}
 
         return gp_humanexpert
 
-    def obtain_expert_suggestions(self, run_count, gp_humanexpert, acq_func_obj, number_of_humanexpert_suggestions):
+    def obtain_expert_suggestions(self, run_count, start_time, gp_humanexpert, acq_func_obj, number_of_humanexpert_suggestions):
 
         suggestions_X = []
         suggestions_y = []
@@ -70,8 +70,8 @@ class HumanExpertModel:
             with np.errstate(invalid='ignore'):
                 mean, diag_variance, f_prior, f_post = gp_humanexpert.gaussian_predict(gp_humanexpert.Xs)
                 standard_deviation = np.sqrt(diag_variance)
-            gp_humanexpert.plot_posterior_predictions("R" + str(run_count) + "HE_Suggestion" + "_" + str(suggestion_count+1),
-                                                      gp_humanexpert.Xs,  gp_humanexpert.ys, mean, standard_deviation)
+            gp_humanexpert.plot_posterior_predictions("R" + str(run_count) + "_" + start_time+"_HE_Suggestion" + "_" + str(
+                suggestion_count+1), gp_humanexpert.Xs,  gp_humanexpert.ys, mean, standard_deviation)
 
         suggestions_X = np.vstack(suggestions_X)
         suggestions_y = np.vstack(suggestions_y)

@@ -33,7 +33,9 @@ class ExpAIKerOptWrapper:
     def kernel_opt_wrapper(self, start_time, input):
 
         number_of_runs = 1
-        number_of_restarts_acq = 10
+        number_of_restarts_acq = 20
+        number_of_minimiser_restarts = 20
+
         # Epsilons is the value used during the maximization of PI and EI ACQ functions
         # Greater value like Epsilon = 10 is more of exploration and Epsilon = 0.0001 (exploitation)
         # Epsilon1 used in PI : 3
@@ -51,10 +53,9 @@ class ExpAIKerOptWrapper:
 
         # Initial number of suggestions from human expert
         number_of_humanexpert_suggestions = 3
-        number_of_ai_suggestions = 5
+        number_of_suggestions_ai_baseline = 10
 
         epsilon_distance = 0.5
-        number_of_minimiser_restarts = 20
 
         #Acquisistion type
         # acq_fun = 'ei'
@@ -76,7 +77,7 @@ class ExpAIKerOptWrapper:
             acq_func_obj = AcquisitionFunction(acq_fun, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
             gp_groundtruth = gp_wrapper_obj.construct_gp_object(start_time, "GroundTruth", number_of_observations_groundtruth, None)
-            gp_groundtruth.runGaussian("R" + str(run_count) + start_time, "GT")
+            gp_groundtruth.runGaussian("R" + str(run_count) + "_" + start_time, "GT")
             PH.printme(PH.p1, "Ground truth kernel construction complete")
 
             human_expert_model_obj = HumanExpertModel()
@@ -87,11 +88,11 @@ class ExpAIKerOptWrapper:
             baseline_model_obj = BaselineModel()
             gp_baseline_model = baseline_model_obj.initiate_baseline_model(start_time, run_count, gp_wrapper_obj, gp_humanexpert,
                                                                                acq_func_obj, number_of_observations_humanexpert,
-                                                                               number_of_humanexpert_suggestions)
+                                                                               number_of_suggestions_ai_baseline)
 
             aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
             gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                         number_of_observations_humanexpert, number_of_ai_suggestions)
+                                         number_of_observations_humanexpert, number_of_suggestions_ai_baseline)
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
@@ -115,11 +116,11 @@ class ExpAIKerOptWrapper:
             # total_ucb_regret_baseline.append(np.multiply(baseline_regret, 0.5))
 
         # # # Plotting regret
-        self.plot_regret(total_ucb_regret_ai, total_ucb_regret_baseline, len(gp_baseline_model.y))
+        self.plot_regret(start_time, total_ucb_regret_ai, total_ucb_regret_baseline, len(gp_baseline_model.y))
 
         plt.show()
 
-    def plot_regret(self, total_ucb_regret_ai, total_ucb_regret_base, total_number_of_obs):
+    def plot_regret(self, start_time, total_ucb_regret_ai, total_ucb_regret_base, total_number_of_obs):
 
         iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
         fig_name = 'Regret_'
@@ -159,6 +160,7 @@ class ExpAIKerOptWrapper:
         plt.xlabel('Evaluations')
         plt.ylabel('Simple Regret')
         legend = ax.legend(loc=1, fontsize='x-small')
+        plt.savefig(fig_name + str(start_time) + '.pdf')
 
 
 if __name__ == "__main__":

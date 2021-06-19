@@ -23,7 +23,7 @@ class BaselineModel:
         gp_baseline.runGaussian("R" + str(run_count) + "_" + start_time, "Base_Initial")
 
         # Obtain Suggestions
-        suggestions_X, suggestions_y = self.obtain_baseline_suggestions(run_count, gp_baseline, acq_func_obj,
+        suggestions_X, suggestions_y = self.obtain_baseline_suggestions(run_count, start_time, gp_baseline, acq_func_obj,
                                                                       number_of_baseline_suggestions)
 
         PH.printme(PH.p1, number_of_baseline_suggestions, "Baseline suggestions:\n", suggestions_X.T, "\n", suggestions_y.T)
@@ -33,7 +33,7 @@ class BaselineModel:
 
         return gp_baseline
 
-    def obtain_baseline_suggestions(self, run_count, gp_baseline, acq_func_obj, number_of_baseline_suggestions):
+    def obtain_baseline_suggestions(self, run_count, start_time,  gp_baseline, acq_func_obj, number_of_baseline_suggestions):
 
         suggestions_X = []
         suggestions_y = []
@@ -68,7 +68,8 @@ class BaselineModel:
             with np.errstate(invalid='ignore'):
                 mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
                 standard_deviation = np.sqrt(diag_variance)
-            gp_baseline.plot_posterior_predictions("R" + str(run_count) + "Base_Suggestion" + "_" + str(suggestion_count+1),
+            gp_baseline.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_Base_Suggestion" + "_" + str(
+                suggestion_count+1),
                                                       gp_baseline.Xs,  gp_baseline.ys, mean, standard_deviation)
 
         suggestions_X = np.vstack(suggestions_X)

@@ -21,10 +21,10 @@ class AIModel:
         gp_aimodel = gp_wrapper_obj.construct_gp_object(start_time, "ai", number_of_observations_humanexpert,
                                                         gp_humanexpert.initial_random_observations)
         gp_aimodel.he_suggestions = gp_humanexpert.suggestions
-        self.optimise_kernel(gp_aimodel, run_count, number_of_ai_suggestions, acq_func_obj)
+        self.optimise_kernel(gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj)
         return gp_aimodel
 
-    def optimise_kernel(self, gp_aimodel, run_count, number_of_ai_suggestions, acq_func_obj):
+    def optimise_kernel(self, gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj):
         PH.printme(PH.p1, "Optimising the kernel with the suggested observations")
 
         ai_suggestions_X = []
@@ -33,6 +33,7 @@ class AIModel:
         for ai_suggestion_count in range(number_of_ai_suggestions):
 
             # Modified minimiser for the updated kernel estimation
+            PH.printme(PH.p1, "Flipped constraints on distance minimisation......")
             PH.printme(PH.p1, "AI model is predicting in iteration: ", ai_suggestion_count+1)
             xnew_suggestion = self.minimise_suggestions_distance(gp_aimodel, acq_func_obj, ai_suggestion_count)
             # print(xnew_suggestion)
@@ -63,9 +64,8 @@ class AIModel:
             with np.errstate(invalid='ignore'):
                 mean, diag_variance, f_prior, f_post = gp_aimodel.gaussian_predict(gp_aimodel.Xs)
                 standard_deviation = np.sqrt(diag_variance)
-            gp_aimodel.plot_posterior_predictions("R" + str(run_count+1) + "ai_suggestion" + "_" + str(ai_suggestion_count+1),
-                                                  gp_aimodel.Xs,
-                                                  gp_aimodel.ys, mean, standard_deviation)
+            gp_aimodel.plot_posterior_predictions("R" + str(run_count+1) + "_" + start_time + "_ai_suggestion" + "_" + str(
+                ai_suggestion_count+1), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
 
     def minimise_suggestions_distance(self, gp_aimodel, acq_func_obj, ai_suggestion_count):
 
@@ -149,26 +149,25 @@ class AIModel:
         gp_aimodel.len_weights = inputs[0:3]
         # Following parameters not used in any computations
 
-        K_x_x = gp_aimodel.multi_kernel(gp_aimodel.X, gp_aimodel.X, gp_aimodel.char_len_scale, gp_aimodel.signal_variance)
-        eye = 1e-3 * np.eye(len(gp_aimodel.X))
-        Knoise = K_x_x + eye
-        # Find L from K = L *L.T instead of inversing the covariance function
-        L_x_x = np.linalg.cholesky(Knoise)
-        factor = np.linalg.solve(L_x_x, gp_aimodel.y)
-
-        # multiplied with -1 to maximise the likelihood
-        log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + gp_aimodel.number_of_observed_samples * np.log(2 * np.pi) +
-                                               np.log(np.linalg.det(Knoise)))
-
         xnew, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count + 1, print_bool)
         self.xnew_temp = xnew
         PH.printme(print_bool, "Best value for acq function is found at ", xnew)
         distance_between_ind_suggestions = np.linalg.norm(gp_aimodel.he_suggestions["suggestions_X"][-1]-xnew)
 
-        if distance_between_ind_suggestions <= self.epsilon_distance:
-            total_minimiser_value = -1 * log_marginal_likelihood + distance_between_ind_suggestions
-        else:
+        if distance_between_ind_suggestions > self.epsilon_distance:
             total_minimiser_value = 1 * float("inf")
+        else:
+            K_x_x = gp_aimodel.multi_kernel(gp_aimodel.X, gp_aimodel.X, gp_aimodel.char_len_scale, gp_aimodel.signal_variance)
+            eye = 1e-3 * np.eye(len(gp_aimodel.X))
+            Knoise = K_x_x + eye
+            # Find L from K = L *L.T instead of inversing the covariance function
+            L_x_x = np.linalg.cholesky(Knoise)
+            factor = np.linalg.solve(L_x_x, gp_aimodel.y)
+
+            # multiplied with -1 to maximise the likelihood
+            log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + gp_aimodel.number_of_observed_samples * np.log(2 * np.pi) +
+                                              np.log(np.linalg.det(Knoise)))
+            total_minimiser_value = -1 * log_marginal_likelihood + distance_between_ind_suggestions
 
         return total_minimiser_value
 
