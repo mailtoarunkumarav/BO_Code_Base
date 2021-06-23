@@ -32,7 +32,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, start_time, input):
 
-        number_of_runs = 1
+        number_of_runs = 3
         number_of_restarts_acq = 20
         number_of_minimiser_restarts = 20
 
@@ -90,9 +90,9 @@ class ExpAIKerOptWrapper:
                                                                                acq_func_obj, number_of_observations_humanexpert,
                                                                                number_of_suggestions_ai_baseline)
 
-            aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
-            gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                         number_of_observations_humanexpert, number_of_suggestions_ai_baseline)
+            # aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
+            # gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
+            #                              number_of_observations_humanexpert, number_of_suggestions_ai_baseline)
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
@@ -101,12 +101,12 @@ class ExpAIKerOptWrapper:
             baseline_regret = []
             for i in range(number_of_observations_humanexpert+number_of_humanexpert_suggestions):
                 if i <= number_of_observations_humanexpert - 1:
-                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:number_of_observations_humanexpert]))
+                    # ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:number_of_observations_humanexpert]))
                     baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:number_of_observations_humanexpert]))
                 else:
-                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:i + 1]))
+                    # ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:i + 1]))
                     baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:i + 1]))
-            total_ucb_regret_ai.append(ai_regret)
+            # total_ucb_regret_ai.append(ai_regret)
             total_ucb_regret_baseline.append(baseline_regret)
 
             # # Dummy Data for AI model and Baseline runs
@@ -130,24 +130,24 @@ class ExpAIKerOptWrapper:
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
         # AI model
-        ucb_regret_ai = np.vstack(total_ucb_regret_ai)
-        ucb_regret_mean_ai = np.mean(ucb_regret_ai, axis=0)
-        ucb_regret_std_dev_ai = np.std(ucb_regret_ai, axis=0)
-        print("\nAI Regret Details\nTotal UCB Regret \n", ucb_regret_ai, "\n\nUCB Regret Mean", ucb_regret_mean_ai,
-              "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_ai)
-
-        print(ucb_regret_mean_ai)
-
-        ax.plot(iterations_axes_values, ucb_regret_mean_ai, 'b')
-        # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
-        plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_ai + ucb_regret_std_dev_ai,
-                               ucb_regret_mean_ai - ucb_regret_std_dev_ai, color="blue", alpha=0.25, label="AI UCB")
+        # ucb_regret_ai = np.vstack(total_ucb_regret_ai)
+        # ucb_regret_mean_ai = np.mean(ucb_regret_ai, axis=0)
+        # ucb_regret_std_dev_ai = np.std(ucb_regret_ai, axis=0)
+        # PH.printme(PH.p1,"\nAI Regret Details\nTotal UCB Regret \n", ucb_regret_ai, "\n\nUCB Regret Mean", ucb_regret_mean_ai,
+        #       "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_ai)
+        #
+        # PH.printme(PH.p1,ucb_regret_mean_ai)
+        #
+        # ax.plot(iterations_axes_values, ucb_regret_mean_ai, 'b')
+        # # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
+        # plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_ai + ucb_regret_std_dev_ai,
+        #                        ucb_regret_mean_ai - ucb_regret_std_dev_ai, color="blue", alpha=0.25, label="AI UCB")
 
         # Baseline model
         ucb_regret_base = np.vstack(total_ucb_regret_base)
         ucb_regret_mean_base = np.mean(ucb_regret_base, axis=0)
         ucb_regret_std_dev_base = np.std(ucb_regret_base, axis=0)
-        print("\nBaseline Regret Details\nTotal UCB Regret \n", ucb_regret_base, "\n\nUCB Regret Mean", ucb_regret_mean_base,
+        PH.printme(PH.p1,"\nBaseline Regret Details\nTotal UCB Regret \n", ucb_regret_base, "\n\nUCB Regret Mean", ucb_regret_mean_base,
               "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_base)
 
         ax.plot(iterations_axes_values, ucb_regret_mean_base, 'g')
@@ -170,3 +170,5 @@ if __name__ == "__main__":
     input = None
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
     ker_opt_wrapper_obj.kernel_opt_wrapper(stamp, input)
+
+

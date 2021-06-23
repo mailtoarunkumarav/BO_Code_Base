@@ -2,6 +2,66 @@ import scipy.optimize as opt
 import scipy as sp
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+
+
+# setting up the global parameters for plotting graphs i.e, graph size and suppress warning from multiple graphs
+# being plotted
+plt.rcParams["figure.figsize"] = (6, 6)
+# plt.rcParams["font.size"] = 12
+plt.rcParams['figure.max_open_warning'] = 0
+# np.seterr(divide='ignore', invalid='ignore')
+
+total_number_of_obs = 10
+
+iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
+fig_name = 'Regret_'
+plt.figure(str(fig_name))
+plt.clf()
+ax = plt.subplot(111)
+ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+# AI model
+
+ucb_regret_ai = [[0.336, 0.336, 0.336, 0.235, 0.235, 0.235, 0.154, 0.154,  0.1, 0.1], [0.512, 0.512, 0.512, 0.205, 0.205, 0.205, 0.157,
+                                                                                       0.157, 0.06, 0.05]]
+ucb_regret_ai = np.vstack(ucb_regret_ai)
+ucb_regret_mean_ai = np.mean(ucb_regret_ai, axis=0)
+ucb_regret_std_dev_ai = np.std(ucb_regret_ai, axis=0)
+
+ax.plot(iterations_axes_values, ucb_regret_mean_ai, 'b')
+# plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
+plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_ai + ucb_regret_std_dev_ai,
+                       ucb_regret_mean_ai - ucb_regret_std_dev_ai, color="blue", alpha=0.25, label="AI UCB")
+
+# Baseline model
+
+ucb_regret_base = [[0.336, 0.336, 0.336, 0.165, 0.160, 0.160, 0.112, 0.112,  0.07, 0.07], [0.512, 0.512, 0.512, 0.183, 0.183, 0.183, 0.183,
+                                                                                      0.09,
+                                                                                   0.09,
+                                                                                   0.06]]
+ucb_regret_base = np.vstack(ucb_regret_base)
+ucb_regret_mean_base= np.mean(ucb_regret_base, axis=0)
+ucb_regret_std_dev_base = np.std(ucb_regret_base, axis=0)
+
+ucb_regret_mean_base = np.mean(ucb_regret_base, axis=0)
+ucb_regret_std_dev_base = np.std(ucb_regret_base, axis=0)
+print("\nBaseline Regret Details\nTotal UCB Regret \n", ucb_regret_base, "\n\nUCB Regret Mean", ucb_regret_mean_base,
+           "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_base)
+
+ax.plot(iterations_axes_values, ucb_regret_mean_base, 'g')
+# plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
+plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_base + ucb_regret_std_dev_base,
+                       ucb_regret_mean_base - ucb_regret_std_dev_base, color="green", alpha=0.25, label="Baseline UCB")
+
+plt.axis([1, len(iterations_axes_values), 0, 1])
+plt.title('MKL')
+plt.xlabel('Evaluations')
+plt.ylabel('Simple Regret')
+legend = ax.legend(loc=1, fontsize='x-small')
+plt.show()
+exit(0)
+
 # Maximizers and Gradients
 
 init_obs = 3
