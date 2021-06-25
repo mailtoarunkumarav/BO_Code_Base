@@ -412,7 +412,7 @@ class GaussianProcessRegressor:
                                       tot_init_points,
                                       method='L-BFGS-B',
                                       tol=0.01,
-                                      options={'maxfun': 20, 'maxiter': 20},
+                                      options={'maxfun': 200, 'maxiter': 20},
                                       bounds=total_bounds)
 
                 params = maxima['x']
@@ -463,7 +463,7 @@ class GaussianProcessRegressor:
         elif self.kernel_type == 'MKL':
             title = "Multiple Kernel Learning"
 
-        plot_posterior_distr_params = {'plotnum': 'Fig__' +self.output_gen_time+"_"+role+"_"+self.kernel_type,
+        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+ msg+"_"+role,
                                        # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                        # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
                                        'axis': [0, 1, 0, 1],
@@ -481,14 +481,14 @@ class GaussianProcessRegressor:
 
     def plot_posterior_predictions(self, msg, Xs, ys, mean, standard_deviation):
 
-        plot_posterior_distr_params = {'plotnum': 'Fig: '+msg,
+        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+msg,
                                        'axis': [0, 1, 0, 1],
                                        'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
                                        'file': 'GP_Posterior_Distr_'+msg,
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation],
-                                       'title':"MKL",
+                                       'title': "MKL",
                                        'xlabel': 'x',
                                        'ylabel': 'output, f(x)'
                                        }

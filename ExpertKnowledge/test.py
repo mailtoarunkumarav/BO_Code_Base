@@ -4,6 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
+# # Random testing
+print(np.round(np.random.uniform(0, 1),4))
+exit(0)
+
+# # checking the plots
 
 # setting up the global parameters for plotting graphs i.e, graph size and suppress warning from multiple graphs
 # being plotted

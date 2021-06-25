@@ -15,11 +15,11 @@ class FunctionHelper:
         # define y_max for the true functions
         if (self.true_func_type == 'custom'):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
-            true_max = self.get_true_func_value(2.0202)
+            # true_max = self.get_true_func_value(2.0202)
 
             # oscillator
             # exp(-x)sin(3x) + 1
-            # true_max = self.get_true_func_value(0.15545)
+            true_max = self.get_true_func_value(0.15545)
 
             # complicated oscillator
             # (np.exp(-each_x) * np.sin(1.5 * np.pi * each_x)) + 1
@@ -44,7 +44,7 @@ class FunctionHelper:
             # Square wave
             # true_max = self.get_true_func_value(0.2)
 
-            #Triangular wave
+            # Triangular wave
             # true_max = self.get_true_func_value(0.5)
 
             # chirpwave
@@ -59,8 +59,11 @@ class FunctionHelper:
             # Linear Function
             # true_max = self.get_true_func_value(1.99)
 
-            #Linear Sin Function
+            # Linear Sin Function
             # true_max = self.get_true_func_value(9.268)
+
+            # Ackley 1D
+            # true_max = self.get_true_func_value(0)
 
 
 
@@ -114,11 +117,11 @@ class FunctionHelper:
 
         elif (self.true_func_type == 'custom'):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
-            return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+            # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
 
             #oscillator
-            # exp(-x)sin(3.pi.x) + 0.3
-            # return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
+            # exp(-x)sin(3.pi.x) + 01
+            return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
 
             # Complicated Oscillator circuit
             # val = 0
@@ -139,7 +142,7 @@ class FunctionHelper:
             # return (np.exp(-x) * np.sin(2 * np.pi * x))
 
             # Gramacy and Lee function sin(10.pi.x/2x)+(x-1)^4; minima = -2.874 @ x=0.144; -sin(10.pi.x/2x)-x-1)^4; maxima = 2.874 @x=0.144
-            # return -1 * ((((np.sin(10 * np.pi * x))/(2*(x)))) +(x-1) ** 4)
+            # return -1 * (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4)
 
             # Levy function w = 1+(x-1)/4  y = (sin(w*pi))^2 + (w-1)^2(1+(sin(2w*pi))^2) max =0
             # w = -0.5+((x-1)/4)
@@ -202,6 +205,13 @@ class FunctionHelper:
 
             # Linear Sin Function
             # return 0.7*x + 1 + np.sin(2*np.pi*x)
+
+            # Ackley 1d
+            # a = 20
+            # b = 0.2
+            # c = 2 * np.pi
+            # return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
+
 
         elif (self.true_func_type == 'branin2d'):
             # branin 2d fucntion

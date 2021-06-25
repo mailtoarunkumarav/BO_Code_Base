@@ -16,8 +16,9 @@ class GPRegressorWrapper:
 
         # Multi Kernel for the initial experiments
         kernel_type = 'MKL'
-        char_len_scale = 0.4
+        char_len_scale = 0.15
         number_of_test_datapoints = 500
+        number_of_restarts_likelihood = 100
         noise = 0.0
         signal_variance = 1
 
@@ -28,10 +29,10 @@ class GPRegressorWrapper:
         # linspaceymax = 1.5
 
         # Oscillator
-        # linspacexmin = 0
-        # linspacexmax = 8
-        # linspaceymin = 0
-        # linspaceymax = 2.5
+        linspacexmin = 0
+        linspacexmax = 8
+        linspaceymin = 0
+        linspaceymax = 2.5
 
         # Complicated Oscillator
         # linspacexmin = 0
@@ -40,10 +41,10 @@ class GPRegressorWrapper:
         # linspaceymax = 2
 
         # Benchmark
-        linspacexmin = 0
-        linspacexmax = 10
-        linspaceymin = -1.5
-        linspaceymax = 3
+        # linspacexmin = 0
+        # linspacexmax = 10
+        # linspaceymin = -1.5
+        # linspaceymax = 3
 
         # Levy
         # linspacexmin = -10
@@ -87,6 +88,18 @@ class GPRegressorWrapper:
         # linspaceymin = 0
         # linspaceymax = 10
 
+        # Gramacy Lee Function
+        # linspacexmin = 0.5
+        # linspacexmax = 2.5
+        # linspaceymin = -1
+        # linspaceymax = 1
+
+        # Ackley Function
+        # linspacexmin = -10
+        # linspacexmax = 10
+        # linspaceymin = -25
+        # linspaceymax = 0.5
+
         number_of_dimensions = 1
         oned_bounds = [[linspacexmin, linspacexmax]]
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
@@ -107,7 +120,6 @@ class GPRegressorWrapper:
         fun_helper_obj = FunctionHelper(true_func_type)
         len_weights = [0.1, 0.3, 0.2]
         len_weights_bounds = [[0.1, 1] for i in range(3)]
-        number_of_restarts_likelihood = 100
 
 
         if role != "ai" and role != "baseline":

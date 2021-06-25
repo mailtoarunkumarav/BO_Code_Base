@@ -27,8 +27,6 @@ class BaselineModel:
                                                                       number_of_baseline_suggestions)
 
         PH.printme(PH.p1, number_of_baseline_suggestions, "Baseline suggestions:\n", suggestions_X.T, "\n", suggestions_y.T)
-        gp_baseline.runGaussian("R" + str(run_count) + start_time, "Base_final")
-
         gp_baseline.suggestions = {"suggestions_X": suggestions_X, "suggestions_y": suggestions_y}
 
         return gp_baseline
