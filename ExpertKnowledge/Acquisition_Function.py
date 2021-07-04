@@ -73,7 +73,7 @@ class AcquisitionFunction():
             std_dev = np.sqrt(variance)
             result = self.expected_improvement(mean, std_dev, y_max)
             # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
-            return -1 * result
+            return result
 
     def probability_improvement_util(self, x, y_max, gp_obj):
         with np.errstate(divide='ignore') or np.errstate(invalid='ignore'):
@@ -83,16 +83,16 @@ class AcquisitionFunction():
             std_dev = np.sqrt(variance)
             result = self.probability_improvement(mean, std_dev, y_max)
             # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
-            return -1 * result
+            return result
 
-    def upper_confidence_bound_util(self, x, gp_obj, iteration_count ):
+    def upper_confidence_bound_util(self, x, gp_obj, iteration_count):
         with np.errstate(divide='ignore') or np.errstate(invalid='ignore'):
             # Use Gaussian Process to predict the values for mean and variance at given x
             mean, variance, fprior, f_post = gp_obj.gaussian_predict(np.matrix(x))
             std_dev = np.sqrt(variance)
             result = self.ucb_acq_func(mean, std_dev, iteration_count)
             # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
-            return -1 * result
+            return result
 
 
     # Method to maximize the ACQ function as specified the user
@@ -100,7 +100,7 @@ class AcquisitionFunction():
 
         # Initialize the xmax value and the function values to zeroes
         x_max_value = np.zeros(gp_obj.number_of_dimensions)
-        fmax = - 1* float("inf")
+        fmax = - 1 * float("inf")
 
         # Temporary data structures to store xmax's, function values of each run of finding maxima using scipy.minimize
         tempmax_x=[]
@@ -140,9 +140,10 @@ class AcquisitionFunction():
             for starting_point in starting_points:
 
                 # Find the maxima in the bounds specified for the PI ACQ function
-                max_x = opt.minimize(lambda x: self.probability_improvement_util(x, y_max, gp_obj), starting_point,
+                max_x = opt.minimize(lambda x: -self.probability_improvement_util(x, y_max, gp_obj), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.001,
+                                     options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
                                      bounds=[[0, 1]])
 
@@ -180,9 +181,10 @@ class AcquisitionFunction():
             for starting_point in starting_points:
 
                 # Find the maxima in the bounds specified for the UCB ACQ function
-                max_x = opt.minimize(lambda x: self.upper_confidence_bound_util(x, gp_obj, iteration_count),starting_point ,
+                max_x = opt.minimize(lambda x: -self.upper_confidence_bound_util(x, gp_obj, iteration_count), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.001,
+                                     options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
                                      bounds=[[0, 1]])
 
@@ -196,8 +198,8 @@ class AcquisitionFunction():
                 tempfvals.append(fvalue)
 
                 # Compare the values obtained in the current run to find the best value overall and store accordingly
-                if (fvalue > fmax):
-                    PH.printme(print_bool,"New best Fval: ", fvalue, " found at: ", max_x['x'])
+                if fvalue > fmax:
+                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", max_x['x'])
                     x_max_value = max_x['x']
                     fmax = fvalue
 
@@ -225,10 +227,10 @@ class AcquisitionFunction():
             for starting_point in starting_points:
 
                 # Find the maxima in the bounds specified for the PI ACQ function
-                max_x = opt.minimize(lambda x: self.expected_improvement_util(x, y_max, gp_obj), starting_point,
+                max_x = opt.minimize(lambda x: -self.expected_improvement_util(x, y_max, gp_obj), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.01,
-                                     options={'maxfun': 20, 'maxiter': 20},
+                                     options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
                                      # bounds = [[0, 1],[0,1]])
                                      bounds=[[0, 1]])
@@ -261,6 +263,176 @@ class AcquisitionFunction():
             #     pH.printme(print_bool,tempfvals, tempmax_x)
 
         return x_max_value, acq_func_values
+
+    # Method to maximize the ACQ function as specified the user
+    def min_acq_func(self, gp_obj, iteration_count, print_bool="TT"):
+
+        # # Initialize the xmax value and the function values to zeroes
+        x_min_value = np.zeros(gp_obj.number_of_dimensions)
+        fmin = 1 * float("inf")
+
+        # Temporary data structures to store xmax's, function values of each run of finding maxima using scipy.minimize
+        tempmax_x = []
+        tempfvals = []
+
+        # Data structure to create the starting points for the scipy.minimize method
+        random_points = []
+        starting_points = []
+        # Depending on the number of dimensions and bounds, generate random multiple starting points to find maxima
+        for dim in np.arange(gp_obj.number_of_dimensions):
+            random_data_point_each_dim = np.random.uniform(gp_obj.bounds[dim][0], gp_obj.bounds[dim][1],
+                                                           self.number_of_restarts).reshape(1, self.number_of_restarts)
+            random_points.append(random_data_point_each_dim)
+
+        # Vertically stack the arrays of randomly generated starting points as a matrix
+        random_points = np.vstack(random_points)
+
+        # Reformat the generated random starting points in the form [x1 x2].T for the specified number of restarts
+        for sample_num in np.arange(self.number_of_restarts):
+            array = []
+            for dim_count in np.arange(gp_obj.number_of_dimensions):
+                array.append(random_points[dim_count, sample_num])
+            starting_points.append(array)
+        starting_points = np.vstack(starting_points)
+
+        # Normalizing code
+        starting_points = np.divide((starting_points - gp_obj.Xmin), (gp_obj.Xmax - gp_obj.Xmin))
+
+        # Find maxima of the ACQ function using PI
+        if (self.acq_type == 'pi'):
+
+            # Obtain the maximum value of the unknown function from the samples observed already
+            y_max = gp_obj.y.max()
+            PH.printme(print_bool, "ACQ Function : PI ")
+
+            # Obtain the maxima of the ACQ function by starting the optimization at different start points
+            for starting_point in starting_points:
+
+                # Find the maxima in the bounds specified for the PI ACQ function
+                min_x = opt.minimize(lambda x: self.probability_improvement_util(x, y_max, gp_obj), starting_point,
+                                     method='L-BFGS-B',
+                                     tol=0.001,
+                                     options={'maxfun': 200, 'maxiter': 20},
+                                     # bounds=gp_obj.bounds)
+                                     bounds=[[0, 1]])
+
+                # Use gaussian process to predict mean and variances for the maximum point identified
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(min_x['x']))
+                std_dev = np.sqrt(variance)
+                fvalue = self.probability_improvement(mean, std_dev, y_max)
+
+                # Store the maxima of ACQ function and the corresponding value at the maxima, required for debugging
+                tempmax_x.append(min_x['x'])
+                tempfvals.append(fvalue)
+                # Compare the values obtained in the current run to find the best value overall and store accordingly
+                if (fvalue < fmin):
+                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", min_x['x'])
+                    x_min_value = min_x['x']
+                    fmin = fvalue
+
+            PH.printme(print_bool, "PI Best is ", fmin, "at ", x_min_value)
+
+            # Calculate the ACQ function values at each of the unseen data points to plot the ACQ function
+            with np.errstate(invalid='ignore'):
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(gp_obj.Xs)
+                std_dev = np.sqrt(variance)
+                acq_func_values = self.probability_improvement(mean, std_dev, y_max)
+
+            # used to verify if the maxima value is really found at 0
+            # if(x_max_value==[0]):
+            #     pH.printme(print_bool,'\n\ntemp fvalues and xmax',tempfvals, tempmax_x)
+
+        # Find maxima of the ACQ function using UCB
+        elif (self.acq_type == "ucb"):
+            # PH.printme(print_bool, "ACQ Function : UCB ")
+
+            # Obtain the maxima of the ACQ function by starting the optimization at different start points
+            for starting_point in starting_points:
+
+                # Find the maxima in the bounds specified for the UCB ACQ function
+                min_x = opt.minimize(lambda x: self.upper_confidence_bound_util(x, gp_obj, iteration_count),
+                                     starting_point,
+                                     method='L-BFGS-B',
+                                     tol=0.001,
+                                     options={'maxfun': 200, 'maxiter': 20},
+                                     # bounds=gp_obj.bounds)
+                                     bounds=[[0, 1]])
+
+                # Use gaussian process to predict mean and variances for the maximum point identified
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(min_x['x']))
+                std_dev = np.sqrt(variance)
+                fvalue = self.ucb_acq_func(mean, std_dev, iteration_count)
+
+                # Store the maxima of ACQ function and the corresponding value at the maxima, required for debugging
+                tempmax_x.append(min_x['x'])
+                tempfvals.append(fvalue)
+
+                # Compare the values obtained in the current run to find the best value overall and store accordingly
+                if (fvalue < fmin):
+                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", min_x['x'])
+                    x_min_value = min_x['x']
+                    fmin = fvalue
+
+            PH.printme(print_bool, "UCB Best is ", fmin, "at ", x_min_value)
+
+            # Calculate the ACQ function values at each of the unseen data points to plot the ACQ function
+            with np.errstate(invalid='ignore'):
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(gp_obj.Xs)
+                std_dev = np.sqrt(variance)
+                acq_func_values = self.ucb_acq_func(mean, std_dev, iteration_count)
+
+            # used to verify if the maxima value is really found at 0
+            # if(x_max_value==[0]):
+            #     pH.printme(print_bool,tempfvals, tempmax_x)
+
+        # Find maxima of the ACQ function using EI
+
+        elif (self.acq_type == 'ei'):
+
+            # Obtain the maximum value of the unknown function from the samples observed already
+            y_max = gp_obj.y.max()
+            PH.printme(print_bool, "ACQ Function : EI ")
+
+            # Obtain the maxima of the ACQ function by starting the optimization at different start points
+            for starting_point in starting_points:
+
+                # Find the maxima in the bounds specified for the PI ACQ function
+                min_x = opt.minimize(lambda x: self.expected_improvement_util(x, y_max, gp_obj), starting_point,
+                                     method='L-BFGS-B',
+                                     tol=0.01,
+                                     options={'maxfun': 20, 'maxiter': 20},
+                                     # bounds=gp_obj.bounds)
+                                     # bounds = [[0, 1],[0,1]])
+                                     bounds=[[0, 1]])
+
+                # Use gaussian process to predict mean and variances for the maximum point identified
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.array([min_x['x']]))
+                std_dev = np.sqrt(variance)
+                fvalue = self.expected_improvement(mean, std_dev, y_max)
+
+                # Store the maxima of ACQ function and the corresponding value at the maxima, required for debugging
+                tempmax_x.append(min_x['x'])
+                tempfvals.append(fvalue)
+
+                # Compare the values obtained in the current run to find the best value overall and store accordingly
+                if (fvalue < fmin):
+                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", min_x['x'])
+                    x_min_value = min_x['x']
+                    fmin = fvalue
+
+            PH.printme(print_bool, "EI Best is ", fmin, "at ", x_min_value)
+
+            # Calculate the ACQ function values at each of the unseen data points to plot the ACQ function
+            with np.errstate(invalid='ignore'):
+                mean, variance, f_prior, f_post = gp_obj.gaussian_predict(gp_obj.Xs)
+                std_dev = np.sqrt(variance)
+                acq_func_values = self.expected_improvement(mean, std_dev, y_max)
+
+            # used to verify if the maxima value is really found at 0
+            # if(x_max_value == [0]):
+            #     pH.printme(print_bool,tempfvals, tempmax_x)
+        return x_min_value, acq_func_values
+
 
     # Helper method to plot the values found for the specified ACQ function at unseen data points
     def plot_acquisition_function(self, name, Xs, acq_func_values, plot_axis):

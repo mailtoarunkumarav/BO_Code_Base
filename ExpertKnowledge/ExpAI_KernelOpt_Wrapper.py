@@ -32,7 +32,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, start_time, input):
 
-        number_of_runs = 4
+        number_of_runs = 3
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -48,23 +48,24 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 75
-        number_of_observations_humanexpert = 5
+        number_of_observations_groundtruth = 70
+        number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
         number_of_humanexpert_suggestions = 3
-        number_of_suggestions_ai_baseline = 6
+        number_of_suggestions_ai_baseline = 15
 
         epsilon_distance = 0.5
 
         #Acquisistion type
-        # acq_fun = 'ei'
-        acq_fun = 'ucb'
+        acq_fun = 'ei'
+        # acq_fun = 'ucb'
 
-        total_ucb_regret_ai = []
-        total_ucb_regret_baseline = []
+        total_regret_ai = []
+        total_regret_baseline = []
 
-        PH.printme(PH.p1, "\n###################################################################\n")
+        PH.printme(PH.p1, "\n###################################################################\n Expert Full Obs with ACQ: ", acq_fun,
+                   "\n Number of Suggestions: ", number_of_suggestions_ai_baseline, "   Restarts: ", number_of_minimiser_restarts)
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -77,59 +78,61 @@ class ExpAIKerOptWrapper:
             acq_func_obj = AcquisitionFunction(acq_fun, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
             gp_groundtruth = gp_wrapper_obj.construct_gp_object(start_time, "GroundTruth", number_of_observations_groundtruth, None)
-            gp_groundtruth.runGaussian("R" + str(run_count) + "_" + start_time, "GT")
+            gp_groundtruth.runGaussian("R" + str(run_count+1) + "_" + start_time, "GT")
             PH.printme(PH.p1, "Ground truth kernel construction complete")
 
             human_expert_model_obj = HumanExpertModel()
-            gp_humanexpert = human_expert_model_obj.initiate_humanexpert_model(start_time, run_count, gp_groundtruth, gp_wrapper_obj,
-                                                                               acq_func_obj, number_of_observations_humanexpert,
+            gp_humanexpert = human_expert_model_obj.initiate_humanexpert_model(start_time, run_count+1, gp_groundtruth, gp_wrapper_obj,
+                                                                               acq_func_obj,
+                                                                               number_of_random_observations_humanexpert,
                                                                                number_of_humanexpert_suggestions)
 
             aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
-            gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                         number_of_observations_humanexpert, number_of_suggestions_ai_baseline)
+            gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count+1, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
+                                         number_of_random_observations_humanexpert, number_of_suggestions_ai_baseline)
 
-            gp_aimodel.runGaussian("R" + str(run_count) + "_" + start_time, "AI_final")
+            gp_aimodel.runGaussian("R" + str(run_count+1) + "_" + start_time, "AI_final")
 
             baseline_model_obj = BaselineModel()
-            gp_baseline_model = baseline_model_obj.initiate_baseline_model(start_time, run_count, gp_wrapper_obj, gp_humanexpert,
-                                                                           acq_func_obj, number_of_observations_humanexpert,
+            gp_baseline_model = baseline_model_obj.initiate_baseline_model(start_time, run_count+1, gp_wrapper_obj, gp_humanexpert,
+                                                                           acq_func_obj,
+                                                                           number_of_random_observations_humanexpert,
                                                                            number_of_suggestions_ai_baseline)
 
-            gp_baseline_model.runGaussian("R" + str(run_count) + start_time, "Base_final")
+            gp_baseline_model.runGaussian("R" + str(run_count+1) + start_time, "Base_final")
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
 
             ai_regret = []
             baseline_regret = []
-            for i in range(number_of_observations_humanexpert+number_of_suggestions_ai_baseline):
-                if i <= number_of_observations_humanexpert - 1:
-                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:number_of_observations_humanexpert]))
-                    baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:number_of_observations_humanexpert]))
+            for i in range(number_of_random_observations_humanexpert + number_of_suggestions_ai_baseline):
+                if i <= number_of_random_observations_humanexpert - 1:
+                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:number_of_random_observations_humanexpert]))
+                    baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:number_of_random_observations_humanexpert]))
                 else:
                     ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:i + 1]))
                     baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:i + 1]))
-            total_ucb_regret_ai.append(ai_regret)
-            total_ucb_regret_baseline.append(baseline_regret)
+            total_regret_ai.append(ai_regret)
+            total_regret_baseline.append(baseline_regret)
 
             # # Dummy Data for AI model and Baseline runs
-            # total_ucb_regret_ai.append(np.multiply(baseline_regret, 0.85))
-            # total_ucb_regret_ai.append(np.multiply(baseline_regret, 0.75))
-            # total_ucb_regret_baseline.append(baseline_regret)
-            # total_ucb_regret_baseline.append(np.multiply(baseline_regret, 0.5))
+            # total_regret_ai.append(np.multiply(baseline_regret, 0.85))
+            # total_regret_ai.append(np.multiply(baseline_regret, 0.75))
+            # total_regret_baseline.append(baseline_regret)
+            # total_regret_baseline.append(np.multiply(baseline_regret, 0.5))
 
-            PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count)+" complete @@@@@@@@@@@@@@@@\n\n")
+            PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count+1)+" complete @@@@@@@@@@@@@@@@\n\n")
 
         # # # Plotting regret
-        self.plot_regret(start_time, total_ucb_regret_ai, total_ucb_regret_baseline, len(gp_aimodel.y))
+        self.plot_regret(start_time, total_regret_ai, total_regret_baseline, len(gp_aimodel.y), acq_fun)
 
         endtimenow = datetime.datetime.now()
         PH.printme(PH.p1, "\nEnd time: ", endtimenow.strftime("%H%M%S_%d%m%Y"))
 
         # plt.show()
 
-    def plot_regret(self, start_time, total_ucb_regret_ai, total_ucb_regret_base, total_number_of_obs):
+    def plot_regret(self, start_time, total_regret_ai, total_regret_base, total_number_of_obs, acq_fun):
 
         iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
         fig_name = 'Regret_'+start_time
@@ -139,30 +142,30 @@ class ExpAIKerOptWrapper:
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
         # # # AI model
-        ucb_regret_ai = np.vstack(total_ucb_regret_ai)
-        ucb_regret_mean_ai = np.mean(ucb_regret_ai, axis=0)
-        ucb_regret_std_dev_ai = np.std(ucb_regret_ai, axis=0)
-        PH.printme(PH.p1,"\nAI Regret Details\nTotal UCB Regret \n", ucb_regret_ai, "\n\nUCB Regret Mean", ucb_regret_mean_ai,
-              "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_ai)
+        regret_ai = np.vstack(total_regret_ai)
+        regret_mean_ai = np.mean(regret_ai, axis=0)
+        regret_std_dev_ai = np.std(regret_ai, axis=0)
+        PH.printme(PH.p1,"\nAI Regret Details\nTotal Regret \n", regret_ai, "\n\nRegret Mean", regret_mean_ai,
+              "\n\nRegret Deviation\n", regret_std_dev_ai)
 
-        PH.printme(PH.p1,ucb_regret_mean_ai)
+        PH.printme(PH.p1, regret_mean_ai)
 
-        ax.plot(iterations_axes_values, ucb_regret_mean_ai, 'b')
+        ax.plot(iterations_axes_values, regret_mean_ai, 'b')
         # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
-        plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_ai + ucb_regret_std_dev_ai,
-                               ucb_regret_mean_ai - ucb_regret_std_dev_ai, color="blue", alpha=0.25, label="AI UCB")
+        plt.gca().fill_between(iterations_axes_values, regret_mean_ai + regret_std_dev_ai,
+                               regret_mean_ai - regret_std_dev_ai, color="blue", alpha=0.25, label="AI-"+acq_fun.upper())
 
         # Baseline model
-        ucb_regret_base = np.vstack(total_ucb_regret_base)
-        ucb_regret_mean_base = np.mean(ucb_regret_base, axis=0)
-        ucb_regret_std_dev_base = np.std(ucb_regret_base, axis=0)
-        PH.printme(PH.p1,"\nBaseline Regret Details\nTotal UCB Regret \n", ucb_regret_base, "\n\nUCB Regret Mean", ucb_regret_mean_base,
-              "\n\nUCB Regret Deviation\n", ucb_regret_std_dev_base)
+        regret_base = np.vstack(total_regret_base)
+        regret_mean_base = np.mean(regret_base, axis=0)
+        regret_std_dev_base = np.std(regret_base, axis=0)
+        PH.printme(PH.p1,"\nBaseline Regret Details\nTotal Regret \n", regret_base, "\n\nRegret Mean", regret_mean_base,
+              "\n\nRegret Deviation\n", regret_std_dev_base)
 
-        ax.plot(iterations_axes_values, ucb_regret_mean_base, 'g')
+        ax.plot(iterations_axes_values, regret_mean_base, 'g')
         # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
-        plt.gca().fill_between(iterations_axes_values, ucb_regret_mean_base + ucb_regret_std_dev_base,
-                               ucb_regret_mean_base - ucb_regret_std_dev_base, color="green", alpha=0.25, label="Baseline UCB")
+        plt.gca().fill_between(iterations_axes_values, regret_mean_base + regret_std_dev_base,
+                               regret_mean_base - regret_std_dev_base, color="green", alpha=0.25, label="Baseline-"+acq_fun.upper())
 
         plt.axis([1, len(iterations_axes_values), 0, 1])
         plt.title('Regret')

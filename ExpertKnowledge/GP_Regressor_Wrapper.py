@@ -12,11 +12,11 @@ from HelperUtility.PrintHelper import PrintHelper as PH
 
 class GPRegressorWrapper:
 
-    def construct_gp_object(self, start_time, role, number_of_observed_samples, observations):
+    def construct_gp_object(self, start_time, role, number_of_random_observed_samples, observations):
 
         # Multi Kernel for the initial experiments
         kernel_type = 'MKL'
-        char_len_scale = 0.15
+        char_len_scale = 0.35
         number_of_test_datapoints = 500
         number_of_restarts_likelihood = 100
         noise = 0.0
@@ -124,12 +124,6 @@ class GPRegressorWrapper:
 
         if role != "ai" and role != "baseline":
 
-            if role == "GroundTruth":
-                weight_params_estimation = True
-
-            elif role == "HumanExpert":
-                weight_params_estimation = False
-
             # Commenting for regression data - Forestfire
             random_points = []
             X = []
@@ -137,19 +131,36 @@ class GPRegressorWrapper:
             # Generate specified (number of observed samples) random numbers for each dimension
             for dim in np.arange(number_of_dimensions):
                 random_data_point_each_dim = np.random.uniform(bounds[dim][0], bounds[dim][1],
-                                                               number_of_observed_samples).reshape(1, number_of_observed_samples)
+                                                               number_of_random_observed_samples).reshape(1,
+                                                                                                          number_of_random_observed_samples)
                 random_points.append(random_data_point_each_dim)
 
             # Vertically stack the arrays obtained for each dimension in the form a matrix, so that it can be reshaped
             random_points = np.vstack(random_points)
 
             # Generated values are to be reshaped into input points in the form of x1=[x11, x12, x13].T
-            for sample_num in np.arange(number_of_observed_samples):
+            for sample_num in np.arange(number_of_random_observed_samples):
                 array = []
                 for dim_count in np.arange(number_of_dimensions):
                     array.append(random_points[dim_count, sample_num])
                 X.append(array)
             X = np.vstack(X)
+
+            if role == "GroundTruth":
+                weight_params_estimation = True
+
+                # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
+                X = np.linspace(linspacexmin, 2, 40)
+                X = np.append(X, np.linspace(2, 4, 20))
+                X = np.append(X, np.linspace(4, linspacexmax, 10))
+                X = np.vstack(X)
+
+
+            elif role == "HumanExpert":
+                print("Setting observation model for Human Expert ")
+                weight_params_estimation = False
+                X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
+                X = np.vstack(X)
 
             # Sinc
             # x_obs = np.linspace(-15, -5,  20)
@@ -184,6 +195,18 @@ class GPRegressorWrapper:
 
             X = np.divide((X - Xmin), (Xmax - Xmin))
             y = (y - ymin) / (ymax - ymin)
+
+            # ############### Uncomment to test the observation model # # # #
+            # xs = np.linspace(linspacexmin, linspacexmax, 500)
+            # ys = fun_helper_obj.get_true_func_value(xs)
+            # xs = np.divide((xs - Xmin), (Xmax - Xmin))
+            # ys = (ys - ymin) / (ymax - ymin)
+            # import matplotlib.pyplot as plt
+            # plt.plot(xs, ys)
+            # plt.plot(X,y, "r+")
+            # plt.show()
+            ################################
+
 
         elif role == "ai":
             weight_params_estimation = False
@@ -229,7 +252,7 @@ class GPRegressorWrapper:
 
         gp_object = GaussianProcessRegressor(start_time, kernel_type, number_of_test_datapoints, noise, linspacexmin, linspacexmax,
                                              linspaceymin, linspaceymax, signal_variance, number_of_dimensions,
-                                             number_of_observed_samples, X, y, number_of_restarts_likelihood, bounds, lengthscale_bounds,
+                                             number_of_random_observed_samples, X, y, number_of_restarts_likelihood, bounds, lengthscale_bounds,
                                              signal_variance_bounds, Xmin, Xmax, ymin, ymax, Xs, ys, char_len_scale, len_weights,
                                              len_weights_bounds, weight_params_estimation, fun_helper_obj)
         return gp_object

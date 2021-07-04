@@ -8,10 +8,11 @@ from Acquisition_Function import AcquisitionFunction
 class BaselineModel:
 
     def initiate_baseline_model(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                   number_of_observations_baseline, number_of_baseline_suggestions):
+                                   number_of_random_observations_humanexpert, number_of_baseline_suggestions):
 
         PH.printme(PH.p1, "Construct GP object for baseline")
-        gp_baseline = gp_wrapper_obj.construct_gp_object(start_time, "baseline", number_of_observations_baseline,
+        gp_baseline = gp_wrapper_obj.construct_gp_object(start_time, "baseline",
+                                                         number_of_random_observations_humanexpert,
                                                          gp_humanexpert.initial_random_observations)
 
         initial_random_baseline_observations_X = gp_baseline.X

@@ -9,17 +9,16 @@ class AIModel:
     def __init__(self, epsilon_distance, minimiser_restarts):
         self.epsilon_distance = epsilon_distance
         self.number_minimiser_restarts = minimiser_restarts
-        self.xnew_suggestion = None
 
 
-    def initiate_aimodel(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj, number_of_observations_humanexpert,
-                         number_of_ai_suggestions):
+    def initiate_aimodel(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
+                         number_of_random_observations_humanexpert, number_of_ai_suggestions):
 
         PH.printme(PH.p1, "Initialising AI model for kernel optimisation")
 
         ai_model_observations_X = gp_humanexpert.initial_random_observations["observations_X"]
         ai_model_observations_y = gp_humanexpert.initial_random_observations["observations_y"]
-        gp_aimodel = gp_wrapper_obj.construct_gp_object(start_time, "ai", number_of_observations_humanexpert,
+        gp_aimodel = gp_wrapper_obj.construct_gp_object(start_time, "ai", number_of_random_observations_humanexpert,
                                                         gp_humanexpert.initial_random_observations)
         gp_aimodel.he_suggestions = gp_humanexpert.suggestions
         self.optimise_kernel(gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj)
@@ -36,8 +35,8 @@ class AIModel:
             # Modified minimiser for the updated kernel estimation
             PH.printme(PH.p1, "Flipped constraints on distance minimisation......")
             PH.printme(PH.p1, "AI model is predicting in iteration: ", ai_suggestion_count+1)
-            # xnew_suggestion = self.minimise_suggestions_distance(gp_aimodel, acq_func_obj, ai_suggestion_count)
-            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, ai_suggestion_count)
+            # xnew_suggestion = self.minimise_suggestions_distance(gp_aimodel, acq_func_obj, ai_suggestion_count+1)
+            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, ai_suggestion_count+1)
             # print(xnew_suggestion)
             # exit()
             xnew_orig = np.multiply(xnew_suggestion.T, (gp_aimodel.Xmax - gp_aimodel.Xmin)) + gp_aimodel.Xmin
@@ -69,8 +68,8 @@ class AIModel:
             gp_aimodel.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_ai_suggestion" + "_" + str(
                 ai_suggestion_count+1), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
 
-    def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count):
 
+    def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count):
         x_max_value = None
         log_like_max = -1 * float("inf")
 
@@ -80,22 +79,16 @@ class AIModel:
         # random_points_d = []
 
         # Data structure to create the starting points for the scipy.minimize method
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[0][0],
-                                                       gp_aimodel.len_weights_bounds[0][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                                     self.number_minimiser_restarts)
+        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[0][0], gp_aimodel.len_weights_bounds[0][1],
+                                                       self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
         random_points_a.append(random_data_point_each_dim)
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[1][0],
-                                                       gp_aimodel.len_weights_bounds[1][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
+        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[1][0], gp_aimodel.len_weights_bounds[1][1],
+                                                       self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
         random_points_b.append(random_data_point_each_dim)
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[2][0],
-                                                       gp_aimodel.len_weights_bounds[2][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                                     self.number_minimiser_restarts)
+        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[2][0], gp_aimodel.len_weights_bounds[2][1],
+                                                       self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
         random_points_c.append(random_data_point_each_dim)
 
         # random_data_point_each_dim = np.random.uniform(self.bounds[0][0],
@@ -103,8 +96,7 @@ class AIModel:
         #                                                self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
         # random_points_d.append(random_data_point_each_dim)
 
-        variance_start_points = np.random.uniform(gp_aimodel.signal_variance_bounds[0],
-                                                  gp_aimodel.signal_variance_bounds[1],
+        variance_start_points = np.random.uniform(gp_aimodel.signal_variance_bounds[0], gp_aimodel.signal_variance_bounds[1],
                                                   self.number_minimiser_restarts)
 
         # Vertically stack the arrays of randomly generated starting points as a matrix
@@ -140,32 +132,34 @@ class AIModel:
             params = maxima['x']
             log_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(params)
             if (log_likelihood > log_like_max):
-                print("New maximum log likelihood ", log_likelihood, " found for params ", params)
+                PH.printme(PH.p1,"New maximum log likelihood ", log_likelihood, " found for params ", params)
                 x_max_value = maxima['x']
                 log_like_max = log_likelihood
 
         gp_aimodel.len_weights = x_max_value[0:3]
-        gp_aimodel.signal_variance =  x_max_value[3]
+        gp_aimodel.signal_variance = x_max_value[3]
 
-        PH.printme(PH.p1, "*******Before minimising distance*******\nOpt weights: ", gp_aimodel.len_weights,
+        PH.printme(PH.p1, "*******Before maximising distance*******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
 
-        minima = opt.minimize(lambda x: self.distance_minimiser(x, gp_aimodel, acq_func_obj, ai_suggestion_count),
+        distance_maxima = opt.minimize(lambda x: -self.distance_maximiser(x, gp_aimodel, acq_func_obj, ai_suggestion_count),
                               x_max_value,
                               method='L-BFGS-B',
                               tol=0.01,
                               options={'maxfun': 200, 'maxiter': 20},
                               bounds=total_bounds)
 
-        gp_aimodel.len_weights = minima['x'][0:3]
-        gp_aimodel.signal_variance = minima['x'][3]
+        gp_aimodel.len_weights = distance_maxima['x'][0:3]
+        gp_aimodel.signal_variance = distance_maxima['x'][3]
 
         PH.printme(PH.p1, "*******After minimising distance*******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
-        PH.printme(PH.p1, "xnew_suggestion: ", self.xnew_suggestion)
-        return self.xnew_suggestion
+        xnew, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count)
+        PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
 
-    def distance_minimiser(self, inputs, gp_aimodel, acq_func_obj, ai_suggestion_count, print_bool="FF"):
+        return xnew
+
+    def distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, ai_suggestion_count, print_bool="FF"):
 
         PH.printme(PH.p1, "Maximising log likelihood finished.. now minimising the distance with inputs: ", inputs)
 
@@ -173,11 +167,44 @@ class AIModel:
         gp_aimodel.signal_variance = inputs[3]
         # Following parameters not used in any computations
 
-        xnew, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count + 1, print_bool)
-        self.xnew_suggestion = xnew
-        PH.printme(print_bool, "Best value for acq function is found at ", xnew)
-        distance_between_ind_suggestions = np.linalg.norm(gp_aimodel.he_suggestions["suggestions_X"][-1] - xnew)
-        return distance_between_ind_suggestions
+        acq_difference = 0
+
+        if acq_func_obj.acq_type == "ucb":
+
+            # # Last expert observation
+            best_acq_value = acq_func_obj.upper_confidence_bound_util(gp_aimodel.he_suggestions["suggestions_X_best"][-1], gp_aimodel,
+                                                                    ai_suggestion_count)
+            worst_acq_value = acq_func_obj.upper_confidence_bound_util(gp_aimodel.he_suggestions["suggestions_X_worst"][-1], gp_aimodel,
+                                                                     ai_suggestion_count)
+            acq_difference = best_acq_value - worst_acq_value
+
+            # All expert observations
+            # for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
+            #     best_acq_value = acq_func_obj.upper_confidence_bound_util(gp_aimodel.he_suggestions["suggestions_X_best"][i], gp_aimodel,
+            #                                                               ai_suggestion_count)
+            #     worst_acq_value = acq_func_obj.upper_confidence_bound_util(gp_aimodel.he_suggestions["suggestions_X_worst"][i],
+            #                                                                gp_aimodel, ai_suggestion_count)
+            #     acq_difference += best_acq_value - worst_acq_value
+
+        if acq_func_obj.acq_type == "ei":
+            y_max = gp_aimodel.y.max()
+            # # Last expert observation
+            # best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][-1], y_max, gp_aimodel)
+            # worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][-1], y_max,
+            #                                                          gp_aimodel)
+            # acq_difference = best_acq_value - worst_acq_value
+
+            # # All expert observations
+            for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
+                best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][i], y_max,
+                                                                        gp_aimodel)
+                worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][i], y_max,
+                                                                         gp_aimodel)
+                acq_difference += best_acq_value - worst_acq_value
+
+            # PH.printme(PH.p1, acq_difference)
+
+        return acq_difference
 
     def minimise_suggestions_distance_arxiv(self, gp_aimodel, acq_func_obj, ai_suggestion_count):
 
@@ -255,6 +282,7 @@ class AIModel:
         xnew_suggestion, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count + 1)
         PH.printme(PH.p1, "xnew_suggestion: ", xnew_suggestion)
         return xnew_suggestion
+
     def distance_minimiser_arxiv(self, inputs, gp_aimodel, acq_func_obj, ai_suggestion_count, print_bool="FF"):
 
         gp_aimodel.len_weights = inputs[0:3]
