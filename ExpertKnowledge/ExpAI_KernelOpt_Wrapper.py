@@ -100,7 +100,7 @@ class ExpAIKerOptWrapper:
                                                                            number_of_random_observations_humanexpert,
                                                                            number_of_suggestions_ai_baseline)
 
-            gp_baseline_model.runGaussian("R" + str(run_count+1)+ "_" + + start_time, "Base_final")
+            gp_baseline_model.runGaussian("R" + str(run_count+1)+ "_" + start_time, "Base_final")
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
