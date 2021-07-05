@@ -188,19 +188,19 @@ class AIModel:
 
         if acq_func_obj.acq_type == "ei":
             y_max = gp_aimodel.y.max()
-            # # Last expert observation
-            # best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][-1], y_max, gp_aimodel)
-            # worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][-1], y_max,
-            #                                                          gp_aimodel)
-            # acq_difference = best_acq_value - worst_acq_value
+            # Last expert observation
+            best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][-1], y_max, gp_aimodel)
+            worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][-1], y_max,
+                                                                     gp_aimodel)
+            acq_difference = best_acq_value - worst_acq_value
 
             # # All expert observations
-            for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
-                best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][i], y_max,
-                                                                        gp_aimodel)
-                worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][i], y_max,
-                                                                         gp_aimodel)
-                acq_difference += best_acq_value - worst_acq_value
+            # for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
+            #     best_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_best"][i], y_max,
+            #                                                             gp_aimodel)
+            #     worst_acq_value = acq_func_obj.expected_improvement_util(gp_aimodel.he_suggestions["suggestions_X_worst"][i], y_max,
+            #                                                              gp_aimodel)
+            #     acq_difference += best_acq_value - worst_acq_value
 
             # PH.printme(PH.p1, acq_difference)
 

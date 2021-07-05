@@ -58,13 +58,14 @@ class ExpAIKerOptWrapper:
         epsilon_distance = 0.5
 
         #Acquisistion type
-        acq_fun = 'ei'
-        # acq_fun = 'ucb'
+        # acq_fun = 'ei'
+        acq_fun = 'ucb'
 
         total_regret_ai = []
         total_regret_baseline = []
 
-        PH.printme(PH.p1, "\n###################################################################\n Expert Full Obs with ACQ: ", acq_fun,
+        PH.printme(PH.p1, "\n###################################################################\n Expert Last Obs only, with ACQ: ",
+                   acq_fun,
                    "\n Number of Suggestions: ", number_of_suggestions_ai_baseline, "   Restarts: ", number_of_minimiser_restarts)
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
@@ -99,7 +100,7 @@ class ExpAIKerOptWrapper:
                                                                            number_of_random_observations_humanexpert,
                                                                            number_of_suggestions_ai_baseline)
 
-            gp_baseline_model.runGaussian("R" + str(run_count+1) + start_time, "Base_final")
+            gp_baseline_model.runGaussian("R" + str(run_count+1)+ "_" + + start_time, "Base_final")
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
@@ -172,7 +173,7 @@ class ExpAIKerOptWrapper:
         plt.xlabel('Evaluations')
         plt.ylabel('Simple Regret')
         legend = ax.legend(loc=1, fontsize='x-small')
-        plt.savefig(fig_name + str(start_time) + '.pdf')
+        plt.savefig(fig_name + '.pdf')
 
 
 if __name__ == "__main__":
