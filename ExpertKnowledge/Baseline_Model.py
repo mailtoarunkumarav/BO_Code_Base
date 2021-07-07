@@ -4,7 +4,6 @@ from GP_Regressor_Wrapper import GPRegressorWrapper
 from HelperUtility.PrintHelper import PrintHelper as PH
 from Acquisition_Function import AcquisitionFunction
 
-
 class BaselineModel:
 
     def initiate_baseline_model(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,

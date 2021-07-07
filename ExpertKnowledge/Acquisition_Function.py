@@ -1,7 +1,9 @@
 from scipy.stats import norm
 import numpy as np
 import scipy.optimize as opt
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use("TKAgg")
+from matplotlib import pyplot as plt
 from HelperUtility.PrintHelper import PrintHelper as PH
 
 # Class to handle the Acquisition Functions related tasks required for the Bayesian Optimization
@@ -443,7 +445,7 @@ class AcquisitionFunction():
         plt.plot(Xs, acq_func_values)
         plt.axis(plot_axis)
         plt.title('Acquisition Function')
-        plt.savefig('acq_'+str(name), bbox_inches='tight')
+        plt.savefig('acq_'+str(name)+".pdf", bbox_inches='tight')
 
 
     def plot_graph(self, count, Xs, len_values, plot_axis):

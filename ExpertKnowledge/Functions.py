@@ -19,7 +19,7 @@ class FunctionHelper:
 
             # oscillator
             # exp(-x)sin(3x) + 1
-            true_max = self.get_true_func_value(0.15545)
+            # true_max = self.get_true_func_value(0.15545)
 
             # complicated oscillator
             # (np.exp(-each_x) * np.sin(1.5 * np.pi * each_x)) + 1
@@ -63,7 +63,7 @@ class FunctionHelper:
             # true_max = self.get_true_func_value(9.268)
 
             # Ackley 1D
-            # true_max = self.get_true_func_value(0)
+            true_max = self.get_true_func_value(0)
 
 
 
@@ -104,7 +104,7 @@ class FunctionHelper:
         elif (self.true_func_type == 'michalewicz2d'):
             true_max = self.get_true_func_value(np.matrix([2.20446091, 1.56922396]))
 
-        PH.printme(PH.p1, "True function:",self.true_func_type," \nMaximum is ", true_max)
+        PH.printme(PH.p1, "True function:", self.true_func_type, " \nMaximum is ", true_max)
         return true_max
 
     # function to evaluate the true function depending on the selection
@@ -121,7 +121,7 @@ class FunctionHelper:
 
             #oscillator
             # exp(-x)sin(3.pi.x) + 01
-            return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
+            # return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
 
             # Complicated Oscillator circuit
             # val = 0
@@ -207,10 +207,10 @@ class FunctionHelper:
             # return 0.7*x + 1 + np.sin(2*np.pi*x)
 
             # Ackley 1d
-            # a = 20
-            # b = 0.2
-            # c = 2 * np.pi
-            # return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
+            a = 20
+            b = 0.2
+            c = 2 * np.pi
+            return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
 
 
         elif (self.true_func_type == 'branin2d'):

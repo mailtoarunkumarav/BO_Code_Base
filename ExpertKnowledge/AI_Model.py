@@ -4,6 +4,10 @@ from GP_Regressor_Wrapper import GPRegressorWrapper
 from HelperUtility.PrintHelper import PrintHelper as PH
 from Acquisition_Function import AcquisitionFunction
 
+import matplotlib
+matplotlib.use("TKAgg")
+from matplotlib import pyplot as plt
+
 class AIModel:
 
     def __init__(self, epsilon_distance, minimiser_restarts):
@@ -36,7 +40,8 @@ class AIModel:
             PH.printme(PH.p1, "Flipped constraints on distance minimisation......")
             PH.printme(PH.p1, "AI model is predicting in iteration: ", ai_suggestion_count+1)
             # xnew_suggestion = self.minimise_suggestions_distance(gp_aimodel, acq_func_obj, ai_suggestion_count+1)
-            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, ai_suggestion_count+1)
+            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, ai_suggestion_count+1, run_count,
+                                                        start_time)
             # print(xnew_suggestion)
             # exit()
             xnew_orig = np.multiply(xnew_suggestion.T, (gp_aimodel.Xmax - gp_aimodel.Xmin)) + gp_aimodel.Xmin
@@ -69,7 +74,7 @@ class AIModel:
                 ai_suggestion_count+1), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
 
 
-    def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count):
+    def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count, run_count, start_time):
         x_max_value = None
         log_like_max = -1 * float("inf")
 
@@ -154,9 +159,15 @@ class AIModel:
 
         PH.printme(PH.p1, "*******After minimising distance*******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
-        xnew, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count)
-        PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
 
+        xnew, acq_func_values = acq_func_obj.max_acq_func(gp_aimodel, ai_suggestion_count)
+        plot_axes = [0, 1, acq_func_values.min()-0.3, acq_func_values.max()+0.15]
+        acq_func_obj.plot_acquisition_function("R" + str(run_count) + "_" + start_time + "_" + acq_func_obj.acq_type
+                                               + str(ai_suggestion_count + 1), gp_aimodel.Xs, acq_func_values,
+                                               plot_axes)
+
+        # plt.show()
+        PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
         return xnew
 
     def distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, ai_suggestion_count, print_bool="FF"):

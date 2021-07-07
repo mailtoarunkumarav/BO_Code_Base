@@ -29,10 +29,10 @@ class GPRegressorWrapper:
         # linspaceymax = 1.5
 
         # Oscillator
-        linspacexmin = 0
-        linspacexmax = 8
-        linspaceymin = 0
-        linspaceymax = 2.5
+        # linspacexmin = 0
+        # linspacexmax = 8
+        # linspaceymin = 0
+        # linspaceymax = 2.5
 
         # Complicated Oscillator
         # linspacexmin = 0
@@ -95,10 +95,10 @@ class GPRegressorWrapper:
         # linspaceymax = 1
 
         # Ackley Function
-        # linspacexmin = -10
-        # linspacexmax = 10
-        # linspaceymin = -25
-        # linspaceymax = 0.5
+        linspacexmin = -10
+        linspacexmax = 10
+        linspaceymin = -25
+        linspaceymax = 0.5
 
         number_of_dimensions = 1
         oned_bounds = [[linspacexmin, linspacexmax]]
@@ -150,17 +150,17 @@ class GPRegressorWrapper:
                 weight_params_estimation = True
 
                 # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
-                X = np.linspace(linspacexmin, 2, 40)
-                X = np.append(X, np.linspace(2, 4, 20))
-                X = np.append(X, np.linspace(4, linspacexmax, 10))
-                X = np.vstack(X)
+                # X = np.linspace(linspacexmin, 2, 40)
+                # X = np.append(X, np.linspace(2, 4, 20))
+                # X = np.append(X, np.linspace(4, linspacexmax, 10))
+                # X = np.vstack(X)
 
 
             elif role == "HumanExpert":
                 print("Setting observation model for Human Expert ")
                 weight_params_estimation = False
-                X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
-                X = np.vstack(X)
+                # X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
+                # X = np.vstack(X)
 
             # Sinc
             # x_obs = np.linspace(-15, -5,  20)
