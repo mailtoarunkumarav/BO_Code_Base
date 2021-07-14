@@ -347,7 +347,7 @@ class BayesianOptimizationWrapper:
             # ##Normalizing code
             X_norm = np.divide((X-Xmin), (Xmax-Xmin))
             y_norm = (y-ymin)/(ymax-ymin)
-            true_max_norm =  (true_max -ymin)/(ymax - ymin)
+            true_max_norm =  (true_max - ymin)/(ymax - ymin)
             bay_opt_obj.y_true_max = true_max_norm
             init_regret = []
             for index_norm in np.arange(len(y_norm)):

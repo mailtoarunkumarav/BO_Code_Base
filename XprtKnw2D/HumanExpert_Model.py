@@ -6,12 +6,12 @@ from Acquisition_Function import AcquisitionFunction
 
 class HumanExpertModel:
 
-    def initiate_humanexpert_model(self, start_time, run_count, gp_groundtruth, gp_wrapper_obj, acq_func_obj,
+    def initiate_humanexpert_model(self, start_time, run_count, gp_groundtruth, gp_wrapper_obj, acq_func_obj, number_of_dimensions,
                                    number_of_random_observations_humanexpert, number_of_humanexpert_suggestions):
 
         PH.printme(PH.p1, "Construct GP object for Expert")
         gp_humanexpert = gp_wrapper_obj.construct_gp_object(start_time, "HumanExpert",
-                                                            number_of_random_observations_humanexpert, None)
+                                                            number_of_random_observations_humanexpert, number_of_dimensions, None)
 
         initial_random_expert_observations_X = gp_humanexpert.X
         initial_random_expert_observations_y = gp_humanexpert.y
@@ -74,10 +74,10 @@ class HumanExpertModel:
             X = gp_humanexpert.X
             X = np.append(X, [xnew_best], axis=0)
 
-            ynew_orig_best = gp_humanexpert.fun_helper_obj.get_true_func_value(xnew_orig_best)
+            ynew_orig_best = gp_humanexpert.fun_helper_obj.get_true_func_value(np.array([xnew_orig_best]))
             ynew_best = (ynew_orig_best - gp_humanexpert.ymin) / (gp_humanexpert.ymax - gp_humanexpert.ymin)
 
-            y = np.append(gp_humanexpert.y, [ynew_best], axis=0)
+            y = np.append(gp_humanexpert.y, ynew_best, axis=0)
 
             # Normalising
             PH.printme(PH.p1, "(", xnew_best, ynew_best, ") is the new best value added..    Original: ",
@@ -93,7 +93,7 @@ class HumanExpertModel:
             xnew_orig_worst = np.multiply(xnew_worst.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + \
                               gp_humanexpert.Xmin
 
-            ynew_orig_worst = gp_humanexpert.fun_helper_obj.get_true_func_value(xnew_orig_worst)
+            ynew_orig_worst = gp_humanexpert.fun_helper_obj.get_true_func_value(np.array([xnew_orig_worst]))
             ynew_worst = (ynew_orig_worst - gp_humanexpert.ymin) / (gp_humanexpert.ymax - gp_humanexpert.ymin)
 
             suggestions_X_worst.append(xnew_worst)
@@ -104,13 +104,12 @@ class HumanExpertModel:
             # # Uncomment for debugging the suggestions and the posterior
             # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
 
-            # uncomment if plot is required for all observations
-            # if gp_humanexpert.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_humanexpert.gaussian_predict(gp_humanexpert.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_humanexpert.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_HE_Suggestion" + "_" + str(
-            #         suggestion_count), gp_humanexpert.Xs, gp_humanexpert.ys, mean, standard_deviation)
+            if gp_humanexpert.number_of_dimensions == 1:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_humanexpert.gaussian_predict(gp_humanexpert.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_humanexpert.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_HE_Suggestion" + "_" + str(
+                    suggestion_count), gp_humanexpert.Xs, gp_humanexpert.ys, mean, standard_deviation)
 
 
         suggestions_X_best = np.vstack(suggestions_X_best)

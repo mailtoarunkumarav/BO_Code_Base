@@ -10,6 +10,11 @@ import scipy.optimize as opt
 import scipy as sp
 import numpy as np
 
+d = 2
+a = [[0,1] for i in range(2)]
+print(a)
+exit()
+
 nos= 4
 number_of_ai_suggestions = 4
 for ai_suggestion_count in range(nos+1, nos+number_of_ai_suggestions+1):

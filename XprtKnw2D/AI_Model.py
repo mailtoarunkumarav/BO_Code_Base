@@ -15,7 +15,7 @@ class AIModel:
         self.number_minimiser_restarts = minimiser_restarts
 
 
-    def initiate_aimodel(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
+    def initiate_aimodel(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj, number_of_dimensions,
                          number_of_random_observations_humanexpert, number_of_ai_suggestions):
 
         PH.printme(PH.p1, "Initialising AI model for kernel optimisation")
@@ -23,7 +23,7 @@ class AIModel:
         ai_model_observations_X = gp_humanexpert.initial_random_observations["observations_X"]
         ai_model_observations_y = gp_humanexpert.initial_random_observations["observations_y"]
         gp_aimodel = gp_wrapper_obj.construct_gp_object(start_time, "ai", number_of_random_observations_humanexpert,
-                                                        gp_humanexpert.initial_random_observations)
+                                                        number_of_dimensions, gp_humanexpert.initial_random_observations)
         gp_aimodel.he_suggestions = gp_humanexpert.suggestions
         self.optimise_kernel(gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj)
         return gp_aimodel
@@ -50,10 +50,10 @@ class AIModel:
             X = gp_aimodel.X
             X = np.append(X, [xnew_suggestion], axis=0)
 
-            ynew_orig = gp_aimodel.fun_helper_obj.get_true_func_value(xnew_orig)
+            ynew_orig = gp_aimodel.fun_helper_obj.get_true_func_value(np.array([xnew_orig]))
             ynew_suggestion= (ynew_orig - gp_aimodel.ymin) / (gp_aimodel.ymax - gp_aimodel.ymin)
 
-            y = np.append(gp_aimodel.y, [ynew_suggestion], axis=0)
+            y = np.append(gp_aimodel.y, ynew_suggestion, axis=0)
 
             # Normalising
             PH.printme(PH.p1, "(", xnew_suggestion, ynew_suggestion, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
@@ -67,15 +67,12 @@ class AIModel:
             # # Uncomment for debugging the suggestions and the posterior
             PH.printme(PH.p1, "Final X and y:\n", gp_aimodel.X, "\n", gp_aimodel.y)
 
-            # # Uncomment for plotting all iterations
-            # if gp_aimodel.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_aimodel.gaussian_predict(gp_aimodel.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_aimodel.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_ai_suggestion" + "_" + str(
-            #         ai_suggestion_count), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
-
-
+            if gp_aimodel.number_of_dimensions == 1:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_aimodel.gaussian_predict(gp_aimodel.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_aimodel.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_ai_suggestion" + "_" + str(
+                    ai_suggestion_count), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
 
     def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count, run_count, start_time):
         x_max_value = None
@@ -165,13 +162,11 @@ class AIModel:
 
         xnew, acq_func_values = acq_func_obj.max_acq_func("ai", gp_aimodel, ai_suggestion_count)
 
-        # uncomment to  plot Acq functions
-        # if gp_aimodel.number_of_dimensions == 1:
-        #     plot_axes = [0, 1, acq_func_values.min() - 0.3, acq_func_values.max() + 0.15]
-        #     acq_func_obj.plot_acquisition_function("R" + str(run_count) + "_" + start_time + "_" + acq_func_obj.acq_type
-        #                                            + str(ai_suggestion_count), gp_aimodel.Xs, acq_func_values,
-        #                                            plot_axes)
-        #     plt.show()
+        if gp_aimodel.number_of_dimensions == 1:
+            plot_axes = [0, 1, acq_func_values.min() - 0.3, acq_func_values.max() + 0.15]
+            acq_func_obj.plot_acquisition_function("R" + str(run_count) + "_" + start_time + "_" + acq_func_obj.acq_type
+                                                   + str(ai_suggestion_count), gp_aimodel.Xs, acq_func_values, plot_axes)
+            # plt.show()
 
         PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
         return xnew
@@ -206,8 +201,7 @@ class AIModel:
 
         if acq_func_obj.acq_type == "ei":
             y_max = gp_aimodel.y.max()
-
-            # # Last expert observation
+            # Last expert observation
             # best_acq_value = acq_func_obj.expected_improvement_util("ai", gp_aimodel.he_suggestions["suggestions_X_best"][-1], y_max, gp_aimodel)
             # worst_acq_value = acq_func_obj.expected_improvement_util("ai", gp_aimodel.he_suggestions["suggestions_X_worst"][-1], y_max,
             #                                                          gp_aimodel)

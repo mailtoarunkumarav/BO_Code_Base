@@ -34,7 +34,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, start_time, input):
 
-        number_of_runs = 10
+        number_of_runs = 5
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -43,11 +43,16 @@ class ExpAIKerOptWrapper:
         # Epsilon1 used in PI : 3
         epsilon1 = 3
         # epsilon2 used in EI : 4
-        epsilon2 = 0.01
+        epsilon2 = 0.02
         # Kappa value to be used during the maximization of UCB ACQ function, but this is overriden in the case if
         # Kappa is calculated at each iteration as a function of the iteration and other parameters
         # kappa=10 is more of exploration and kappa = 0.1 is more of exploitation
         nu = 0.1
+
+        number_of_dimensions = 1
+
+        if function_type == "sphere" or function_type == "michalewicz2d":
+            number_of_dimensions = 2
 
         # Number of observations for human expert and ground truth models
         number_of_observations_groundtruth = 70
@@ -59,7 +64,9 @@ class ExpAIKerOptWrapper:
 
         epsilon_distance = 0.5
 
-        #Acquisistion type
+        n=2
+
+        # acquisition type
         # acq_fun = 'ei'
         acq_fun = 'ucb'
 
@@ -67,7 +74,7 @@ class ExpAIKerOptWrapper:
         total_regret_baseline = []
 
         PH.printme(PH.p1, "\n###################################################################\n Expert Full Obs, with ACQ: ",
-                   acq_fun, "  Beta_t as mean of Gamma"
+                   acq_fun, "  Beta_t as Gamma mean"
                    "\n Number of Suggestions: ", number_of_suggestions_ai_baseline, "   Restarts: ", number_of_minimiser_restarts)
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
@@ -80,28 +87,31 @@ class ExpAIKerOptWrapper:
             gp_wrapper_obj = GPRegressorWrapper()
             acq_func_obj = AcquisitionFunction(acq_fun, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
-            gp_groundtruth = gp_wrapper_obj.construct_gp_object(start_time, "GroundTruth", number_of_observations_groundtruth, None)
+            gp_groundtruth = gp_wrapper_obj.construct_gp_object(start_time, "GroundTruth", number_of_observations_groundtruth,
+                                                                number_of_dimensions, None)
             gp_groundtruth.runGaussian("R" + str(run_count+1) + "_" + start_time, "GT")
             PH.printme(PH.p1, "Ground truth kernel construction complete")
 
             human_expert_model_obj = HumanExpertModel()
             gp_humanexpert = human_expert_model_obj.initiate_humanexpert_model(start_time, run_count+1, gp_groundtruth, gp_wrapper_obj,
-                                                                               acq_func_obj, number_of_random_observations_humanexpert,
+                                                                               acq_func_obj, number_of_dimensions,
+                                                                               number_of_random_observations_humanexpert,
                                                                                number_of_humanexpert_suggestions)
 
             aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
             gp_aimodel = aimodel_obj.initiate_aimodel(start_time, run_count+1, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                         number_of_random_observations_humanexpert, number_of_suggestions_ai_baseline)
+                                                      number_of_dimensions, number_of_random_observations_humanexpert,
+                                                      number_of_suggestions_ai_baseline)
 
             gp_aimodel.runGaussian("R" + str(run_count+1) + "_" + start_time, "AI_final")
 
             baseline_model_obj = BaselineModel()
             gp_baseline_model = baseline_model_obj.initiate_baseline_model(start_time, run_count+1, gp_wrapper_obj, gp_humanexpert,
-                                                                           acq_func_obj,
+                                                                           acq_func_obj, number_of_dimensions,
                                                                            number_of_random_observations_humanexpert,
                                                                            number_of_suggestions_ai_baseline)
 
-            gp_baseline_model.runGaussian("R" + str(run_count+1)+ "_" + start_time, "Base_final")
+            gp_baseline_model.runGaussian("R" + str(run_count+1) + "_" + start_time, "Base_final")
 
             true_max = gp_humanexpert.fun_helper_obj.get_true_max()
             true_max_norm = (true_max - gp_humanexpert.ymin)/(gp_humanexpert.ymax - gp_humanexpert.ymin)
@@ -110,11 +120,12 @@ class ExpAIKerOptWrapper:
             baseline_regret = []
             for i in range(number_of_random_observations_humanexpert + number_of_suggestions_ai_baseline):
                 if i <= number_of_random_observations_humanexpert - 1:
-                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:number_of_random_observations_humanexpert]))
-                    baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:number_of_random_observations_humanexpert]))
+                    ai_regret.append((true_max_norm - np.max(gp_aimodel.y[0:number_of_random_observations_humanexpert])).item(0))
+                    baseline_regret.append((true_max_norm - np.max(gp_baseline_model.y[
+                                                                   0:number_of_random_observations_humanexpert])).item(0))
                 else:
-                    ai_regret.append(true_max_norm - np.max(gp_aimodel.y[0:i + 1]))
-                    baseline_regret.append(true_max_norm - np.max(gp_baseline_model.y[0:i + 1]))
+                    ai_regret.append((true_max_norm - np.max(gp_aimodel.y[0:i + 1])).item(0))
+                    baseline_regret.append((true_max_norm - np.max(gp_baseline_model.y[0:i + 1])).item(0))
             total_regret_ai.append(ai_regret)
             total_regret_baseline.append(baseline_regret)
 
@@ -126,6 +137,7 @@ class ExpAIKerOptWrapper:
 
             PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count+1)+" complete @@@@@@@@@@@@@@@@\n\n")
 
+        PH.printme(PH.p1, "Total regret AI\n", total_regret_ai, "regret Baseline:\n",total_regret_baseline)
         # # # Plotting regret
         self.plot_regret(start_time, total_regret_ai, total_regret_baseline, len(gp_aimodel.y), acq_fun)
 
@@ -184,13 +196,15 @@ if __name__ == "__main__":
     input = None
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
 
-    function_type = "OSC"
+    # function_type = "OSC"
     # function_type = "BEN"
     # function_type = "GCL"
     # function_type = "ACK"
+    # function_type = "sphere"
+    function_type = "michalewicz2d"
 
     PH.printme(PH.p1, "Function Type: ", function_type)
-    stamp = function_type+"_"+stamp
+    stamp = function_type+"_" + stamp
 
     ker_opt_wrapper_obj.kernel_opt_wrapper(stamp, input)
 

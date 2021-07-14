@@ -12,7 +12,7 @@ from HelperUtility.PrintHelper import PrintHelper as PH
 
 class GPRegressorWrapper:
 
-    def construct_gp_object(self, start_time, role, number_of_random_observed_samples, observations):
+    def construct_gp_object(self, start_time, role, number_of_random_observed_samples, number_of_dimensions, observations):
 
         # Multi Kernel for the initial experiments
         kernel_type = 'MKL'
@@ -28,11 +28,12 @@ class GPRegressorWrapper:
         # linspaceymin = -1.5
         # linspaceymax = 1.5
 
+
         # Oscillator
-        linspacexmin = 0
-        linspacexmax = 8
-        linspaceymin = 0
-        linspaceymax = 2.5
+        # linspacexmin = 0
+        # linspacexmax = 8
+        # linspaceymin = 0
+        # linspaceymax = 2.5
 
         # Complicated Oscillator
         # linspacexmin = 0
@@ -100,14 +101,30 @@ class GPRegressorWrapper:
         # linspaceymin = -25
         # linspaceymax = 0.5
 
-        number_of_dimensions = 1
-        oned_bounds = [[linspacexmin, linspacexmax]]
+        # oned_bounds = [[linspacexmin, linspacexmax]]
+        # bounds = oned_bounds
+        # true_func_type = "custom"
+
+        # # # Sphere bounds
+        # linspacexmin = -5.12
+        # linspacexmax = 5.12
+        # linspaceymin = -60
+        # linspaceymax = 0
+        # true_func_type = "sphere"
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
-        # michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]
-        # random_bounds = [[0, 1], [1, 2]]
         # bounds = sphere_bounds
+
+        # Michaelwicz bounds
+        linspacexmin = 0
+        linspacexmax = np.pi
+        linspaceymin = 0
+        linspaceymax = 3
+        true_func_type = "michalewicz2d"
+        michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]
+        bounds = michalewicz2d_bounds
+
+        # random_bounds = [[0, 1], [1, 2]]
         # bounds = random_bounds
-        bounds = oned_bounds
 
         Xmin = linspacexmin
         Xmax = linspacexmax
@@ -116,7 +133,6 @@ class GPRegressorWrapper:
 
         lengthscale_bounds = [[0.1, 1]]
         signal_variance_bounds = [0.1, 1]
-        true_func_type = "custom"
         fun_helper_obj = FunctionHelper(true_func_type)
         len_weights = [0.1, 0.3, 0.2]
         len_weights_bounds = [[0.1, 1] for i in range(3)]
@@ -149,15 +165,14 @@ class GPRegressorWrapper:
             if role == "GroundTruth":
                 weight_params_estimation = True
 
-                # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
-                X = np.linspace(linspacexmin, 2, 40)
-                X = np.append(X, np.linspace(2, 4, 20))
-                X = np.append(X, np.linspace(4, linspacexmax, 10))
-                X = np.vstack(X)
-
+                # # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
+                # X = np.linspace(linspacexmin, 2, 40)
+                # X = np.append(X, np.linspace(2, 4, 20))
+                # X = np.append(X, np.linspace(4, linspacexmax, 10))
+                # X = np.vstack(X)
 
             elif role == "HumanExpert":
-                print("Setting observation model for Human Expert ")
+                PH.printme(PH.p1, "Setting observation model for Human Expert ")
                 weight_params_estimation = False
                 # X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
                 # X = np.vstack(X)
@@ -186,10 +201,11 @@ class GPRegressorWrapper:
             # Commenting to adopt to Oscillator function multiple instances merged input domain
             # y = fun_helper_obj.get_true_func_value(X)
 
-            y_arr = []
-            for each_x in X:
-                val = fun_helper_obj.get_true_func_value(each_x)
-                y_arr.append(val)
+            # y_arr = []
+            # for each_x in X:
+            #     val = fun_helper_obj.get_true_func_value(each_x)
+            #     y_arr.append(val)
+            y_arr = fun_helper_obj.get_true_func_value(X)
 
             y = np.vstack(y_arr)
 
@@ -239,11 +255,12 @@ class GPRegressorWrapper:
         # Comented to accomodate Oscillator function mergen input domain
         # ys = fun_helper_obj.get_true_func_value(Xs)
 
-        ys_arr = []
-        for each_xs in Xs:
-            val_xs = fun_helper_obj.get_true_func_value(each_xs)
-            ys_arr.append(val_xs)
+        # ys_arr = []
+        # for each_xs in Xs:
+        #     val_xs = fun_helper_obj.get_true_func_value(each_xs)
+        #     ys_arr.append(val_xs)
 
+        ys_arr = fun_helper_obj.get_true_func_value(Xs)
         ys = np.vstack(ys_arr)
         # ys = sinc_function(Xs)
 

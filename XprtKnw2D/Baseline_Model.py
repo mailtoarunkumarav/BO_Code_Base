@@ -6,12 +6,12 @@ from Acquisition_Function import AcquisitionFunction
 
 class BaselineModel:
 
-    def initiate_baseline_model(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
+    def initiate_baseline_model(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj, number_of_dimensions,
                                    number_of_random_observations_humanexpert, number_of_baseline_suggestions):
 
         PH.printme(PH.p1, "Construct GP object for baseline")
         gp_baseline = gp_wrapper_obj.construct_gp_object(start_time, "baseline",
-                                                         number_of_random_observations_humanexpert,
+                                                         number_of_random_observations_humanexpert, number_of_dimensions,
                                                          gp_humanexpert.initial_random_observations)
 
         initial_random_baseline_observations_X = gp_baseline.X
@@ -46,10 +46,10 @@ class BaselineModel:
             X = gp_baseline.X
             X = np.append(X, [xnew], axis=0)
 
-            ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(xnew_orig)
+            ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(np.array([xnew_orig]))
             ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
 
-            y = np.append(gp_baseline.y, [ynew], axis=0)
+            y = np.append(gp_baseline.y, ynew, axis=0)
 
             # Normalising
             PH.printme(PH.p1, "(", xnew, ynew, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
@@ -63,13 +63,12 @@ class BaselineModel:
             # # Uncomment for debugging the suggestions and the posterior
             # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
 
-            # Uncomment to plot all iterations
-            # if gp_baseline.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_baseline.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_Base_Suggestion" + "_" + str(
-            #         suggestion_count), gp_baseline.Xs, gp_baseline.ys, mean, standard_deviation)
+            if gp_baseline.number_of_dimensions == 1:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_baseline.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_Base_Suggestion" + "_" + str(
+                    suggestion_count), gp_baseline.Xs, gp_baseline.ys, mean, standard_deviation)
 
         suggestions_X = np.vstack(suggestions_X)
         suggestions_y = np.vstack(suggestions_y)

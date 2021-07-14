@@ -237,7 +237,7 @@ class FunctionHelper:
             value = (x1 ** 2 + x2 ** 2)
             # Regression setting
             # value = -1 * value.reshape(-1, 1)
-            value = 1 * value.reshape(-1, 1)
+            value = -1 * value.reshape(-1, 1)
             return value
 
         elif (self.true_func_type == 'hartmann3d'):
