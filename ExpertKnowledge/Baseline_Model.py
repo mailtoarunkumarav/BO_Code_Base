@@ -6,12 +6,13 @@ from Acquisition_Function import AcquisitionFunction
 
 class BaselineModel:
 
-    def initiate_baseline_model(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                                   number_of_random_observations_humanexpert, number_of_baseline_suggestions):
+    def initiate_baseline_model(self, pwd_qualifier, gp_wrapper_obj, gp_humanexpert, function_type, acq_func_obj,
+                                   number_of_random_observations_humanexpert, number_of_baseline_suggestions, noisy_suggestions,
+                                plot_iterations):
 
         PH.printme(PH.p1, "Construct GP object for baseline")
-        gp_baseline = gp_wrapper_obj.construct_gp_object(start_time, "baseline",
-                                                         number_of_random_observations_humanexpert,
+        gp_baseline = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "baseline",
+                                                         number_of_random_observations_humanexpert, function_type,
                                                          gp_humanexpert.initial_random_observations)
 
         initial_random_baseline_observations_X = gp_baseline.X
@@ -20,18 +21,19 @@ class BaselineModel:
         gp_baseline.initial_random_observations = {"observations_X": initial_random_baseline_observations_X, "observations_y":
             initial_random_baseline_observations_y}
 
-        gp_baseline.runGaussian("R" + str(run_count) + "_" + start_time, "Base_Initial")
+        gp_baseline.runGaussian(pwd_qualifier, "Base_Initial")
 
         # Obtain Suggestions
-        suggestions_X, suggestions_y = self.obtain_baseline_suggestions(run_count, start_time, gp_baseline, acq_func_obj,
-                                                                      number_of_baseline_suggestions)
+        suggestions_X, suggestions_y = self.obtain_baseline_suggestions(pwd_qualifier, gp_baseline, acq_func_obj,
+                                                                      number_of_baseline_suggestions, noisy_suggestions, plot_iterations)
 
         PH.printme(PH.p1, number_of_baseline_suggestions, "Baseline suggestions:\n", suggestions_X.T, "\n", suggestions_y.T)
         gp_baseline.suggestions = {"suggestions_X": suggestions_X, "suggestions_y": suggestions_y}
 
         return gp_baseline
 
-    def obtain_baseline_suggestions(self, run_count, start_time,  gp_baseline, acq_func_obj, number_of_baseline_suggestions):
+    def obtain_baseline_suggestions(self, pwd_qualifier,  gp_baseline, acq_func_obj, number_of_baseline_suggestions,
+                                    noisy_suggestions, plot_iterations):
 
         suggestions_X = []
         suggestions_y = []
@@ -39,7 +41,7 @@ class BaselineModel:
 
         for suggestion_count in range(len(gp_baseline.X)+1, number_of_baseline_suggestions+len(gp_baseline.X)+1):
             PH.printme(PH.p1, "Compute Suggestion: ", suggestion_count)
-            xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", gp_baseline, suggestion_count)
+            xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", noisy_suggestions, gp_baseline, suggestion_count)
             xnew_orig = np.multiply(xnew.T, (gp_baseline.Xmax - gp_baseline.Xmin)) + gp_baseline.Xmin
 
             # Add the new observation point to the existing set of observed samples along with its true value
@@ -64,12 +66,12 @@ class BaselineModel:
             # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
 
             # Uncomment to plot all iterations
-            # if gp_baseline.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_baseline.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_Base_Suggestion" + "_" + str(
-            #         suggestion_count), gp_baseline.Xs, gp_baseline.ys, mean, standard_deviation)
+            if gp_baseline.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_baseline.plot_posterior_predictions(pwd_qualifier+"_BaseSuggestion_" + str(suggestion_count), gp_baseline.Xs,
+                                                       gp_baseline.ys, mean, standard_deviation)
 
         suggestions_X = np.vstack(suggestions_X)
         suggestions_y = np.vstack(suggestions_y)

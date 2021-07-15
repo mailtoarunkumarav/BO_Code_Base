@@ -13,7 +13,7 @@ class FunctionHelper:
     def get_true_max(self):
 
         # define y_max for the true functions
-        if (self.true_func_type == 'custom'):
+        if (self.true_func_type == 'custom1'):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             # true_max = self.get_true_func_value(2.0202)
 
@@ -65,7 +65,23 @@ class FunctionHelper:
             # Ackley 1D
             # true_max = self.get_true_func_value(0)
 
+        elif (self.true_func_type == "OSC1D"):
+            # oscillator
+            # exp(-x)sin(3x) + 1
+            true_max = self.get_true_func_value(0.15545)
 
+        elif (self.true_func_type == "GCL1D"):
+            # Gramacy and Lee function sin(10.pi.x/2x)+(x-1)^4; minima = -2.874 @ x=0.144; -sin(10.pi.x/2x)-x-1)^4; maxima = 2.874 @x=0.144
+            # in the range [0.5, 2.5] max is 0.869 @x = 0.5486
+            true_max = self.get_true_func_value(0.5486)
+
+        elif (self.true_func_type == "ACK1D"):
+            # Ackley 1D
+            true_max = self.get_true_func_value(0)
+
+        elif (self.true_func_type == "BEN1D"):
+            # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
+            true_max = self.get_true_func_value(2.0202)
 
         elif (self.true_func_type == 'sin'):
             true_max = self.get_true_func_value(1.57079)
@@ -115,7 +131,7 @@ class FunctionHelper:
         elif (self.true_func_type == 'cos'):
             return np.cos(x)
 
-        elif (self.true_func_type == 'custom'):
+        elif (self.true_func_type == 'custom1'):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
 
@@ -212,6 +228,25 @@ class FunctionHelper:
             # c = 2 * np.pi
             # return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
 
+        elif (self.true_func_type == "OSC1D"):
+            # oscillator
+            # exp(-x)sin(3.pi.x) + 01
+            return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
+
+        elif (self.true_func_type == "GCL1D"):
+            # Gramacy and Lee function sin(10.pi.x/2x)+(x-1)^4; minima = -2.874 @ x=0.144; -sin(10.pi.x/2x)-x-1)^4; maxima = 2.874 @x=0.144
+            return -1 * (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4)
+
+        elif (self.true_func_type == "ACK1D"):
+            # Ackley 1D
+            a = 20
+            b = 0.2
+            c = 2 * np.pi
+            return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
+
+        elif (self.true_func_type == "BEN1D"):
+            # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
+            return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
 
         elif (self.true_func_type == 'branin2d'):
             # branin 2d fucntion

@@ -6,6 +6,7 @@ import os
 class PrintHelper:
 
     def __init__(self, directory):
+        os.mkdir(directory)
         original_stdout = sys.stdout
         timenow = datetime.datetime.now()
         stamp = timenow.strftime("%H%M%S_%d%m%Y")

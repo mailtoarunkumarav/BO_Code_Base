@@ -12,7 +12,7 @@ from HelperUtility.PrintHelper import PrintHelper as PH
 
 class GPRegressorWrapper:
 
-    def construct_gp_object(self, start_time, role, number_of_random_observed_samples, observations):
+    def construct_gp_object(self, start_time, role, number_of_random_observed_samples, function_type, observations):
 
         # Multi Kernel for the initial experiments
         kernel_type = 'MKL'
@@ -22,102 +22,127 @@ class GPRegressorWrapper:
         noise = 0.0
         signal_variance = 1
 
+
+        if function_type == "OSC1D":
+            linspacexmin = 0
+            linspacexmax = 8
+            linspaceymin = 0
+            linspaceymax = 2.5
+
+        elif function_type == "GCL1D":
+            linspacexmin = 0.5
+            linspacexmax = 2.5
+            linspaceymin = -5
+            linspaceymax = 1
+
+        elif function_type == "ACK1D":
+            linspacexmin = -10
+            linspacexmax = 10
+            linspaceymin = -25
+            linspaceymax = 0.5
+
+        elif function_type == "BEN1D":
+            linspacexmin = 0
+            linspacexmax = 10
+            linspaceymin = -1.5
+            linspaceymax = 3
+
         # # Square wave
         # linspacexmin = 0
-        # linspacexmax = 4
-        # linspaceymin = -1.5
-        # linspaceymax = 1.5
+        #         # linspacexmax = 4
+        #         # linspaceymin = -1.5
+        #         # linspaceymax = 1.5
+        #
+        #         # Oscillator
+        #         # linspacexmin = 0
+        #         # linspacexmax = 8
+        #         # linspaceymin = 0
+        #         # linspaceymax = 2.5
+        #
+        #         # Complicated Oscillator
+        #         # linspacexmin = 0
+        #         # linspacexmax = 30
+        #         # linspaceymin = 0
+        #         # linspaceymax = 2
+        #
+        #         # Benchmark
+        #         # linspacexmin = 0
+        #         # linspacexmax = 10
+        #         # linspaceymin = -1.5
+        #         # linspaceymax = 3
+        #
+        #         # Levy
+        #         # linspacexmin = -10
+        #         # linspacexmax = 10
+        #         # linspaceymin = -16
+        #         # linspaceymax = 0
+        #
+        #         # Triangular wave
+        #         # linspacexmin = 0
+        #         # linspacexmax = 10
+        #         # linspaceymin = -1.5
+        #         # linspaceymax = 1.5
+        #
+        #         # Chirpwave wave
+        #         # linspacexmin = 0
+        #         # linspacexmax = 20
+        #         # linspaceymin = -3
+        #         # linspaceymax = 3
+        #
+        #         # Sinc Mixture
+        #         # linspacexmin = -15
+        #         # linspacexmax = 15
+        #         # linspaceymin = -0.5
+        #         # linspaceymax = 1.5
+        #
+        #         # # Gaussian Mixture
+        #         # linspacexmin = 0
+        #         # linspacexmax = 15
+        #         # linspaceymin = -0.5
+        #         # linspaceymax = 1.5
+        #
+        #         # Linear
+        #         # linspacexmin = 0
+        #         # linspacexmax = 2
+        #         # linspaceymin = 0
+        #         # linspaceymax = 0.5
+        #
+        #         # Linear Sin Function
+        #         # linspacexmin = 0
+        #         # linspacexmax = 10
+        #         # linspaceymin = 0
+        #         # linspaceymax = 10
+        #
+        #         # Gramacy Lee Function
+        #         # linspacexmin = 0.5
+        #         # linspacexmax = 2.5
+        #         # linspaceymin = -1
+        #         # linspaceymax = 1
+        #
+        #         # Ackley Function
+        #         # linspacexmin = -10
+        #         # linspacexmax = 10
+        #         # linspaceymin = -25
+        #         # linspaceymax = 0.5
 
-        # Oscillator
-        linspacexmin = 0
-        linspacexmax = 8
-        linspaceymin = 0
-        linspaceymax = 2.5
+        if function_type == "OSC1D" or function_type == "BEN1D" or  function_type == "GCL1D" or function_type == "ACK1D":
+            number_of_dimensions = 1
+            oned_bounds = [[linspacexmin, linspacexmax]]
+            bounds = oned_bounds
+            Xmin = linspacexmin
+            Xmax = linspacexmax
+            ymax = linspaceymax
+            ymin = linspaceymin
 
-        # Complicated Oscillator
-        # linspacexmin = 0
-        # linspacexmax = 30
-        # linspaceymin = 0
-        # linspaceymax = 2
-
-        # Benchmark
-        # linspacexmin = 0
-        # linspacexmax = 10
-        # linspaceymin = -1.5
-        # linspaceymax = 3
-
-        # Levy
-        # linspacexmin = -10
-        # linspacexmax = 10
-        # linspaceymin = -16
-        # linspaceymax = 0
-
-        # Triangular wave
-        # linspacexmin = 0
-        # linspacexmax = 10
-        # linspaceymin = -1.5
-        # linspaceymax = 1.5
-
-        # Chirpwave wave
-        # linspacexmin = 0
-        # linspacexmax = 20
-        # linspaceymin = -3
-        # linspaceymax = 3
-
-        # Sinc Mixture
-        # linspacexmin = -15
-        # linspacexmax = 15
-        # linspaceymin = -0.5
-        # linspaceymax = 1.5
-
-        # # Gaussian Mixture
-        # linspacexmin = 0
-        # linspacexmax = 15
-        # linspaceymin = -0.5
-        # linspaceymax = 1.5
-
-        # Linear
-        # linspacexmin = 0
-        # linspacexmax = 2
-        # linspaceymin = 0
-        # linspaceymax = 0.5
-
-        # Linear Sin Function
-        # linspacexmin = 0
-        # linspacexmax = 10
-        # linspaceymin = 0
-        # linspaceymax = 10
-
-        # Gramacy Lee Function
-        # linspacexmin = 0.5
-        # linspacexmax = 2.5
-        # linspaceymin = -1
-        # linspaceymax = 1
-
-        # Ackley Function
-        # linspacexmin = -10
-        # linspacexmax = 10
-        # linspaceymin = -25
-        # linspaceymax = 0.5
-
-        number_of_dimensions = 1
-        oned_bounds = [[linspacexmin, linspacexmax]]
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
         # michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]
         # random_bounds = [[0, 1], [1, 2]]
         # bounds = sphere_bounds
         # bounds = random_bounds
-        bounds = oned_bounds
-
-        Xmin = linspacexmin
-        Xmax = linspacexmax
-        ymax = linspaceymax
-        ymin = linspaceymin
 
         lengthscale_bounds = [[0.1, 1]]
         signal_variance_bounds = [0.1, 1]
-        true_func_type = "custom"
-        fun_helper_obj = FunctionHelper(true_func_type)
+        fun_helper_obj = FunctionHelper(function_type)
         len_weights = [0.1, 0.3, 0.2]
         len_weights_bounds = [[0.1, 1] for i in range(3)]
 
@@ -150,10 +175,11 @@ class GPRegressorWrapper:
                 weight_params_estimation = True
 
                 # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
-                X = np.linspace(linspacexmin, 2, 40)
-                X = np.append(X, np.linspace(2, 4, 20))
-                X = np.append(X, np.linspace(4, linspacexmax, 10))
-                X = np.vstack(X)
+                if function_type == "OSC1D":
+                    X = np.linspace(linspacexmin, 2, 40)
+                    X = np.append(X, np.linspace(2, 4, 20))
+                    X = np.append(X, np.linspace(4, linspacexmax, 10))
+                    X = np.vstack(X)
 
 
             elif role == "HumanExpert":

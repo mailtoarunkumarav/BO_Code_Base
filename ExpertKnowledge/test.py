@@ -9,6 +9,119 @@ import numpy as np
 import scipy.optimize as opt
 import scipy as sp
 import numpy as np
+import re
+from matplotlib.ticker import MaxNLocator
+
+acq_fun_list = ['ei', 'ucb']
+total_number_of_obs = 12
+
+total_regret_ai = []
+
+
+iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
+fig_name = 'Regret'
+plt.figure(str(fig_name))
+plt.clf()
+ax = plt.subplot(111)
+ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+# # # AI model
+
+colors = ["#713326", "#22642E", "#0D28C3", "#0FE4EB"]
+count = 0
+for acq in acq_fun_list:
+
+    regret_ai = np.vstack(total_regret_ai[acq])
+    regret_mean_ai = np.mean(regret_ai, axis=0)
+    regret_std_dev_ai = np.std(regret_ai, axis=0)
+    print( "\nAI Regret Details\nTotal Regret:", acq.upper(), "\n", regret_ai, "\n\n", acq.upper(), " Regret Mean",
+               regret_mean_ai, "\n\n", acq.upper(), " Regret Deviation\n", regret_std_dev_ai)
+
+    ax.plot(iterations_axes_values, regret_mean_ai, colors[count])
+    # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
+    plt.gca().fill_between(iterations_axes_values, regret_mean_ai + regret_std_dev_ai,
+                           regret_mean_ai - regret_std_dev_ai, color=colors[count], alpha=0.15, label="AI-" + acq.upper())
+
+    count += 1
+
+    # Baseline model
+    regret_base = np.vstack(total_regret_base[acq])
+    regret_mean_base = np.mean(regret_base, axis=0)
+    regret_std_dev_base = np.std(regret_base, axis=0)
+    print( "\nBaseline Regret Details\nTotal Regret \n", regret_base, "\n\nRegret Mean", regret_mean_base,
+               "\n\nRegret Deviation\n", regret_std_dev_base)
+
+    ax.plot(iterations_axes_values, regret_mean_base, colors[count])
+    # plt.errorbar(iterations_axes_values, ei_regret_mean, yerr= ei_regret_std_dev )
+    plt.gca().fill_between(iterations_axes_values, regret_mean_base + regret_std_dev_base,
+                           regret_mean_base - regret_std_dev_base, color=colors[count], alpha=0.15,
+                           label="Baseline-" + acq.upper())
+
+    count += 1
+
+plt.axis([1, len(iterations_axes_values), 0, 1])
+# plt.xticks(iterations_axes_values, iterations_axes_values)
+plt.title('Regret')
+plt.xlabel('Evaluations')
+plt.ylabel('Simple Regret')
+legend = ax.legend(loc=1, fontsize='small')
+
+pts = np.random.uniform (0.2, 0.7, size=(3,8))
+print("@@@@@@")
+print(pts.reshape(3,8))
+plt.show()
+exit()
+
+# gc lee
+colors = ["#713326", "#22642E", "#0D28C3", "#0FE4EB"]
+
+x = np.linspace(0.5, 2.5,500)
+print(x)
+y1 = -1* (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4)
+y2 = -1* (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4)+ 0.5
+y3 = -1* (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4) + 1.5
+y4 = -1* (((np.sin(10 * np.pi * x))/(2*x)) + (x-1) ** 4) + 2.5
+iterations_axes_values = [i+1 for i in range(10)]
+plt.plot(x,y1,colors[0])
+plt.plot(x,y2,colors[1])
+plt.plot(x,y3,colors[2])
+plt.plot(x,y4,colors[3])
+plt.show()
+exit(0)
+
+
+# Regex
+s = "C:\Arun_Stuff\GitHubCodes\ExpertKnowledge/../../Experimental_Results/ExpertKnowledgeResults/OSC1D_015501_15072021/R1_EI_HE_Suggestion_4"
+p = re.compile("R[0-9]_+")
+m = p.search(s)
+span = m.span()
+print(span)
+print(s[span[1]-(span[1]-span[0]):])
+exit()
+
+
+# dictionary additions
+acq_list = ['ucb', 'ei']
+
+total_acq_reg = {}
+for i in range(5):
+    acq_regret = {}
+    for acq in acq_list:
+
+        for j in range(3):
+            if acq not in acq_regret:
+                acq_regret[acq] = []
+            acq_regret[acq].append(str(i) + str(j) + acq)
+
+    for acq in acq_list:
+        if acq not in total_acq_reg:
+            total_acq_reg[acq] = []
+        total_acq_reg[acq].append(acq_regret[acq])
+# print(acq_regret)
+print(total_acq_reg['ei'])
+print(total_acq_reg['ucb'])
+exit()
+
 
 nos= 4
 number_of_ai_suggestions = 4

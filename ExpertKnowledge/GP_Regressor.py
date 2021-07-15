@@ -7,7 +7,7 @@ from Functions import FunctionHelper
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from mpl_toolkits.mplot3d import Axes3D
 
-import os
+import os, re
 sys.path.append("../..")
 from HelperUtility.PrintHelper import PrintHelper as PH
 
@@ -351,7 +351,7 @@ class GaussianProcessRegressor:
         print("sum_-log: ", neg_log_sum)
         return np.array([neg_log_sum])
 
-    def runGaussian(self, msg, role):
+    def runGaussian(self, pwd_qualifier, role):
 
         PH.printme(PH.p1, "!!!!!!!!!!Gaussian Process Started!!!!!!!!!" )
         log_like_max = - 1 * float("inf")
@@ -463,14 +463,14 @@ class GaussianProcessRegressor:
         elif self.kernel_type == 'MKL':
             title = "Multiple Kernel Learning"
 
-        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+ msg+"_"+role,
+        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+ ""+"_"+role,
                                        # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                        # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
                                        'axis': [0, 1, 0, 1],
                                        'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
                                        'title': title,
-                                       'file': 'GP_Posterior_Distr_'+ msg+"_"+role,
+                                       'file': pwd_qualifier+'_GP_'+role,
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation] ,
                                        'xlabel': 'x',
@@ -479,13 +479,18 @@ class GaussianProcessRegressor:
         self.plot_graph(plot_posterior_distr_params)
         return log_like_max
 
-    def plot_posterior_predictions(self, msg, Xs, ys, mean, standard_deviation):
+    def plot_posterior_predictions(self, pwd_qualifier, Xs, ys, mean, standard_deviation):
 
-        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+msg,
+        pattern = re.compile("R[0-9]_+")
+        match = pattern.search(pwd_qualifier)
+        span = match.span()
+        file_name = pwd_qualifier[span[1] - (span[1] - span[0]):]
+
+        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+file_name,
                                        'axis': [0, 1, 0, 1],
-                                       'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
+                                       'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [Xs, ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
-                                       'file': 'GP_Posterior_Distr_'+msg,
+                                       'file': pwd_qualifier,
                                        'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
                                                     mean + 2 * standard_deviation],
                                        'title': "MKL",

@@ -6,12 +6,13 @@ from Acquisition_Function import AcquisitionFunction
 
 class HumanExpertModel:
 
-    def initiate_humanexpert_model(self, start_time, run_count, gp_groundtruth, gp_wrapper_obj, acq_func_obj,
-                                   number_of_random_observations_humanexpert, number_of_humanexpert_suggestions):
+    def initiate_humanexpert_model(self, pwd_qualifier_name, gp_groundtruth, gp_wrapper_obj, function_type, acq_func_obj,
+                                   number_of_random_observations_humanexpert, number_of_humanexpert_suggestions, noisy_suggestions,
+                                   plot_iterations):
 
         PH.printme(PH.p1, "Construct GP object for Expert")
-        gp_humanexpert = gp_wrapper_obj.construct_gp_object(start_time, "HumanExpert",
-                                                            number_of_random_observations_humanexpert, None)
+        gp_humanexpert = gp_wrapper_obj.construct_gp_object(pwd_qualifier_name, "HumanExpert",
+                                                            number_of_random_observations_humanexpert, function_type, None)
 
         initial_random_expert_observations_X = gp_humanexpert.X
         initial_random_expert_observations_y = gp_humanexpert.y
@@ -22,31 +23,34 @@ class HumanExpertModel:
         # Ground truth knowledge available for Expert
         PH.printme(PH.p1, "Before adding noise to Human Expert model Weights: ", gp_groundtruth.len_weights)
 
-        gp_humanexpert.len_weights = np.array([])
-        for i in range(len(gp_groundtruth.len_weights)):
-            if gp_groundtruth.len_weights[i] == 0:
-                value = gp_groundtruth.len_weights[i] + 0.1
-            elif gp_groundtruth.len_weights[i] == 1:
-                value = gp_groundtruth.len_weights[i] - 0.1
-            else:
-                value = np.random.normal(gp_groundtruth.len_weights[i], 0.05)
-            gp_humanexpert.len_weights = np.append(gp_humanexpert.len_weights, value)
+        if noisy_suggestions:
+            gp_humanexpert.len_weights = np.array([])
+            for i in range(len(gp_groundtruth.len_weights)):
+                if gp_groundtruth.len_weights[i] == 0:
+                    value = gp_groundtruth.len_weights[i] + 0.1
+                elif gp_groundtruth.len_weights[i] == 1:
+                    value = gp_groundtruth.len_weights[i] - 0.1
+                else:
+                    value = np.random.normal(gp_groundtruth.len_weights[i], 0.05)
+                gp_humanexpert.len_weights = np.append(gp_humanexpert.len_weights, value)
 
-        PH.printme(PH.p1, "After adding noise to the model", gp_humanexpert.len_weights)
+            PH.printme(PH.p1, "After adding noise to the model", gp_humanexpert.len_weights)
 
-        # gp_humanexpert.len_weights = gp_groundtruth.len_weights
+        else:
+            gp_humanexpert.len_weights = gp_groundtruth.len_weights
+
         gp_humanexpert.signal_variance = gp_groundtruth.signal_variance
 
-        gp_humanexpert.runGaussian("R" + str(run_count) + "_" + start_time, "HE_Initial")
+        gp_humanexpert.runGaussian(pwd_qualifier_name, "HE_Initial")
 
         # Obtain Suggestions
         suggestions_X_best, suggestions_y_best, suggestions_X_worst, suggestions_y_worst, \
-            =  self.obtain_expert_suggestions(run_count, start_time,  gp_humanexpert, acq_func_obj,
-                                             number_of_humanexpert_suggestions)
+            =  self.obtain_expert_suggestions(pwd_qualifier_name,  gp_humanexpert, acq_func_obj, noisy_suggestions,
+                                              number_of_humanexpert_suggestions, plot_iterations)
 
         PH.printme(PH.p1, number_of_humanexpert_suggestions, "Expert suggestions:\n", suggestions_X_best.T, "\n",
                    suggestions_y_best.T)
-        gp_humanexpert.runGaussian("R" + str(run_count) + "_" + start_time, "_HE_final")
+        gp_humanexpert.runGaussian(pwd_qualifier_name, "_HE_final")
 
         gp_humanexpert.suggestions = {"suggestions_X_best": suggestions_X_best, "suggestions_y_best":
             suggestions_y_best, "suggestions_X_worst": suggestions_X_worst, "suggestions_y_best":
@@ -54,7 +58,9 @@ class HumanExpertModel:
 
         return gp_humanexpert
 
-    def obtain_expert_suggestions(self, run_count, start_time, gp_humanexpert, acq_func_obj, number_of_humanexpert_suggestions):
+    def obtain_expert_suggestions(self, pwd_qualifier_name, gp_humanexpert, acq_func_obj, noisy_suggestions,
+                                  number_of_humanexpert_suggestions,
+                                  plot_iterations):
 
         suggestions_X_best = []
         suggestions_y_best = []
@@ -67,7 +73,7 @@ class HumanExpertModel:
         for suggestion_count in range(len(gp_humanexpert.X)+1, number_of_humanexpert_suggestions+len(gp_humanexpert.X)+1):
 
             PH.printme(PH.p1, "Compute Suggestion: ", suggestion_count)
-            xnew_best, acq_func_values = acq_func_obj.max_acq_func("HumanExpert", gp_humanexpert, suggestion_count)
+            xnew_best, acq_func_values = acq_func_obj.max_acq_func("HumanExpert", noisy_suggestions, gp_humanexpert, suggestion_count)
             xnew_orig_best = np.multiply(xnew_best.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + gp_humanexpert.Xmin
 
             # Add the new observation point to the existing set of observed samples along with its true value
@@ -89,7 +95,7 @@ class HumanExpertModel:
             suggestions_X_best.append(xnew_best)
             suggestions_y_best.append(ynew_best)
 
-            xnew_worst, acq_func_values = acq_func_obj.min_acq_func("HumanExpert", gp_humanexpert, suggestion_count)
+            xnew_worst, acq_func_values = acq_func_obj.min_acq_func("HumanExpert", noisy_suggestions, gp_humanexpert, suggestion_count)
             xnew_orig_worst = np.multiply(xnew_worst.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + \
                               gp_humanexpert.Xmin
 
@@ -105,13 +111,12 @@ class HumanExpertModel:
             # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
 
             # uncomment if plot is required for all observations
-            # if gp_humanexpert.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_humanexpert.gaussian_predict(gp_humanexpert.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_humanexpert.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_HE_Suggestion" + "_" + str(
-            #         suggestion_count), gp_humanexpert.Xs, gp_humanexpert.ys, mean, standard_deviation)
-
+            if gp_humanexpert.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_humanexpert.gaussian_predict(gp_humanexpert.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_humanexpert.plot_posterior_predictions(pwd_qualifier_name + "_HE_Suggestion" + "_" + str(
+                    suggestion_count), gp_humanexpert.Xs, gp_humanexpert.ys, mean, standard_deviation)
 
         suggestions_X_best = np.vstack(suggestions_X_best)
         suggestions_y_best = np.vstack(suggestions_y_best)

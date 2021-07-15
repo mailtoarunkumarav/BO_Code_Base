@@ -14,21 +14,20 @@ class AIModel:
         self.epsilon_distance = epsilon_distance
         self.number_minimiser_restarts = minimiser_restarts
 
-
-    def initiate_aimodel(self, start_time, run_count, gp_wrapper_obj, gp_humanexpert, acq_func_obj,
-                         number_of_random_observations_humanexpert, number_of_ai_suggestions):
+    def initiate_aimodel(self, pwd_qualifier, gp_wrapper_obj, gp_humanexpert, function_type, acq_func_obj,
+                         number_of_random_observations_humanexpert, number_of_ai_suggestions,  noisy_suggestions, plot_iterations):
 
         PH.printme(PH.p1, "Initialising AI model for kernel optimisation")
 
         ai_model_observations_X = gp_humanexpert.initial_random_observations["observations_X"]
         ai_model_observations_y = gp_humanexpert.initial_random_observations["observations_y"]
-        gp_aimodel = gp_wrapper_obj.construct_gp_object(start_time, "ai", number_of_random_observations_humanexpert,
+        gp_aimodel = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "ai", number_of_random_observations_humanexpert, function_type,
                                                         gp_humanexpert.initial_random_observations)
         gp_aimodel.he_suggestions = gp_humanexpert.suggestions
-        self.optimise_kernel(gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj)
+        self.optimise_kernel(gp_aimodel, pwd_qualifier, number_of_ai_suggestions, acq_func_obj, noisy_suggestions, plot_iterations)
         return gp_aimodel
 
-    def optimise_kernel(self, gp_aimodel, run_count, start_time, number_of_ai_suggestions, acq_func_obj):
+    def optimise_kernel(self, gp_aimodel, pwd_qualifier, number_of_ai_suggestions, acq_func_obj, noisy_suggestions, plot_iterations):
         PH.printme(PH.p1, "Optimising the kernel with the suggested observations")
 
         ai_suggestions_X = []
@@ -40,8 +39,8 @@ class AIModel:
             PH.printme(PH.p1, "Flipped constraints on distance minimisation......")
             PH.printme(PH.p1, "AI model is predicting in iteration: ", ai_suggestion_count)
             # xnew_suggestion = self.minimise_suggestions_distance(gp_aimodel, acq_func_obj, ai_suggestion_count+1)
-            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, ai_suggestion_count, run_count,
-                                                        start_time)
+            xnew_suggestion = self.optimise_suggestions(gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, pwd_qualifier,
+                                                        plot_iterations)
             # print(xnew_suggestion)
             # exit()
             xnew_orig = np.multiply(xnew_suggestion.T, (gp_aimodel.Xmax - gp_aimodel.Xmin)) + gp_aimodel.Xmin
@@ -68,16 +67,14 @@ class AIModel:
             PH.printme(PH.p1, "Final X and y:\n", gp_aimodel.X, "\n", gp_aimodel.y)
 
             # # Uncomment for plotting all iterations
-            # if gp_aimodel.number_of_dimensions == 1:
-            #     with np.errstate(invalid='ignore'):
-            #         mean, diag_variance, f_prior, f_post = gp_aimodel.gaussian_predict(gp_aimodel.Xs)
-            #         standard_deviation = np.sqrt(diag_variance)
-            #     gp_aimodel.plot_posterior_predictions("R" + str(run_count) + "_" + start_time + "_ai_suggestion" + "_" + str(
-            #         ai_suggestion_count), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
+            if gp_aimodel.number_of_dimensions == 1 and plot_iterations != 0 and ai_suggestion_count % plot_iterations == 0:
+                with np.errstate(invalid='ignore'):
+                    mean, diag_variance, f_prior, f_post = gp_aimodel.gaussian_predict(gp_aimodel.Xs)
+                    standard_deviation = np.sqrt(diag_variance)
+                gp_aimodel.plot_posterior_predictions(pwd_qualifier + "_ai_suggestion" + "_" + str(
+                    ai_suggestion_count), gp_aimodel.Xs, gp_aimodel.ys, mean, standard_deviation)
 
-
-
-    def optimise_suggestions(self, gp_aimodel, acq_func_obj, ai_suggestion_count, run_count, start_time):
+    def optimise_suggestions(self, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, pwd_qualifier, plot_iterations):
         x_max_value = None
         log_like_max = -1 * float("inf")
 
@@ -150,7 +147,8 @@ class AIModel:
         PH.printme(PH.p1, "*******Before maximising distance*******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
 
-        distance_maxima = opt.minimize(lambda x: -self.distance_maximiser(x, gp_aimodel, acq_func_obj, ai_suggestion_count),
+        distance_maxima = opt.minimize(lambda x: -self.distance_maximiser(x, gp_aimodel, acq_func_obj, noisy_suggestions,
+                                                                          ai_suggestion_count),
                               x_max_value,
                               method='L-BFGS-B',
                               tol=0.01,
@@ -163,20 +161,18 @@ class AIModel:
         PH.printme(PH.p1, "*******After minimising distance*******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
 
-        xnew, acq_func_values = acq_func_obj.max_acq_func("ai", gp_aimodel, ai_suggestion_count)
+        xnew, acq_func_values = acq_func_obj.max_acq_func("ai", noisy_suggestions, gp_aimodel, ai_suggestion_count)
 
         # uncomment to  plot Acq functions
-        # if gp_aimodel.number_of_dimensions == 1:
-        #     plot_axes = [0, 1, acq_func_values.min() - 0.3, acq_func_values.max() + 0.15]
-        #     acq_func_obj.plot_acquisition_function("R" + str(run_count) + "_" + start_time + "_" + acq_func_obj.acq_type
-        #                                            + str(ai_suggestion_count), gp_aimodel.Xs, acq_func_values,
-        #                                            plot_axes)
-        #     plt.show()
+        if gp_aimodel.number_of_dimensions == 1 and plot_iterations != 0 and ai_suggestion_count % plot_iterations == 0:
+            plot_axes = [0, 1, acq_func_values.min() - 0.3, acq_func_values.max() + 0.15]
+            acq_func_obj.plot_acquisition_function(pwd_qualifier + "_ai_acq_" + str(ai_suggestion_count), gp_aimodel.Xs, acq_func_values,
+                                                   plot_axes)
 
         PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
         return xnew
 
-    def distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, ai_suggestion_count, print_bool="FF"):
+    def distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, print_bool="FF"):
 
         PH.printme(PH.p1, "Maximising log likelihood finished.. now maximising the distance with inputs: ", inputs)
 
@@ -189,18 +185,21 @@ class AIModel:
         if acq_func_obj.acq_type == "ucb":
 
             # # Last expert observation
-            # best_acq_value = acq_func_obj.upper_confidence_bound_util("ai", gp_aimodel.he_suggestions["suggestions_X_best"][-1],
+            # best_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions, gp_aimodel.he_suggestions[
+            # "suggestions_X_best"][-1],
             # gp_aimodel,
             #                                                         ai_suggestion_count)
-            # worst_acq_value = acq_func_obj.upper_confidence_bound_util("ai", gp_aimodel.he_suggestions["suggestions_X_worst"][-1], gp_aimodel,
+            # worst_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions, gp_aimodel.he_suggestions[
+            # "suggestions_X_worst"][-1], gp_aimodel,
             #                                                          ai_suggestion_count)
             # acq_difference = best_acq_value - worst_acq_value
 
             # All expert observations
             for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
-                best_acq_value = acq_func_obj.upper_confidence_bound_util("ai", gp_aimodel.he_suggestions["suggestions_X_best"][i], gp_aimodel,
+                best_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions, gp_aimodel.he_suggestions["suggestions_X_best"][i],
+                                                                          gp_aimodel,
                                                                           ai_suggestion_count)
-                worst_acq_value = acq_func_obj.upper_confidence_bound_util("ai", gp_aimodel.he_suggestions["suggestions_X_worst"][i],
+                worst_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions, gp_aimodel.he_suggestions["suggestions_X_worst"][i],
                                                                            gp_aimodel, ai_suggestion_count)
                 acq_difference += best_acq_value - worst_acq_value
 
@@ -215,9 +214,10 @@ class AIModel:
 
             # # All expert observations
             for i in range(len(gp_aimodel.he_suggestions["suggestions_X_best"])):
-                best_acq_value = acq_func_obj.expected_improvement_util("ai", gp_aimodel.he_suggestions["suggestions_X_best"][i], y_max,
+                best_acq_value = acq_func_obj.expected_improvement_util("ai", noisy_suggestions, gp_aimodel.he_suggestions["suggestions_X_best"][i], y_max,
                                                                         gp_aimodel)
-                worst_acq_value = acq_func_obj.expected_improvement_util("ai", gp_aimodel.he_suggestions["suggestions_X_worst"][i], y_max,
+                worst_acq_value = acq_func_obj.expected_improvement_util("ai", noisy_suggestions, gp_aimodel.he_suggestions[
+                    "suggestions_X_worst"][i], y_max,
                                                                          gp_aimodel)
                 acq_difference += best_acq_value - worst_acq_value
 
