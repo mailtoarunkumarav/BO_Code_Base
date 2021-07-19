@@ -458,11 +458,11 @@ class AcquisitionFunction():
 
                 # Compare the values obtained in the current run to find the best value overall and store accordingly
                 if (fvalue < fmin):
-                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", min_x['x'])
+                    PH.printme(print_bool, "New best minimum Fval: ", fvalue, " found at: ", min_x['x'])
                     x_min_value = min_x['x']
                     fmin = fvalue
 
-            PH.printme(print_bool, "EI Best is ", fmin, "at ", x_min_value)
+            PH.printme(print_bool, "EI Best minimum is ", fmin, "at ", x_min_value)
 
             # Uncomment to add noisy suggestion
             if role == "HumanExpert" and noisy_suggestions:

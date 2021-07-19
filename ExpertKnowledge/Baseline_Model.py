@@ -6,73 +6,37 @@ from Acquisition_Function import AcquisitionFunction
 
 class BaselineModel:
 
-    def initiate_baseline_model(self, pwd_qualifier, gp_wrapper_obj, gp_humanexpert, function_type, acq_func_obj,
-                                   number_of_random_observations_humanexpert, number_of_baseline_suggestions, noisy_suggestions,
-                                plot_iterations):
+    def obtain_baseline_suggestion(self, suggestion_count, plot_files_identifier, gp_baseline, acq_func_obj, noisy_suggestions,
+                                   plot_iterations):
 
-        PH.printme(PH.p1, "Construct GP object for baseline")
-        gp_baseline = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "baseline",
-                                                         number_of_random_observations_humanexpert, function_type,
-                                                         gp_humanexpert.initial_random_observations)
+        xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", noisy_suggestions, gp_baseline, suggestion_count)
+        xnew_orig = np.multiply(xnew.T, (gp_baseline.Xmax - gp_baseline.Xmin)) + gp_baseline.Xmin
 
-        initial_random_baseline_observations_X = gp_baseline.X
-        initial_random_baseline_observations_y = gp_baseline.y
+        # Add the new observation point to the existing set of observed samples along with its true value
+        X = gp_baseline.X
+        X = np.append(X, [xnew], axis=0)
 
-        gp_baseline.initial_random_observations = {"observations_X": initial_random_baseline_observations_X, "observations_y":
-            initial_random_baseline_observations_y}
+        ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(xnew_orig)
+        ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
 
-        gp_baseline.runGaussian(pwd_qualifier, "Base_Initial")
+        y = np.append(gp_baseline.y, [ynew], axis=0)
 
-        # Obtain Suggestions
-        suggestions_X, suggestions_y = self.obtain_baseline_suggestions(pwd_qualifier, gp_baseline, acq_func_obj,
-                                                                      number_of_baseline_suggestions, noisy_suggestions, plot_iterations)
+        # Normalising
+        PH.printme(PH.p1, "(", xnew, ynew, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
+        gp_baseline.X = X
+        gp_baseline.y = y
 
-        PH.printme(PH.p1, number_of_baseline_suggestions, "Baseline suggestions:\n", suggestions_X.T, "\n", suggestions_y.T)
-        gp_baseline.suggestions = {"suggestions_X": suggestions_X, "suggestions_y": suggestions_y}
+        # # Uncomment for debugging the suggestions and the posterior
+        # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
 
-        return gp_baseline
+        # Uncomment to plot all iterations
+        if gp_baseline.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
+            with np.errstate(invalid='ignore'):
+                mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
+                standard_deviation = np.sqrt(diag_variance)
+            gp_baseline.plot_posterior_predictions(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), gp_baseline.Xs,
+                                                   gp_baseline.ys, mean, standard_deviation)
 
-    def obtain_baseline_suggestions(self, pwd_qualifier,  gp_baseline, acq_func_obj, number_of_baseline_suggestions,
-                                    noisy_suggestions, plot_iterations):
+        return xnew, ynew
 
-        suggestions_X = []
-        suggestions_y = []
-        PH.printme(PH.p1, "Initial X and y:\n", gp_baseline.X, "\n", gp_baseline.y)
 
-        for suggestion_count in range(len(gp_baseline.X)+1, number_of_baseline_suggestions+len(gp_baseline.X)+1):
-            PH.printme(PH.p1, "Compute Suggestion: ", suggestion_count)
-            xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", noisy_suggestions, gp_baseline, suggestion_count)
-            xnew_orig = np.multiply(xnew.T, (gp_baseline.Xmax - gp_baseline.Xmin)) + gp_baseline.Xmin
-
-            # Add the new observation point to the existing set of observed samples along with its true value
-            X = gp_baseline.X
-            X = np.append(X, [xnew], axis=0)
-
-            ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(xnew_orig)
-            ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
-
-            y = np.append(gp_baseline.y, [ynew], axis=0)
-
-            # Normalising
-            PH.printme(PH.p1, "(", xnew, ynew, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
-            PH.printme(PH.p1, "Suggestion: ", suggestion_count, " complete")
-            gp_baseline.X = X
-            gp_baseline.y = y
-
-            suggestions_X.append(xnew)
-            suggestions_y.append(ynew)
-
-            # # Uncomment for debugging the suggestions and the posterior
-            # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
-
-            # Uncomment to plot all iterations
-            if gp_baseline.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
-                with np.errstate(invalid='ignore'):
-                    mean, diag_variance, f_prior, f_post = gp_baseline.gaussian_predict(gp_baseline.Xs)
-                    standard_deviation = np.sqrt(diag_variance)
-                gp_baseline.plot_posterior_predictions(pwd_qualifier+"_BaseSuggestion_" + str(suggestion_count), gp_baseline.Xs,
-                                                       gp_baseline.ys, mean, standard_deviation)
-
-        suggestions_X = np.vstack(suggestions_X)
-        suggestions_y = np.vstack(suggestions_y)
-        return suggestions_X, suggestions_y

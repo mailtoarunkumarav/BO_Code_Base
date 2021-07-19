@@ -6,18 +6,91 @@ import sys, getopt
 import datetime
 import numpy as np
 
+import random
 import scipy.optimize as opt
 import scipy as sp
 import numpy as np
 import re
 from matplotlib.ticker import MaxNLocator
 
+
+# #3d plot
+
+# plotting 3d graph
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import numpy as np
+
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+
+# func = "para2d"
+func = "osc2d"
+
+if func == "para2d":
+    # Make data.
+    X = np.arange(-7, 7, 0.01)
+    Y = np.arange(-7, 7, 0.01)
+    X, Y = np.meshgrid(X, Y)
+    # R = np.sqrt(X**2 + Y**2)
+    # Z = np.sin(R)
+    # Z = np.sin(R)
+
+    Z = X ** 2 + Y * 0.1
+
+else:
+
+    X = np.arange(0, 5, 0.01)
+    Y = np.arange(0, 5, 0.01)
+    X, Y = np.meshgrid(X, Y)
+    # R = np.sqrt(X**2 + Y**2)
+    # Z = np.sin(R)
+    # Z = np.sin(R)
+
+    Z = (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
+
+
+# Plot the surface.
+surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+
+# # Customize the z axis.
+# ax.set_zlim(0, 10000)
+# ax.zaxis.set_major_locator(LinearLocator(10))
+# ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=10)
+
+plt.show()
+
+
+
+exit ()
+# Sample regret plotting
 acq_fun_list = ['ei', 'ucb']
-total_number_of_obs = 12
+total_number_of_obs = 9
 
-total_regret_ai = []
+total_regret_ai = {'ei': [
+    [0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.016925770052925615,
+     0.016925770052925615, 0.016925770052925615, 0.016925770052925615],
+    [0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.07909634963581758, 0.07909634963581758,
+     0.05771036819894859, 0.05771036819894859, 0.05771036819894859]], 'ucb': [
+    [0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024,
+     0.022554141844745024, 0.022554141844745024, 0.022554141844745024],
+    [0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.07909634963581758, 0.07909634963581758,
+     0.07138543430486066, 0.07138543430486066, 0.07138543430486066]]}
 
-
+total_regret_base = {'ei': [
+    [0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024,
+     0.022554141844745024, 0.022554141844745024, 0.022554141844745024],
+    [0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.08276622801047162,
+     0.08276622801047162, 0.08276622801047162, 0.08276622801047162]], 'ucb': [
+    [0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024, 0.022554141844745024,
+     0.022554141844745024, 0.022554141844745024, -6.899411821437162e-05],
+    [0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.09265635236646086, 0.07909634963581758, 0.07909634963581758,
+     0.07909634963581758, 0.07909634963581758, 0.07909634963581758]]}
 iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
 fig_name = 'Regret'
 plt.figure(str(fig_name))
@@ -27,7 +100,7 @@ ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 # # # AI model
 
-colors = ["#713326", "#22642E", "#0D28C3", "#0FE4EB"]
+colors = ["#713326", "#22642E", "#0D28C3", "#EB0F0F"]
 count = 0
 for acq in acq_fun_list:
 
@@ -58,17 +131,19 @@ for acq in acq_fun_list:
                            label="Baseline-" + acq.upper())
 
     count += 1
+a = np.max(regret_std_dev_ai)
+b = np.max(regret_std_dev_base)
+print(a, b)
+reg = np.maximum(a, b)
+print(reg)
 
-plt.axis([1, len(iterations_axes_values), 0, 1])
+plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_std_dev_ai), np.max(regret_std_dev_base))])
 # plt.xticks(iterations_axes_values, iterations_axes_values)
 plt.title('Regret')
 plt.xlabel('Evaluations')
 plt.ylabel('Simple Regret')
 legend = ax.legend(loc=1, fontsize='small')
 
-pts = np.random.uniform (0.2, 0.7, size=(3,8))
-print("@@@@@@")
-print(pts.reshape(3,8))
 plt.show()
 exit()
 

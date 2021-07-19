@@ -259,10 +259,9 @@ class GaussianProcessRegressor:
 
         self.len_weights = input[0:3]
         # Following parameters not used in any computations
-        signal_variance = input[len(input) - 1]
-        self.signal_variance = signal_variance
+        self.signal_variance = input[len(input) - 1]
 
-        K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, signal_variance)
+        K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
         eye = 1e-3 * np.eye(len(self.X))
         Knoise = K_x_x + eye
         # Find L from K = L *L.T instead of inversing the covariance function
