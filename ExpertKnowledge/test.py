@@ -25,10 +25,10 @@ import numpy as np
 fig = plt.figure()
 ax = fig.gca(projection='3d')
 
-# func = "para2d"
-func = "osc2d"
+func = "par2d"
+# func = "osc2d"
 
-if func == "para2d":
+if func == "par2d":
     # Make data.
     X = np.arange(-7, 7, 0.01)
     Y = np.arange(-7, 7, 0.01)
@@ -37,7 +37,7 @@ if func == "para2d":
     # Z = np.sin(R)
     # Z = np.sin(R)
 
-    Z = X ** 2 + Y * 0.1
+    Z = -1 * (X ** 2 + Y * 0.1)
 
 else:
 
@@ -51,14 +51,22 @@ else:
     Z = (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
 
 
+
+
 # Plot the surface.
 surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+# surf = ax.plot_surface(X, Y, Z, cmap='viridis',
                        linewidth=0, antialiased=False)
 
 # # Customize the z axis.
 # ax.set_zlim(0, 10000)
 # ax.zaxis.set_major_locator(LinearLocator(10))
 # ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+ax.set_xlabel("x1")
+ax.set_ylabel("x2")
+
+
 
 # Add a color bar which maps values to colors.
 fig.colorbar(surf, shrink=0.5, aspect=10)

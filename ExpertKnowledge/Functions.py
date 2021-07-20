@@ -83,6 +83,14 @@ class FunctionHelper:
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             true_max = self.get_true_func_value(2.0202)
 
+        elif (self.true_func_type == "OSC2D"):
+            # # exp(-x1)*sin(1.5*pi*x1)+1+0*0.03*x2
+            true_max = self.get_true_func_value([0.289, 5])[0]
+
+        elif (self.true_func_type == "PAR2D"):
+            # -1 * (X ** 2 + Y * 0.1)
+            true_max = self.get_true_func_value([0, -7])[0]
+
         elif (self.true_func_type == 'sin'):
             true_max = self.get_true_func_value(1.57079)
 
@@ -247,6 +255,20 @@ class FunctionHelper:
         elif (self.true_func_type == "BEN1D"):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
             return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+
+        elif self.true_func_type == 'OSC2D':
+            # # exp(-x1)*sin(1.5*pi*x1)+1+0*0.03*x2
+            x1 = x[0]
+            x2 = x[1]
+            value = np.exp(-x1) * np.sin(1.5 * np.pi * x1) + 1 + 0.03 * x2
+            return np.array([value])
+
+        elif self.true_func_type == 'PAR2D':
+            # -1 * (X ** 2 + Y * 0.1)
+            x1 = x[0]
+            x2 = x[1]
+            value = -1 * (x1 ** 2 + x2 * 0.1)
+            return np.array([value])
 
         elif (self.true_func_type == 'branin2d'):
             # branin 2d fucntion

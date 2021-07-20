@@ -125,14 +125,31 @@ class GPRegressorWrapper:
         #         # linspaceymin = -25
         #         # linspaceymax = 0.5
 
+        elif function_type == "OSC2D":
+            linspacexmin = 0
+            linspacexmax = 5
+            linspaceymin = 0
+            linspaceymax = 2
+
+        elif function_type == "PAR2D":
+            linspacexmin = -7
+            linspacexmax = 7
+            linspaceymin = -51
+            linspaceymax = 1
+
         if function_type == "OSC1D" or function_type == "BEN1D" or  function_type == "GCL1D" or function_type == "ACK1D":
             number_of_dimensions = 1
             oned_bounds = [[linspacexmin, linspacexmax]]
             bounds = oned_bounds
-            Xmin = linspacexmin
-            Xmax = linspacexmax
-            ymax = linspaceymax
-            ymin = linspaceymin
+
+        elif function_type == "OSC2D" or function_type == "PAR2D":
+            number_of_dimensions = 2
+            bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
+
+        Xmin = linspacexmin
+        Xmax = linspacexmax
+        ymax = linspaceymax
+        ymin = linspaceymin
 
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
         # michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]
@@ -214,6 +231,7 @@ class GPRegressorWrapper:
 
             y_arr = []
             for each_x in X:
+                print(each_x)
                 val = fun_helper_obj.get_true_func_value(each_x)
                 y_arr.append(val)
 

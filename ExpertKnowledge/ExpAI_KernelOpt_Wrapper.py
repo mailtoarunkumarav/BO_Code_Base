@@ -33,9 +33,9 @@ np.random.seed(random_seed)
 # Class for starting Bayesian Optimization with the specified parameters
 class ExpAIKerOptWrapper:
 
-    def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
+    def kernel_opt_wrapper(self, pwd_qualifier, function_type, external_input):
 
-        number_of_runs = 5
+        number_of_runs = 4
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -69,6 +69,7 @@ class ExpAIKerOptWrapper:
         # acq_fun = 'ucb'
 
         acq_fun_list = ['ei', 'ucb']
+        # acq_fun_list = ['ei']
 
         # total_regret_ai = []
         # # total_ei_regret_ai = []
@@ -105,6 +106,7 @@ class ExpAIKerOptWrapper:
 
             # HE_input_iterations = [1, 2]
             HE_input_iterations = [1, 2, 8, 9]
+            # HE_input_iterations = [1, 2, 8, 9, 12, 13]
 
             acq_func_obj = AcquisitionFunction(None, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
@@ -179,19 +181,19 @@ class ExpAIKerOptWrapper:
                                                               gp_aimodel.Xs, gp_aimodel.ys, mean_ai, standard_deviation_ai)
 
                     # # # Baseline model
-                    PH.printme(PH.p1, "Suggestion for Baseline at iteration", suggestion_count)
+                    PH.printme(PH.p1, "\nSuggestion for Baseline at iteration", suggestion_count)
                     xnew_baseline, ynew_baseline = baseline_model_obj.obtain_baseline_suggestion(suggestion_count, plot_files_identifier,
                                                                                                  gp_baseline, acq_func_obj,
                                                                                                  noisy_suggestions,
                                                                                                  plot_iterations)
                     PH.printme(PH.p1, "Baseline: (", xnew_baseline, ynew_baseline, ") is the new value added")
-
                     # plt.show()
 
                 gp_aimodel.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "AI_final")
                 gp_baseline.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "Base_final")
 
                 true_max = gp_humanexpert.fun_helper_obj.get_true_max()
+
                 true_max_norm = (true_max - gp_humanexpert.ymin) / (gp_humanexpert.ymax - gp_humanexpert.ymin)
 
                 ai_regret = {}
@@ -223,6 +225,8 @@ class ExpAIKerOptWrapper:
                 # total_regret_baseline.append(baseline_regret)
                 # total_regret_baseline.append(np.multiply(baseline_regret, 0.5))
 
+            PH.printme(PH.p1, "\n###########\nTotal AI Regret:\n", total_regret_ai, "\nTotal Baseline Regret:\n",total_regret_baseline,
+                       "\n###################")
             PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count + 1) + " complete @@@@@@@@@@@@@@@@\n\n")
 
         PH.printme(PH.p1, "\n", total_regret_ai, "\n", total_regret_baseline)
@@ -276,7 +280,7 @@ class ExpAIKerOptWrapper:
 
             count += 1
 
-        plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_std_dev_ai), np.max(regret_std_dev_base))])
+        plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_mean_ai), np.max(regret_mean_base))])
         # plt.xticks(iterations_axes_values, iterations_axes_values)
         plt.title('Regret')
         plt.xlabel('Evaluations')
@@ -295,9 +299,11 @@ if __name__ == "__main__":
     # function_type = "BEN1D"
     # function_type = "GCL1D"
     function_type = "ACK1D"
+    # function_type = "OSC2D"
+    # function_type = "PAR2D"
 
     full_time_stamp = function_type + "_" + timestamp
     directory_full_qualifier_name = os.getcwd() + "/../../Experimental_Results/ExpertKnowledgeResults/" + full_time_stamp + "/"
     PH(directory_full_qualifier_name)
     PH.printme(PH.p1, "Function Type: ", function_type)
-    ker_opt_wrapper_obj.kernel_opt_wrapper(directory_full_qualifier_name, full_time_stamp, function_type, input)
+    ker_opt_wrapper_obj.kernel_opt_wrapper(directory_full_qualifier_name, function_type, input)

@@ -180,7 +180,7 @@ class AcquisitionFunction():
                                      tol=0.001,
                                      options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(max_x['x']))
@@ -222,7 +222,7 @@ class AcquisitionFunction():
                                      tol=0.001,
                                      options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(max_x['x']))
@@ -269,7 +269,7 @@ class AcquisitionFunction():
                                      options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
                                      # bounds = [[0, 1],[0,1]])
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.array([max_x['x']]))
@@ -356,7 +356,7 @@ class AcquisitionFunction():
                                      tol=0.001,
                                      options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(min_x['x']))
@@ -398,7 +398,7 @@ class AcquisitionFunction():
                                      tol=0.001,
                                      options={'maxfun': 200, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(min_x['x']))
@@ -445,7 +445,7 @@ class AcquisitionFunction():
                                      options={'maxfun': 20, 'maxiter': 20},
                                      # bounds=gp_obj.bounds)
                                      # bounds = [[0, 1],[0,1]])
-                                     bounds=[[0, 1]])
+                                     bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.array([min_x['x']]))

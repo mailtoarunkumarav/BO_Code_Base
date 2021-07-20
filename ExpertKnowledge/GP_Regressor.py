@@ -183,7 +183,7 @@ class GaussianProcessRegressor:
                                   (np.exp((-1 * np.sqrt(3) / char_len_scale) * l2_difference))
                 lin = signal_variance + np.dot(data_point1[i, :], data_point2[j, :].T) * (char_len_scale**2)
                 p = 2
-                periodic = (signal_variance ** 2) * (np.exp((-2 / (char_len_scale**2)) * ((np.pi/p)*((np.sin(difference)))**2)))
+                # periodic = (signal_variance ** 2) * (np.exp((-2 / (char_len_scale**2)) * ((np.pi/p)*((np.sin(difference)))**2)))
                 # degree_val = 1
                 # poly = 1+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val)
                 each_kernel_val = self.len_weights[0] * sek + self.len_weights[1] * mat3 + self.len_weights[2] * lin
@@ -426,56 +426,57 @@ class GaussianProcessRegressor:
 
             PH.printme(PH.p1, "Opt weights: ", self.len_weights, "   variance:", self.signal_variance)
 
-        # compute the covariances between the test data points i.e K**
-        K_xs_xs = self.computekernel(self.Xs, self.Xs)
+        # # compute the covariances between the test data points i.e K**
+        # K_xs_xs = self.computekernel(self.Xs, self.Xs)
+        #
+        # # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
+        # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
+        #
+        # # Sample 3 standard normals for our test points
+        # standard_normals = np.random.normal(size=(self.number_of_test_datapoints, 3))
+        #
+        # # multiply them by the square root of the covariance matrix
+        # f_prior = np.dot(L_xs_xs, standard_normals)
+        #
+        # # plot_prior_params = {'plotnum': 'Fig 1_' + str(count),
+        # #                      'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
+        # #                      'plotvalues': [[Xs, f_prior], [Xs, np.zeros(len(Xs)), 'b--', 'label=zero mean', 'lw1']],
+        # #                      'title': 'GP Prior Samples',
+        # #                      'file': 'GP_Prior'+ str(count),
+        # #                      'xlabel' : 'x',
+        # #                      'ylabel': 'output, f(x)'
+        # #                      }
+        # # self.plot_graph(plot_prior_params)
 
-        # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
-        L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-12 * np.eye(self.number_of_test_datapoints))
+        if self.number_of_dimensions == 1:
+            mean, variance, factor1 = self.compute_mean_var(self.Xs, self.X, self.y)
+            diag_variance = np.diag(variance)
+            standard_deviation = np.sqrt(diag_variance)
 
-        # Sample 3 standard normals for our test points
-        standard_normals = np.random.normal(size=(self.number_of_test_datapoints, 3))
+            # Computing kernel
+            # self.plot_kernel("Kernel Samples", None)
 
-        # multiply them by the square root of the covariance matrix
-        f_prior = np.dot(L_xs_xs, standard_normals)
+            if self.kernel_type == 'SE':
+                title = "SE Kernel"
+            elif self.kernel_type == 'MATERN3':
+                title = "Matern 3/2 Kernel"
+            elif self.kernel_type == 'MKL':
+                title = "Multiple Kernel Learning"
 
-        # plot_prior_params = {'plotnum': 'Fig 1_' + str(count),
-        #                      'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
-        #                      'plotvalues': [[Xs, f_prior], [Xs, np.zeros(len(Xs)), 'b--', 'label=zero mean', 'lw1']],
-        #                      'title': 'GP Prior Samples',
-        #                      'file': 'GP_Prior'+ str(count),
-        #                      'xlabel' : 'x',
-        #                      'ylabel': 'output, f(x)'
-        #                      }
-        # self.plot_graph(plot_prior_params)
-
-        mean, variance, factor1 = self.compute_mean_var(self.Xs, self.X, self.y)
-        diag_variance = np.diag(variance)
-        standard_deviation = np.sqrt(diag_variance)
-
-        # Computing kernel
-        # self.plot_kernel("Kernel Samples", None)
-
-        if self.kernel_type == 'SE':
-            title = "SE Kernel"
-        elif self.kernel_type == 'MATERN3':
-            title = "Matern 3/2 Kernel"
-        elif self.kernel_type == 'MKL':
-            title = "Multiple Kernel Learning"
-
-        plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+ ""+"_"+role,
-                                       # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
-                                       # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
-                                       'axis': [0, 1, 0, 1],
-                                       'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
-                                                      [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
-                                       'title': title,
-                                       'file': pwd_qualifier+'_GP_'+role,
-                                       'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
-                                                    mean + 2 * standard_deviation] ,
-                                       'xlabel': 'x',
-                                       'ylabel': 'output, f(x)'
-                                       }
-        self.plot_graph(plot_posterior_distr_params)
+            plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_' + "" + "_" + role,
+                                           # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
+                                           # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
+                                           'axis': [0, 1, 0, 1],
+                                           'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
+                                                          [self.Xs, mean, 'g--', 'label=Mean Fn', 'lw2']],
+                                           'title': title,
+                                           'file': pwd_qualifier + '_GP_' + role,
+                                           'gca_fill': [self.Xs.flat, mean - 2 * standard_deviation,
+                                                        mean + 2 * standard_deviation],
+                                           'xlabel': 'x',
+                                           'ylabel': 'output, f(x)'
+                                           }
+            self.plot_graph(plot_posterior_distr_params)
         return log_like_max
 
     def plot_posterior_predictions(self, pwd_qualifier, Xs, ys, mean, standard_deviation):
