@@ -35,7 +35,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, pwd_qualifier, function_type, external_input):
 
-        number_of_runs = 4
+        number_of_runs = 6
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -51,7 +51,7 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 70
+        number_of_observations_groundtruth = 100
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
@@ -68,8 +68,8 @@ class ExpAIKerOptWrapper:
         # acq_fun = 'ei'
         # acq_fun = 'ucb'
 
-        acq_fun_list = ['ei', 'ucb']
-        # acq_fun_list = ['ei']
+        # acq_fun_list = ['ei', 'ucb']
+        acq_fun_list = ['ucb']
 
         # total_regret_ai = []
         # # total_ei_regret_ai = []
@@ -79,9 +79,15 @@ class ExpAIKerOptWrapper:
         total_regret_ai = {}
         total_regret_baseline = {}
 
-        PH.printme(PH.p1, "\n###################################################################\n Expert Full Obs, with ACQ: ",
-                   acq_fun_list, "\n Number of Suggestions: ", number_total_suggestions, "   Restarts: ",
-                   number_of_minimiser_restarts)
+        lambda_reg = 0.6
+
+        PH.printme(PH.p1, "\n###################################################################",
+                   "Acq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
+                   number_of_minimiser_restarts, "   Runs:", number_of_runs, "\nRestarts for Acq:", number_of_restarts_acq, "  Eps1:",
+                   epsilon1, "   eps2:", epsilon2, "   No_obs_GT:", number_of_observations_groundtruth, "   Random Obs:",
+                   number_of_random_observations_humanexpert, "\nHE Suggestions:", number_of_humanexpert_suggestions,
+                   "   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:", epsilon_distance, "\nNoisy:", noisy_suggestions,
+                   "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg)
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -105,7 +111,7 @@ class ExpAIKerOptWrapper:
             #                                           number_of_suggestions_ai_baseline-1), number_of_humanexpert_suggestions))
 
             # HE_input_iterations = [1, 2]
-            HE_input_iterations = [1, 2, 8, 9]
+            HE_input_iterations = [4, 5, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
 
             acq_func_obj = AcquisitionFunction(None, number_of_restarts_acq, nu, epsilon1, epsilon2)
@@ -125,24 +131,25 @@ class ExpAIKerOptWrapper:
                 PH.printme(PH.p1, "Construct GP object for AI Model")
                 gp_aimodel = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "ai", number_of_random_observations_humanexpert,
                                                                 function_type, gp_humanexpert.initial_random_observations)
+                gp_aimodel.he_suggestions = None
 
-                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts)
+                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg)
 
                 PH.printme(PH.p1, "Construct GP object for baseline")
                 gp_baseline = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "baseline", number_of_random_observations_humanexpert,
                                                                  function_type, gp_humanexpert.initial_random_observations)
 
-                gp_baseline.runGaussian(plot_files_identifier, "Base_Initial")
+                gp_baseline.runGaussian(plot_files_identifier, "Base_Initial", True)
+                PH.printme(PH.p1, "*************GP Constructions complete************")
                 baseline_model_obj = BaselineModel()
 
                 for suggestion_count in range(1, number_total_suggestions+1):
 
                     if suggestion_count in HE_input_iterations:
-                        PH.printme(PH.p1, "\n\nStarting suggestion:", suggestion_count, " with Human Expert inputs......\n Generating "
-                                                                                        "Human "
-                                                                                    "Expert Suggestions")
-                        gp_humanexpert.X = observations_pool_X
-                        gp_humanexpert.y = observations_pool_y
+                        PH.printme(PH.p1, "\n\nStarting suggestion:", suggestion_count, " with Human Expert inputs......\nGenerating "
+                                                                                        "Human Expert Suggestions")
+                        gp_humanexpert.gp_fit(observations_pool_X, observations_pool_y)
+
                         xnew_best, xnew_worst = human_expert_model_obj.obtain_human_expert_suggestions(suggestion_count,
                                                                                                        plot_files_identifier + "_HE",
                                                                                                        gp_humanexpert,
@@ -155,10 +162,20 @@ class ExpAIKerOptWrapper:
                         gp_aimodel.he_suggestions = {"x_suggestions_best": he_suggestions_best, "x_suggestions_worst": he_suggestions_worst}
 
                     else:
-                        PH.printme(PH.p1, "Predicting without Human Expert inputs")
+                        PH.printme(PH.p1, "\n\nPredicting suggestion:" + str(suggestion_count)+" without Human Expert inputs")
+
+                    aimodel_obj.max_acq_difference = -1 * float("inf")
+                    aimodel_obj.max_llk = -1 * float("inf")
+                    aimodel_obj.min_acq_difference = 1 * float("inf")
+                    aimodel_obj.min_llk = 1 * float("inf")
 
                     xnew_ai = aimodel_obj.obtain_aimodel_suggestions(plot_files_identifier + "_AI_", gp_aimodel, acq_func_obj,
                                                                      noisy_suggestions, suggestion_count, plot_iterations)
+
+                    PH.printme(PH.p1, "Distance optimisation details:\nMax Diff:", aimodel_obj.max_acq_difference, "\tMin Diff:",
+                               aimodel_obj.min_acq_difference,"\nMax likelihood:", aimodel_obj.max_llk, "\tMin Likelihood: ",
+                               aimodel_obj.min_llk)
+
                     xnew_ai_orig = np.multiply(xnew_ai.T, (gp_aimodel.Xmax - gp_aimodel.Xmin)) + gp_aimodel.Xmin
 
                     # Add the new observation point to the existing set of observed samples along with its true value
@@ -166,8 +183,8 @@ class ExpAIKerOptWrapper:
                     ynew_ai_orig = gp_aimodel.fun_helper_obj.get_true_func_value(xnew_ai_orig)
                     ynew_ai = (ynew_ai_orig - gp_aimodel.ymin) / (gp_aimodel.ymax - gp_aimodel.ymin)
                     observations_pool_y = np.append(observations_pool_y, [ynew_ai], axis=0)
-                    gp_aimodel.X = observations_pool_X
-                    gp_aimodel.y = observations_pool_y
+
+                    gp_aimodel.gp_fit(observations_pool_X, observations_pool_y)
 
                     PH.printme(PH.p1, "AI: (", xnew_ai, ynew_ai, ") is the new best value added..    Original: ", (xnew_ai_orig,
                                                                                                                    ynew_ai_orig))
@@ -189,8 +206,8 @@ class ExpAIKerOptWrapper:
                     PH.printme(PH.p1, "Baseline: (", xnew_baseline, ynew_baseline, ") is the new value added")
                     # plt.show()
 
-                gp_aimodel.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "AI_final")
-                gp_baseline.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "Base_final")
+                gp_aimodel.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "AI_final", True)
+                gp_baseline.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "Base_final", True)
 
                 true_max = gp_humanexpert.fun_helper_obj.get_true_max()
 
@@ -296,9 +313,9 @@ if __name__ == "__main__":
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
 
     # function_type = "OSC1D"
-    # function_type = "BEN1D"
+    function_type = "BEN1D"
     # function_type = "GCL1D"
-    function_type = "ACK1D"
+    # function_type = "ACK1D"
     # function_type = "OSC2D"
     # function_type = "PAR2D"
 

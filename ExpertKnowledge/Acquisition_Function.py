@@ -42,13 +42,13 @@ class AcquisitionFunction():
         return zcdf
 
     # UCB ACQ function
-    def ucb_acq_func(self, role, noisy_suggestions, mean, std_dev, iteration_count):
+    def ucb_acq_func(self, role, noisy_suggestions, mean, std_dev, iteration_count, number_of_dimensions):
 
 
         with np.errstate(divide='ignore') or np.errstate(invalid='ignore'):
 
             # Constant parameters to be used while maximizing the ACQ function
-            delta = 0.1;d = 1;b = 1;a = 1;r = 1;v=1;
+            delta = 0.1;d = number_of_dimensions;b = 1;a = 1;r = 1;v=1;
 
             # Different forms for the beta value
             # formula beta1 = 2log(t22π2/ (3δ)) + 2dlogt2dbr * sqrt(log(4da / δ))
@@ -125,7 +125,7 @@ class AcquisitionFunction():
             # Use Gaussian Process to predict the values for mean and variance at given x
             mean, variance, fprior, f_post = gp_obj.gaussian_predict(np.matrix(x))
             std_dev = np.sqrt(variance)
-            result = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count)
+            result = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
             # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
             return result
 
@@ -220,14 +220,14 @@ class AcquisitionFunction():
                                      starting_point,
                                      method='L-BFGS-B',
                                      tol=0.001,
-                                     options={'maxfun': 200, 'maxiter': 20},
+                                     options={'maxfun': 200, 'maxiter': 40},
                                      # bounds=gp_obj.bounds)
                                      bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(max_x['x']))
                 std_dev = np.sqrt(variance)
-                fvalue = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count)
+                fvalue = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
 
                 # Store the maxima of ACQ function and the corresponding value at the maxima, required for debugging
                 tempmax_x.append(max_x['x'])
@@ -245,7 +245,7 @@ class AcquisitionFunction():
             with np.errstate(invalid='ignore'):
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(gp_obj.Xs)
                 std_dev = np.sqrt(variance)
-                acq_func_values = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count)
+                acq_func_values = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
 
             # used to verify if the maxima value is really found at 0
             # if(x_max_value==[0]):
@@ -266,7 +266,7 @@ class AcquisitionFunction():
                 max_x = opt.minimize(lambda x: -self.expected_improvement_util(role, noisy_suggestions, x, y_max, gp_obj), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.01,
-                                     options={'maxfun': 200, 'maxiter': 20},
+                                     options={'maxfun': 200, 'maxiter': 40},
                                      # bounds=gp_obj.bounds)
                                      # bounds = [[0, 1],[0,1]])
                                      bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
@@ -354,7 +354,7 @@ class AcquisitionFunction():
                 min_x = opt.minimize(lambda x: self.probability_improvement_util(role, x, y_max, gp_obj), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.001,
-                                     options={'maxfun': 200, 'maxiter': 20},
+                                     options={'maxfun': 200, 'maxiter': 40},
                                      # bounds=gp_obj.bounds)
                                      bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
@@ -396,14 +396,14 @@ class AcquisitionFunction():
                                      starting_point,
                                      method='L-BFGS-B',
                                      tol=0.001,
-                                     options={'maxfun': 200, 'maxiter': 20},
+                                     options={'maxfun': 200, 'maxiter': 40},
                                      # bounds=gp_obj.bounds)
                                      bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
 
                 # Use gaussian process to predict mean and variances for the maximum point identified
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(np.matrix(min_x['x']))
                 std_dev = np.sqrt(variance)
-                fvalue = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count)
+                fvalue = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
 
                 # Store the maxima of ACQ function and the corresponding value at the maxima, required for debugging
                 tempmax_x.append(min_x['x'])
@@ -421,7 +421,7 @@ class AcquisitionFunction():
             with np.errstate(invalid='ignore'):
                 mean, variance, f_prior, f_post = gp_obj.gaussian_predict(gp_obj.Xs)
                 std_dev = np.sqrt(variance)
-                acq_func_values = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count)
+                acq_func_values = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
 
             # used to verify if the maxima value is really found at 0
             # if(x_max_value==[0]):
@@ -442,7 +442,7 @@ class AcquisitionFunction():
                 min_x = opt.minimize(lambda x: self.expected_improvement_util(role, noisy_suggestions, x, y_max, gp_obj), starting_point,
                                      method='L-BFGS-B',
                                      tol=0.01,
-                                     options={'maxfun': 20, 'maxiter': 20},
+                                     options={'maxfun': 20, 'maxiter': 40},
                                      # bounds=gp_obj.bounds)
                                      # bounds = [[0, 1],[0,1]])
                                      bounds=[[0, 1] for bnds in range(gp_obj.number_of_dimensions)])
@@ -485,7 +485,7 @@ class AcquisitionFunction():
     # Helper method to plot the values found for the specified ACQ function at unseen data points
     def plot_acquisition_function(self, pwd_qualifier, Xs, acq_func_values, plot_axis):
 
-        pattern = re.compile("R[0-9]_+")
+        pattern = re.compile("R[0-9]+_+")
         match = pattern.search(pwd_qualifier)
         span = match.span()
         file_name = pwd_qualifier[span[1] - (span[1] - span[0]):]

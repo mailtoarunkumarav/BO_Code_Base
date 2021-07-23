@@ -13,7 +13,6 @@ import numpy as np
 import re
 from matplotlib.ticker import MaxNLocator
 
-
 # #3d plot
 
 # plotting 3d graph
@@ -25,8 +24,8 @@ import numpy as np
 fig = plt.figure()
 ax = fig.gca(projection='3d')
 
-func = "par2d"
-# func = "osc2d"
+# func = "par2d"
+func = "osc2d"
 
 if func == "par2d":
     # Make data.
@@ -49,9 +48,6 @@ else:
     # Z = np.sin(R)
 
     Z = (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
-
-
-
 
 # Plot the surface.
 surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,

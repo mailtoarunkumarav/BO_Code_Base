@@ -12,7 +12,7 @@ class HumanExpertModel:
         PH.printme(PH.p1, "Constructing Kernel for ground truth....")
         gp_groundtruth = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "GroundTruth", number_of_observations_groundtruth,
                                                             function_type, None)
-        gp_groundtruth.runGaussian(pwd_qualifier + "R" + str(run_count + 1), "GT")
+        gp_groundtruth.runGaussian(pwd_qualifier + "R" + str(run_count + 1), "GT", True)
         PH.printme(PH.p1, "Ground truth kernel construction complete")
 
         PH.printme(PH.p1, "Construct GP object for Expert")
@@ -40,13 +40,14 @@ class HumanExpertModel:
 
         gp_humanexpert.signal_variance = gp_groundtruth.signal_variance
 
-        gp_humanexpert.runGaussian(pwd_qualifier + "R" + str(run_count + 1), "HE_Initial")
+        gp_humanexpert.runGaussian(pwd_qualifier + "R" + str(run_count + 1), "HE_Initial", True)
         return gp_humanexpert
 
     def obtain_human_expert_suggestions(self, suggestion_count, file_identifier, gp_humanexpert, acq_func_obj, noisy_suggestions,
                                         plot_iterations):
 
-        PH.printme(PH.p1, "Compute Suggestion: ", suggestion_count)
+        PH.printme(PH.p1, "Compute Human Expert Suggestion: ", suggestion_count)
+        PH.printme(PH.p1, "Calculating the best suggestion .... ")
         xnew_best, acq_func_values_best = acq_func_obj.max_acq_func("HumanExpert", noisy_suggestions, gp_humanexpert, suggestion_count)
         xnew_orig_best = np.multiply(xnew_best.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + gp_humanexpert.Xmin
 
@@ -61,6 +62,7 @@ class HumanExpertModel:
         PH.printme(PH.p1, "(", xnew_best, ynew_best, ") is the new best value added..    Original: ",
                    (xnew_orig_best, ynew_orig_best))
 
+        PH.printme(PH.p1, "Calculating the worst suggestion .... ")
         xnew_worst, acq_func_values_worst = acq_func_obj.min_acq_func("HumanExpert", noisy_suggestions, gp_humanexpert, suggestion_count)
         xnew_orig_worst = np.multiply(xnew_worst.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + gp_humanexpert.Xmin
 

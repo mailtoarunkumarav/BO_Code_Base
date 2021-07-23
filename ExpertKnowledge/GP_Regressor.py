@@ -50,6 +50,14 @@ class GaussianProcessRegressor:
         self.len_weights_bounds = len_weights_bounds
         self.weight_params_estimation = weight_params_estimation
         self.fun_helper_obj = fun_helper_obj
+        self.L_X_X = None
+        self.K_Xs_Xs = None
+
+    def gp_fit(self, X, y):
+        self.X = X
+        self.y = y
+        self.L_X_X = None
+        self.K_Xs_Xs = None
 
     # Define Plot Prior
     def plot_graph(self, plot_params):
@@ -184,11 +192,11 @@ class GaussianProcessRegressor:
                 lin = signal_variance + np.dot(data_point1[i, :], data_point2[j, :].T) * (char_len_scale**2)
                 p = 2
                 # periodic = (signal_variance ** 2) * (np.exp((-2 / (char_len_scale**2)) * ((np.pi/p)*((np.sin(difference)))**2)))
-                # degree_val = 1
-                # poly = 1+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val)
-                each_kernel_val = self.len_weights[0] * sek + self.len_weights[1] * mat3 + self.len_weights[2] * lin
+                degree_val = 4
+                poly = signal_variance+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val)
+                each_kernel_val = self.len_weights[0] * sek + self.len_weights[1] * mat3 + self.len_weights[2] * lin\
+                                  + self.len_weights[3] * poly
                                   # + self.len_weights[3] * periodic
-                                  # self.len_weights[3] * poly
 
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
@@ -253,11 +261,10 @@ class GaussianProcessRegressor:
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
 
-
-
     def optimize_log_marginal_likelihood_weight_params(self, input):
 
-        self.len_weights = input[0:3]
+
+        self.len_weights = input[0:4]
         # Following parameters not used in any computations
         self.signal_variance = input[len(input) - 1]
 
@@ -267,23 +274,26 @@ class GaussianProcessRegressor:
         # Find L from K = L *L.T instead of inversing the covariance function
         L_x_x = np.linalg.cholesky(Knoise)
         factor = np.linalg.solve(L_x_x, self.y)
-        log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + self.number_of_observed_samples * np.log(2 * np.pi) +
+        log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + len(self.X) * np.log(2 * np.pi) +
                                           np.log(np.linalg.det(Knoise)))
+        # PH.printme(PH.p1, "Trying.... ", input, "\t:Logl: ", log_marginal_likelihood)
         return log_marginal_likelihood
 
     def gaussian_predict(self, Xs):
 
-        # compute the covariances between the unseen data points i.e K**
-        K_xs_xs = self.computekernel(Xs, Xs)
-
-        # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
-        L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-6 * np.eye(self.number_of_test_datapoints))
-
-        # Sample 3 standard normals for each of the unseen data points
-        standard_normals = np.random.normal(size=(self.number_of_test_datapoints, 3))
-
-        # multiply them by the square root of the covariance matrix L
-        f_prior = np.dot(L_xs_xs, standard_normals)
+        # Commenting to speed up the comuptations and avoid prior and posterior samples
+        # # compute the covariances between the unseen data points i.e K**
+        # K_xs_xs = self.computekernel(Xs, Xs)
+        #
+        # # Cholesky decomposition to find L from covariance matrix K i.e K = L*L.T
+        # L_xs_xs = np.linalg.cholesky(K_xs_xs + 1e-6 * np.eye(self.number_of_test_datapoints))
+        #
+        # # Sample 3 standard normals for each of the unseen data points
+        # standard_normals = np.random.normal(size=(self.number_of_test_datapoints, 3))
+        #
+        # # multiply them by the square root of the covariance matrix L
+        # f_prior = np.dot(L_xs_xs, standard_normals)
+        f_prior = None
 
         # Compute mean and variance
         mean, variance, factor1 = self.compute_mean_var(Xs, self.X, self.y)
@@ -299,58 +309,35 @@ class GaussianProcessRegressor:
     def compute_mean_var(self, Xs, X, y):
 
         # Apply the kernel function to our training points
-        K_x_x = self.computekernel(X, X)
 
+        K_x_x = self.computekernel(X, X)
         eye = 1e-10 * np.eye(len(X))
-        L_x_x = np.linalg.cholesky(K_x_x + eye)
+        L_X_X = np.linalg.cholesky(K_x_x + eye)
 
         K_x_xs = self.computekernel(X, Xs)
-        factor1 = np.linalg.solve(L_x_x, K_x_xs)
-        factor2 = np.linalg.solve(L_x_x, y)
+        factor1 = np.linalg.solve(L_X_X, K_x_xs)
+        factor2 = np.linalg.solve(L_X_X, y)
         mean = np.dot(factor1.T, factor2).flatten()
 
-        K_xs_xs = self.computekernel(Xs, Xs)
-        variance = K_xs_xs - np.dot(factor1.T, factor1)
+        K_Xs_Xs = self.computekernel(Xs, Xs)
+        variance = K_Xs_Xs - np.dot(factor1.T, factor1)
+
+        # if not np.array_equal(X, self.X) or self.L_X_X is None:
+        #     K_x_x = self.computekernel(X, X)
+        #     eye = 1e-10 * np.eye(len(X))
+        #     self.L_X_X = np.linalg.cholesky(K_x_x + eye)
+        # K_x_xs = self.computekernel(X, Xs)
+        # factor1 = np.linalg.solve(self.L_X_X, K_x_xs)
+        # factor2 = np.linalg.solve(self.L_X_X, y)
+        # mean = np.dot(factor1.T, factor2).flatten()
+        #
+        # if not np.array_equal(self.Xs, Xs) or self.K_Xs_Xs is None:
+        #     self.K_Xs_Xs = self.computekernel(Xs, Xs)
+        # variance = self.K_Xs_Xs - np.dot(factor1.T, factor1)
 
         return mean, variance, factor1
 
-    def compute_predictive_likelihood(self, count, kernel_type, observations_kernel, optional_hyper_gp_obj):
-
-        self.hyper_gp_obj = optional_hyper_gp_obj
-        self.kernel_type = kernel_type
-
-        K_x_x = self.compute_kernel_matrix_hyperkernel(self.X, self.X, observations_kernel)
-        eye = 1e-12 * np.eye(len(self.X))
-        Knoise = K_x_x + eye
-
-        L_x_x = np.linalg.cholesky(Knoise)
-
-        K_x_xs = self.compute_kernel_matrix_hyperkernel(self.X, self.Xs, observations_kernel)
-        factor1 = np.linalg.solve(L_x_x, K_x_xs)
-        factor2 = np.linalg.solve(L_x_x, self.y)
-
-        mean = np.dot(factor1.T, factor2).flatten()
-
-        K_xs_xs = self.compute_kernel_matrix_hyperkernel(self.Xs, self.Xs, observations_kernel)
-        variance_mat = K_xs_xs - np.dot(factor1.T, factor1)
-        variance = np.diag(variance_mat)
-
-        print("Mean: ", mean, "\nVariance: ", variance, "\nys: ",self.ys,"\n\n\n")
-
-        neg_log_sum = 0
-        for i in range(len(self.Xs)):
-
-            likeli = (1/(np.sqrt(2*np.pi*variance[i])))*(np.exp((-1/(2*variance[i]))*((self.ys[i] - mean[i])**2)))
-            print("Likelihood: ", likeli)
-            neg_log_likelihood = -1 * np.log(likeli)
-            neg_log_sum = neg_log_sum + neg_log_likelihood
-            # print("prob: ", likeli)
-            # print("-log: ", neg_log_likelihood)
-
-        print("sum_-log: ", neg_log_sum)
-        return np.array([neg_log_sum])
-
-    def runGaussian(self, pwd_qualifier, role):
+    def runGaussian(self, pwd_qualifier, role, plot_posterior):
 
         PH.printme(PH.p1, "!!!!!!!!!!Gaussian Process Started!!!!!!!!!" )
         log_like_max = - 1 * float("inf")
@@ -385,10 +372,17 @@ class GaussianProcessRegressor:
                                                                                                        self.number_of_restarts_likelihood)
             random_points_c.append(random_data_point_each_dim)
 
+            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[3][0],
+                                                           self.len_weights_bounds[3][1],
+                                                           self.number_of_restarts_likelihood).reshape(1,
+                                                                                                       self.number_of_restarts_likelihood)
+            random_points_d.append(random_data_point_each_dim)
+
             # Vertically stack the arrays of randomly generated starting points as a matrix
             random_points_a = np.vstack(random_points_a)
             random_points_b = np.vstack(random_points_b)
             random_points_c = np.vstack(random_points_c)
+            random_points_d = np.vstack(random_points_d)
             variance_start_points = np.random.uniform(self.signal_variance_bounds[0],
                                                       self.signal_variance_bounds[1],
                                                       self.number_of_restarts_likelihood)
@@ -403,6 +397,8 @@ class GaussianProcessRegressor:
                 tot_init_points.append(param_b)
                 param_c = random_points_c[0][ind]
                 tot_init_points.append(param_c)
+                param_d = random_points_d[0][ind]
+                tot_init_points.append(param_d)
                 tot_init_points.append(variance_start_points[ind])
                 total_bounds = self.len_weights_bounds.copy()
                 total_bounds.append(self.signal_variance_bounds)
@@ -411,7 +407,7 @@ class GaussianProcessRegressor:
                                       tot_init_points,
                                       method='L-BFGS-B',
                                       tol=0.01,
-                                      options={'maxfun': 200, 'maxiter': 20},
+                                      options={'maxfun': 200, 'maxiter': 40},
                                       bounds=total_bounds)
 
                 params = maxima['x']
@@ -421,11 +417,12 @@ class GaussianProcessRegressor:
                     x_max_value = maxima['x']
                     log_like_max = log_likelihood
 
-            self.len_weights = x_max_value[0:3]
+            self.len_weights = x_max_value[0:4]
             self.signal_variance = x_max_value[len(maxima['x']) - 1]
 
             PH.printme(PH.p1, "Opt weights: ", self.len_weights, "   variance:", self.signal_variance)
 
+        # Commenting to speed up the computations
         # # compute the covariances between the test data points i.e K**
         # K_xs_xs = self.computekernel(self.Xs, self.Xs)
         #
@@ -448,7 +445,7 @@ class GaussianProcessRegressor:
         # #                      }
         # # self.plot_graph(plot_prior_params)
 
-        if self.number_of_dimensions == 1:
+        if self.number_of_dimensions == 1 and plot_posterior:
             mean, variance, factor1 = self.compute_mean_var(self.Xs, self.X, self.y)
             diag_variance = np.diag(variance)
             standard_deviation = np.sqrt(diag_variance)
@@ -477,11 +474,14 @@ class GaussianProcessRegressor:
                                            'ylabel': 'output, f(x)'
                                            }
             self.plot_graph(plot_posterior_distr_params)
+
+        PH.printme(PH.p1, "!!!!!!!!!!Finished!!!!!!!!!" )
+
         return log_like_max
 
     def plot_posterior_predictions(self, pwd_qualifier, Xs, ys, mean, standard_deviation):
 
-        pattern = re.compile("R[0-9]_+")
+        pattern = re.compile("R[0-9]+_+")
         match = pattern.search(pwd_qualifier)
         span = match.span()
         file_name = pwd_qualifier[span[1] - (span[1] - span[0]):]

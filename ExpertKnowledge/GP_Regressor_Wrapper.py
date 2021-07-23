@@ -137,7 +137,7 @@ class GPRegressorWrapper:
             linspaceymin = -51
             linspaceymax = 1
 
-        if function_type == "OSC1D" or function_type == "BEN1D" or  function_type == "GCL1D" or function_type == "ACK1D":
+        if function_type == "OSC1D" or function_type == "BEN1D" or function_type == "GCL1D" or function_type == "ACK1D":
             number_of_dimensions = 1
             oned_bounds = [[linspacexmin, linspacexmax]]
             bounds = oned_bounds
@@ -160,8 +160,8 @@ class GPRegressorWrapper:
         lengthscale_bounds = [[0.1, 1]]
         signal_variance_bounds = [0.1, 1]
         fun_helper_obj = FunctionHelper(function_type)
-        len_weights = [0.1, 0.3, 0.2]
-        len_weights_bounds = [[0.1, 1] for i in range(3)]
+        len_weights = [0.1, 0.3, 0.2, 0.1]
+        len_weights_bounds = [[0.1, 1] for i in range(4)]
 
 
         if role != "ai" and role != "baseline":
@@ -194,8 +194,8 @@ class GPRegressorWrapper:
                 # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
                 if function_type == "OSC1D":
                     X = np.linspace(linspacexmin, 2, 40)
-                    X = np.append(X, np.linspace(2, 4, 20))
-                    X = np.append(X, np.linspace(4, linspacexmax, 10))
+                    X = np.append(X, np.linspace(2, 4, 40))
+                    X = np.append(X, np.linspace(4, linspacexmax, 20))
                     X = np.vstack(X)
 
 

@@ -9,6 +9,8 @@ class BaselineModel:
     def obtain_baseline_suggestion(self, suggestion_count, plot_files_identifier, gp_baseline, acq_func_obj, noisy_suggestions,
                                    plot_iterations):
 
+        print("Baseline weights  before generating suggestion: ", gp_baseline.len_weights)
+        gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
         xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", noisy_suggestions, gp_baseline, suggestion_count)
         xnew_orig = np.multiply(xnew.T, (gp_baseline.Xmax - gp_baseline.Xmin)) + gp_baseline.Xmin
 
@@ -23,8 +25,7 @@ class BaselineModel:
 
         # Normalising
         PH.printme(PH.p1, "(", xnew, ynew, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
-        gp_baseline.X = X
-        gp_baseline.y = y
+        gp_baseline.gp_fit(X, y)
 
         # # Uncomment for debugging the suggestions and the posterior
         # PH.printme(PH.p1, "Final X and y:\n", gp_humanexpert.X, "\n", gp_humanexpert.y)
@@ -36,6 +37,10 @@ class BaselineModel:
                 standard_deviation = np.sqrt(diag_variance)
             gp_baseline.plot_posterior_predictions(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), gp_baseline.Xs,
                                                    gp_baseline.ys, mean, standard_deviation)
+
+        PH.printme(PH.p1, "Weights before ending....", gp_baseline.len_weights)
+        gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
+
 
         return xnew, ynew
 
