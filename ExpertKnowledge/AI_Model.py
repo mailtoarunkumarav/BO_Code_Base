@@ -131,27 +131,44 @@ class AIModel:
 
         acq_difference_sum = 0
 
-        if acq_func_obj.acq_type == "ucb":
+        for i in range(len(gp_aimodel.he_suggestions["x_suggestions_best"])):
 
-            for i in range(len(gp_aimodel.he_suggestions["x_suggestions_best"])):
-                best_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions,
-                                                                          gp_aimodel.he_suggestions["x_suggestions_best"][i],
-                                                                          gp_aimodel,
-                                                                          ai_suggestion_count)
-                worst_acq_value = acq_func_obj.upper_confidence_bound_util("ai", noisy_suggestions,
-                                                                           gp_aimodel.he_suggestions["x_suggestions_worst"][i],
-                                                                           gp_aimodel, ai_suggestion_count)
-                acq_difference_sum += best_acq_value - worst_acq_value
+            data_conditioned_on_current_he_suggestion_X = gp_aimodel.X[0:(gp_aimodel.number_of_observed_samples +
+                                                                           gp_aimodel.HE_input_iterations[i] - 1)]
+            data_conditioned_on_current_he_suggestion_y = gp_aimodel.y[0:(gp_aimodel.number_of_observed_samples +
+                                                                          gp_aimodel.HE_input_iterations[i] - 1)]
 
-        if acq_func_obj.acq_type == "ei":
-            y_max = gp_aimodel.y.max()
-            for i in range(len(gp_aimodel.he_suggestions["x_suggestions_best"])):
-                best_acq_value = acq_func_obj.expected_improvement_util("ai", noisy_suggestions,
-                                                                        gp_aimodel.he_suggestions["x_suggestions_best"][i], y_max,
-                                                                        gp_aimodel)
-                worst_acq_value = acq_func_obj.expected_improvement_util("ai", noisy_suggestions, gp_aimodel.he_suggestions[
-                    "x_suggestions_worst"][i], y_max, gp_aimodel)
-                acq_difference_sum += best_acq_value - worst_acq_value
+            if acq_func_obj.acq_type == "ucb":
+
+                best_acq_value = acq_func_obj.data_conditioned_upper_confidence_bound_util("ai", noisy_suggestions,
+                                                                                           gp_aimodel.he_suggestions["x_suggestions_best"][
+                                                                                               i],
+                                                                                           data_conditioned_on_current_he_suggestion_X,
+                                                                                           data_conditioned_on_current_he_suggestion_y,
+                                                                                           gp_aimodel,
+                                                                                           ai_suggestion_count)
+
+                worst_acq_value = acq_func_obj.data_conditioned_upper_confidence_bound_util("ai", noisy_suggestions,
+                                                                                            gp_aimodel.he_suggestions[
+                                                                                                "x_suggestions_worst"][i],
+                                                                                            data_conditioned_on_current_he_suggestion_X,
+                                                                                            data_conditioned_on_current_he_suggestion_y,
+                                                                                            gp_aimodel, ai_suggestion_count)
+
+            if acq_func_obj.acq_type == "ei":
+                y_max = gp_aimodel.y.max()
+                best_acq_value = acq_func_obj.data_conditioned_expected_improvement_util("ai", noisy_suggestions,
+                                                                        gp_aimodel.he_suggestions["x_suggestions_best"][i],
+                                                                                         data_conditioned_on_current_he_suggestion_X,
+                                                                                         data_conditioned_on_current_he_suggestion_y,
+                                                                                         y_max, gp_aimodel)
+                worst_acq_value = acq_func_obj.data_conditioned_expected_improvement_util("ai", noisy_suggestions,
+                                                                        gp_aimodel.he_suggestions["x_suggestions_worst"][i],
+                                                                                         data_conditioned_on_current_he_suggestion_X,
+                                                                                         data_conditioned_on_current_he_suggestion_y,
+                                                                                          y_max, gp_aimodel)
+
+            acq_difference_sum += best_acq_value - worst_acq_value
 
         value = log_likelihood + lambda_val * acq_difference_sum
 

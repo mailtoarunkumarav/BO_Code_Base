@@ -309,6 +309,21 @@ class GaussianProcessRegressor:
         f_post = None
         return mean, diag_variance, f_prior, f_post
 
+    def gaussian_predict_on_conditioned_X(self, Xs, X, y):
+
+        f_prior = None
+
+        # Compute mean and variance
+        mean, variance, factor1 = self.compute_mean_var(Xs, X, y)
+        diag_variance = np.diag(variance)
+        # standard_deviation = np.sqrt(diag_variance)
+
+        # compute posteriors for the data points
+        # newL = np.linalg.cholesky(K_xs_xs + 1e-6 * np.eye(self.number_of_test_datapoints) - np.dot(factor1.T, factor1))
+        # f_post = mean.reshape(-1, 1) + np.dot(newL, np.random.normal(size=(self.number_of_test_datapoints, 3)))
+        f_post = None
+        return mean, diag_variance, f_prior, f_post
+
     def compute_mean_var(self, Xs, X, y):
 
         # Apply the kernel function to our training points

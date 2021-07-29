@@ -129,6 +129,25 @@ class AcquisitionFunction():
             # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
             return result
 
+    def data_conditioned_upper_confidence_bound_util(self, role, noisy_suggestions, Xs, X, y, gp_obj, iteration_count):
+        with np.errstate(divide='ignore') or np.errstate(invalid='ignore'):
+            # Use Gaussian Process to predict the values for mean and variance at given x
+            mean, variance, fprior, f_post = gp_obj.gaussian_predict_on_conditioned_X(np.matrix(Xs), X, y)
+            std_dev = np.sqrt(variance)
+            result = self.ucb_acq_func(role, noisy_suggestions, mean, std_dev, iteration_count, gp_obj.number_of_dimensions)
+            # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
+            return result
+
+    def data_conditioned_expected_improvement_util(self, role, noisy_suggestions, Xs, X, y, y_max, gp_obj):
+
+        with np.errstate(divide='ignore') or np.errstate(invalid='ignore'):
+
+            # Use Gaussian Process to predict the values for mean and variance at given x
+            mean, variance, fprior, f_post = gp_obj.gaussian_predict_on_conditioned_X(np.array([Xs]), X, y)
+            std_dev = np.sqrt(variance)
+            result = self.expected_improvement(role, noisy_suggestions, mean, std_dev, y_max)
+            # Since scipy.minimize function is used to find the minima and so converting it to maxima by * with -1
+            return result
 
     # Method to maximize the ACQ function as specified the user
     def max_acq_func(self, role, noisy_suggestions, gp_obj, iteration_count, print_bool="TT"):

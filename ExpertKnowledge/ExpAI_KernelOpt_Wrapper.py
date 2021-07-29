@@ -55,8 +55,7 @@ class ExpAIKerOptWrapper:
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
-        number_of_humanexpert_suggestions = 9
-        number_total_suggestions = 15
+        number_total_suggestions = 12
 
         epsilon_distance = 0.6
 
@@ -86,8 +85,8 @@ class ExpAIKerOptWrapper:
                    "Acq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
                    number_of_minimiser_restarts, "   Runs:", number_of_runs, "\nRestarts for Acq:", number_of_restarts_acq, "  Eps1:",
                    epsilon1, "   eps2:", epsilon2, "   No_obs_GT:", number_of_observations_groundtruth, "   Random Obs:",
-                   number_of_random_observations_humanexpert, "\nHE Suggestions:", number_of_humanexpert_suggestions,
-                   "   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:", epsilon_distance, "\nNoisy:", noisy_suggestions,
+                   number_of_random_observations_humanexpert, "\n   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:",
+                   epsilon_distance, "\nNoisy:", noisy_suggestions,
                    "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "   lambda Multiplier:",lambda_mul,
                    "\nSpecial Inputs: Controlled observations")
         timenow = datetime.datetime.now()
@@ -112,10 +111,12 @@ class ExpAIKerOptWrapper:
             # HE_input_iterations = np.sort(random.sample(range(number_of_random_observations_humanexpert+1,
             #                                           number_of_suggestions_ai_baseline-1), number_of_humanexpert_suggestions))
 
-            HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-            # HE_input_iterations = [4, 5, 8, 9]
+            # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
-            PH.printme(PH.p1, "Human Expert Input Iterations: ", HE_input_iterations)
+            HE_input_iterations = [4, 5, 9, 10]
+            number_of_humanexpert_suggestions = len(HE_input_iterations)
+
+            PH.printme(PH.p1, number_of_humanexpert_suggestions, " Human Expert Input Iterations: ", HE_input_iterations)
 
             acq_func_obj = AcquisitionFunction(None, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
@@ -134,6 +135,8 @@ class ExpAIKerOptWrapper:
                 PH.printme(PH.p1, "Construct GP object for AI Model")
                 gp_aimodel = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "ai", number_of_random_observations_humanexpert,
                                                                 function_type, gp_humanexpert.initial_random_observations)
+
+                gp_aimodel.HE_input_iterations = HE_input_iterations
                 gp_aimodel.he_suggestions = None
 
                 aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg, lambda_mul)
