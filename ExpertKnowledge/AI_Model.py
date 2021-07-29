@@ -138,6 +138,10 @@ class AIModel:
             data_conditioned_on_current_he_suggestion_y = gp_aimodel.y[0:(gp_aimodel.number_of_observed_samples +
                                                                           gp_aimodel.HE_input_iterations[i] - 1)]
 
+            Xs_random = np.random.uniform(0, 1, 10).reshape(10, 1)
+            random_acq_values = []
+
+
             if acq_func_obj.acq_type == "ucb":
 
                 best_acq_value = acq_func_obj.data_conditioned_upper_confidence_bound_util("ai", noisy_suggestions,
@@ -155,6 +159,14 @@ class AIModel:
                                                                                             data_conditioned_on_current_he_suggestion_y,
                                                                                             gp_aimodel, ai_suggestion_count)
 
+                for each_Xs in Xs_random:
+                    value = acq_func_obj.data_conditioned_upper_confidence_bound_util("ai", noisy_suggestions, each_Xs,
+                                                                                              data_conditioned_on_current_he_suggestion_X,
+                                                                                              data_conditioned_on_current_he_suggestion_y,
+                                                                                              gp_aimodel, ai_suggestion_count)
+                    random_acq_values.append(value)
+
+
             if acq_func_obj.acq_type == "ei":
                 y_max = gp_aimodel.y.max()
                 best_acq_value = acq_func_obj.data_conditioned_expected_improvement_util("ai", noisy_suggestions,
@@ -167,6 +179,18 @@ class AIModel:
                                                                                          data_conditioned_on_current_he_suggestion_X,
                                                                                          data_conditioned_on_current_he_suggestion_y,
                                                                                           y_max, gp_aimodel)
+
+                for each_Xs in Xs_random:
+                    value = acq_func_obj.data_conditioned_expected_improvement_util("ai", noisy_suggestions, each_Xs,
+                                                                                         data_conditioned_on_current_he_suggestion_X,
+                                                                                         data_conditioned_on_current_he_suggestion_y,
+                                                                                          y_max, gp_aimodel)
+                    random_acq_values.append(value)
+
+            if best_acq_value != 0:
+                best_acq_value = best_acq_value / np.mean(random_acq_values)
+            if worst_acq_value != 0:
+                worst_acq_value = worst_acq_value/np.mean(worst_acq_value)
 
             acq_difference_sum += best_acq_value - worst_acq_value
 

@@ -35,9 +35,9 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
-        number_of_runs = 10
-        number_of_restarts_acq = 100
-        number_of_minimiser_restarts = 100
+        number_of_runs = 6
+        number_of_restarts_acq = 10
+        number_of_minimiser_restarts = 10
 
         # Epsilons is the value used during the maximization of PI and EI ACQ functions
         # Greater value like Epsilon = 10 is more of exploration and Epsilon = 0.0001 (exploitation)
@@ -51,11 +51,11 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 100
+        number_of_observations_groundtruth = 10
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
-        number_total_suggestions = 12
+        number_total_suggestions = 6
 
         epsilon_distance = 0.6
 
@@ -88,7 +88,7 @@ class ExpAIKerOptWrapper:
                    number_of_random_observations_humanexpert, "\n   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:",
                    epsilon_distance, "\nNoisy:", noisy_suggestions,
                    "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "   lambda Multiplier:",lambda_mul,
-                   "\nSpecial Inputs: Controlled observations")
+                   "\nSpecial Inputs: Normalised Acquisition function values")
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -113,7 +113,7 @@ class ExpAIKerOptWrapper:
 
             # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
-            HE_input_iterations = [4, 5, 9, 10]
+            HE_input_iterations = [2, 3, 5]
             number_of_humanexpert_suggestions = len(HE_input_iterations)
 
             PH.printme(PH.p1, number_of_humanexpert_suggestions, " Human Expert Input Iterations: ", HE_input_iterations)

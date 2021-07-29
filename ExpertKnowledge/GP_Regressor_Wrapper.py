@@ -161,7 +161,8 @@ class GPRegressorWrapper:
         fun_helper_obj = FunctionHelper(function_type)
         len_weights = [0.1, 0.3, 0.2, 0.1, 0.1]
         len_weights_bounds = [[0.1, 1] for i in range(len(len_weights))]
-        controlled_obs = False
+        # controlled_obs = False
+        controlled_obs = True
 
         if role != "ai" and role != "baseline":
 
