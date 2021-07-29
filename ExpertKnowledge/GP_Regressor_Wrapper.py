@@ -22,7 +22,6 @@ class GPRegressorWrapper:
         noise = 0.0
         signal_variance = 1
 
-
         if function_type == "OSC1D":
             linspacexmin = 0
             linspacexmax = 8
@@ -160,9 +159,9 @@ class GPRegressorWrapper:
         lengthscale_bounds = [[0.1, 1]]
         signal_variance_bounds = [0.1, 1]
         fun_helper_obj = FunctionHelper(function_type)
-        len_weights = [0.1, 0.3, 0.2, 0.1]
-        len_weights_bounds = [[0.1, 1] for i in range(4)]
-
+        len_weights = [0.1, 0.3, 0.2, 0.1, 0.1]
+        len_weights_bounds = [[0.1, 1] for i in range(len(len_weights))]
+        controlled_obs = False
 
         if role != "ai" and role != "baseline":
 
@@ -193,17 +192,39 @@ class GPRegressorWrapper:
 
                 # Only for Oscillator function to force obs in the beginning of the space. Comment if any other true function
                 if function_type == "OSC1D":
-                    X = np.linspace(linspacexmin, 2, 40)
+                    X = np.linspace(linspacexmin, 1.95, 40)
                     X = np.append(X, np.linspace(2, 4, 40))
                     X = np.append(X, np.linspace(4, linspacexmax, 20))
                     X = np.vstack(X)
 
-
             elif role == "HumanExpert":
                 print("Setting observation model for Human Expert ")
                 weight_params_estimation = False
-                # X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
-                # X = np.vstack(X)
+
+                if function_type == "OSC1D" and controlled_obs:
+                    X = np.random.uniform(3.5, 7.5, number_of_random_observed_samples)
+                    X = np.vstack(X)
+
+                if function_type == "OSC2D" and controlled_obs:
+                    random_points = []
+                    X = []
+                    bnds = [[2.5, 4.85], [linspacexmin, linspacexmax]]
+                    for dim in np.arange(number_of_dimensions):
+                        random_data_point_each_dim = np.random.uniform(bnds[dim][0], bnds[dim][1],
+                                                                       number_of_random_observed_samples).reshape(1,
+                                                                                                    number_of_random_observed_samples)
+                        random_points.append(random_data_point_each_dim)
+
+                    # Vertically stack the arrays obtained for each dimension in the form a matrix, so that it can be reshaped
+                    random_points = np.vstack(random_points)
+
+                    # Generated values are to be reshaped into input points in the form of x1=[x11, x12, x13].T
+                    for sample_num in np.arange(number_of_random_observed_samples):
+                        array = []
+                        for dim_count in np.arange(number_of_dimensions):
+                            array.append(random_points[dim_count, sample_num])
+                        X.append(array)
+                    X = np.vstack(X)
 
             # Sinc
             # x_obs = np.linspace(-15, -5,  20)
@@ -250,7 +271,6 @@ class GPRegressorWrapper:
             # plt.plot(X,y, "r+")
             # plt.show()
             ################################
-
 
         elif role == "ai":
             weight_params_estimation = False

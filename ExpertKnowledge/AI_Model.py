@@ -10,10 +10,11 @@ from matplotlib import pyplot as plt
 
 class AIModel:
 
-    def __init__(self, epsilon_distance, minimiser_restarts, lambda_reg):
+    def __init__(self, epsilon_distance, minimiser_restarts, lambda_reg, lambda_mul):
         self.epsilon_distance = epsilon_distance
         self.number_minimiser_restarts = minimiser_restarts
         self.lambda_reg = lambda_reg
+        self.lambda_mul = lambda_mul
         self.min_acq_difference = None
         self.max_acq_difference = None
         self.min_llk = None
@@ -29,6 +30,7 @@ class AIModel:
         random_points_b = []
         random_points_c = []
         random_points_d = []
+        random_points_e = []
 
         # Data structure to create the starting points for the scipy.minimize method
         random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[0][0], gp_aimodel.len_weights_bounds[0][1],
@@ -47,6 +49,10 @@ class AIModel:
                                                        self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
         random_points_d.append(random_data_point_each_dim)
 
+        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[4][0], gp_aimodel.len_weights_bounds[4][1],
+                                                       self.number_minimiser_restarts).reshape(1, self.number_minimiser_restarts)
+        random_points_e.append(random_data_point_each_dim)
+
         variance_start_points = np.random.uniform(gp_aimodel.signal_variance_bounds[0], gp_aimodel.signal_variance_bounds[1],
                                                   self.number_minimiser_restarts)
 
@@ -55,6 +61,7 @@ class AIModel:
         random_points_b = np.vstack(random_points_b)
         random_points_c = np.vstack(random_points_c)
         random_points_d = np.vstack(random_points_d)
+        random_points_e = np.vstack(random_points_e)
 
         for ind in np.arange(self.number_minimiser_restarts):
 
@@ -68,6 +75,8 @@ class AIModel:
             tot_init_points.append(param_c)
             param_d = random_points_d[0][ind]
             tot_init_points.append(param_d)
+            param_e = random_points_e[0][ind]
+            tot_init_points.append(param_e)
             tot_init_points.append(variance_start_points[ind])
             total_bounds = gp_aimodel.len_weights_bounds.copy()
             # total_bounds.append(gp_aimodel.bounds)
@@ -89,8 +98,8 @@ class AIModel:
                 x_max_value = maxima['x']
                 log_like_distance_max = log_likelihood_distance
 
-        gp_aimodel.len_weights = x_max_value[0:4]
-        gp_aimodel.signal_variance = x_max_value[4]
+        gp_aimodel.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
+        gp_aimodel.signal_variance = x_max_value[len(maxima['x']) - 1]
 
         PH.printme(PH.p1, "*******After minimising distance \t Observing the values *******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
@@ -110,16 +119,15 @@ class AIModel:
 
     def likelihood_distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count):
 
-        lambda_multiplier = 10
-        lambda_val = self.lambda_reg * lambda_multiplier
+        lambda_val = self.lambda_reg * self.lambda_mul
 
         log_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(inputs)
 
         if gp_aimodel.he_suggestions is None:
             return log_likelihood
 
-        gp_aimodel.len_weights = inputs[0:4]
-        gp_aimodel.signal_variance = inputs[4]
+        gp_aimodel.len_weights = inputs[0:(len(inputs) - 1)]
+        gp_aimodel.signal_variance = inputs[(len(inputs) - 1)]
 
         acq_difference_sum = 0
 

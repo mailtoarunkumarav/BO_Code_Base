@@ -33,9 +33,9 @@ np.random.seed(random_seed)
 # Class for starting Bayesian Optimization with the specified parameters
 class ExpAIKerOptWrapper:
 
-    def kernel_opt_wrapper(self, pwd_qualifier, function_type, external_input):
+    def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
-        number_of_runs = 6
+        number_of_runs = 10
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -55,10 +55,10 @@ class ExpAIKerOptWrapper:
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
-        number_of_humanexpert_suggestions = 4
-        number_total_suggestions = 12
+        number_of_humanexpert_suggestions = 9
+        number_total_suggestions = 15
 
-        epsilon_distance = 0.5
+        epsilon_distance = 0.6
 
         noisy_suggestions = False
 
@@ -68,8 +68,8 @@ class ExpAIKerOptWrapper:
         # acq_fun = 'ei'
         # acq_fun = 'ucb'
 
-        # acq_fun_list = ['ei', 'ucb']
-        acq_fun_list = ['ucb']
+        acq_fun_list = ['ei', 'ucb']
+        # acq_fun_list = ['ucb']
 
         # total_regret_ai = []
         # # total_ei_regret_ai = []
@@ -79,7 +79,8 @@ class ExpAIKerOptWrapper:
         total_regret_ai = {}
         total_regret_baseline = {}
 
-        lambda_reg = 0.6
+        lambda_reg = 0.7
+        lambda_mul = 10
 
         PH.printme(PH.p1, "\n###################################################################",
                    "Acq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
@@ -87,7 +88,8 @@ class ExpAIKerOptWrapper:
                    epsilon1, "   eps2:", epsilon2, "   No_obs_GT:", number_of_observations_groundtruth, "   Random Obs:",
                    number_of_random_observations_humanexpert, "\nHE Suggestions:", number_of_humanexpert_suggestions,
                    "   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:", epsilon_distance, "\nNoisy:", noisy_suggestions,
-                   "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg)
+                   "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "   lambda Multiplier:",lambda_mul,
+                   "\nSpecial Inputs: Controlled observations")
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -110,9 +112,10 @@ class ExpAIKerOptWrapper:
             # HE_input_iterations = np.sort(random.sample(range(number_of_random_observations_humanexpert+1,
             #                                           number_of_suggestions_ai_baseline-1), number_of_humanexpert_suggestions))
 
-            # HE_input_iterations = [1, 2]
-            HE_input_iterations = [4, 5, 8, 9]
+            HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            # HE_input_iterations = [4, 5, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
+            PH.printme(PH.p1, "Human Expert Input Iterations: ", HE_input_iterations)
 
             acq_func_obj = AcquisitionFunction(None, number_of_restarts_acq, nu, epsilon1, epsilon2)
 
@@ -133,7 +136,7 @@ class ExpAIKerOptWrapper:
                                                                 function_type, gp_humanexpert.initial_random_observations)
                 gp_aimodel.he_suggestions = None
 
-                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg)
+                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg, lambda_mul)
 
                 PH.printme(PH.p1, "Construct GP object for baseline")
                 gp_baseline = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "baseline", number_of_random_observations_humanexpert,
@@ -246,19 +249,19 @@ class ExpAIKerOptWrapper:
                        "\n###################")
             PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count + 1) + " complete @@@@@@@@@@@@@@@@\n\n")
 
-        PH.printme(PH.p1, "\n", total_regret_ai, "\n", total_regret_baseline)
+        PH.printme(PH.p1, "Tot_AI:\n", total_regret_ai, "\n\nTot Base:\n", total_regret_baseline)
         # # # Plotting regret
-        self.plot_regret(pwd_qualifier, acq_fun_list, total_regret_ai, total_regret_baseline, len(gp_aimodel.y))
+        self.plot_regret(pwd_qualifier, full_time_stamp, acq_fun_list, total_regret_ai, total_regret_baseline, len(gp_aimodel.y))
 
         endtimenow = datetime.datetime.now()
         PH.printme(PH.p1, "\nEnd time: ", endtimenow.strftime("%H%M%S_%d%m%Y"))
 
         # plt.show()
 
-    def plot_regret(self, pwd_name, acq_fun_list, total_regret_ai, total_regret_base, total_number_of_obs):
+    def plot_regret(self, pwd_name, full_time_stamp, acq_fun_list, total_regret_ai, total_regret_base, total_number_of_obs):
 
         iterations_axes_values = [i + 1 for i in np.arange(total_number_of_obs)]
-        fig_name = 'Regret'
+        fig_name = 'Regret_'+full_time_stamp
         plt.figure(str(fig_name))
         plt.clf()
         ax = plt.subplot(111)
@@ -297,7 +300,8 @@ class ExpAIKerOptWrapper:
 
             count += 1
 
-        plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_mean_ai), np.max(regret_mean_base))])
+        # plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_mean_ai), np.max(regret_mean_base))])
+        plt.axis([1, len(iterations_axes_values), 0, 0.9])
         # plt.xticks(iterations_axes_values, iterations_axes_values)
         plt.title('Regret')
         plt.xlabel('Evaluations')
@@ -323,4 +327,4 @@ if __name__ == "__main__":
     directory_full_qualifier_name = os.getcwd() + "/../../Experimental_Results/ExpertKnowledgeResults/" + full_time_stamp + "/"
     PH(directory_full_qualifier_name)
     PH.printme(PH.p1, "Function Type: ", function_type)
-    ker_opt_wrapper_obj.kernel_opt_wrapper(directory_full_qualifier_name, function_type, input)
+    ker_opt_wrapper_obj.kernel_opt_wrapper(directory_full_qualifier_name, full_time_stamp, function_type, input)

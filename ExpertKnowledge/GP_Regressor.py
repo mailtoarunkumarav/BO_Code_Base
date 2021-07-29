@@ -190,13 +190,17 @@ class GaussianProcessRegressor:
                 mat3 = (signal_variance ** 2) * (1 + (np.sqrt(3)*l2_difference/char_len_scale)) * \
                                   (np.exp((-1 * np.sqrt(3) / char_len_scale) * l2_difference))
                 lin = signal_variance + np.dot(data_point1[i, :], data_point2[j, :].T) * (char_len_scale**2)
+
                 p = 2
                 # periodic = (signal_variance ** 2) * (np.exp((-2 / (char_len_scale**2)) * ((np.pi/p)*((np.sin(difference)))**2)))
-                degree_val = 4
-                poly = signal_variance+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val)
-                each_kernel_val = self.len_weights[0] * sek + self.len_weights[1] * mat3 + self.len_weights[2] * lin\
-                                  + self.len_weights[3] * poly
-                                  # + self.len_weights[3] * periodic
+
+                degree_val1 = 4
+                poly1 = signal_variance+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val1)
+
+                degree_val2 = 6
+                poly2 = signal_variance+np.power(np.dot(data_point1[i, :], data_point2[j, :].T), degree_val2)
+                each_kernel_val = self.len_weights[0] * sek + self.len_weights[1] * mat3 + self.len_weights[2] * lin \
+                                  + self.len_weights[3] * poly1 + self.len_weights[4] * poly2
 
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
@@ -263,8 +267,7 @@ class GaussianProcessRegressor:
 
     def optimize_log_marginal_likelihood_weight_params(self, input):
 
-
-        self.len_weights = input[0:4]
+        self.len_weights = input[0:(len(input) - 1)]
         # Following parameters not used in any computations
         self.signal_variance = input[len(input) - 1]
 
@@ -352,6 +355,7 @@ class GaussianProcessRegressor:
             random_points_b = []
             random_points_c = []
             random_points_d = []
+            random_points_e = []
 
             # Data structure to create the starting points for the scipy.minimize method
             random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[0][0],
@@ -378,11 +382,18 @@ class GaussianProcessRegressor:
                                                                                                        self.number_of_restarts_likelihood)
             random_points_d.append(random_data_point_each_dim)
 
+            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[4][0],
+                                                           self.len_weights_bounds[4][1],
+                                                           self.number_of_restarts_likelihood).reshape(1,
+                                                                                                       self.number_of_restarts_likelihood)
+            random_points_e.append(random_data_point_each_dim)
+
             # Vertically stack the arrays of randomly generated starting points as a matrix
             random_points_a = np.vstack(random_points_a)
             random_points_b = np.vstack(random_points_b)
             random_points_c = np.vstack(random_points_c)
             random_points_d = np.vstack(random_points_d)
+            random_points_e = np.vstack(random_points_e)
             variance_start_points = np.random.uniform(self.signal_variance_bounds[0],
                                                       self.signal_variance_bounds[1],
                                                       self.number_of_restarts_likelihood)
@@ -399,6 +410,8 @@ class GaussianProcessRegressor:
                 tot_init_points.append(param_c)
                 param_d = random_points_d[0][ind]
                 tot_init_points.append(param_d)
+                param_e = random_points_e[0][ind]
+                tot_init_points.append(param_e)
                 tot_init_points.append(variance_start_points[ind])
                 total_bounds = self.len_weights_bounds.copy()
                 total_bounds.append(self.signal_variance_bounds)
@@ -417,7 +430,7 @@ class GaussianProcessRegressor:
                     x_max_value = maxima['x']
                     log_like_max = log_likelihood
 
-            self.len_weights = x_max_value[0:4]
+            self.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
             self.signal_variance = x_max_value[len(maxima['x']) - 1]
 
             PH.printme(PH.p1, "Opt weights: ", self.len_weights, "   variance:", self.signal_variance)
