@@ -26,7 +26,7 @@ plt.rcParams['figure.max_open_warning'] = 0
 # np.seterr(divide='ignore', invalid='ignore')
 
 # To fix the random number genration, currently not able, so as to retain the random selection of points
-random_seed = 400
+random_seed = 200
 np.random.seed(random_seed)
 
 
@@ -36,8 +36,8 @@ class ExpAIKerOptWrapper:
     def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
         number_of_runs = 6
-        number_of_restarts_acq = 10
-        number_of_minimiser_restarts = 10
+        number_of_restarts_acq = 100
+        number_of_minimiser_restarts = 100
 
         # Epsilons is the value used during the maximization of PI and EI ACQ functions
         # Greater value like Epsilon = 10 is more of exploration and Epsilon = 0.0001 (exploitation)
@@ -51,11 +51,11 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 10
+        number_of_observations_groundtruth = 100
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
-        number_total_suggestions = 6
+        number_total_suggestions = 12
 
         epsilon_distance = 0.6
 
@@ -67,8 +67,8 @@ class ExpAIKerOptWrapper:
         # acq_fun = 'ei'
         # acq_fun = 'ucb'
 
-        acq_fun_list = ['ei', 'ucb']
-        # acq_fun_list = ['ucb']
+        # acq_fun_list = ['ei', 'ucb']
+        acq_fun_list = ['ucb']
 
         # total_regret_ai = []
         # # total_ei_regret_ai = []
@@ -81,6 +81,8 @@ class ExpAIKerOptWrapper:
         lambda_reg = 0.7
         lambda_mul = 10
 
+        llk_threshold = 0.9
+
         PH.printme(PH.p1, "\n###################################################################",
                    "Acq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
                    number_of_minimiser_restarts, "   Runs:", number_of_runs, "\nRestarts for Acq:", number_of_restarts_acq, "  Eps1:",
@@ -88,7 +90,8 @@ class ExpAIKerOptWrapper:
                    number_of_random_observations_humanexpert, "\n   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:",
                    epsilon_distance, "\nNoisy:", noisy_suggestions,
                    "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "   lambda Multiplier:",lambda_mul,
-                   "\nSpecial Inputs: Normalised Acquisition function values")
+                   "\n Threshold Value: ", llk_threshold,
+                   "\nSpecial Inputs: Normalised Acquisition function values + Two stage maximisation")
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -113,7 +116,7 @@ class ExpAIKerOptWrapper:
 
             # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
-            HE_input_iterations = [2, 3, 5]
+            HE_input_iterations = [2, 3, 7, 8]
             number_of_humanexpert_suggestions = len(HE_input_iterations)
 
             PH.printme(PH.p1, number_of_humanexpert_suggestions, " Human Expert Input Iterations: ", HE_input_iterations)
@@ -139,7 +142,7 @@ class ExpAIKerOptWrapper:
                 gp_aimodel.HE_input_iterations = HE_input_iterations
                 gp_aimodel.he_suggestions = None
 
-                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg, lambda_mul)
+                aimodel_obj = AIModel(epsilon_distance, number_of_minimiser_restarts, lambda_reg, lambda_mul, llk_threshold)
 
                 PH.printme(PH.p1, "Construct GP object for baseline")
                 gp_baseline = gp_wrapper_obj.construct_gp_object(pwd_qualifier, "baseline", number_of_random_observations_humanexpert,
@@ -175,8 +178,12 @@ class ExpAIKerOptWrapper:
                     aimodel_obj.min_acq_difference = 1 * float("inf")
                     aimodel_obj.min_llk = 1 * float("inf")
 
-                    xnew_ai = aimodel_obj.obtain_aimodel_suggestions(plot_files_identifier + "_AI_", gp_aimodel, acq_func_obj,
-                                                                     noisy_suggestions, suggestion_count, plot_iterations)
+                    # xnew_ai = aimodel_obj.obtain_aimodel_suggestions(plot_files_identifier + "_AI_", gp_aimodel, acq_func_obj,
+                    #                                                  noisy_suggestions, suggestion_count, plot_iterations)
+                    xnew_ai = aimodel_obj.obtain_twostg_aimodel_suggestions(plot_files_identifier + "_AI_", gp_aimodel,
+                                                                     acq_func_obj, noisy_suggestions, suggestion_count,
+                                                                     plot_iterations)
+
 
                     PH.printme(PH.p1, "Distance optimisation details:\nMax Diff:", aimodel_obj.max_acq_difference, "\tMin Diff:",
                                aimodel_obj.min_acq_difference,"\nMax likelihood:", aimodel_obj.max_llk, "\tMin Likelihood: ",
@@ -303,8 +310,8 @@ class ExpAIKerOptWrapper:
 
             count += 1
 
-        # plt.axis([1, len(iterations_axes_values), 0, 5*np.maximum(np.max(regret_mean_ai), np.max(regret_mean_base))])
-        plt.axis([1, len(iterations_axes_values), 0, 0.9])
+        plt.axis([1, len(iterations_axes_values), 0, 3*np.maximum(np.max(regret_mean_ai), np.max(regret_mean_base))])
+        # plt.axis([1, len(iterations_axes_values), 0, 0.9])
         # plt.xticks(iterations_axes_values, iterations_axes_values)
         plt.title('Regret')
         plt.xlabel('Evaluations')
