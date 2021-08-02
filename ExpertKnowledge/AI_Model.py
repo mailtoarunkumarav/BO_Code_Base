@@ -27,6 +27,9 @@ class AIModel:
         x_max_value = None
         log_like_max = -1 * float("inf")
 
+        best_solutions = np.array([])
+        start_points_list = []
+
         random_points_a = []
         random_points_b = []
         random_points_c = []
@@ -97,20 +100,25 @@ class AIModel:
                 x_max_value = maxima['x']
                 log_like_max = log_likelihood
 
+            start_points_list.append(tot_init_points)
+            best_solutions=np.append(best_solutions, np.array(log_likelihood))
+
         stage_one_best_kernel = x_max_value
+
+        gp_aimodel.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
+        gp_aimodel.signal_variance = x_max_value[len(maxima['x']) - 1]
 
         PH.printme(PH.p1, "******* Stage 1 Optimisation complete *******\nOpt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
 
-        if gp_aimodel.he_suggestions is None:
-            gp_aimodel.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
-            gp_aimodel.signal_variance = x_max_value[len(maxima['x']) - 1]
-        else:
+        if gp_aimodel.he_suggestions is not None:
+
             PH.printme(PH.p1, "\nStarting stage 2")
-            self.constrained_distance_maximiser(gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, stage_one_best_kernel)
+            self.constrained_distance_maximiser(gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, stage_one_best_kernel,
+                                                start_points_list, best_solutions)
             PH.printme(PH.p1, "******* Stage 2 Optimisation complete *******")
 
-        PH.printme(PH.p1, "\nOpt weights: ", gp_aimodel.len_weights,
+        PH.printme(PH.p1, "Final Optimisation : Opt weights: ", gp_aimodel.len_weights,
                    "  Signal variance: ", gp_aimodel.signal_variance)
 
         xnew, acq_func_values = acq_func_obj.max_acq_func("ai", noisy_suggestions, gp_aimodel, ai_suggestion_count)
@@ -125,99 +133,65 @@ class AIModel:
         PH.printme(PH.p1, "Best value for acq function is found at ", xnew)
         return xnew
 
-    def constrained_distance_maximiser(self, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, stage_one_best_kernel):
+    def constrained_distance_maximiser(self, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, stage_one_best_kernel,
+                                       start_points_list, best_solutions):
 
         x_max_value = None
         distance_max = -1 * float("inf")
 
-        random_points_a = []
-        random_points_b = []
-        random_points_c = []
-        random_points_d = []
-        random_points_e = []
+        unflipped_indices = np.argsort(best_solutions)
+        indices = np.flip(unflipped_indices)
+        best_solutions = np.vstack(best_solutions)
+        start_points_list = np.vstack(start_points_list)
 
-        # Data structure to create the starting points for the scipy.minimize method
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[0][0],
-                                                       gp_aimodel.len_weights_bounds[0][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
-        random_points_a.append(random_data_point_each_dim)
+        count = 0
+        for index in indices:
+            if count < 50:
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[1][0],
-                                                       gp_aimodel.len_weights_bounds[1][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
-        random_points_b.append(random_data_point_each_dim)
+                total_bounds = ((0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0))
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[2][0],
-                                                       gp_aimodel.len_weights_bounds[2][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
-        random_points_c.append(random_data_point_each_dim)
+                compromised_likelihood = self.llk_threshold * best_solutions[index]
+                start_point = start_points_list[index]
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[3][0],
-                                                       gp_aimodel.len_weights_bounds[3][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
-        random_points_d.append(random_data_point_each_dim)
+                constraint_list = []
+                const_llk = {'type': 'ineq', 'fun': lambda x: gp_aimodel.optimize_log_marginal_likelihood_weight_params(x)[0]-
+                                                          compromised_likelihood}
 
-        random_data_point_each_dim = np.random.uniform(gp_aimodel.len_weights_bounds[4][0],
-                                                       gp_aimodel.len_weights_bounds[4][1],
-                                                       self.number_minimiser_restarts).reshape(1,
-                                                                                               self.number_minimiser_restarts)
-        random_points_e.append(random_data_point_each_dim)
+                constraint_list.append(const_llk)
 
-        variance_start_points = np.random.uniform(gp_aimodel.signal_variance_bounds[0],
-                                                  gp_aimodel.signal_variance_bounds[1],
-                                                  self.number_minimiser_restarts)
+                # # # # COBYLA
+                # cons = {'type': 'ineq', 'fun': lambda x: x}
+                # constraint_list.append(cons)
 
-        # Vertically stack the arrays of randomly generated starting points as a matrix
-        random_points_a = np.vstack(random_points_a)
-        random_points_b = np.vstack(random_points_b)
-        random_points_c = np.vstack(random_points_c)
-        random_points_d = np.vstack(random_points_d)
-        random_points_e = np.vstack(random_points_e)
+                # for bnd_index in range(len(gp_aimodel.len_weights_bounds)):
+                #     lower = gp_aimodel.len_weights_bounds[bnd_index][0]
+                #     upper = gp_aimodel.len_weights_bounds[bnd_index][1]
+                #     low_cons = {'type': 'ineq', 'fun': lambda x, lb=lower, i=bnd_index: x[i] - lb}
+                #     up_cons = {'type': 'ineq', 'fun': lambda x, ub=upper, i=bnd_index: ub - x[i]}
+                #     constraint_list.append(low_cons)
+                #     constraint_list.append(up_cons)
+                #
+                # variance_index = len(gp_aimodel.len_weights)
+                # const_var_lo = {'type': 'ineq', 'fun': lambda x, lb=gp_aimodel.signal_variance_bounds[0], i=variance_index: x[i] - lb}
+                # const_var_up = {'type': 'ineq', 'fun': lambda x, ub=gp_aimodel.signal_variance_bounds[1], i=variance_index: ub - x[i]}
+                #
+                # constraint_list.append(const_var_lo)
+                # constraint_list.append(const_var_up)
 
-        for ind in np.arange(self.number_minimiser_restarts):
+                maxima = opt.minimize(lambda x: -self.distance_maximiser(x, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count),
+                                      start_point,
+                                      method='SLSQP', constraints=constraint_list, bounds=total_bounds
+                                      )
 
-            tot_init_points = []
-
-            param_a = random_points_a[0][ind]
-            tot_init_points.append(param_a)
-            param_b = random_points_b[0][ind]
-            tot_init_points.append(param_b)
-            param_c = random_points_c[0][ind]
-            tot_init_points.append(param_c)
-            param_d = random_points_d[0][ind]
-            tot_init_points.append(param_d)
-            param_e = random_points_e[0][ind]
-            tot_init_points.append(param_e)
-            tot_init_points.append(variance_start_points[ind])
-            total_bounds = gp_aimodel.len_weights_bounds.copy()
-            # total_bounds.append(gp_aimodel.bounds)
-            total_bounds.append(gp_aimodel.signal_variance_bounds)
-
-            maxima = opt.minimize(lambda x: -self.distance_maximiser(x, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count),
-                                  tot_init_points,
-                                  method='L-BFGS-B',
-                                  tol=0.01,
-                                  options={'maxfun': 200, 'maxiter': 40},
-                                  bounds=total_bounds)
-
-            params = maxima['x']
-            distance = self.distance_maximiser(params, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count)
-            if distance > distance_max:
-                stg_one_log_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(stage_one_best_kernel)
-                stg_two_log_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(params)
-                PH.printme(PH.p1,"1:", stg_one_log_likelihood, "2:", stg_two_log_likelihood)
-
-                if stg_two_log_likelihood > (self.llk_threshold * stg_one_log_likelihood):
+                params = maxima['x']
+                distance = self.distance_maximiser(params, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count)
+                if distance > distance_max:
                     PH.printme(PH.p1, "New constrained distance maximum for stage two ", distance, " found for params ", params)
-                    x_max_value = maxima['x']
                     distance_max = distance
+                    x_max_value = maxima['x']
 
-        gp_aimodel.len_weights = x_max_value[0:(len(x_max_value['x']) - 1)]
-        gp_aimodel.signal_variance = x_max_value[len(x_max_value['x']) - 1]
+        gp_aimodel.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
+        gp_aimodel.signal_variance = x_max_value[len(maxima['x']) - 1]
 
     def distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count):
 

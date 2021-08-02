@@ -23,6 +23,105 @@ import numpy as np
 
 
 
+# #Constrained Optimisation
+
+def multistart():
+
+    x0min = 0
+    x0max = 5
+    N = 100
+
+    min_val = None
+    func_min = 1 * float('inf')
+
+    # from scipy.optimize import NonlinearConstraint
+    # con = lambda x: x-3
+    # nlc = NonlinearConstraint(con, np.inf, np.inf)
+
+    const = {'type': 'ineq', 'fun': lambda x: 0.2*x-1}
+
+    for i in range(N):
+
+        x0 = np.random.uniform(x0min, x0max)
+
+        # LBFGS-B
+        # res = opt.minimize(lambda x: fun(x), x0
+        #                    # , jac= fun_grad
+        #                    , method='L-BFGS-B', bounds=[[x0min, x0max]]
+        #                    , options={
+        #                    'maxfun': 2000, 'maxiter': 2000
+        #                     # ,'disp':True
+        #                     }
+        #                    )
+        #
+
+        # # COBYLA
+        res = opt.minimize(lambda x: fun(x), x0, method='COBYLA', constraints=const, bounds = [[0,1]]
+                # ,'disp':True
+                           )
+
+
+        if (res.success == False):
+            print("Convergence failed, Skipping")
+            continue
+
+        val = res.fun
+        # print("prev max:", func_max, "\tNew value: ", val, "\t at x=", res.x)
+        if val < func_min:
+            print("New minimum found ", func_min, " at ", res["x"])
+            min_val = res
+            func_min = val
+
+    if min_val != None:
+        print("Minimum obtained is ", func_min
+              , " at ", min_val['x']
+              )
+
+    return min_val
+
+
+def fun(x):
+    # print ("Trying ", x)
+    return (np.exp(-0.5*x) * np.sin((3/2) * np.pi * x)) + 1
+    # return np.sin(x)
+    # return - np.cos(x) + 0.01 * x ** 2 + 1
+    # return ((np.exp(-x) * np.sin(3 * np.pi * x)) + 0.3)
+    # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+    # return ( (np.sin(10* np.pi* x)/(2*x))+(x-1)**4)
+    # w = 1 +((x-1)/4)
+    # return  (np.sin(np.pi * w))**2 + ((w-1)**2)*(1+ (np.sin(2 * np.pi * w))**2)
+    # return -np.sin(x) *(np.sin((x**2)/np.pi))**20
+
+
+mini = multistart()
+plt.figure()
+plt.clf()
+X = np.linspace(0, 5, 500)
+y = fun(X)
+plt.plot(X,y)
+print(mini)
+plt.show()
+
+exit()
+
+
+a = [[1,2], [2,1] ,[35,2], [7,3], [4,3], [6,32], [5,1]]
+b = np.array([21, 33 , 12 , 15 , 14, 81, 21])
+
+a.append([4,2])
+b =np.append(b, np.array([14]))
+
+indices = np.argsort(b)
+
+Descending = np.flip(indices)
+
+print("indices:", indices)
+for each_index in indices:
+    print (a[each_index], ":", b[each_index])
+
+exit()
+
+
 def true_func(X, Y):
     return (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
 
