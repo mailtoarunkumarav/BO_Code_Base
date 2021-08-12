@@ -3,11 +3,25 @@ import matplotlib.pyplot as plt
 import math
 import scipy as scy_lin
 import sys, getopt
-import datetime
+import datetime, time
 import numpy as np
 
 
+# Computing times between statements.
 
+time_start = time.time()
+print(time_start)
+print("waiting....")
+time.sleep(61)
+time_end = time.time()
+
+time_elapsed = time_end - time_start
+print(time_elapsed)
+
+
+exit()
+
+# # Square wave function
 x = np.linspace(-1,10,100)
 y = np.array([])
 
@@ -20,10 +34,63 @@ for each_x in x:
     else:
         each_y = 0
     y = np.append(y, each_y)
-
+x= x.reshape(-1,1)
+y=y.reshape(-1,1)
+print(type(x), type(y), x.shape, y.shape )
 plt.plot(x,y)
 plt.show()
 exit(0)
+
+# # # Normalising matrix
+x = np.random.uniform(1,10, 9).reshape(3,3)
+print(x)
+mini = np.min(x)
+maxi = np.max(x)
+new_x = np.divide(x - mini, maxi-mini)
+print(new_x)
+exit()
+
+# # # Reading CSV into an array
+rand_matrx = np.random.uniform(-2,10,size=(10,10))
+np.savetxt("sample_data.csv",rand_matrx, delimiter=",")
+v1= rand_matrx.reshape(-1,1)
+print(v1)
+with open("sample_data.csv") as file_name:
+    array = np.loadtxt(file_name, delimiter=",")
+v2 = array.reshape(-1,1)
+
+v1[5] = 100
+v2[5] = 91
+
+v1[6] = 25
+v2[6] = 16
+v = v1-v2
+
+print(v)
+
+inf_norm = np.linalg.norm(v, ord=np.inf, axis=0)
+print(inf_norm)
+
+l2norm = np.linalg.norm(v, ord=2)
+print(l2norm)
+
+if np.array_equal(array,rand_matrx):
+    print("true")
+exit()
+
+# # # Magnitude of the clipped numbers
+rand_matrx = np.random.uniform(-2,10,size=(10,10))
+print(rand_matrx)
+print(repr(rand_matrx))
+exit()
+bool_negative = np.array(rand_matrx) < 0
+print(bool_negative)
+print(repr(bool_negative.reshape(-1, 1)))
+print(np.sum(bool_negative))
+
+exit(0)
+
+
 
 # Triangular wave
 #

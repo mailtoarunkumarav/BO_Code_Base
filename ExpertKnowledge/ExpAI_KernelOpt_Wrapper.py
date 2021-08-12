@@ -35,9 +35,9 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
-        number_of_runs = 6
-        number_of_restarts_acq = 10
-        number_of_minimiser_restarts = 10
+        number_of_runs = 5
+        number_of_restarts_acq = 100
+        number_of_minimiser_restarts = 100
 
         # Epsilons is the value used during the maximization of PI and EI ACQ functions
         # Greater value like Epsilon = 10 is more of exploration and Epsilon = 0.0001 (exploitation)
@@ -51,7 +51,7 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 10
+        number_of_observations_groundtruth = 100
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert

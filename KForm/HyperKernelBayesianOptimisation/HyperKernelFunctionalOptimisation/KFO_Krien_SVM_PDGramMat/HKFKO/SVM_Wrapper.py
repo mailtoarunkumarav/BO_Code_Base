@@ -12,7 +12,7 @@ from sklearn import preprocessing
 
 from sklearn.model_selection import GridSearchCV
 
-
+import time
 import sys
 sys.path.append("../..")
 from HelperUtility.PrintHelper import PrintHelper as PH
@@ -28,11 +28,13 @@ class SVM_Wrapper:
         self.y_test = None
         self.D = None
         self.f = None
+        self.train_time_array = np.array([])
+        self.test_time_array = np.array([])
 
     def construct_svm_classifier(self, dataset):
 
         if dataset == "wdbc":
-            self.dataset_input_file = "../DatasetUtils/Dataset/wdbc.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/wdbc.csv"
             total_data = pd.read_csv(self.dataset_input_file)
             D = total_data.drop(total_data.columns[0], axis=1)
 
@@ -57,7 +59,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "glass":
-            self.dataset_input_file = "../DatasetUtils/Dataset/glass.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/glass.csv"
             total_data = pd.read_csv(self.dataset_input_file)
 
             f = total_data.iloc[:, -1]
@@ -67,7 +69,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "ionos":
-            self.dataset_input_file = "../DatasetUtils/Dataset/ionosphere.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/ionosphere.csv"
             total_data = pd.read_csv(self.dataset_input_file)
 
             f = total_data.iloc[:, -1]
@@ -79,7 +81,7 @@ class SVM_Wrapper:
             # exit(0)
 
         elif dataset == "sonar":
-            self.dataset_input_file = "../DatasetUtils/Dataset/sonar.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/sonar.csv"
             total_data = pd.read_csv(self.dataset_input_file)
 
             f = total_data.iloc[:, -1]
@@ -89,7 +91,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "heart":
-            self.dataset_input_file = "../DatasetUtils/Dataset/heart.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/heart.csv"
             total_data = pd.read_csv(self.dataset_input_file)
 
             f = total_data.iloc[:, -1]
@@ -100,7 +102,7 @@ class SVM_Wrapper:
 
 
         elif dataset == "credit":
-            self.dataset_input_file = "../DatasetUtils/Dataset/credit.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/credit.csv"
             total_dataframe = pd.read_csv(self.dataset_input_file, na_values='?')
             dataframe = total_dataframe.fillna(method='bfill')
 
@@ -134,7 +136,7 @@ class SVM_Wrapper:
 
         elif dataset == "seeds":
 
-            self.dataset_input_file = "../DatasetUtils/Dataset/Seed_Data.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/Seed_Data.csv"
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
             D = total_data.drop(total_data.columns[-1], axis=1)
@@ -181,7 +183,7 @@ class SVM_Wrapper:
 
 
         elif dataset == "bio":
-            self.dataset_input_file = "../DatasetUtils/Dataset/data_biodeg.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/data_biodeg.csv"
 
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
@@ -191,7 +193,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "contra":
-            self.dataset_input_file = "../DatasetUtils/Dataset/dataset_contra.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/dataset_contra.csv"
 
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
@@ -211,7 +213,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "hay":
-            self.dataset_input_file = "../DatasetUtils/Dataset/dataset_hayes.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/dataset_hayes.csv"
 
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
@@ -221,7 +223,7 @@ class SVM_Wrapper:
             D_std = min_max_scaler.fit_transform(D)
 
         elif dataset == "eco":
-            self.dataset_input_file = "../DatasetUtils/Dataset/dataset_ecoli.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/dataset_ecoli.csv"
 
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
@@ -232,7 +234,7 @@ class SVM_Wrapper:
 
 
         elif dataset == "car":
-            self.dataset_input_file = "../DatasetUtils/Dataset/dataset_car.csv"
+            self.dataset_input_file = "../../DatasetUtils/Dataset/dataset_car.csv"
 
             total_data = pd.read_csv(self.dataset_input_file)
             f = total_data.iloc[:, -1]
@@ -286,6 +288,7 @@ class SVM_Wrapper:
                        }
         svc = SVC(kernel='precomputed', random_state=42)
         grid_svm_acc = GridSearchCV(svc, param_grid=grid_values, refit=True, verbose=1)
+        train_time_start = time.time()
         PH.printme(PH.p1, "Computing Xtr_Xtr .... ")
         kernel_mat_Xtr_Xtr = self.compute_kerenel_mat_hyperk(self.X_train, self.X_train, observations_kernel, hyperGP_obj)
         PH.printme(PH.p1, "Clipping Training Matrix")
@@ -309,6 +312,8 @@ class SVM_Wrapper:
         PH.printme(PH.p1, "Clipping Train Done...")
         PH.printme(PH.p1, "Fitting SVM for the Data .... ")
         grid_svm_acc.fit(kernel_mat_Xtr_Xtr, self.y_train)
+        train_time_end = time.time()
+        test_time_start = time.time()
         PH.printme(PH.p1, "Computing Xte_Xtr .... ")
         kernel_mat_Xte_Xtr = self.compute_kerenel_mat_hyperk(self.X_test, self.X_train, observations_kernel, hyperGP_obj)
 
@@ -318,6 +323,13 @@ class SVM_Wrapper:
         PH.printme(PH.p1, "Clipping Test Done...")
         PH.printme(PH.p1, "Predicting Values...")
         y_pred = grid_svm_acc.predict(kernel_mat_Xte_Xtr)
+        test_time_end = time.time()
+        elapsed_train_time = train_time_end - train_time_start
+        elapsed_test_time = test_time_end- test_time_start
+        self.train_time_array = np.append(self.train_time_array, elapsed_train_time)
+        self.test_time_array = np.append(self.test_time_array, elapsed_test_time)
+        PH.printme(PH.p1, "Train time: ", elapsed_train_time, " Test time: ", elapsed_test_time)
+
         accuracy = accuracy_score(self.y_test, y_pred)
         PH.printme(PH.p1, "Accuracy: ", accuracy)
         return np.array([[accuracy]])
@@ -335,14 +347,19 @@ class SVM_Wrapper:
                        }
         svc = SVC(kernel='precomputed', random_state=42)
         grid_svm_acc = GridSearchCV(svc, param_grid=grid_values, refit=True, verbose=1)
+        train_time_start = time.time()
         PH.printme(PH.p1, "Computing Xtr_Xtr .... ")
         kernel_mat_Xtr_Xtr = self.compute_kerenel_mat_hyperk(self.X_train, self.X_train, observations_kernel, hyperGP_obj)
         PH.printme(PH.p1, "Fitting SVM for the Data .... ")
         grid_svm_acc.fit(kernel_mat_Xtr_Xtr, self.y_train)
+        train_time_end = time.time()
+        test_time_start = time.time()
         PH.printme(PH.p1, "Computing Xte_Xtr .... ")
         kernel_mat_Xte_Xtr = self.compute_kerenel_mat_hyperk(self.X_test, self.X_train, observations_kernel, hyperGP_obj)
         PH.printme(PH.p1, "Predicting Values...")
         y_pred = grid_svm_acc.predict(kernel_mat_Xte_Xtr)
+        test_time_end= time.time()
+        PH.printme(PH.p1, "Train time: ", train_time_start - train_time_end, " Test time: ", test_time_start - test_time_end)
         accuracy = accuracy_score(self.y_test, y_pred)
         PH.printme(PH.p1, "Accuracy: ", accuracy)
         return np.array([[accuracy]])

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import sys
+import sys, time
 sys.path.append("../..")
 from HelperUtility.PrintHelper import PrintHelper as PH
 
@@ -20,6 +20,10 @@ class KernelOptimiser:
         #
         self.complete_dataset_kernel_observations = np.array([]).reshape(-1, self.hyper_gaussian_object.no_principal_components)
         self.complete_dataset_y = np.array([]).reshape(-1, 1)
+
+        self.searching_time_array = np.array([])
+        self.evaluation_time_array = np.array([])
+
 
     def generate_observations(self, kernel_bias, basis_weights, kernel_samples):
 
@@ -80,6 +84,7 @@ class KernelOptimiser:
 
             # Search for the best solution in the subspace selected
             for best_solution_count in range(self.number_of_iterations_best_solution):
+                search_time_start= time.time()
                 PH.printme(PH.p1, "\nTrying for best solution at iteration:", best_solution_count+1, "   in subspace: ", (subspace_selection_count+1))
                 PH.printme(PH.p1, "Using log marginal likelihood to compute the optimised length scale for the kernels")
                 self.hyper_gaussian_object.compute_hyperparams_kernel_observations()
@@ -95,9 +100,18 @@ class KernelOptimiser:
                 best_basis_weights = self.acquisition_utility_object.maximise_acq_function(self.hyper_gaussian_object,
                                                                                            best_solution_count+1)
                 PH.printme(PH.p1, "Best weights: ", best_basis_weights)
+                search_time_end = time.time()
+                elapsed_search_time = search_time_end- search_time_start
+                eval_time_start = time.time()
                 observations_kernel_new, observations_y_new = self.generate_observations(self.hyper_gaussian_object.current_kernel_bias,
                                                                                          best_basis_weights,
                                                                                          self.hyper_gaussian_object.current_kernel_samples)
+                eval_time_end = time.time()
+                elapsed_eval_time = eval_time_end - eval_time_start
+
+                self.searching_time_array = np.append(self.searching_time_array, elapsed_search_time)
+                self.evaluation_time_array = np.append(self.evaluation_time_array, elapsed_eval_time)
+
                 PH.printme(PH.p1, "New observation found in the given subspace")
                 PH.printme(PH.p1, "New kernel suggested: ", observations_kernel_new)
                 PH.printme(PH.p1, "with observation value: ", observations_y_new)
@@ -130,6 +144,10 @@ class KernelOptimiser:
             PH.printme(PH.p1, "Data set after:", (subspace_selection_count+1),  " subspace")
             PH.printme(PH.p1, "Observation_y:", self.complete_dataset_y.T, "\n")
             # PH.printme(PH.p1, "Observations_kernel: ", self.complete_dataset_kernel_observations, "\n\n")
+
+        PH.printme(PH.p1, "Times: ", self.searching_time_array.shape, self.evaluation_time_array.shape, "\nSearch time: ", str(np.mean(
+            self.searching_time_array))+"+-"+str(np.std(self.searching_time_array)),  "\nEval time: ", str(np.mean(
+            self.evaluation_time_array))+"+-"+str(np.std(self.evaluation_time_array)))
 
         # PH.printme(PH.p1, "plotting results")
 

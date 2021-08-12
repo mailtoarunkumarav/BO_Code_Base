@@ -1,0 +1,1211 @@
+Configuration Settings:
+
+ hyperkernel_type: matern_harmonic_kernel 	kernel_type: SE 	char_length_scale: 0.3 	sigma_len: 0.0001 	sigma_len_bounds:  [0.1, 1] 	signal_variance_bounds: [0.1, 1] 
+number_of_samples_in_X_for_grid: 4 	number_of_samples_in_Xs_for_grid: 5 	number_of_test_datapoints: 100 	noise: 0.0 
+hyper_lambda 0.01 	random_seed: 300 	max_X: 1 	min_X: 0 	max_Y: 2 	min_Y: 1 
+bounds: [[0, 1]] 	number_of_dimensions: 1 
+signal_variance: 1 	number_of_basis_vectors_chosen:  1 	basis_weights_bounds: [0.1, 1] 
+number_of_subspace_selection_iterations: 5 	number_of_iterations_best_solution: 5 
+number_of_init_random_kernel_y_observations: 4 	acq_fun_list: ['UCB'] 
+Length scale bounds:  [[0.1, 1]] 	number of restart likelihoods:  100 	hyper_char_len_scale:  0.0105 
+
+Dataset: credit 
+ Clipper Function 
+
+###################################################################
+ 
+Generating results Start time:  154527_10082021 
+************  Run: 1    ***************
+
+ 
+Initial Grid Values selected for this run
+--- X in Grid ---
+ [[0.        ]
+ [0.33333333]
+ [0.66666667]
+ [1.        ]] 
+Starting Optimization 
+Eigen values for the calculation of the dimensionality reduction... 
+######  run: 1  subspace  1   ###### 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.983811378479  Test time:  21.461955785751343 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  86.49355149269104  Test time:  21.1982581615448 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.96178412437439  Test time:  21.852129697799683 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.81494379043579  Test time:  21.590943574905396 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+
+Trying for best solution at iteration: 1    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.62078251]]  found for l=  [0.51853939]  var: 0.2899663822662097 
+New maximum log likelihood  [[-1.28227978]]  found for l=  [0.55669421]  var: 0.3130757561909918 
+New maximum log likelihood  [[-0.50170125]]  found for l=  [0.83697611]  var: 0.3708215628796106 
+New maximum log likelihood  [[-0.49495119]]  found for l=  [0.85619691]  var: 0.38659750963278583 
+New maximum log likelihood  [[-0.49487878]]  found for l=  [0.85616937]  var: 0.38777686365702096 
+Opt Length scale:  [0.85616937] 
+Opt variance:  0.38777686365702096 
+optimised values: l =  [0.85616937]   sig =  0.38777686365702096 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.5484368]]  found at:  [1.] 
+New best Fval:  [[0.67085517]]  found at:  [0.44884787] 
+New best Fval:  [[0.67085517]]  found at:  [0.4488493] 
+New best Fval:  [[0.67085517]]  found at:  [0.44886309] 
+New best Fval:  [[0.67085517]]  found at:  [0.44885619] 
+New best Fval:  [[0.67085517]]  found at:  [0.44885706] 
+New best Fval:  [[0.67085517]]  found at:  [0.44885692] 
+UCB Best is  [[0.67085517]] at  [0.44885692] 
+Best weights:  [0.44885692] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.16260266304016  Test time:  21.889230966567993 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.1969778  -0.18767653 -0.19801621  0.08354305 -0.21073955  0.96833107
+  -0.49709026  0.16623967 -0.32092332  0.50077871]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 2    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[2.32808108]]  found for l=  [1.]  var: 0.41552837560265937 
+New maximum log likelihood  [[2.32813795]]  found for l=  [0.99719266]  var: 0.41167825159959376 
+New maximum log likelihood  [[2.32814143]]  found for l=  [0.99735407]  var: 0.4117963858424988 
+Opt Length scale:  [0.99735407] 
+Opt variance:  0.4117963858424988 
+optimised values: l =  [0.99735407]   sig =  0.4117963858424988 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.61215156]]  found at:  [0.39129807] 
+New best Fval:  [[0.61215254]]  found at:  [0.39173531] 
+New best Fval:  [[0.61215254]]  found at:  [0.39173874] 
+New best Fval:  [[0.61215254]]  found at:  [0.39173919] 
+UCB Best is  [[0.61215254]] at  [0.39173919] 
+Best weights:  [0.39173919] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.95775175094604  Test time:  21.773789167404175 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.17191208 -0.16379441 -0.17281834  0.07291207 -0.18392262  0.84510947
+  -0.43383477  0.14508542 -0.28008534  0.43705385]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 3    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.22929201]]  found for l=  [0.2242604]  var: 0.5401755528361648 
+New maximum log likelihood  [[-3.20046]]  found for l=  [0.20931999]  var: 0.4666205175883131 
+New maximum log likelihood  [[-3.19549578]]  found for l=  [0.23681883]  var: 0.5062253127466974 
+New maximum log likelihood  [[-3.18846007]]  found for l=  [0.22141285]  var: 0.5016404888500412 
+New maximum log likelihood  [[-3.18688193]]  found for l=  [0.22406431]  var: 0.49760669115465733 
+Opt Length scale:  [0.22406431] 
+Opt variance:  0.49760669115465733 
+optimised values: l =  [0.22406431]   sig =  0.49760669115465733 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.52750245]]  found at:  [1.] 
+New best Fval:  [[1.58914972]]  found at:  [0.1] 
+New best Fval:  [[1.84418902]]  found at:  [0.80356916] 
+New best Fval:  [[1.93464295]]  found at:  [0.55800977] 
+New best Fval:  [[1.93464295]]  found at:  [0.55801296] 
+New best Fval:  [[1.93464295]]  found at:  [0.55801384] 
+UCB Best is  [[1.93464295]] at  [0.55801384] 
+Best weights:  [0.55801384] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.74960899353027  Test time:  22.039491891860962 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.24488057 -0.23331734 -0.24617151  0.10385978 -0.26198902  1.20381824
+  -0.617977    0.20666728 -0.39896824  0.62256243]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 4    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.74675612]]  found for l=  [0.2821521]  var: 0.6925617079111936 
+New maximum log likelihood  [[-3.11209538]]  found for l=  [0.23310232]  var: 0.47872370815807397 
+New maximum log likelihood  [[-3.1044146]]  found for l=  [0.24804494]  var: 0.4972998216612861 
+New maximum log likelihood  [[-3.09506445]]  found for l=  [0.24554822]  var: 0.48640851057795653 
+New maximum log likelihood  [[-3.0923079]]  found for l=  [0.24282621]  var: 0.4810258720425883 
+Opt Length scale:  [0.24282621] 
+Opt variance:  0.4810258720425883 
+optimised values: l =  [0.24282621]   sig =  0.4810258720425883 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.49680462]]  found at:  [1.] 
+New best Fval:  [[1.85956704]]  found at:  [0.80696638] 
+New best Fval:  [[1.85956704]]  found at:  [0.80696315] 
+New best Fval:  [[1.85956704]]  found at:  [0.80696341] 
+UCB Best is  [[1.85956704]] at  [0.80696341] 
+Best weights:  [0.80696341] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  90.33424162864685  Test time:  22.564961194992065 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.3541304  -0.3374084  -0.35599726  0.15019527 -0.37887152  1.74088382
+  -0.89367823  0.29886881 -0.57696198  0.90030938]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 5    in subspace:  1 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.6107499]]  found for l=  [0.23541037]  var: 0.46966994396224127 
+New maximum log likelihood  [[-3.5263945]]  found for l=  [0.25131533]  var: 0.46597931735692355 
+New maximum log likelihood  [[-3.5181132]]  found for l=  [0.25511294]  var: 0.4770101982058128 
+New maximum log likelihood  [[-3.51764273]]  found for l=  [0.25571993]  var: 0.4823228052534506 
+New maximum log likelihood  [[-3.51756132]]  found for l=  [0.25617192]  var: 0.4816171013195811 
+Opt Length scale:  [0.25617192] 
+Opt variance:  0.4816171013195811 
+optimised values: l =  [0.25617192]   sig =  0.4816171013195811 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.3803378]]  found at:  [1.] 
+New best Fval:  [[1.48281587]]  found at:  [0.1] 
+UCB Best is  [[1.48281587]] at  [0.1] 
+Best weights:  [0.1] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  93.45259881019592  Test time:  22.285282373428345 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.04388432 -0.04181211 -0.04411566  0.0186124  -0.04695027  0.21573268
+  -0.11074582  0.03703623 -0.07149791  0.11156756]] 
+with observation value:  [[0.5942029]] 
+######    search in subspace 1  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Subspace:  1  completed..
+
+
+
+ 
+Data set after: 1  subspace 
+Observation_y: [[0.4057971 0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029
+  0.5942029 0.5942029]] 
+ 
+######  run: 1  subspace  2   ###### 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  93.65464162826538  Test time:  23.0513174533844 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  91.08480644226074  Test time:  22.15994644165039 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  92.5298273563385  Test time:  22.84577202796936 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  95.85988020896912  Test time:  21.86316156387329 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+
+Trying for best solution at iteration: 1    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.12735449]]  found for l=  [0.63354833]  var: 0.5737364365895498 
+New maximum log likelihood  [[-2.12704158]]  found for l=  [0.62864544]  var: 0.5702139709521072 
+New maximum log likelihood  [[-2.12651539]]  found for l=  [0.62982312]  var: 0.5622972330933346 
+New maximum log likelihood  [[-2.12648402]]  found for l=  [0.62933072]  var: 0.5635764450136656 
+Opt Length scale:  [0.62933072] 
+Opt variance:  0.5635764450136656 
+optimised values: l =  [0.62933072]   sig =  0.5635764450136656 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.47110305]]  found at:  [0.1] 
+UCB Best is  [[1.47110305]] at  [0.1] 
+Best weights:  [0.1] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.17420530319214  Test time:  23.150059700012207 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.01155975 -0.01812779 -0.18970146 -0.07631136 -0.28300645  0.68478258
+  -0.4795883   0.07864182 -0.00686859  0.43028699]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 2    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.58604294]]  found for l=  [0.63552276]  var: 0.5505691967919748 
+New maximum log likelihood  [[-2.58462077]]  found for l=  [0.6384758]  var: 0.5423236109724476 
+New maximum log likelihood  [[-2.58319333]]  found for l=  [0.65373615]  var: 0.5548024257285008 
+New maximum log likelihood  [[-2.5831505]]  found for l=  [0.65061644]  var: 0.5464815375246699 
+New maximum log likelihood  [[-2.58299517]]  found for l=  [0.65230257]  var: 0.5485044728384078 
+New maximum log likelihood  [[-2.58296721]]  found for l=  [0.6529238]  var: 0.5518034056280925 
+New maximum log likelihood  [[-2.58294838]]  found for l=  [0.65253565]  var: 0.54973538308492 
+Opt Length scale:  [0.65253565] 
+Opt variance:  0.54973538308492 
+optimised values: l =  [0.65253565]   sig =  0.54973538308492 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.16628677]]  found at:  [0.42181058] 
+New best Fval:  [[1.45323621]]  found at:  [1.] 
+UCB Best is  [[1.45323621]] at  [1.] 
+Best weights:  [1.] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.77545738220215  Test time:  22.577414512634277 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[ 1.21515947  1.08664089 -0.55924228 -1.3275198  -1.40633496  0.3059044
+  -1.43760444 -0.33667587  2.09943114  0.91967267]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 3    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.62347072]]  found for l=  [0.49108441]  var: 0.48063549586270343 
+New maximum log likelihood  [[-2.6225432]]  found for l=  [0.49896818]  var: 0.4912270489145442 
+New maximum log likelihood  [[-2.6224332]]  found for l=  [0.49887985]  var: 0.4815247755298906 
+New maximum log likelihood  [[-2.62183613]]  found for l=  [0.49761054]  var: 0.4853522446096083 
+New maximum log likelihood  [[-2.62183559]]  found for l=  [0.49770217]  var: 0.485523352034019 
+Opt Length scale:  [0.49770217] 
+Opt variance:  0.485523352034019 
+optimised values: l =  [0.49770217]   sig =  0.485523352034019 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.72630273]]  found at:  [0.93303029] 
+New best Fval:  [[1.5284337]]  found at:  [0.42055863] 
+New best Fval:  [[1.5284337]]  found at:  [0.42055846] 
+New best Fval:  [[1.52843392]]  found at:  [0.420485] 
+New best Fval:  [[1.52843394]]  found at:  [0.42050667] 
+New best Fval:  [[1.52843394]]  found at:  [0.42050475] 
+New best Fval:  [[1.52843394]]  found at:  [0.42050389] 
+New best Fval:  [[1.52843394]]  found at:  [0.42050247] 
+New best Fval:  [[1.52843394]]  found at:  [0.42050212] 
+UCB Best is  [[1.52843394]] at  [0.42050212] 
+Best weights:  [0.42050212] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  96.08962178230286  Test time:  22.73538041114807 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[ 0.42529149  0.37529522 -0.32129992 -0.52188353 -0.68303886  0.54985896
+  -0.82075075 -0.0692584   0.74321311  0.60456382]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 4    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.12799312]]  found for l=  [0.51138406]  var: 0.4645028422322578 
+New maximum log likelihood  [[-2.12081877]]  found for l=  [0.52032618]  var: 0.4606622568978571 
+New maximum log likelihood  [[-2.12065836]]  found for l=  [0.52203949]  var: 0.4635981962577355 
+Opt Length scale:  [0.52203949] 
+Opt variance:  0.4635981962577355 
+optimised values: l =  [0.52203949]   sig =  0.4635981962577355 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.06072769]]  found at:  [0.18336415] 
+New best Fval:  [[1.06072777]]  found at:  [0.18333088] 
+New best Fval:  [[1.06072777]]  found at:  [0.18333088] 
+New best Fval:  [[1.06072777]]  found at:  [0.18333081] 
+New best Fval:  [[1.06072777]]  found at:  [0.18332974] 
+New best Fval:  [[1.06072777]]  found at:  [0.18332938] 
+UCB Best is  [[1.06072777]] at  [0.18332938] 
+Best weights:  [0.18332938] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  99.36108541488647  Test time:  23.105249643325806 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[ 0.10201998  0.08416076 -0.22391658 -0.1921585  -0.38701342  0.64970293
+  -0.56828929  0.0401883   0.18814991  0.47559833]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 5    in subspace:  2 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-2.64274697]]  found for l=  [0.47918704]  var: 0.49512635383823916 
+New maximum log likelihood  [[-2.59654631]]  found for l=  [0.46703403]  var: 0.4809767155029095 
+New maximum log likelihood  [[-2.57451791]]  found for l=  [0.45617545]  var: 0.49120786075568074 
+New maximum log likelihood  [[-2.56517672]]  found for l=  [0.44119917]  var: 0.46432477389192967 
+New maximum log likelihood  [[-2.56327502]]  found for l=  [0.44731042]  var: 0.47046387064678613 
+New maximum log likelihood  [[-2.56325995]]  found for l=  [0.44671381]  var: 0.4695658652023502 
+Opt Length scale:  [0.44671381] 
+Opt variance:  0.4695658652023502 
+optimised values: l =  [0.44671381]   sig =  0.4695658652023502 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.5980729]]  found at:  [0.1] 
+New best Fval:  [[1.31150148]]  found at:  [0.65272166] 
+New best Fval:  [[1.31150148]]  found at:  [0.65271924] 
+New best Fval:  [[1.31150148]]  found at:  [0.65271917] 
+New best Fval:  [[1.31150148]]  found at:  [0.65271917] 
+UCB Best is  [[1.31150148]] at  [0.65271917] 
+Best weights:  [0.65271917] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  93.8505482673645  Test time:  22.85178017616272 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[ 0.74180829  0.66034647 -0.41664845 -0.84471902 -0.9728789   0.45210121
+  -1.06793707 -0.17641824  1.28667835  0.7308346 ]] 
+with observation value:  [[0.5942029]] 
+######    search in subspace 2  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Subspace:  2  completed..
+
+
+
+ 
+Data set after: 2  subspace 
+Observation_y: [[0.4057971 0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029
+  0.5942029 0.5942029 0.5942029 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029]] 
+ 
+######  run: 1  subspace  3   ###### 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  92.60894775390625  Test time:  22.332937479019165 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  92.84306049346924  Test time:  22.841248273849487 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.69279980659485  Test time:  21.798657655715942 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.48697590827942  Test time:  21.712738037109375 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+
+Trying for best solution at iteration: 1    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.47475476]]  found for l=  [0.87632905]  var: 0.44837777207819246 
+New maximum log likelihood  [[-1.42936701]]  found for l=  [0.9563885]  var: 0.47221597630234824 
+New maximum log likelihood  [[-1.41741844]]  found for l=  [0.98544692]  var: 0.4604460601338717 
+Opt Length scale:  [0.98544692] 
+Opt variance:  0.4604460601338717 
+optimised values: l =  [0.98544692]   sig =  0.4604460601338717 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.70036061]]  found at:  [0.1] 
+UCB Best is  [[0.70036061]] at  [0.1] 
+Best weights:  [0.1] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.1293842792511  Test time:  21.657469749450684 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.19525206 -0.23472676 -0.40503381  0.12938302 -0.31078029  0.7876398
+  -0.46431702  0.13403838 -0.16647845  0.38636982]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 2    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[0.70001009]]  found for l=  [0.96175705]  var: 0.4276656067057458 
+New maximum log likelihood  [[0.82297545]]  found for l=  [0.88456469]  var: 0.40899577901722134 
+New maximum log likelihood  [[0.82332002]]  found for l=  [0.88584529]  var: 0.4068852461688188 
+New maximum log likelihood  [[0.82333121]]  found for l=  [0.8856166]  var: 0.40540599622904916 
+Opt Length scale:  [0.8856166] 
+Opt variance:  0.40540599622904916 
+optimised values: l =  [0.8856166]   sig =  0.40540599622904916 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.59961822]]  found at:  [0.11608791] 
+New best Fval:  [[0.66595127]]  found at:  [0.60509283] 
+New best Fval:  [[0.69818166]]  found at:  [0.78495155] 
+New best Fval:  [[0.69818167]]  found at:  [0.78495392] 
+New best Fval:  [[0.6981817]]  found at:  [0.78508721] 
+New best Fval:  [[0.69818176]]  found at:  [0.78501977] 
+New best Fval:  [[0.69818176]]  found at:  [0.78502742] 
+UCB Best is  [[0.69818176]] at  [0.78502742] 
+Best weights:  [0.78502742] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.15451741218567  Test time:  21.72141194343567 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.51988775 -0.87760372 -2.16139233  0.58609913 -1.35605074  1.20386001
+  -1.08889051  0.19740444  0.34334257  0.45801695]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 3    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-0.21947613]]  found for l=  [0.64582319]  var: 0.4730579194405268 
+New maximum log likelihood  [[-0.21940728]]  found for l=  [0.64350475]  var: 0.4694764210881561 
+New maximum log likelihood  [[-0.21934377]]  found for l=  [0.64415494]  var: 0.4693854766140157 
+New maximum log likelihood  [[-0.2193148]]  found for l=  [0.64485646]  var: 0.4694046457502723 
+New maximum log likelihood  [[-0.21930643]]  found for l=  [0.64502551]  var: 0.46967993537996355 
+Opt Length scale:  [0.64502551] 
+Opt variance:  0.46967993537996355 
+optimised values: l =  [0.64502551]   sig =  0.46967993537996355 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.1825256]]  found at:  [0.53249533] 
+New best Fval:  [[1.1825256]]  found at:  [0.53249315] 
+New best Fval:  [[1.1825256]]  found at:  [0.53249335] 
+UCB Best is  [[1.1825256]] at  [0.53249335] 
+Best weights:  [0.53249335] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.82518577575684  Test time:  21.85385799407959 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.40021141 -0.64060834 -1.51391406  0.41773159 -0.97071376  1.05042122
+  -0.85864267  0.17404466  0.15539801  0.43160437]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 4    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[0.55818333]]  found for l=  [0.64909656]  var: 0.46085184345591274 
+Opt Length scale:  [0.64909656] 
+Opt variance:  0.46085184345591274 
+optimised values: l =  [0.64909656]   sig =  0.46085184345591274 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.87309582]]  found at:  [1.] 
+UCB Best is  [[0.87309582]] at  [1.] 
+Best weights:  [1.] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.65155744552612  Test time:  22.031085729599 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.62176363 -1.07934882 -2.71256578  0.72942396 -1.68407336  1.33447659
+  -1.28489168  0.21728972  0.50333258  0.48050097]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 5    in subspace:  3 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[2.04245146]]  found for l=  [0.71872396]  var: 0.5414020097418122 
+New maximum log likelihood  [[2.11086353]]  found for l=  [0.69603437]  var: 0.47797628948166637 
+New maximum log likelihood  [[2.11136691]]  found for l=  [0.6979257]  var: 0.483857134669688 
+Opt Length scale:  [0.6979257] 
+Opt variance:  0.483857134669688 
+optimised values: l =  [0.6979257]   sig =  0.483857134669688 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.3537506]]  found at:  [0.84372907] 
+New best Fval:  [[0.59807771]]  found at:  [1.] 
+New best Fval:  [[0.60080582]]  found at:  [0.17567914] 
+New best Fval:  [[0.70942966]]  found at:  [0.61434885] 
+New best Fval:  [[0.70942966]]  found at:  [0.61435618] 
+New best Fval:  [[0.70942966]]  found at:  [0.61435612] 
+New best Fval:  [[0.70942966]]  found at:  [0.61435601] 
+UCB Best is  [[0.70942966]] at  [0.61435601] 
+Best weights:  [0.61435601] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.54853010177612  Test time:  22.015841007232666 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.43900627 -0.71743391 -1.72380374  0.47231043 -1.09562646  1.10016068
+  -0.93328092  0.18161708  0.21632303  0.4401664 ]] 
+with observation value:  [[0.4057971]] 
+######    search in subspace 3  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Subspace:  3  completed..
+
+
+
+ 
+Data set after: 3  subspace 
+Observation_y: [[0.4057971 0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029
+  0.5942029 0.5942029 0.5942029 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.5942029 0.4057971]] 
+ 
+######  run: 1  subspace  4   ###### 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.50400638580322  Test time:  21.605857610702515 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.10891485214233  Test time:  21.480354070663452 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  86.05385327339172  Test time:  21.84524130821228 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.92300701141357  Test time:  21.719120264053345 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+
+Trying for best solution at iteration: 1    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[1.0590248]]  found for l=  [1.]  var: 0.30521717765720785 
+New maximum log likelihood  [[1.0590317]]  found for l=  [1.]  var: 0.30511080683261305 
+New maximum log likelihood  [[1.05905262]]  found for l=  [1.]  var: 0.30449739004017184 
+New maximum log likelihood  [[1.05905283]]  found for l=  [1.]  var: 0.3044639930756262 
+Opt Length scale:  [1.] 
+Opt variance:  0.3044639930756262 
+optimised values: l =  [1.]   sig =  0.3044639930756262 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.51500959]]  found at:  [0.3868005] 
+New best Fval:  [[0.71529928]]  found at:  [0.76486454] 
+New best Fval:  [[0.71529928]]  found at:  [0.76486202] 
+New best Fval:  [[0.71529928]]  found at:  [0.76486156] 
+UCB Best is  [[0.71529928]] at  [0.76486156] 
+Best weights:  [0.76486156] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.58927369117737  Test time:  21.938068866729736 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.15135626  0.75821218 -0.71047219 -0.14193588 -0.42845637  0.5395452
+  -0.97877345 -0.31898642  2.10183226  1.19998329]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 2    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[2.38899804]]  found for l=  [1.]  var: 0.2781021191270113 
+New maximum log likelihood  [[2.38905742]]  found for l=  [1.]  var: 0.27657359457325387 
+New maximum log likelihood  [[2.38906103]]  found for l=  [1.]  var: 0.2766374323252411 
+New maximum log likelihood  [[2.38907124]]  found for l=  [1.]  var: 0.2770942427835839 
+Opt Length scale:  [1.] 
+Opt variance:  0.2770942427835839 
+optimised values: l =  [1.]   sig =  0.2770942427835839 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.4920121]]  found at:  [0.36893058] 
+New best Fval:  [[0.49201215]]  found at:  [0.36883224] 
+New best Fval:  [[0.49201215]]  found at:  [0.36882922] 
+New best Fval:  [[0.49201215]]  found at:  [0.3688207] 
+UCB Best is  [[0.49201215]] at  [0.3688207] 
+Best weights:  [0.3688207] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.33409690856934  Test time:  21.57214593887329 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.14954689  0.29266755 -0.41955946 -0.0359705  -0.28851514  0.63654615
+  -0.66518104 -0.08920249  0.88877815  0.77328335]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 3    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[0.24943456]]  found for l=  [0.71754086]  var: 0.38456507337724904 
+New maximum log likelihood  [[0.2508772]]  found for l=  [0.72371075]  var: 0.37907525602807624 
+New maximum log likelihood  [[0.2509275]]  found for l=  [0.72351]  var: 0.37846584399352606 
+New maximum log likelihood  [[0.25176186]]  found for l=  [0.71794942]  var: 0.37975957096619856 
+New maximum log likelihood  [[0.25203883]]  found for l=  [0.71937399]  var: 0.3779473868225988 
+New maximum log likelihood  [[0.25221916]]  found for l=  [0.71740563]  var: 0.3765424696063102 
+New maximum log likelihood  [[0.25221963]]  found for l=  [0.71646381]  var: 0.3756835008568198 
+Opt Length scale:  [0.71646381] 
+Opt variance:  0.3756835008568198 
+optimised values: l =  [0.71646381]   sig =  0.3756835008568198 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.63107491]]  found at:  [0.41793921] 
+New best Fval:  [[0.63107527]]  found at:  [0.41779265] 
+New best Fval:  [[0.63107527]]  found at:  [0.4177936] 
+UCB Best is  [[0.63107527]] at  [0.4177936] 
+Best weights:  [0.4177936] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.1808979511261  Test time:  22.168962001800537 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.14977063  0.35023502 -0.45553262 -0.04907378 -0.30581974  0.62455139
+  -0.70395868 -0.11761669  1.03877978  0.82604743]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 4    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.96664312]]  found for l=  [0.42020965]  var: 0.5474514607830482 
+New maximum log likelihood  [[-1.56243282]]  found for l=  [0.40914619]  var: 0.41315679447402426 
+New maximum log likelihood  [[-1.56232191]]  found for l=  [0.40943248]  var: 0.41362188074168776 
+New maximum log likelihood  [[-1.56212034]]  found for l=  [0.41190665]  var: 0.4159271644349659 
+New maximum log likelihood  [[-1.5620369]]  found for l=  [0.41098859]  var: 0.4157992791797243 
+New maximum log likelihood  [[-1.56203545]]  found for l=  [0.41052727]  var: 0.41579048465283525 
+Opt Length scale:  [0.41052727] 
+Opt variance:  0.41579048465283525 
+optimised values: l =  [0.41052727]   sig =  0.41579048465283525 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.46300081]]  found at:  [0.1] 
+New best Fval:  [[0.91444908]]  found at:  [1.] 
+New best Fval:  [[1.04121532]]  found at:  [0.27865004] 
+New best Fval:  [[1.32043052]]  found at:  [0.65500934] 
+UCB Best is  [[1.32043052]] at  [0.65500934] 
+Best weights:  [0.65500934] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  90.11819958686829  Test time:  23.252819776535034 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.15085439  0.62908129 -0.62977999 -0.11254363 -0.38964004  0.56645094
+  -0.89179046 -0.25524988  1.76536021  1.08162698]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 5    in subspace:  4 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-0.98347046]]  found for l=  [0.43307924]  var: 0.45039992325901124 
+New maximum log likelihood  [[-0.88428797]]  found for l=  [0.45632755]  var: 0.4322678068369628 
+New maximum log likelihood  [[-0.8794273]]  found for l=  [0.44680325]  var: 0.41694514118380865 
+New maximum log likelihood  [[-0.87870106]]  found for l=  [0.44929392]  var: 0.4207722156198148 
+New maximum log likelihood  [[-0.87851508]]  found for l=  [0.45031206]  var: 0.42001899262548653 
+Opt Length scale:  [0.45031206] 
+Opt variance:  0.42001899262548653 
+optimised values: l =  [0.45031206]   sig =  0.42001899262548653 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.45608903]]  found at:  [0.1] 
+New best Fval:  [[0.64123354]]  found at:  [0.69311678] 
+New best Fval:  [[0.68158345]]  found at:  [0.61363572] 
+New best Fval:  [[0.68158345]]  found at:  [0.6136386] 
+New best Fval:  [[0.87376607]]  found at:  [1.] 
+New best Fval:  [[0.92827324]]  found at:  [0.28088323] 
+New best Fval:  [[0.92827361]]  found at:  [0.28082765] 
+New best Fval:  [[0.92827365]]  found at:  [0.28080291] 
+New best Fval:  [[0.92827365]]  found at:  [0.28080215] 
+UCB Best is  [[0.92827365]] at  [0.28080215] 
+Best weights:  [0.28080215] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.8371798992157  Test time:  22.56560206413269 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.14914477  0.18920207 -0.35490523 -0.01242011 -0.25741375  0.65810424
+  -0.59548635 -0.0381339   0.61918158  0.67845094]] 
+with observation value:  [[0.4057971]] 
+######    search in subspace 4  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Subspace:  4  completed..
+
+
+
+ 
+Data set after: 4  subspace 
+Observation_y: [[0.4057971 0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029
+  0.5942029 0.5942029 0.5942029 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.5942029 0.4057971 0.4057971
+  0.4057971 0.4057971 0.4057971 0.4057971 0.5942029 0.4057971 0.5942029
+  0.4057971]] 
+ 
+######  run: 1  subspace  5   ###### 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.03586411476135  Test time:  21.866166591644287 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.41712260246277  Test time:  22.48134183883667 
+Accuracy:  0.5942028985507246 
+Generated new observation with observation_y:  [[0.5942029]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  91.3785011768341  Test time:  22.6131694316864 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.15458035469055  Test time:  21.7923903465271 
+Accuracy:  0.4057971014492754 
+Generated new observation with observation_y:  [[0.4057971]] 
+
+Trying for best solution at iteration: 1    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-0.97409027]]  found for l=  [1.]  var: 0.35092832075785346 
+New maximum log likelihood  [[-0.93938458]]  found for l=  [1.]  var: 0.3922085030898835 
+New maximum log likelihood  [[-0.93805595]]  found for l=  [1.]  var: 0.38280691191910443 
+New maximum log likelihood  [[-0.93797913]]  found for l=  [1.]  var: 0.385877551278107 
+New maximum log likelihood  [[-0.93795081]]  found for l=  [1.]  var: 0.3851309621879983 
+New maximum log likelihood  [[-0.9379497]]  found for l=  [1.]  var: 0.38506191942625595 
+New maximum log likelihood  [[-0.93794791]]  found for l=  [1.]  var: 0.3847455723672698 
+Opt Length scale:  [1.] 
+Opt variance:  0.3847455723672698 
+optimised values: l =  [1.]   sig =  0.3847455723672698 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.66352132]]  found at:  [0.24031826] 
+New best Fval:  [[0.92984013]]  found at:  [1.] 
+UCB Best is  [[0.92984013]] at  [1.] 
+Best weights:  [1.] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.01130366325378  Test time:  21.73768973350525 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.16381278 -0.73770093 -1.10490091  1.87306851 -1.30493938 -0.62996505
+  -1.15528707 -0.23926015 -1.93814429  2.46137133]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 2    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-1.72487153]]  found for l=  [0.67350497]  var: 0.2958002625225491 
+New maximum log likelihood  [[0.23477814]]  found for l=  [1.]  var: 0.33328450292760914 
+New maximum log likelihood  [[0.24020108]]  found for l=  [1.]  var: 0.34473528894475314 
+New maximum log likelihood  [[0.24020446]]  found for l=  [1.]  var: 0.3440350110296698 
+New maximum log likelihood  [[0.24020744]]  found for l=  [1.]  var: 0.3444499213960108 
+New maximum log likelihood  [[0.2402075]]  found for l=  [1.]  var: 0.34421100122816184 
+Opt Length scale:  [1.] 
+Opt variance:  0.34421100122816184 
+optimised values: l =  [1.]   sig =  0.34421100122816184 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.66473085]]  found at:  [0.24105882] 
+New best Fval:  [[0.66473087]]  found at:  [0.24101053] 
+New best Fval:  [[0.66473087]]  found at:  [0.24103154] 
+New best Fval:  [[0.66473087]]  found at:  [0.24101972] 
+UCB Best is  [[0.66473087]] at  [0.24101972] 
+Best weights:  [0.24101972] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.82278203964233  Test time:  22.63183307647705 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.15170636 -0.28472551 -0.37911877  0.49904347 -0.43458086  0.39985371
+  -0.56165443  0.03704539 -0.64997078  0.87854791]] 
+with observation value:  [[0.5942029]] 
+
+Trying for best solution at iteration: 3    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[0.22531384]]  found for l=  [1.]  var: 0.4519728937620191 
+New maximum log likelihood  [[0.24111443]]  found for l=  [0.97639348]  var: 0.41842456409167617 
+New maximum log likelihood  [[0.24142035]]  found for l=  [0.98402157]  var: 0.41854749665077806 
+New maximum log likelihood  [[0.2416053]]  found for l=  [0.98790829]  var: 0.4232695106120029 
+New maximum log likelihood  [[0.24189435]]  found for l=  [0.98385063]  var: 0.42377431026062434 
+New maximum log likelihood  [[0.24194048]]  found for l=  [0.98263682]  var: 0.4217500315311983 
+New maximum log likelihood  [[0.24195087]]  found for l=  [0.98416756]  var: 0.4228252504701193 
+Opt Length scale:  [0.98416756] 
+Opt variance:  0.4228252504701193 
+optimised values: l =  [0.98416756]   sig =  0.4228252504701193 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.60346894]]  found at:  [0.2690234] 
+New best Fval:  [[0.63998369]]  found at:  [0.93917802] 
+New best Fval:  [[0.63998369]]  found at:  [0.93917749] 
+UCB Best is  [[0.63998369]] at  [0.93917749] 
+Best weights:  [0.93917749] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  88.45351839065552  Test time:  22.32419776916504 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.16284261 -0.70140077 -1.0467388   1.76295806 -1.23519133 -0.54743832
+  -1.10771505 -0.21711781 -1.83491374  2.33452838]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 4    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-4.06655942]]  found for l=  [0.27932403]  var: 0.49848106151688765 
+New maximum log likelihood  [[-3.7786848]]  found for l=  [0.39578392]  var: 0.515908990367286 
+New maximum log likelihood  [[-3.77851683]]  found for l=  [0.39442077]  var: 0.5157409289110763 
+New maximum log likelihood  [[-3.77650951]]  found for l=  [0.3904688]  var: 0.503328033658798 
+New maximum log likelihood  [[-3.77640702]]  found for l=  [0.39115861]  var: 0.5049889421753339 
+New maximum log likelihood  [[-3.77639016]]  found for l=  [0.39110833]  var: 0.5068695135210263 
+New maximum log likelihood  [[-3.77636036]]  found for l=  [0.39012257]  var: 0.5050301427277839 
+Opt Length scale:  [0.39012257] 
+Opt variance:  0.5050301427277839 
+optimised values: l =  [0.39012257]   sig =  0.5050301427277839 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[1.41508101]]  found at:  [0.32675396] 
+New best Fval:  [[1.6029906]]  found at:  [0.76388202] 
+New best Fval:  [[1.71527637]]  found at:  [0.54053721] 
+New best Fval:  [[1.71527637]]  found at:  [0.54053821] 
+New best Fval:  [[1.71527637]]  found at:  [0.54053768] 
+New best Fval:  [[1.71527637]]  found at:  [0.54053776] 
+New best Fval:  [[1.71527637]]  found at:  [0.54053773] 
+UCB Best is  [[1.71527637]] at  [0.54053773] 
+Best weights:  [0.54053773] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  87.74701189994812  Test time:  21.804882287979126 
+Accuracy:  0.4057971014492754 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.15648395 -0.46348417 -0.66553573  1.04127792 -0.77805231 -0.00654588
+  -0.79592095 -0.07199365 -1.15832546  1.50318091]] 
+with observation value:  [[0.4057971]] 
+
+Trying for best solution at iteration: 5    in subspace:  5 
+Using log marginal likelihood to compute the optimised length scale for the kernels 
+Hyper Params for kernel observations 
+New maximum log likelihood  [[-3.97620393]]  found for l=  [0.40352954]  var: 0.42766644988541125 
+New maximum log likelihood  [[-3.83108337]]  found for l=  [0.40666746]  var: 0.4849019729061114 
+New maximum log likelihood  [[-3.83061987]]  found for l=  [0.40434775]  var: 0.4916493974370597 
+New maximum log likelihood  [[-3.82991213]]  found for l=  [0.40354932]  var: 0.4860603536954518 
+New maximum log likelihood  [[-3.82986693]]  found for l=  [0.40299255]  var: 0.4862342839627665 
+Opt Length scale:  [0.40299255] 
+Opt variance:  0.4862342839627665 
+optimised values: l =  [0.40299255]   sig =  0.4862342839627665 
+pre-calculating COV matrix for kernel observations 
+ACQ Function : UCB  
+New best Fval:  [[0.81583557]]  found at:  [0.47718773] 
+New best Fval:  [[1.44968531]]  found at:  [0.76878354] 
+New best Fval:  [[1.44968533]]  found at:  [0.76877001] 
+New best Fval:  [[1.44968533]]  found at:  [0.76877403] 
+New best Fval:  [[1.44968533]]  found at:  [0.76877249] 
+UCB Best is  [[1.44968533]] at  [0.76877249] 
+Best weights:  [0.76877249] 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.41475009918213  Test time:  21.703734874725342 
+Accuracy:  0.5942028985507246 
+New observation found in the given subspace 
+New kernel suggested:  [[-0.1601245  -0.59969948 -0.8837874   1.45446423 -1.03977988 -0.31622511
+  -0.97443363 -0.15508215 -1.54569516  1.97915548]] 
+with observation value:  [[0.5942029]] 
+######    search in subspace 5  completed   ###### 
+Best solution is selected as 
+ {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Subspace:  5  completed..
+
+
+
+ 
+Data set after: 5  subspace 
+Observation_y: [[0.4057971 0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029
+  0.5942029 0.5942029 0.5942029 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.4057971 0.5942029 0.5942029
+  0.4057971 0.5942029 0.4057971 0.5942029 0.5942029 0.4057971 0.4057971
+  0.4057971 0.4057971 0.4057971 0.4057971 0.5942029 0.4057971 0.5942029
+  0.4057971 0.4057971 0.5942029 0.4057971 0.4057971 0.5942029 0.5942029
+  0.4057971 0.4057971 0.5942029]] 
+ 
+Times:  (25,) (25,) 
+Search time:  1.161898365020752+-0.4551775465506612 
+Eval time:  112.06937242507935+-3.175280633335386 
+Best solution found for run:  1 {'best_kernel': array([[-0.14786188, -0.14087986, -0.14864137,  0.0627118 , -0.15819217,
+         0.72688016, -0.37314206,  0.12478823, -0.2409019 ,  0.3759108 ]]), 'best_value': array([0.5942029])} 
+Computing Xtr_Xtr ....  
+Clipping Training Matrix 
+Clipping Train Done... 
+Fitting SVM for the Data ....  
+Computing Xte_Xtr ....  
+Clipping Test Matrix 
+Clipping Test Done... 
+Predicting Values... 
+Train time:  89.07914352416992  Test time:  22.46378493309021 
+Accuracy:  0.5942028985507246 
+Maximum accuracy obtained:  [[0.5942029]] 
+
+
+***************************Run  1  completed**********************
+
+
+
+ 
+Run  1  total time:  5177.178174734116    Mean Train Time: 89.76947684391685+-2.7194140018925577     Mean Test time: 22.141929030418396+-0.5116949229179726 

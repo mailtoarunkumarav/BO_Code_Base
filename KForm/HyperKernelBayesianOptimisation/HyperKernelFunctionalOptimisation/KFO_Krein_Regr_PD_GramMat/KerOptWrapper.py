@@ -4,7 +4,7 @@ from KernelOptimiser import KernelOptimiser
 from matplotlib.ticker import MaxNLocator
 import matplotlib.pyplot as plt
 import numpy as np
-import datetime
+import datetime, time
 import sys
 sys.path.insert(0, 'C:\Arun_Stuff\GitHubCodes\KForm\HyperKernelBayesianOptimisation\HyperKernelFunctionalOptimisation'
                    '\KFO_Krein_Regr_PD_GramMat\GP_Regressor')
@@ -53,7 +53,7 @@ class KernelOptimizationWrapper:
         # Number of points required to be observed to evaluate the unknown function ((10:20)*no_dimensions )
         # number_of_iterations = number_of_dimensions * 10
         number_of_subspace_selection_iterations = 5
-        number_of_iterations_best_solution = 5
+        number_of_iterations_best_solution = 15
 
         # number_of_basis_vectors_chosen = 2
         # LINEBO
@@ -172,9 +172,9 @@ class KernelOptimizationWrapper:
         # dataset = 'fertility'
         # dataset = 'yacht'
         # dataset = 'boston'
-        # dataset = 'airfoil'
+        dataset = 'airfoil'
         # dataset = 'concreteslump'
-        dataset = 'auto'
+        # dataset = 'auto'
 
         # Initial value to denote the type of ACQ function to be used, but ignored as all ACQs are run in the sequence
         # acq_fun_list = ['ei', 'pi', 'rs', 'ucb']
@@ -202,8 +202,11 @@ class KernelOptimizationWrapper:
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
+        run_time_array = np.array([])
         # Run Optimization for the specified number of runs
         for i in range(number_of_runs):
+
+            run_start_time = time.time()
 
             X = []
             # X = np.linspace(X_space_min, X_space_max, number_of_samples_in_X).reshape(number_of_samples_in_X, number_of_dimensions)
@@ -271,7 +274,10 @@ class KernelOptimizationWrapper:
                 tot_min_loglik = np.append(tot_min_loglik, minimum_likelihood)
                 tot_best_sol = np.append(tot_best_sol, best_solution_found)
                 PH.printme(PH.p1, "\n\n***************************Run ", i+1, " completed**********************\n\n\n\n")
-
+                run_time_end = time.time()
+                elapsed_run_time = run_time_end - run_start_time
+                PH.printme(PH.p1, "Run ", i + 1, " total time: ", elapsed_run_time)
+                run_time_array = np.append(run_time_array, elapsed_run_time)
 
         # # #Commenting the following code for integration with Outer Bayesian Optimisation
         # # # PH.printme(PH.p1, "Initiating kernel plotting...")
@@ -284,6 +290,7 @@ class KernelOptimizationWrapper:
         PH.printme(PH.p1, "\n\n@@@@@@@Mean likelihood for Bayesian Optimisation : ", mean_min_likelihood)
         # # Uncomment to see the graph if not integrated with BO
         # plt.show()
+        PH.printme(PH.p1, "Dataset:", dataset, " Total Run Time    Mean+std: ", np.mean(run_time_array), "+-", np.std(run_time_array))
         return mean_min_likelihood
 
                 # Store the regret obtained in each run so that mean and variance can be calculated to plot the simple regret

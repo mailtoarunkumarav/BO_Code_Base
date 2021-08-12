@@ -4,7 +4,7 @@ from KernelOptimiser import KernelOptimiser
 from matplotlib.ticker import MaxNLocator
 import matplotlib.pyplot as plt
 import numpy as np
-import datetime
+import datetime, time
 import sys, getopt
 from SVM_Wrapper import SVM_Wrapper
 
@@ -173,7 +173,7 @@ class KernelOptimizationWrapper:
             # dataset = "ionos"
             # dataset = "sonar"
             # dataset = "heart"
-            # dataset = "credit"
+            dataset = "credit"
             # dataset = "credit_arc"
             # dataset = "seeds"
             # dataset = "pima"
@@ -181,7 +181,7 @@ class KernelOptimizationWrapper:
             # dataset = "wine"
             # dataset = "bio"
             # dataset = "contra"
-            dataset = "pho"
+            # dataset = "pho"
             # dataset = "hay"
             # dataset = "eco"
             # dataset = "car"
@@ -209,6 +209,8 @@ class KernelOptimizationWrapper:
 
         # Run Optimization for the specified number of runs
         for i in range(number_of_runs):
+
+            run_start_time = time.time()
 
             X = []
             # X = np.linspace(X_space_min, X_space_max, number_of_samples_in_X).reshape(number_of_samples_in_X, number_of_dimensions)
@@ -277,6 +279,13 @@ class KernelOptimizationWrapper:
 
                 tot_best_sol = np.append(tot_best_sol, best_solution_found)
                 PH.printme(PH.p1, "\n\n***************************Run ", i+1, " completed**********************\n\n\n\n")
+
+                run_time_end = time.time()
+                PH.printme(PH.p1, "Run ",i+1," total time: ", run_time_end-run_start_time, "   Mean Train Time:",
+                           str(np.mean(svm_wrapper_obj.train_time_array))+"+-"+str(np.std((svm_wrapper_obj.train_time_array))),
+                                                                             "    Mean Test time:",
+                           str(np.mean(svm_wrapper_obj.test_time_array))+"+-"+str(np.std(svm_wrapper_obj.test_time_array)))
+                exit()
 
 
         # #Commenting the following code for integration with Outer Bayesian Optimisation
