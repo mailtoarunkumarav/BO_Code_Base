@@ -15,6 +15,7 @@ from Acquisition_Function import AcquisitionFunction
 from HumanExpert_Model import HumanExpertModel
 from Baseline_Model import BaselineModel
 from AI_Model import AIModel
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
 sys.path.append("..")
 
@@ -26,7 +27,7 @@ plt.rcParams['figure.max_open_warning'] = 0
 # np.seterr(divide='ignore', invalid='ignore')
 
 # To fix the random number genration, currently not able, so as to retain the random selection of points
-random_seed = 200
+random_seed = 400
 np.random.seed(random_seed)
 
 
@@ -35,7 +36,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
-        number_of_runs = 5
+        number_of_runs = 2
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -55,13 +56,13 @@ class ExpAIKerOptWrapper:
         number_of_random_observations_humanexpert = 3
 
         # Initial number of suggestions from human expert
-        number_total_suggestions = 12
+        number_total_suggestions = 10
 
         epsilon_distance = 0.6
 
         noisy_suggestions = False
 
-        plot_iterations = 5
+        plot_iterations = 1
 
         # acquisition type
         # acq_fun = 'ei'
@@ -69,6 +70,7 @@ class ExpAIKerOptWrapper:
 
         # acq_fun_list = ['ei', 'ucb']
         acq_fun_list = ['ucb']
+        # acq_fun_list = ['ei']
 
         # total_regret_ai = []
         # # total_ei_regret_ai = []
@@ -81,17 +83,17 @@ class ExpAIKerOptWrapper:
         lambda_reg = 0.7
         lambda_mul = 10
 
-        llk_threshold = 0.9
+        llk_threshold = 1
 
         PH.printme(PH.p1, "\n###################################################################",
-                   "Acq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
+                   "\nAcq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
                    number_of_minimiser_restarts, "   Runs:", number_of_runs, "\nRestarts for Acq:", number_of_restarts_acq, "  Eps1:",
                    epsilon1, "   eps2:", epsilon2, "   No_obs_GT:", number_of_observations_groundtruth, "   Random Obs:",
                    number_of_random_observations_humanexpert, "\n   Total Suggestions: ", number_total_suggestions, "    Eps Dist.:",
                    epsilon_distance, "\nNoisy:", noisy_suggestions,
-                   "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "   lambda Multiplier:",lambda_mul,
-                   "\n Threshold Value: ", llk_threshold,
-                   "\nSpecial Inputs: Normalised Acquisition function values + Two stage maximisation")
+                   "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "\n lambda Multiplier:",lambda_mul,
+                   "    Threshold Value: ", llk_threshold,
+                   "\nSpecial Inputs: Normalised Acquisition function values + Two stage maximisation, Controlled Obs")
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -107,6 +109,9 @@ class ExpAIKerOptWrapper:
                                                                                  number_of_random_observations_humanexpert,
                                                                                  noisy_suggestions)
 
+            # # Generating kernel for human expert
+            humanexpert_kernel = self.kernel_sampling("Human Expert Kernel", gp_humanexpert, False)
+
             initial_random_observations_X = gp_humanexpert.X
             initial_random_observations_y = gp_humanexpert.y
 
@@ -116,7 +121,9 @@ class ExpAIKerOptWrapper:
 
             # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
-            HE_input_iterations = [2, 3, 7, 8]
+            # HE_input_iterations = [2, 3]
+            HE_input_iterations = [3, 4, 5, 6, 7]
+
             number_of_humanexpert_suggestions = len(HE_input_iterations)
 
             PH.printme(PH.p1, number_of_humanexpert_suggestions, " Human Expert Input Iterations: ", HE_input_iterations)
@@ -155,7 +162,8 @@ class ExpAIKerOptWrapper:
                 for suggestion_count in range(1, number_total_suggestions+1):
 
                     if suggestion_count in HE_input_iterations:
-                        PH.printme(PH.p1, "\n\nStarting suggestion:", suggestion_count, " with Human Expert inputs......\nGenerating "
+                        PH.printme(PH.p1, "\n\n*******************\nStarting suggestion:", suggestion_count, " with Human Expert "
+                                                                                               "inputs......\nGenerating "
                                                                                         "Human Expert Suggestions")
                         gp_humanexpert.gp_fit(observations_pool_X, observations_pool_y)
 
@@ -184,8 +192,7 @@ class ExpAIKerOptWrapper:
                                                                      acq_func_obj, noisy_suggestions, suggestion_count,
                                                                      plot_iterations)
 
-
-                    PH.printme(PH.p1, "Distance optimisation details:\nMax Diff:", aimodel_obj.max_acq_difference, "\tMin Diff:",
+                    PH.printme(PH.p1, "\n\nDistance optimisation details:\nMax Diff:", aimodel_obj.max_acq_difference, "\tMin Diff:",
                                aimodel_obj.min_acq_difference,"\nMax likelihood:", aimodel_obj.max_llk, "\tMin Likelihood: ",
                                aimodel_obj.min_llk)
 
@@ -194,6 +201,11 @@ class ExpAIKerOptWrapper:
                     # Add the new observation point to the existing set of observed samples along with its true value
                     observations_pool_X = np.append(observations_pool_X, [xnew_ai], axis=0)
                     ynew_ai_orig = gp_aimodel.fun_helper_obj.get_true_func_value(xnew_ai_orig)
+
+                    # objective function noisy
+                    if gp_aimodel.fun_helper_obj.true_func_type == "LIN1D":
+                        ynew_ai_orig = ynew_ai_orig + np.random.normal(0, 0.05)
+
                     ynew_ai = (ynew_ai_orig - gp_aimodel.ymin) / (gp_aimodel.ymax - gp_aimodel.ymin)
                     observations_pool_y = np.append(observations_pool_y, [ynew_ai], axis=0)
 
@@ -217,6 +229,29 @@ class ExpAIKerOptWrapper:
                                                                                                  noisy_suggestions,
                                                                                                  plot_iterations)
                     PH.printme(PH.p1, "Baseline: (", xnew_baseline, ynew_baseline, ") is the new value added")
+
+                    # # # #L-inf Norm calculations
+                    PH.printme(PH.p1, "\n\nCalculating L-infinity norm for the kernels obtained")
+
+                    sampled_ai_kernel = self.kernel_sampling("AI Kernel", gp_aimodel, False)
+                    sampled_baseline_kernel = self.kernel_sampling("Baseline Kernel", gp_baseline, False)
+
+                    ai_kernel_diff = humanexpert_kernel.reshape(-1, 1) - sampled_ai_kernel.reshape(-1, 1)
+                    ai_inf_norm = np.linalg.norm(ai_kernel_diff, ord=np.inf, axis=0)
+                    ai_l2_norm = np.linalg.norm(ai_kernel_diff, ord=2, axis=0)
+                    PH.printme(PH.p1, "AI Model: kernel difference: L-Inf: ", ai_inf_norm, "\tL2: ", ai_l2_norm)
+
+                    base_kernel_diff = humanexpert_kernel.reshape(-1, 1) - sampled_baseline_kernel.reshape(-1, 1)
+                    base_inf_norm = np.linalg.norm(base_kernel_diff, ord=np.inf, axis=0)
+                    base_l2_norm = np.linalg.norm(base_kernel_diff, ord=2, axis=0)
+                    PH.printme(PH.p1, "Base Model: kernel difference: L-Inf: ", base_inf_norm, "\tL2: ", base_l2_norm)
+
+                    PH.printme(PH.p1, "\nPlotting kernel weights of GT, AI, Baseline Kernels")
+                    PH.printme(PH.p1, "HE:", gp_humanexpert.len_weights, "\n","AI:", gp_aimodel.len_weights, "\nBL:",
+                               gp_baseline.len_weights)
+                    self.plot_kernel_weights(pwd_qualifier, full_time_stamp, run_count, suggestion_count, gp_humanexpert.len_weights,
+                                             gp_aimodel.len_weights, gp_baseline.len_weights)
+                    plt.close('all')
                     # plt.show()
 
                 gp_aimodel.runGaussian(pwd_qualifier + "R" + str(run_count + 1) + "_" + acq_fun.upper(), "AI_final", True)
@@ -258,15 +293,79 @@ class ExpAIKerOptWrapper:
             PH.printme(PH.p1, "\n###########\nTotal AI Regret:\n", total_regret_ai, "\nTotal Baseline Regret:\n",total_regret_baseline,
                        "\n###################")
             PH.printme(PH.p1, "\n\n@@@@@@@@@@@@@@ Round ", str(run_count + 1) + " complete @@@@@@@@@@@@@@@@\n\n")
+            plt.close('all')
 
         PH.printme(PH.p1, "Tot_AI:\n", total_regret_ai, "\n\nTot Base:\n", total_regret_baseline)
         # # # Plotting regret
+        plt.close('all')
         self.plot_regret(pwd_qualifier, full_time_stamp, acq_fun_list, total_regret_ai, total_regret_baseline, len(gp_aimodel.y))
+
+        # # # # Plotting kernels
+        self.kernel_sampling("Human Expert Kernel", gp_humanexpert, True)
+        self.kernel_sampling("AI Kernel", gp_aimodel, True)
+        self.kernel_sampling("Baseline Kernel", gp_baseline, True)
+        plt.show()
 
         endtimenow = datetime.datetime.now()
         PH.printme(PH.p1, "\nEnd time: ", endtimenow.strftime("%H%M%S_%d%m%Y"))
 
         # plt.show()
+
+    def plot_kernel_weights(self, pwd_qualifier, full_time_stamp, run_count, suggestion_count, groundtruth_kernel_weights,
+                            ai_kernel_weights, baseline_kernel_weights):
+        xaxis_kernel_type = np.arange(len(groundtruth_kernel_weights))
+
+        fig_name = "R" + str(run_count + 1) + "_S" + str(suggestion_count) + "_Kernel_weights_" + full_time_stamp
+        plt.figure(str(fig_name))
+        plt.ylim(0, 2)
+
+        for k_num in range(len(groundtruth_kernel_weights)):
+            plt.bar(xaxis_kernel_type[k_num], groundtruth_kernel_weights[k_num], color='blue', width=0.1)
+            plt.bar(xaxis_kernel_type[k_num] + 0.1, ai_kernel_weights[k_num], color='green', width=0.1, )
+            plt.bar(xaxis_kernel_type[k_num] + 0.2, baseline_kernel_weights[k_num], color='red', width=0.1)
+
+        plt.title("Kernel Weights of MKL")
+
+        plt.xlabel('Kernel Type')
+        plt.ylabel('Weights')
+
+        plt.xticks(xaxis_kernel_type + 0.1, ['SE', 'MAT', 'LIN', 'POL4', 'POL6'])
+
+        plt.legend(('GroundTruth', 'AI-Model', 'Baseline'))
+        plt.savefig(pwd_qualifier + fig_name + '.pdf')
+
+    def kernel_sampling(self, msg, gp_plotting, plot_bool):
+
+        PH.printme(PH.p1, "plotting kernel for ", msg, " \twith kernel weights: ", gp_plotting.len_weights)
+
+        kernel_mat = np.zeros(shape=(200, 200))
+        xbound = np.linspace(0, 5, 200).reshape(-1, 1)
+        X1, X2 = np.meshgrid(xbound, xbound)
+        for x_i in range(len(xbound)):
+            for x_j in range(len(xbound)):
+                num = gp_plotting.computekernel(np.array([xbound[x_i]]), np.array([xbound[x_j]]))
+                kernel_mat[x_i][x_j] = num
+                # Kernel Norm
+                # den1 = self.estimate_kernel_for_Xtil_plot(xbound[xb_i], xbound[xb_i], current_observations_kernel)
+                # den2 = self.estimate_kernel_for_Xtil_plot(xbound[xb_j], xbound[xb_j], current_observations_kernel)
+                # kernel_mat[xb_i][xb_j] = num/(np.sqrt(den1 * den2))
+
+        if function_type == "LIN1D":
+            minimum = np.min(kernel_mat)
+            maximum = np.max(kernel_mat)
+            kernel_mat = np.divide(kernel_mat - minimum, maximum - minimum)
+
+        if not plot_bool:
+            return kernel_mat
+
+        fig = plt.figure(msg)
+        ax = fig.gca(projection='3d')
+        surf = ax.plot_surface(X1, X2, kernel_mat, rstride=1, cstride=1,
+                               cmap='viridis', linewidth=1, antialiased=False)
+
+        ax.zaxis.set_major_locator(LinearLocator(10))
+        ax.zaxis.set_major_formatter(FormatStrFormatter('%0.02f'))
+        fig.colorbar(surf, shrink=0.5, aspect=20)
 
     def plot_regret(self, pwd_name, full_time_stamp, acq_fun_list, total_regret_ai, total_regret_base, total_number_of_obs):
 
@@ -278,7 +377,6 @@ class ExpAIKerOptWrapper:
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
         # # # AI model
-
         colors = ["#713326", "#22642E", "#0D28C3", "#EB0F0F"]
         count = 0
         for acq in acq_fun_list:
@@ -326,8 +424,9 @@ if __name__ == "__main__":
     input = None
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
 
-    # function_type = "OSC1D"
-    function_type = "BEN1D"
+    function_type = "OSC1D"
+    # function_type = "BEN1D"
+    # function_type = "LIN1D"
     # function_type = "GCL1D"
     # function_type = "ACK1D"
     # function_type = "OSC2D"

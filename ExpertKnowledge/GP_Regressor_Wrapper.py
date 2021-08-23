@@ -46,6 +46,12 @@ class GPRegressorWrapper:
             linspaceymin = -1.5
             linspaceymax = 3
 
+        elif function_type == "LIN1D":
+            linspacexmin = 0
+            linspacexmax = 2
+            linspaceymin = 0
+            linspaceymax = 1.5
+
         # # Square wave
         # linspacexmin = 0
         #         # linspacexmax = 4
@@ -136,7 +142,8 @@ class GPRegressorWrapper:
             linspaceymin = -51
             linspaceymax = 1
 
-        if function_type == "OSC1D" or function_type == "BEN1D" or function_type == "GCL1D" or function_type == "ACK1D":
+        if function_type == "OSC1D" or function_type == "BEN1D" or function_type == "GCL1D" or function_type == "ACK1D" or \
+                function_type == "LIN1D":
             number_of_dimensions = 1
             oned_bounds = [[linspacexmin, linspacexmax]]
             bounds = oned_bounds
@@ -255,6 +262,10 @@ class GPRegressorWrapper:
             for each_x in X:
                 print(each_x)
                 val = fun_helper_obj.get_true_func_value(each_x)
+
+                # objective function noisy
+                if function_type == "LIN1D":
+                    val = val + np.random.normal(0, 0.05)
                 y_arr.append(val)
 
             y = np.vstack(y_arr)

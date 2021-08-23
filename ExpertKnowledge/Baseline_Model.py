@@ -19,6 +19,11 @@ class BaselineModel:
         X = np.append(X, [xnew], axis=0)
 
         ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(xnew_orig)
+
+        # objective function noisy
+        if gp_baseline.fun_helper_obj.true_func_type == "LIN1D":
+            ynew_orig = ynew_orig + np.random.normal(0, 0.05)
+
         ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
 
         y = np.append(gp_baseline.y, [ynew], axis=0)
@@ -38,9 +43,8 @@ class BaselineModel:
             gp_baseline.plot_posterior_predictions(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), gp_baseline.Xs,
                                                    gp_baseline.ys, mean, standard_deviation)
 
-        PH.printme(PH.p1, "Weights before ending....", gp_baseline.len_weights)
-        gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
-
+        # PH.printme(PH.p1, "Weights before ending....", gp_baseline.len_weights)
+        # gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
 
         return xnew, ynew
 

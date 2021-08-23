@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 import math
 import scipy as scy_lin
@@ -13,18 +12,263 @@ import numpy as np
 import re
 from matplotlib.ticker import MaxNLocator
 
-# #3d plot
-
-# plotting 3d graph
 from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
 from matplotlib import cm
-import numpy as np
+from scipy.optimize import rosen, shgo
 
+# SHGO Global Optimiser
+
+
+def f(x, a):
+    return (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
+
+
+def g1(x):
+    # return x ** 2 - 6 * x + 4
+    return -0.5 * x+3
+
+
+cons = ({'type': 'ineq', 'fun': g1})
+
+aa = 10
+bounds = [(1.3, 10)]
+res = shgo(lambda x: f(x, aa), bounds, iters=5
+           , constraints=cons
+# n=60, sampling_method='sobol'
+           #  ,minimizer_kwargs= ({'constraints':cons, 'method':"SLSQP"})
+           )
+print(res)
+# print("cons\n", g1(res.x))
+
+
+ #Virgin
+# def f(x):  # (cattle-feed)
+#     return 24.55*x[0] + 26.75*x[1] + 39*x[2] + 40.50*x[3]
+#
+# def g1(x):
+#     return 2.3*x[0] + 5.6*x[1] + 11.1*x[2] + 1.3*x[3] - 5  # >=0
+#
+# def g2(x):
+#     return (12*x[0] + 11.9*x[1] +41.8*x[2] + 52.1*x[3] - 21
+#             - 1.645 * np.sqrt(0.28*x[0]**2 + 0.19*x[1]**2
+#                             + 20.5*x[2]**2 + 0.62*x[3]**2)
+#             ) # >=0
+#
+# def h1(x):
+#     return x[0] + x[1] + x[2] + x[3] - 1  # == 0
+#
+# cons = ({'type': 'ineq', 'fun': g1},
+#         {'type': 'ineq', 'fun': g2},
+#         {'type': 'eq', 'fun': h1})
+# bounds = [(0, 1.0),]*4
+# res = shgo(f, bounds, iters=3, constraints=cons)
+# print(res)
+# print(g1(res.x), g2(res.x), h1(res.x))
+exit()
+
+
+
+# Constrained local minimiser
+
+# # #
+fun = lambda x: (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
+cons = ({'type': 'ineq', 'fun': lambda x: 0.})
+# cons = lambda x: (x**2-6*x+10)
+bnds = [(0, None)]
+
+strt = np.random.uniform(1.08, 4.3, 100)
+
+min = np.inf
+min_res = None
+for s in strt:
+    res = opt.minimize(fun, s, method='COBYLA', constraints=cons)
+    if (res['fun']) < min:
+        print("min found ", res['fun'])
+        min_res = res
+        min = res['fun']
+# res = opt.fmin_cobyla(fun, 2.861, cons, rhoend=1e-7)
+print(res)
+exit()
+
+# Constrained - SLSQP
+def multistart():
+
+    x0min = 0
+    x0max = 5
+    N = 400
+
+    min_val = None
+    func_min = 1 * float('inf')
+
+    const = {'type': 'ineq', 'fun': lambda x: 1*(x**2-8*x+16)}
+
+    for i in range(N):
+
+        x0 = np.random.uniform(x0min, x0max)
+
+        print("This is the start point", x0)
+
+        # # SLSQP
+        res = opt.minimize(lambda x: fun(x), x0, method='SLSQP', constraints=const, bounds = [[0, None]]
+                           # , options={
+                           # 'maxfun': 2000, 'maxiter': 2000
+                           #   'disp':True
+                           #   }
+                           )
+
+        if (res.success == False):
+            print("Convergence failed, Skipping")
+            continue
+
+        val = res.fun
+        # print("prev max:", func_max, "\tNew value: ", val, "\t at x=", res.x)
+        if val < func_min:
+            print("New minimum found ", func_min, " at ", res["x"])
+            min_val = res
+            func_min = val
+
+    if min_val != None:
+        print("Minimum obtained is ", func_min
+              , " at ", min_val['x']
+              )
+
+    return min_val
+
+
+def fun(x):
+    # print ("Trying ", x)
+    return (np.exp(-0.5*x) * np.sin((3/2) * np.pi * x)) + 1
+    # return np.sin(x)
+    # return - np.cos(x) + 0.01 * x ** 2 + 1
+    # return ((np.exp(-x) * np.sin(3 * np.pi * x)) + 0.3)
+    # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+    # return ( (np.sin(10* np.pi* x)/(2*x))+(x-1)**4)
+    # w = 1 +((x-1)/4)
+    # return  (np.sin(np.pi * w))**2 + ((w-1)**2)*(1+ (np.sin(2 * np.pi * w))**2)
+    # return -np.sin(x) *(np.sin((x**2)/np.pi))**20
+
+
+mini = multistart()
+plt.figure()
+plt.clf()
+X = np.linspace(0, 5, 500)
+y1 = fun(X)
+
+plt.plot(X, y1)
+print(mini)
+# plt.show()
+
+# Standard normal
+# x = np.random.normal(10, 0.01, 100)
+# print(x)
+
+exit()
+
+
+
+
+
+fun = lambda x: (x[0] - 1)**2 + (x[1] - 2.5)**2
+cons = ({'type': 'ineq', 'fun': lambda x:  x[0] - 2 * x[1] + 2},
+        {'type': 'ineq', 'fun': lambda x: -x[0] - 2 * x[1] + 6},
+        {'type': 'ineq', 'fun': lambda x: -x[0] + 2 * x[1] + 2})
+bnds = ((0, None), (0, None))
+res = opt.minimize(fun, (2, 0), method='SLSQP', bounds=bnds,
+               constraints=cons)
+print(res)
+
+exit()
+
+
+# NLOPT optimisation
+
+# import nlopt
+# from numpy import *
+# def myfunc(x, grad):
+#     return (np.exp(-0.5 * x[0]) * np.sin((3 / 2) * np.pi * x[0])) + 1
+# def myconstraint(x):
+#     return x[0] ** 2 - 8 * x[0] + 16
+# opt = nlopt.opt(nlopt.LD_MMA, 2)
+# opt.set_lower_bounds([-float('inf'), 0])
+# opt.set_min_objective(myfunc)
+# opt.add_inequality_constraint(lambda x,grad: myconstraint(x), 1e-8)
+# opt.add_inequality_constraint(lambda x,grad: myconstraint(x), 1e-8)
+# opt.set_xtol_rel(1e-4)
+# x = opt.optimize([1.234, 0])
+# minf = opt.last_optimum_value()
+# print("optimum at ", x[0], x[1])
+# print("minimum value = ", minf)
+# print("result code = ", opt.last_optimize_result())
+#
+#
+# exit(0)
+
+
+# NL opt
+import nlopt
+from numpy import *
+
+
+class A:
+    def myfunction(self, x, grad):
+        return (np.exp(-0.5 * x) * np.sin((3 / 2) * np.pi * x)) + 1
+
+    def myconstraint(self, x):
+        return x ** 2 - 8 * x + 16
+
+    def run (self):
+        opt = nlopt.opt(nlopt.LD_MMA, 2)
+        opt.set_lower_bounds((-float('inf'), 0))
+        opt.set_min_objective(self.myfunction)
+        opt.add_inequality_constraint(lambda x, grad: self.myconstraint(x), 1e-8)
+        opt.set_xtol_rel(1e-4)
+        startout = [10,20]
+        # startout.append([10,20)
+        x = opt.optimize(startout)
+        minf = opt.last_optimum_value()
+        print("optimum at ", x[0], x[1])
+        print("minimum value = ", minf)
+        print("result code = ", opt.last_optimize_result())
+
+aobj  = A()
+aobj.run()
+
+exit()
+
+# Bar chart
+
+def plot_kernel_weights(groundtruth_kernel, ai_kernel, baseline_kernel):
+    xaxis_kernel_type = np.arange(len(groundtruth_kernel))
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    plt.ylim(0, 2)
+
+    for k_num in range(len(groundtruth_kernel)):
+        plt.bar(xaxis_kernel_type[k_num], groundtruth_kernel[k_num], color='blue', width=0.1)
+        plt.bar(xaxis_kernel_type[k_num] + 0.1, ai_kernel[k_num], color='green', width=0.1, )
+        plt.bar(xaxis_kernel_type[k_num] + 0.2, baseline_kernel[k_num], color='red', width=0.1)
+
+    plt.title("Kernel Weights of MKL")
+
+    plt.xlabel('Kernel Type')
+    plt.ylabel('Weights')
+
+    plt.xticks(xaxis_kernel_type + 0.1, ['SE', 'MAT', 'LIN', 'Pol4', 'Pol6'])
+
+    plt.legend(('GroundTruth', 'AI-Model', 'Baseline'))
+    plt.show()
+
+
+groundtruth_kernel = np.array([0.10632119, 0.37402126, 0.25304987, 0.44591072, 0.10055116])
+ai_kernel= np.array([0.11759805, 0.10434519, 0.68836895, 0.29670063, 0.71640081])
+baseline_kernel= np.array([0.10592188, 0.10105103, 0.71164151, 0.38609471, 0.5346631])
+
+plot_kernel_weights(groundtruth_kernel, ai_kernel, baseline_kernel)
+
+exit(0)
 
 
 # #Constrained Optimisation
-
 def multistart():
 
     x0min = 0
@@ -121,6 +365,7 @@ for each_index in indices:
 
 exit()
 
+# plotting 3d graph
 
 def true_func(X, Y):
     return (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y

@@ -19,7 +19,7 @@ class FunctionHelper:
 
             # oscillator
             # exp(-x)sin(3x) + 1
-            true_max = self.get_true_func_value(0.15545)
+            # true_max = self.get_true_func_value(0.15545)
 
             # complicated oscillator
             # (np.exp(-each_x) * np.sin(1.5 * np.pi * each_x)) + 1
@@ -57,13 +57,16 @@ class FunctionHelper:
             # true_max = self.get_true_func_value(2.502)
 
             # Linear Function
-            # true_max = self.get_true_func_value(1.99)
+            true_max = self.get_true_func_value(2.01)
 
             # Linear Sin Function
             # true_max = self.get_true_func_value(9.268)
 
             # Ackley 1D
             # true_max = self.get_true_func_value(0)
+
+        elif (self.true_func_type == "LIN1D"):
+            true_max = self.get_true_func_value(2.1)
 
         elif (self.true_func_type == "OSC1D"):
             # oscillator
@@ -145,7 +148,7 @@ class FunctionHelper:
 
             #oscillator
             # exp(-x)sin(3.pi.x) + 01
-            return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
+            # return (np.exp(-x) * np.sin(3 * np.pi * x)) + 1
 
             # Complicated Oscillator circuit
             # val = 0
@@ -225,7 +228,7 @@ class FunctionHelper:
             # return y.reshape(-1, 1)
 
             # Linear function
-            # return 0.1 * x + 0.2
+            return 0.5 * x + 0.1
 
             # Linear Sin Function
             # return 0.7*x + 1 + np.sin(2*np.pi*x)
@@ -235,6 +238,9 @@ class FunctionHelper:
             # b = 0.2
             # c = 2 * np.pi
             # return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
+
+        elif (self.true_func_type == "LIN1D"):
+            return 0.5 * x + 0.1
 
         elif (self.true_func_type == "OSC1D"):
             # oscillator
