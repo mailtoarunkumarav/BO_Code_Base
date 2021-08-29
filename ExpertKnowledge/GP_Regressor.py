@@ -275,12 +275,48 @@ class GaussianProcessRegressor:
         eye = 1e-3 * np.eye(len(self.X))
         Knoise = K_x_x + eye
         # Find L from K = L *L.T instead of inversing the covariance function
-        L_x_x = np.linalg.cholesky(Knoise)
+        # L_x_x = np.linalg.cholesky(Knoise)
+
+        try:
+            L_x_x = np.linalg.cholesky(Knoise)
+            factor = np.linalg.solve(L_x_x, self.y)
+
+        except np.linalg.LinAlgError:
+            PH.printme(PH.p1, "!!!!!!!!!!!Matrix is not positive definite, params: ", input, "Eigen Vals:", np.linalg.eigvals(Knoise), "\n",
+                           K_x_x)
+            L_x_x = np.linalg.cholesky(Knoise)
+
         factor = np.linalg.solve(L_x_x, self.y)
         log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + len(self.X) * np.log(2 * np.pi) +
                                           np.log(np.linalg.det(Knoise)))
         # PH.printme(PH.p1, "Trying.... ", input, "\t:Logl: ", log_marginal_likelihood)
-        return log_marginal_likelihood
+        return log_marginal_likelihood[0]
+
+    def optimize_log_marginal_likelihood_weight_params_const(self, input):
+
+        self.len_weights = input
+
+        K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
+        eye = 1e-3 * np.eye(len(self.X))
+        Knoise = K_x_x + eye
+        # Find L from K = L *L.T instead of inversing the covariance function
+        # L_x_x = np.linalg.cholesky(Knoise)
+
+        try:
+            L_x_x = np.linalg.cholesky(Knoise)
+            factor = np.linalg.solve(L_x_x, self.y)
+
+        except np.linalg.LinAlgError:
+            PH.printme(PH.p1, "!!!!!!!!!!!Matrix is not positive definite, params: ", input, "Eigen Vals:", np.linalg.eigvals(Knoise), "\n",
+                           K_x_x)
+            L_x_x = np.linalg.cholesky(Knoise)
+
+        factor = np.linalg.solve(L_x_x, self.y)
+        log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) + len(self.X) * np.log(2 * np.pi) +
+                                          np.log(np.linalg.det(Knoise)))
+        # PH.printme(PH.p1, "Trying.... ", input, "\t:Logl: ", log_marginal_likelihood)
+        return log_marginal_likelihood[0]
+
 
     def gaussian_predict(self, Xs):
 
@@ -491,7 +527,7 @@ class GaussianProcessRegressor:
             plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_' + "" + "_" + role,
                                            # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                            # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
-                                           'axis': [0, 1, 0, 1],
+                                           'axis': [0, 1, -0.9, 0.9],
                                            'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
                                                           [self.Xs, mean, 'g--', 'label=Mean Fn', 'lw2']],
                                            'title': title,
@@ -515,7 +551,8 @@ class GaussianProcessRegressor:
         file_name = pwd_qualifier[span[1] - (span[1] - span[0]):]
 
         plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+file_name,
-                                       'axis': [0, 1, 0, 1],
+                                       # 'axis': [0, 1, 0, 1],
+                                       'axis': [0, 1, -0.9, 0.9],
                                        'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [Xs, ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
                                        'file': pwd_qualifier,

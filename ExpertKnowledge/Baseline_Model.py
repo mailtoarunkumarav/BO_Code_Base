@@ -22,7 +22,7 @@ class BaselineModel:
 
         # objective function noisy
         if gp_baseline.fun_helper_obj.true_func_type == "LIN1D":
-            ynew_orig = ynew_orig + np.random.normal(0, 0.05)
+            ynew_orig = ynew_orig + np.random.normal(0, 0.01)
 
         ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
 

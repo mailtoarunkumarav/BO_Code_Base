@@ -3,10 +3,12 @@ import scipy.optimize as opt
 from GP_Regressor_Wrapper import GPRegressorWrapper
 from HelperUtility.PrintHelper import PrintHelper as PH
 from Acquisition_Function import AcquisitionFunction
+from scipy.optimize import NonlinearConstraint, Bounds
 
 import matplotlib
 matplotlib.use("TKAgg")
 from matplotlib import pyplot as plt
+import nlopt
 
 class AIModel:
 
@@ -20,6 +22,7 @@ class AIModel:
         self.min_llk = None
         self.max_llk = None
         self.llk_threshold = llk_threshold
+        self.global_opt_method = None
 
     def obtain_twostg_aimodel_suggestions(self, plot_files_identifier, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count,
                                    plot_iterations):
@@ -103,7 +106,7 @@ class AIModel:
             start_points_list.append(tot_init_points)
             best_solutions=np.append(best_solutions, np.array(log_likelihood))
 
-        stage_one_best_kernel = x_max_value
+        stage_one_best_kernel = x_max_value[0:(len(maxima['x']) - 1)]
 
         gp_aimodel.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
         gp_aimodel.signal_variance = x_max_value[len(maxima['x']) - 1]
@@ -141,19 +144,20 @@ class AIModel:
     def distance_maximiser_for_likelihood(self, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count, stage_one_best_kernel,
                                        start_points_list, best_solutions):
 
-        total_bounds = gp_aimodel.len_weights_bounds.copy()
-        total_bounds.append(gp_aimodel.signal_variance_bounds)
+        # total_bounds = gp_aimodel.len_weights_bounds.copy()
+        # total_bounds.append(gp_aimodel.signal_variance_bounds)
+        # total_bounds = [(0.01, 1.0), (0.01, 1.0), (0.01, 1.0), (0.01, 1.0), (0.01, 1.0)]
 
-        # total_bounds = ((0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0), (0, 1.0))
+        empty_gradient_info = None
 
         compromised_likelihood = self.llk_threshold * best_solutions[0]
-        start_point = stage_one_best_kernel
+        PH.printme(PH.p1, "Start point: ", stage_one_best_kernel)
 
-        constraint_list = []
-        const_llk = {'type': 'ineq', 'fun': lambda x: gp_aimodel.optimize_log_marginal_likelihood_weight_params(x)[0] -
-                                                      compromised_likelihood}
-
-        constraint_list.append(const_llk)
+        # constraint_list = []
+        # const_llk = {'type': 'ineq', 'fun': lambda x: gp_aimodel.optimize_log_marginal_likelihood_weight_params(x)[0] -
+        #                                               compromised_likelihood}
+        #
+        # constraint_list.append(const_llk)
 
         # # # # # COBYLA
         # cons = {'type': 'ineq', 'fun': lambda x: x}
@@ -186,24 +190,57 @@ class AIModel:
         #                       )
 
         # # # SHGO
-        maxima = opt.shgo(lambda x: -self.constrained_distance_maximiser(x, gp_aimodel, acq_func_obj,
-                                          noisy_suggestions, ai_suggestion_count), total_bounds, constraints=const_llk, n=100, iters=4)
 
+        # maxima = opt.shgo(lambda x: -self.constrained_distance_maximiser(x, gp_aimodel, acq_func_obj,
+        #                                   noisy_suggestions, ai_suggestion_count), total_bounds, constraints=const_llk, n=100,
+        #                   iters=4, options={'disp': True})
+        #
+
+        # # # # Differential Evolution
+        PH.printme(PH.p1, "Differential Evolution Implementation")
+        self.global_opt_method = "DE"
+        nlc = NonlinearConstraint(lambda x: gp_aimodel.optimize_log_marginal_likelihood_weight_params_const(x)[0], compromised_likelihood,
+                                  np.inf, keep_feasible=True)
+
+        bounds = Bounds([0, 0, 0, 0, 0], [1, 1, 1, 1, 1])
+        maxima = opt.differential_evolution(lambda x: -self.constrained_distance_maximiser(x, empty_gradient_info, gp_aimodel, acq_func_obj,
+                                          noisy_suggestions, ai_suggestion_count), bounds, constraints=(nlc), seed=1, disp=True,
+                                            maxiter=500,
+                                            x0=stage_one_best_kernel)
         params = maxima['x']
-        distance = self.constrained_distance_maximiser(params, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count)
 
-        PH.printme(PH.p1, "New constrained distance maximum for stage two ", distance, " found for params ", maxima['x'])
+        # # # NLOPT Implementation
+        # PH.printme(PH.p1, "NLOPT Implementation")
+        # self.global_opt_method = "NLOPT"
+        # nlopt_obj = nlopt.opt(nlopt.GN_ORIG_DIRECT, 5)
+        # nlopt_obj.set_lower_bounds([0, 0, 0, 0, 0])
+        # nlopt_obj.set_upper_bounds([1, 1, 1, 1, 1])
+        # nlopt_obj.set_max_objective(lambda x, grad: self.constrained_distance_maximiser(x, grad, gp_aimodel, acq_func_obj,
+        #                                   noisy_suggestions, ai_suggestion_count))
+        # nlopt_obj.add_inequality_constraint(lambda x, grad: self.ineq_llk_constraint(x, grad, gp_aimodel, compromised_likelihood), 1e-8)
+        # nlopt_obj.set_xtol_rel(1e-8)
+        # maxima = nlopt_obj.optimize(stage_one_best_kernel)
+        # max_constrained_likelihood = nlopt_obj.last_optimum_value()
+        # PH.printme(PH.p1, "result code = ", nlopt_obj.last_optimize_result())
+        # params = maxima
+        # PH.printme(PH.p1, "Best Params: ", maxima, "Maximum Likelihood: ", max_constrained_likelihood)
 
-        gp_aimodel.len_weights = maxima['x'][0:(len(maxima['x']) - 1)]
-        gp_aimodel.signal_variance = maxima['x'][len(maxima['x']) - 1]
+        gp_aimodel.len_weights = params
+        PH.printme(PH.p1, "Best Params: ", maxima)
+        distance = self.constrained_distance_maximiser(params, empty_gradient_info, gp_aimodel, acq_func_obj, noisy_suggestions,
+                                                       ai_suggestion_count)
+        PH.printme(PH.p1, "New constrained distance maximum for stage two ", distance, " found for params ", params)
 
+    def ineq_llk_constraint(self, x, grad, gp_aimodel, compromised_likelihood):
 
-    def constrained_distance_maximiser(self, inputs, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count):
+        new_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params_const(x)[0]
+        constraint = compromised_likelihood - new_likelihood
+        return constraint
 
-        PH.printme(PH.p1, "Distance Maximiser Parameters : ", inputs)
+    def constrained_distance_maximiser(self, inputs, grad, gp_aimodel, acq_func_obj, noisy_suggestions, ai_suggestion_count):
 
-        gp_aimodel.len_weights = inputs[0:(len(inputs) - 1)]
-        gp_aimodel.signal_variance = inputs[(len(inputs) - 1)]
+        params = np.append(inputs, gp_aimodel.signal_variance)
+        constrained_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(params)
 
         acq_difference_sum = 0
 
@@ -280,8 +317,10 @@ class AIModel:
         if acq_difference_sum > self.max_acq_difference:
             self.max_acq_difference = acq_difference_sum
 
-        constrained_likelihood = gp_aimodel.optimize_log_marginal_likelihood_weight_params(inputs)
-        PH.printme(PH.p1, "Const. Llk:", constrained_likelihood, "    Dist:", acq_difference_sum, "   Weights:", inputs)
+        # PH.printme(PH.p1, "Const. Llk:", constrained_likelihood, "    Dist:", acq_difference_sum, "   Weights:", inputs, "   Variance:",
+        #            gp_aimodel.signal_variance)
+        if self.global_opt_method == "NLOPT":
+            acq_difference_sum = np.float64(acq_difference_sum[0])
 
         return acq_difference_sum
 

@@ -41,10 +41,15 @@ class GPRegressorWrapper:
             linspaceymax = 0.5
 
         elif function_type == "BEN1D":
+            # linspacexmin = 0
+            # linspacexmax = 10
+            # linspaceymin = -1.5
+            # linspaceymax = 3
+
             linspacexmin = 0
             linspacexmax = 10
-            linspaceymin = -1.5
-            linspaceymax = 3
+            linspaceymin = -0.9
+            linspaceymax = 0.9
 
         elif function_type == "LIN1D":
             linspacexmin = 0
@@ -157,6 +162,10 @@ class GPRegressorWrapper:
         ymax = linspaceymax
         ymin = linspaceymin
 
+        # For Ben1D
+        ymax = 1
+        ymin = 0
+
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
         # michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]
         # random_bounds = [[0, 1], [1, 2]]
@@ -179,8 +188,7 @@ class GPRegressorWrapper:
 
             # Generate specified (number of observed samples) random numbers for each dimension
             for dim in np.arange(number_of_dimensions):
-                random_data_point_each_dim = np.random.uniform(bounds[dim][0], bounds[dim][1],
-                                                               number_of_random_observed_samples).reshape(1,
+                random_data_point_each_dim = np.random.uniform(bounds[dim][0], bounds[dim][1], number_of_random_observed_samples).reshape(1,
                                                                                                           number_of_random_observed_samples)
                 random_points.append(random_data_point_each_dim)
 
@@ -265,7 +273,7 @@ class GPRegressorWrapper:
 
                 # objective function noisy
                 if function_type == "LIN1D":
-                    val = val + np.random.normal(0, 0.05)
+                    val = val + np.random.normal(0, 0.01)
                 y_arr.append(val)
 
             y = np.vstack(y_arr)

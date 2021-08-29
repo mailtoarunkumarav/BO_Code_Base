@@ -93,7 +93,9 @@ class ExpAIKerOptWrapper:
                    epsilon_distance, "\nNoisy:", noisy_suggestions,
                    "   plot iterations:", plot_iterations, "   Lambda:", lambda_reg, "\n lambda Multiplier:",lambda_mul,
                    "    Threshold Value: ", llk_threshold,
-                   "\nSpecial Inputs: Normalised Acquisition function values + Two stage maximisation, Controlled Obs")
+                   "\n Optimisation method: DE-500",
+                   "\nSpecial Inputs: Normalised Acquisition function values + Two stage maximisation, Controlled Obs, Std Y, "
+                   )
         timenow = datetime.datetime.now()
         PH.printme(PH.p1, "Generating results Start time: ", timenow.strftime("%H%M%S_%d%m%Y"))
 
@@ -122,7 +124,7 @@ class ExpAIKerOptWrapper:
             # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
             # HE_input_iterations = [2, 3]
-            HE_input_iterations = [3, 4, 5, 6, 7]
+            HE_input_iterations = [2, 4, 5, 6, 7]
 
             number_of_humanexpert_suggestions = len(HE_input_iterations)
 
@@ -204,7 +206,7 @@ class ExpAIKerOptWrapper:
 
                     # objective function noisy
                     if gp_aimodel.fun_helper_obj.true_func_type == "LIN1D":
-                        ynew_ai_orig = ynew_ai_orig + np.random.normal(0, 0.05)
+                        ynew_ai_orig = ynew_ai_orig + np.random.normal(0, 0.01)
 
                     ynew_ai = (ynew_ai_orig - gp_aimodel.ymin) / (gp_aimodel.ymax - gp_aimodel.ymin)
                     observations_pool_y = np.append(observations_pool_y, [ynew_ai], axis=0)
@@ -424,8 +426,8 @@ if __name__ == "__main__":
     input = None
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
 
-    function_type = "OSC1D"
-    # function_type = "BEN1D"
+    # function_type = "OSC1D"
+    function_type = "BEN1D"
     # function_type = "LIN1D"
     # function_type = "GCL1D"
     # function_type = "ACK1D"

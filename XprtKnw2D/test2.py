@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 import math
 import scipy as scy_lin
 import sys, getopt
@@ -11,145 +11,31 @@ import scipy as sp
 import numpy as np
 import re
 from matplotlib.ticker import MaxNLocator
+
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
 from scipy.optimize import rosen, shgo
 from scipy.optimize import NonlinearConstraint, Bounds
-import matplotlib.pyplot as plt
-import nlopt
-
-
-# SHGO Global Optimiser
-
-def f(x):
-    return (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
-
-def g1(x):
-    # return x ** 2 - 6 * x + 4
-    return 1 * x - 2.25
-
-cons = ({'type': 'ineq', 'fun': g1})
-
-bounds = [(0, 5)]
-res = shgo(lambda x: f(x), bounds
-           , constraints=cons
-# n=60, sampling_method='sobol'
-           #  ,minimizer_kwargs= ({'constraints':cons, 'method':"SLSQP"})
-           )
-print(res)
-exit()
-
 # # # Differential Evolution
-def f(x):
-    return (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
+
+fun = lambda x: (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
+
 
 def constr_f(x):
-    return 10*x
-
-# the sum of x[0] and x[1] must be less than 1.9
-nlc = NonlinearConstraint(constr_f, 12.25, np.inf)
-# specify limits using a `Bounds` object.
-
-bounds = Bounds([0], [5])
-result = opt.differential_evolution(f, bounds, constraints=(nlc), seed=1, disp=True, x0=1)
-
-
-# bounds = [(0, 5)]
-# result = shgo(f, bounds, iters=5, constraints=[nlc]
-# # n=60, sampling_method='sobol'
-#            #  ,minimizer_kwargs= ({'constraints':cons, 'method':"SLSQP"})
-#            )
-
-# result = opt.minimize(f, 3, method='SLSQP', constraints=nlc, bounds=[[0, 5]])
-
-print(result)
-exit()
-
-
-# # # #NLopt
-def obj_func(x, grad, a, c):
-
-    obj_fun_val = (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
-    value = np.float64(obj_fun_val[0])
-    return value
-
-def ineq_constraint(x, grad, b):
-
-    # constraint_val = 10+0.25 - 10 * x
-    constraint_val = 12.25 - 10 * x
-    value = np.float64(constraint_val[0])
-    return value
-
-
-nlopt_obj= nlopt.opt(nlopt.GN_ORIG_DIRECT, 1)
-nlopt_obj.set_lower_bounds([0])
-nlopt_obj.set_upper_bounds([5])
-a =10
-c = 20
-nlopt_obj.set_min_objective(lambda x, grad : obj_func(x, grad,a, c))
-b =30
-nlopt_obj.add_inequality_constraint(lambda x,grad: ineq_constraint(x, grad, b), 1e-8)
-nlopt_obj.set_xtol_rel(1e-8)
-x = nlopt_obj.optimize([4])
-minf = nlopt_obj.last_optimum_value()
-print("optimum at x=", x)
-print("minimum value y= ", minf)
-print("result code = ", nlopt_obj.last_optimize_result())
-
-exit()
-
-# # # VIRGIN NLOPT
-
-def myfunc(x, grad):
-    if grad.size > 0:
-        grad[0] = 0.0
-        grad[1] = 0.5 / sqrt(x[1])
-    return sqrt(x[1])
-def myconstraint(x, grad, a, b):
-    if grad.size > 0:
-        grad[0] = 3 * a * (a*x[0] + b)**2
-        grad[1] = -1.0
-    return (a*x[0] + b)**3 - x[1]
-opt = nlopt.opt(nlopt.LD_MMA, 2)
-opt.set_lower_bounds([-float('inf'), 0])
-opt.set_min_objective(myfunc)
-opt.add_inequality_constraint(lambda x,grad: myconstraint(x,grad,2,0), 1e-8)
-opt.add_inequality_constraint(lambda x,grad: myconstraint(x,grad,-1,1), 1e-8)
-opt.set_xtol_rel(1e-4)
-x = opt.optimize([1.234, 5.678])
-minf = opt.last_optimum_value()
-print("optimum at ", x[0], x[1])
-print("minimum value = ", minf)
-print("result code = ", opt.last_optimize_result())
-exit()
-
-# # # Differential Evolution
-def f(x):
-    return (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
-
-def constr_f(x):
-    return 0.5*x
+    return -0.5 * x+1
 
 
 # the sum of x[0] and x[1] must be less than 1.9
-nlc = NonlinearConstraint(constr_f, 0.25, np.inf)
+nlc = NonlinearConstraint(constr_f, -np.inf, np.inf)
 # specify limits using a `Bounds` object.
-
 bounds = Bounds([0], [5])
-result = opt.differential_evolution(f, bounds, constraints=(nlc), seed=1, disp=True, x0=2)
-
-
-# bounds = [(0, 5)]
-# result = shgo(f, bounds, iters=5, constraints=[nlc]
-# # n=60, sampling_method='sobol'
-#            #  ,minimizer_kwargs= ({'constraints':cons, 'method':"SLSQP"})
-#            )
-
-# result = opt.minimize(f, 3, method='SLSQP', constraints=nlc, bounds=[[0, 5]])
+result = opt.differential_evolution(fun, bounds, constraints=(nlc),
+                                seed=1)
 
 print(result)
 exit()
 
 # SHGO Global Optimiser
-
 def f(x, a):
     return (np.exp(-0.5*x) * np.sin(1.5 * np.pi * x)) + 1
 

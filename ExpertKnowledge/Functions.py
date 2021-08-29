@@ -260,7 +260,10 @@ class FunctionHelper:
 
         elif (self.true_func_type == "BEN1D"):
             # exp{-(x-2)^2} + exp{-((x-6)^2)/10} + (1/(X^2 +1))
-            return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+            # Virgin
+            # return np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)
+            # mean centered
+            return (np.exp(-(x - 2) ** 2) + np.exp(-(x - 6) ** 2 / 10) + 1 / (x ** 2 + 1)) - 0.8616459299609659
 
         elif self.true_func_type == 'OSC2D':
             # # exp(-x1)*sin(1.5*pi*x1)+1+0*0.03*x2
