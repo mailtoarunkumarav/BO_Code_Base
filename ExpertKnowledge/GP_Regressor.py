@@ -17,11 +17,12 @@ np.random.seed(500)
 class GaussianProcessRegressor:
 
     # Constructor
-    def __init__(self, output_gen_time, kernel_type, number_of_test_datapoints, noise, linspacexmin, linspacexmax,
-                 linspaceymin, linspaceymax, signal_variance, number_of_dimensions, number_of_observed_samples, X, y,
+    def __init__(self, output_gen_time, id, kernel_type, number_of_test_datapoints, noise, linspacexmin, linspacexmax,
+                 linspaceymin, linspaceymax, signal_variance, number_of_dimensions, number_of_observed_samples, X, y, y_orig,
                  number_of_restarts_likelihood, bounds, lengthscale_bounds, signal_variance_bounds, Xmin, Xmax,
-                 ymin, ymax, Xs, ys, char_len_scale, len_weights, len_weights_bounds, weight_params_estimation, fun_helper_obj):
+                 ymin, ymax, Xs, ys, ys_orig, char_len_scale, len_weights, len_weights_bounds, weight_params_estimation, fun_helper_obj):
 
+        self.id = id
         self.output_gen_time = output_gen_time
         self.kernel_type = kernel_type
         self.number_of_test_datapoints = number_of_test_datapoints
@@ -35,6 +36,7 @@ class GaussianProcessRegressor:
         self.number_of_observed_samples = number_of_observed_samples
         self.X = X
         self.y = y
+        self.y_orig = y_orig
         self.number_of_restarts_likelihood = number_of_restarts_likelihood
         self.bounds = bounds
         self.lengthscale_bounds = lengthscale_bounds
@@ -45,6 +47,7 @@ class GaussianProcessRegressor:
         self.ymax = ymax
         self.Xs = Xs
         self.ys = ys
+        self.ys_orig = ys_orig
         self.char_len_scale = char_len_scale
         self.len_weights = len_weights
         self.len_weights_bounds = len_weights_bounds
@@ -58,6 +61,18 @@ class GaussianProcessRegressor:
         self.y = y
         self.L_X_X = None
         self.K_Xs_Xs = None
+
+    def refit_utils_std_ys(self, y_orig):
+        self.y_orig = y_orig
+        self.ys = (self.ys_orig - np.mean(y_orig)) / np.std(y_orig)
+
+    def refit_std_y(self, ynew_original):
+        self.y_orig = np.append(self.y_orig, [ynew_original], axis=0)
+        y_mean = np.mean(self.y_orig)
+        y_std = np.std(self.y_orig)
+        self.y = (self.y_orig - y_mean) /y_std
+        self.ys = (self.ys_orig - y_mean)/y_std
+        return self.y
 
     # Define Plot Prior
     def plot_graph(self, plot_params):
@@ -108,7 +123,8 @@ class GaussianProcessRegressor:
                     plt.gca().fill_between(plot_params['gca_fill'][0], plot_params['gca_fill'][1],
                                            plot_params['gca_fill'][2], color=color)
 
-        plt.axis(plot_params['axis'])
+        # plt.axis(plot_params['axis'])
+        plt.xlim(plot_params['axis'][0], plot_params['axis'][1])
         plt.title(plot_params['title'])
         plt.xlabel(plot_params['xlabel'])
         plt.ylabel(plot_params['ylabel'])
@@ -119,7 +135,6 @@ class GaussianProcessRegressor:
     def computekernel(self, data_point1, data_point2):
 
         if self.kernel_type == 'SE':
-            # PH.printme(PH.p1, "SE Kernel")
              result = self.sq_exp_kernel(data_point1, data_point2, self.char_len_scale, self.signal_variance)
 
         elif self.kernel_type == 'MATERN5':
@@ -178,7 +193,7 @@ class GaussianProcessRegressor:
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
 
-    def multi_kernel(self, data_point1, data_point2, char_len_scale, signal_variance):
+    def multi_kernel_arxiv(self, data_point1, data_point2, char_len_scale, signal_variance):
 
         kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
         for i in np.arange(len(data_point1)):
@@ -205,8 +220,23 @@ class GaussianProcessRegressor:
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
 
+    def multi_kernel(self, data_point1, data_point2, char_len_scale, signal_variance):
 
-    def sq_exp_kernel_vanilla(self, data_point1, data_point2, char_length_scale, signal_variance):
+        kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
+        for i in np.arange(len(data_point1)):
+            for j in np.arange(len(data_point2)):
+                difference = (data_point1[i, :] - data_point2[j, :])
+                l2_difference = np.sqrt(np.dot(difference, difference.T))
+                l2_difference_sq = np.dot(difference, difference.T)
+                sek = (signal_variance ** 2) * (np.exp((-1 / (2*(self.len_weights[1])**2)) * l2_difference_sq))
+                lin = self.len_weights[3] + np.dot(data_point1[i, :], data_point2[j, :].T)
+                degree_val1 = 3
+                poly1 = signal_variance + np.power(np.dot(np.dot(data_point1[i, :], data_point2[j, :].T), self.len_weights[5]), degree_val1)
+                each_kernel_val = self.len_weights[0] * sek + self.len_weights[2] * lin + self.len_weights[4] * poly1
+                kernel_mat[i, j] = each_kernel_val
+        return kernel_mat
+
+    def sq_exp_kernel_matversion(self, data_point1, data_point2, char_length_scale, signal_variance):
 
         # Define the SE kernel function
         total_squared_distances = np.sum(data_point1 ** 2, 1).reshape(-1, 1) + np.sum(data_point2 ** 2, 1) - 2 * np.dot(
@@ -215,26 +245,33 @@ class GaussianProcessRegressor:
         # print (kernel_val)
         return kernel_val
 
-    def sq_exp_kernel(self, data_point1, data_point2, char_len_scale, signal_variance):
+    def sq_exp_kernel_vanilla(self, data_point1, data_point2, char_len_scale, signal_variance):
 
         kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
         for i in np.arange(len(data_point1)):
             for j in np.arange(len(data_point2)):
                 difference = (data_point1[i, :] - data_point2[j, :])
                 l2_difference_sq = np.dot(difference, difference.T)
-                each_kernel_val = (signal_variance ** 2) * (np.exp((-1 / (2*char_len_scale**2)) * l2_difference_sq))
+                each_kernel_val = (signal_variance ** 2) * (np.exp((-1 / (2 * char_len_scale ** 2)) * l2_difference_sq))
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
+
+    def sq_exp_kernel(self, data_point1, data_point2, char_len_scale, signal_variance):
+
+        if self.number_of_dimensions == 1:
+            return self.sq_exp_kernel_vanilla(data_point1, data_point2, char_len_scale, signal_variance)
+        else:
+            return self.ard_sq_exp_kernel(data_point1, data_point2, char_len_scale, signal_variance)
 
     def ard_sq_exp_kernel(self, data_point1, data_point2, char_len_scale, signal_variance):
 
         # Element wise squaring the vector of given length scales
         char_len_scale = np.array(char_len_scale) ** 2
-        # Creating a Diagonal matrix with squared l values
-        sq_dia_len = np.diag(char_len_scale)
         # Computing inverse of a diagonal matrix by reciprocating each item in the diagonal
-        # inv_sq_dia_len = np.linalg.pinv(sq_dia_len)
-        inv_sq_dia_len = 1/sq_dia_len
+        inv_char_len = 1 / char_len_scale
+        # Creating a Diagonal matrix with squared l values
+        inv_sq_dia_len = np.diag(inv_char_len)
+
         kernel_mat = np.zeros(shape=(len(data_point1), len(data_point2)))
         for i in np.arange(len(data_point1)):
             for j in np.arange(len(data_point2)):
@@ -265,10 +302,37 @@ class GaussianProcessRegressor:
                 kernel_mat[i, j] = each_kernel_val
         return kernel_mat
 
+    def optimize_log_marginal_likelihood_l(self, input):
+
+        # 0 to n-1 elements represent the nth eleme
+        init_charac_length_scale = np.array(input[: self.number_of_dimensions])
+        signal_variance = input[len(input)-1]
+
+        if self.kernel_type == 'SE':
+            K_x_x = self.sq_exp_kernel(self.X, self.X, init_charac_length_scale, signal_variance)
+        elif self.kernel_type == 'MATERN3':
+            K_x_x = self.matern3_kernel(self.X, self.X, init_charac_length_scale, signal_variance)
+        elif self.kernel_type == 'MATERN5':
+            K_x_x = self.matern5_kernel(self.X, self.X, init_charac_length_scale, signal_variance)
+        elif self.kernel_type == 'LIN':
+            K_x_x = self.linear_kernel(self.X, self.X, init_charac_length_scale, signal_variance)
+        elif self.kernel_type == 'PER':
+            K_x_x = self.periodic_kernel(self.X, self.X, init_charac_length_scale, signal_variance)
+
+        # K_x_x = self.sq_exp_kernel_vanilla(self.X, self.X, init_charac_length_scale, signal_variance)
+        eye = 1e-6 * np.eye(len(self.X))
+        Knoise = K_x_x + eye
+        # Find L from K = L *L.T instead of inversing the covariance function
+        L_x_x = np.linalg.cholesky(Knoise)
+        factor = np.linalg.solve(L_x_x, self.y)
+        log_marginal_likelihood = -0.5 * (np.dot(factor.T, factor) +
+                                          self.number_of_observed_samples * np.log(2 * np.pi) +
+                                          np.log(np.linalg.det(Knoise)))
+        return log_marginal_likelihood[0]
+
     def optimize_log_marginal_likelihood_weight_params(self, input):
 
         self.len_weights = input[0:(len(input) - 1)]
-        # Following parameters not used in any computations
         self.signal_variance = input[len(input) - 1]
 
         K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
@@ -291,6 +355,23 @@ class GaussianProcessRegressor:
                                           np.log(np.linalg.det(Knoise)))
         # PH.printme(PH.p1, "Trying.... ", input, "\t:Logl: ", log_marginal_likelihood)
         return log_marginal_likelihood[0]
+
+    def get_kernel_matrix_condition_number(self, input):
+
+        if self.kernel_type == "MKL":
+            self.len_weights = input
+            K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
+
+        elif self.kernel_type == "SE":
+            self.char_len_scale = input
+            K_x_x = self.sq_exp_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
+
+        K_x_x = self.multi_kernel(self.X, self.X, self.char_len_scale, self.signal_variance)
+        eye = 1e-3 * np.eye(len(self.X))
+        Knoise = K_x_x + eye
+        condition_num = np.linalg.cond(Knoise)
+        return condition_num
+
 
     def optimize_log_marginal_likelihood_weight_params_const(self, input):
 
@@ -366,6 +447,10 @@ class GaussianProcessRegressor:
 
         K_x_x = self.computekernel(X, X)
         eye = 1e-10 * np.eye(len(X))
+
+        if self.id == "ai" or self.id == "baseline":
+            eye = 0.01 * np.eye(len(X))
+
         L_X_X = np.linalg.cholesky(K_x_x + eye)
 
         K_x_xs = self.computekernel(X, Xs)
@@ -393,98 +478,179 @@ class GaussianProcessRegressor:
 
     def runGaussian(self, pwd_qualifier, role, plot_posterior):
 
-        PH.printme(PH.p1, "!!!!!!!!!!Gaussian Process Started!!!!!!!!!" )
-        log_like_max = - 1 * float("inf")
+        PH.printme(PH.p1, "!!!!!!!!!!Gaussian Process Fitting Started!!!!!!!!!" )
 
-        if self.weight_params_estimation:
+        # if self.id == "ai" or self.id == "baseline":
+        if self.kernel_type == 'MKL':
+            if self.weight_params_estimation:
 
-            PH.printme(PH.p1, "Maximising the weights of the multi kernel")
-            x_max_value = None
+                PH.printme(PH.p1, "Maximising the weights of the multi kernel")
+                x_max_value = None
+                log_like_max = - 1 * float("inf")
+
+                random_points_a = []
+                random_points_b = []
+                random_points_c = []
+                random_points_d = []
+                random_points_e = []
+                random_points_f = []
+
+                # Data structure to create the starting points for the scipy.minimize method
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[0][0],
+                                                               self.len_weights_bounds[0][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_a.append(random_data_point_each_dim)
+
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[1][0],
+                                                               self.len_weights_bounds[1][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_b.append(random_data_point_each_dim)
+
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[2][0],
+                                                               self.len_weights_bounds[2][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_c.append(random_data_point_each_dim)
+
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[3][0],
+                                                               self.len_weights_bounds[3][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_d.append(random_data_point_each_dim)
+
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[4][0],
+                                                               self.len_weights_bounds[4][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_e.append(random_data_point_each_dim)
+
+                random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[5][0],
+                                                               self.len_weights_bounds[5][1],
+                                                               self.number_of_restarts_likelihood).reshape(1,
+                                                                                                           self.number_of_restarts_likelihood)
+                random_points_f.append(random_data_point_each_dim)
+
+                # Vertically stack the arrays of randomly generated starting points as a matrix
+                random_points_a = np.vstack(random_points_a)
+                random_points_b = np.vstack(random_points_b)
+                random_points_c = np.vstack(random_points_c)
+                random_points_d = np.vstack(random_points_d)
+                random_points_e = np.vstack(random_points_e)
+                random_points_f = np.vstack(random_points_f)
+                variance_start_points = np.random.uniform(self.signal_variance_bounds[0],
+                                                          self.signal_variance_bounds[1],
+                                                          self.number_of_restarts_likelihood)
+
+                for ind in np.arange(self.number_of_restarts_likelihood):
+
+                    tot_init_points = []
+
+                    param_a = random_points_a[0][ind]
+                    tot_init_points.append(param_a)
+                    param_b = random_points_b[0][ind]
+                    tot_init_points.append(param_b)
+                    param_c = random_points_c[0][ind]
+                    tot_init_points.append(param_c)
+                    param_d = random_points_d[0][ind]
+                    tot_init_points.append(param_d)
+                    param_e = random_points_e[0][ind]
+                    tot_init_points.append(param_e)
+                    param_f = random_points_f[0][ind]
+                    tot_init_points.append(param_f)
+                    tot_init_points.append(variance_start_points[ind])
+                    total_bounds = self.len_weights_bounds.copy()
+                    total_bounds.append(self.signal_variance_bounds)
+
+                    maxima = opt.minimize(lambda x: -self.optimize_log_marginal_likelihood_weight_params(x),
+                                          tot_init_points,
+                                          method='L-BFGS-B',
+                                          tol=0.01,
+                                          options={'maxfun': 200, 'maxiter': 40},
+                                          bounds=total_bounds)
+
+                    params = maxima['x']
+                    log_likelihood = self.optimize_log_marginal_likelihood_weight_params(params)
+                    if log_likelihood > log_like_max:
+                        PH.printme(PH.p1, "New maximum log likelihood ", log_likelihood, " found for params ", params)
+                        x_max_value = maxima['x']
+                        log_like_max = log_likelihood
+
+                self.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
+                self.signal_variance = x_max_value[len(maxima['x']) - 1]
+
+                PH.printme(PH.p1, "Opt weights: ", self.len_weights, "   variance:", self.signal_variance)
+
+        # if self.id == "GroundTruth" or self.id == "HumanExpert":
+        if self.kernel_type == "LIN" or self.kernel_type == "SE":
+
             log_like_max = - 1 * float("inf")
+            if self.weight_params_estimation:
+                PH.printme(PH.p1, "Hyper Params estimating.. for ", self.kernel_type)
+                # Estimating Length scale itself
 
-            random_points_a = []
-            random_points_b = []
-            random_points_c = []
-            random_points_d = []
-            random_points_e = []
+                x_max_value = None
 
-            # Data structure to create the starting points for the scipy.minimize method
-            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[0][0],
-                                                           self.len_weights_bounds[0][1],
-                                                           self.number_of_restarts_likelihood).reshape(1,
-                                                                                                       self.number_of_restarts_likelihood)
-            random_points_a.append(random_data_point_each_dim)
+                # Data structure to create the starting points for the scipy.minimize method
+                random_points = []
+                starting_points = []
 
-            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[1][0],
-                                                           self.len_weights_bounds[1][1],
-                                                           self.number_of_restarts_likelihood).reshape(1,
-                                                                                                       self.number_of_restarts_likelihood)
-            random_points_b.append(random_data_point_each_dim)
+                # Depending on the number of dimensions and bounds, generate random multi-starting points to find maxima
+                for dim in np.arange(self.number_of_dimensions):
+                    random_data_point_each_dim = np.random.uniform(self.lengthscale_bounds[dim][0],
+                                                                   self.lengthscale_bounds[dim][1],
+                                                                   self.number_of_restarts_likelihood). \
+                        reshape(1, self.number_of_restarts_likelihood)
+                    random_points.append(random_data_point_each_dim)
 
-            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[2][0],
-                                                           self.len_weights_bounds[2][1],
-                                                           self.number_of_restarts_likelihood).reshape(1,
-                                                                                                       self.number_of_restarts_likelihood)
-            random_points_c.append(random_data_point_each_dim)
+                # Vertically stack the arrays of randomly generated starting points as a matrix
+                random_points = np.vstack(random_points)
 
-            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[3][0],
-                                                           self.len_weights_bounds[3][1],
-                                                           self.number_of_restarts_likelihood).reshape(1,
-                                                                                                       self.number_of_restarts_likelihood)
-            random_points_d.append(random_data_point_each_dim)
+                # Reformat the generated random starting points in the form [x1 x2].T for the specified number of restarts
+                for sample_num in np.arange(self.number_of_restarts_likelihood):
+                    array = []
+                    for dim_count in np.arange(self.number_of_dimensions):
+                        array.append(random_points[dim_count, sample_num])
+                    starting_points.append(array)
+                starting_points = np.vstack(starting_points)
 
-            random_data_point_each_dim = np.random.uniform(self.len_weights_bounds[4][0],
-                                                           self.len_weights_bounds[4][1],
-                                                           self.number_of_restarts_likelihood).reshape(1,
-                                                                                                       self.number_of_restarts_likelihood)
-            random_points_e.append(random_data_point_each_dim)
+                variance_start_points = np.random.uniform(self.signal_variance_bounds[0],
+                                                          self.signal_variance_bounds[1],
+                                                          self.number_of_restarts_likelihood)
 
-            # Vertically stack the arrays of randomly generated starting points as a matrix
-            random_points_a = np.vstack(random_points_a)
-            random_points_b = np.vstack(random_points_b)
-            random_points_c = np.vstack(random_points_c)
-            random_points_d = np.vstack(random_points_d)
-            random_points_e = np.vstack(random_points_e)
-            variance_start_points = np.random.uniform(self.signal_variance_bounds[0],
-                                                      self.signal_variance_bounds[1],
-                                                      self.number_of_restarts_likelihood)
-
-            for ind in np.arange(self.number_of_restarts_likelihood):
-
-                tot_init_points = []
-
-                param_a = random_points_a[0][ind]
-                tot_init_points.append(param_a)
-                param_b = random_points_b[0][ind]
-                tot_init_points.append(param_b)
-                param_c = random_points_c[0][ind]
-                tot_init_points.append(param_c)
-                param_d = random_points_d[0][ind]
-                tot_init_points.append(param_d)
-                param_e = random_points_e[0][ind]
-                tot_init_points.append(param_e)
-                tot_init_points.append(variance_start_points[ind])
-                total_bounds = self.len_weights_bounds.copy()
+                total_bounds = self.lengthscale_bounds.copy()
                 total_bounds.append(self.signal_variance_bounds)
 
-                maxima = opt.minimize(lambda x: -self.optimize_log_marginal_likelihood_weight_params(x),
-                                      tot_init_points,
-                                      method='L-BFGS-B',
-                                      tol=0.01,
-                                      options={'maxfun': 200, 'maxiter': 40},
-                                      bounds=total_bounds)
+                for ind in np.arange(self.number_of_restarts_likelihood):
 
-                params = maxima['x']
-                log_likelihood = self.optimize_log_marginal_likelihood_weight_params(params)
-                if log_likelihood > log_like_max:
-                    PH.printme(PH.p1, "New maximum log likelihood ", log_likelihood, " found for params ", params)
-                    x_max_value = maxima['x']
-                    log_like_max = log_likelihood
+                    init_len_scale = starting_points[ind]
+                    init_var = variance_start_points[ind]
 
-            self.len_weights = x_max_value[0:(len(maxima['x']) - 1)]
-            self.signal_variance = x_max_value[len(maxima['x']) - 1]
+                    init_points = np.append(init_len_scale, init_var)
+                    maxima = opt.minimize(lambda x: -self.optimize_log_marginal_likelihood_l(x),
+                                          init_points,
+                                          method='L-BFGS-B',
+                                          tol=0.01,
+                                          options={'maxfun': 100, 'maxiter': 100},
+                                          bounds=total_bounds)
 
-            PH.printme(PH.p1, "Opt weights: ", self.len_weights, "   variance:", self.signal_variance)
+                    len_scale_temp = maxima['x'][:self.number_of_dimensions]
+                    variance_temp = maxima['x'][len(maxima['x']) - 1]
+                    params = np.append(len_scale_temp, variance_temp)
+                    log_likelihood = self.optimize_log_marginal_likelihood_l(params)
+
+                    if (log_likelihood > log_like_max):
+                        PH.printme(PH.p1, "New maximum log likelihood ", log_likelihood, " found for l= ",
+                                   maxima['x'][: self.number_of_dimensions], " var:", maxima['x'][len(maxima['x']) - 1])
+
+                        x_max_value = maxima
+                        log_like_max = log_likelihood
+
+                self.char_len_scale = x_max_value['x'][:self.number_of_dimensions]
+                self.signal_variance = x_max_value['x'][len(maxima['x']) - 1]
+                PH.printme(PH.p1, "Opt Length scale: ", self.char_len_scale, "\nOpt variance: ", self.signal_variance)
+
 
         # Commenting to speed up the computations
         # # compute the covariances between the test data points i.e K**
@@ -523,11 +689,13 @@ class GaussianProcessRegressor:
                 title = "Matern 3/2 Kernel"
             elif self.kernel_type == 'MKL':
                 title = "Multiple Kernel Learning"
+            elif self.kernel_type == 'LIN':
+                title = "Linear Kernel"
 
             plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_' + "" + "_" + role,
                                            # 'axis': [self.linspacexmin, self.linspacexmax, linspaceymin, linspaceymax],
                                            # 'axis': [0, 1, self.linspaceymin, self.linspaceymax],
-                                           'axis': [0, 1, -0.9, 0.9],
+                                           'axis': [-0.1, 1.1, -3, 3],
                                            'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [self.Xs, self.ys, 'b-', 'label=True Fn'],
                                                           [self.Xs, mean, 'g--', 'label=Mean Fn', 'lw2']],
                                            'title': title,
@@ -541,8 +709,6 @@ class GaussianProcessRegressor:
 
         PH.printme(PH.p1, "!!!!!!!!!!Finished!!!!!!!!!" )
 
-        return log_like_max
-
     def plot_posterior_predictions(self, pwd_qualifier, Xs, ys, mean, standard_deviation):
 
         pattern = re.compile("R[0-9]+_+")
@@ -552,7 +718,7 @@ class GaussianProcessRegressor:
 
         plot_posterior_distr_params = {'plotnum': 'GP_Posterior_Distr_'+file_name,
                                        # 'axis': [0, 1, 0, 1],
-                                       'axis': [0, 1, -0.9, 0.9],
+                                       'axis': [-0.1, 1.1, -3, 3],
                                        'plotvalues': [[self.X, self.y, 'r+', 'ms20'], [Xs, ys, 'b-', 'label=True Fn'],
                                                       [self.Xs, mean, 'g--','label=Mean Fn','lw2']],
                                        'file': pwd_qualifier,

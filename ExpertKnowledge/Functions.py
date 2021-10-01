@@ -65,8 +65,11 @@ class FunctionHelper:
             # Ackley 1D
             # true_max = self.get_true_func_value(0)
 
+        elif (self.true_func_type == "LINSIN1D"):
+            true_max = self.get_true_func_value(3.2672)
+
         elif (self.true_func_type == "LIN1D"):
-            true_max = self.get_true_func_value(2.1)
+            true_max = self.get_true_func_value(4.5)
 
         elif (self.true_func_type == "OSC1D"):
             # oscillator
@@ -239,8 +242,12 @@ class FunctionHelper:
             # c = 2 * np.pi
             # return 20 * np.exp(-0.2 * (x**2)) + np.exp(np.cos(2 * np.pi * x)) - 20 - np.exp(1)
 
+        elif self.true_func_type == "LINSIN1D":
+            return 0.7*x + 1 + np.sin(2*np.pi*x) - 2.4
+
         elif (self.true_func_type == "LIN1D"):
-            return 0.5 * x + 0.1
+            # return 0.75 * x + 0.1 - 1.6
+            return 0.25 * x + 0.1
 
         elif (self.true_func_type == "OSC1D"):
             # oscillator

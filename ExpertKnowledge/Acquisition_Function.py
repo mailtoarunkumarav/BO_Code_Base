@@ -254,11 +254,11 @@ class AcquisitionFunction():
 
                 # Compare the values obtained in the current run to find the best value overall and store accordingly
                 if fvalue > fmax:
-                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", max_x['x'])
+                    PH.printme(print_bool, "New UCB Maximum is: ", fvalue, " found at: ", max_x['x'])
                     x_max_value = max_x['x']
                     fmax = fvalue
 
-            PH.printme(print_bool,"UCB Best is ", fmax, "at ", x_max_value)
+            PH.printme(print_bool, "Final UCB maximum is ", fmax, "at ", x_max_value)
 
             # Calculate the ACQ function values at each of the unseen data points to plot the ACQ function
             with np.errstate(invalid='ignore'):
@@ -430,11 +430,11 @@ class AcquisitionFunction():
 
                 # Compare the values obtained in the current run to find the best value overall and store accordingly
                 if (fvalue < fmin):
-                    PH.printme(print_bool, "New best Fval: ", fvalue, " found at: ", min_x['x'])
+                    PH.printme(print_bool, "New UCB Minimum is: ", fvalue, " found at: ", min_x['x'])
                     x_min_value = min_x['x']
                     fmin = fvalue
 
-            PH.printme(print_bool, "UCB Best is ", fmin, "at ", x_min_value)
+            PH.printme(print_bool, "Final UCB minimum is ", fmin, "at ", x_min_value)
 
             # Calculate the ACQ function values at each of the unseen data points to plot the ACQ function
             with np.errstate(invalid='ignore'):

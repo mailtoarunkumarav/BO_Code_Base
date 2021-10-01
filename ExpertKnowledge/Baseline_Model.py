@@ -9,7 +9,6 @@ class BaselineModel:
     def obtain_baseline_suggestion(self, suggestion_count, plot_files_identifier, gp_baseline, acq_func_obj, noisy_suggestions,
                                    plot_iterations):
 
-        print("Baseline weights  before generating suggestion: ", gp_baseline.len_weights)
         gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
         xnew, acq_func_values = acq_func_obj.max_acq_func("baseline", noisy_suggestions, gp_baseline, suggestion_count)
         xnew_orig = np.multiply(xnew.T, (gp_baseline.Xmax - gp_baseline.Xmin)) + gp_baseline.Xmin
@@ -21,14 +20,17 @@ class BaselineModel:
         ynew_orig = gp_baseline.fun_helper_obj.get_true_func_value(xnew_orig)
 
         # objective function noisy
-        if gp_baseline.fun_helper_obj.true_func_type == "LIN1D":
-            ynew_orig = ynew_orig + np.random.normal(0, 0.01)
+        if gp_baseline.fun_helper_obj.true_func_type == "LIN1D" or gp_baseline.fun_helper_obj.true_func_type == "LINSIN1D":
+                # or gp_baseline.fun_helper_obj.true_func_type == "BEN1D":
+            ynew_orig = ynew_orig + np.random.normal(0, 0.1)
 
-        ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
+        #Standardising y
+        # ynew = (ynew_orig - gp_baseline.ymin) / (gp_baseline.ymax - gp_baseline.ymin)
+        # y = np.append(gp_baseline.y, [ynew], axis=0)
 
-        y = np.append(gp_baseline.y, [ynew], axis=0)
+        y = gp_baseline.refit_std_y(ynew_orig)
+        ynew = y[-1]
 
-        # Normalising
         PH.printme(PH.p1, "(", xnew, ynew, ") is the new value added..    Original: ", (xnew_orig, ynew_orig))
         gp_baseline.gp_fit(X, y)
 
@@ -45,6 +47,10 @@ class BaselineModel:
 
         # PH.printme(PH.p1, "Weights before ending....", gp_baseline.len_weights)
         # gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
+
+        plot_axes = [0, 1, acq_func_values.min() * 0.7, acq_func_values.max() * 2]
+        acq_func_obj.plot_acquisition_function(plot_files_identifier + "_Test_Baseline_acq_" + str(suggestion_count), gp_baseline.Xs,
+                                               acq_func_values, plot_axes)
 
         return xnew, ynew
 
