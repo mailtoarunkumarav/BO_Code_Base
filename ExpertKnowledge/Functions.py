@@ -100,36 +100,36 @@ class FunctionHelper:
         elif (self.true_func_type == 'sin'):
             true_max = self.get_true_func_value(1.57079)
 
-        elif (self.true_func_type == 'branin2d'):
+        elif (self.true_func_type == 'BRANIN2D'):
             # self.y_true_max = 0.397887
-            true_max = self.get_true_func_value(np.matrix([[9.42478, 2.475]]))
+            true_max = self.get_true_func_value([9.42478, 2.475])[0]
 
         elif (self.true_func_type == 'sphere'):
             # self.y_true_max = 0
             true_max = self.get_true_func_value(np.matrix([[0, 0]]))
 
-        elif (self.true_func_type == 'hartmann3d'):
+        elif (self.true_func_type == 'HARTMANN3D'):
             # self.y_true_max = 3.86278
             # x = [0.114614, 0.555649, 0.852547]
-            true_max = self.get_true_func_value(np.matrix([[0.114614, 0.555649, 0.852547]]))
+            true_max = self.get_true_func_value([0.114614, 0.555649, 0.852547])[0]
 
-        elif (self.true_func_type == 'hartmann6d'):
+        elif (self.true_func_type == 'HARTMANN6D'):
             # self.y_true_max = 3.32237
             # x = [0.20169, 0.150011, 0.476874, 0.275332, 0.311652, 0.6573]
-            true_max = self.get_true_func_value(np.matrix([[0.20169, 0.150011, 0.476874, 0.275332,
-                                                                   0.311652, 0.6573]]))
+            true_max = self.get_true_func_value([0.20169, 0.150011, 0.476874, 0.275332,
+                                                                   0.311652, 0.6573])[0]
 
         elif(self.true_func_type == 'syn2d'):
             true_max = self.get_true_func_value(np.matrix([0.224174, 0.223211]))
 
-        elif (self.true_func_type == 'levy2d'):
-            true_max = self.get_true_func_value(np.matrix([1,1]))
+        elif (self.true_func_type == 'LEVY2D'):
+            true_max = self.get_true_func_value([1, 1])[0]
 
-        elif (self.true_func_type == 'ackley2d'):
-            true_max = self.get_true_func_value(np.matrix([0,0]))
+        elif (self.true_func_type == 'ACKLEY2D'):
+            true_max = self.get_true_func_value([0, 0])[0]
 
-        elif (self.true_func_type == 'egg2d'):
-            true_max = self.get_true_func_value(np.matrix([512,404.25425425]))
+        elif (self.true_func_type == 'EGG2D'):
+            true_max = self.get_true_func_value([512, 404.25425425])[0]
 
         elif (self.true_func_type == 'michalewicz2d'):
             true_max = self.get_true_func_value(np.matrix([2.20446091, 1.56922396]))
@@ -286,12 +286,12 @@ class FunctionHelper:
             value = -1 * (x1 ** 2 + x2 * 0.1)
             return np.array([value])
 
-        elif (self.true_func_type == 'branin2d'):
+        elif (self.true_func_type == 'BRANIN2D'):
             # branin 2d fucntion
             # a = 1, b = 5.1 ⁄ (4π2), c = 5 ⁄ π, r = 6, s = 10 and t = 1 ⁄ (8π)
             # y = a * (x2 - b * x1 **2 + c * x1 - r) ** 2 + s * (1 - t) * cos(x1) + s
-            x1 = x[:, 0]
-            x2 = x[:, 1]
+            x1 = x[0]
+            x2 = x[1]
             a = 1;
             b = 5.1 / (4 * (np.pi ** 2));
             c = 5 / np.pi;
@@ -299,8 +299,8 @@ class FunctionHelper:
             s = 10;
             t = 1 / (8 * np.pi)
             value = a * (x2 - b * x1 ** 2 + c * x1 - r) ** 2 + s * (1 - t) * np.cos(x1) + s
-            value = -1 * value.reshape((-1, 1))
-            return value
+            value = -1 * value
+            return np.array([value])
 
         elif (self.true_func_type == 'sphere'):
             # simple sphere equation
@@ -313,7 +313,7 @@ class FunctionHelper:
             value = 1 * value.reshape(-1, 1)
             return value
 
-        elif (self.true_func_type == 'hartmann3d'):
+        elif (self.true_func_type == 'HARTMANN3D'):
 
             alpha = np.array([1.0, 1.2, 3.0, 3.2])
             A_array = [[3, 10, 30],
@@ -340,10 +340,11 @@ class FunctionHelper:
                     inner_sum += A.item(i, j) * ((x[:, j] - P.item(i, j)) ** 2)
                 sum += alpha_value * np.exp(-1 * inner_sum)
             # extra -1 is because we are finding maxima instead of the minima f(-x)
-            value = (-1 * -1 * sum).reshape(-1, 1)
-            return value
+            value = (-1 * -1 * sum)
+            return np.array([value])
 
-        elif (self.true_func_type == 'hartmann6d'):
+
+        elif (self.true_func_type == 'HARTMANN6D'):
 
             alpha = np.array([1.0, 1.2, 3.0, 3.2])
             A_array = [[10, 3, 17, 3.50, 1.7, 8],
@@ -369,8 +370,8 @@ class FunctionHelper:
                     inner_sum += A.item(i, j) * ((x[:, j] - P.item(i, j)) ** 2)
                 sum += alpha_value * np.exp(-1 * inner_sum)
             # extra -1 is because we are finding maxima instead of the minima f(-x)
-            value = (-1 * -1 * sum).reshape(-1, 1)
-            return value
+            value = (-1 * -1 * sum)
+            return np.array([value])
 
         elif(self.true_func_type == "syn2d"):
             ## Custom synthetic function exp(-x)*sin(2*pi*x)converted from 1d to 2d max =0.6219832327103764 @x= 0.224174, 0.223211
@@ -380,26 +381,25 @@ class FunctionHelper:
             value = value.reshape((-1, 1))
             return value
 
-        elif (self.true_func_type == "levy2d"):
+        elif (self.true_func_type == "LEVY2D"):
             ## Levy 2d function minima is 0 at X = (1,1)
 
-            X1 = x[:, 0]
-            X2 = x[:, 1]
+            X1 = x[0]
+            X2 = x[1]
 
             w1 = 1 + ((X1 - 1) / 4)
             w2 = 1 + ((X2 - 1) / 4)
 
             value = ((np.sin(np.pi * w1)) ** 2) + ((w1 - 1) ** 2) * (1 + 10 * ((np.sin((np.pi * w1) + 1)) ** 2)) + ((w2 - 1) ** 2) * (
                         1 + ((np.sin(2 * np.pi * w2)) ** 2))
+            value = (-1 * value)
+            return np.array([value])
 
-            value = (-1* value).reshape((-1, 1))
-            return value
-
-        elif (self.true_func_type == "ackley2d"):
+        elif (self.true_func_type == "ACKLEY2D"):
             ## Ackley 2d function minima is 0 at X = (0,0)
 
-            X1 = x[:, 0]
-            X2 = x[:, 1]
+            X1 = x[0]
+            X2 = x[1]
 
             a = 20
             b = 0.2
@@ -407,26 +407,25 @@ class FunctionHelper:
             value = (-20 * np.exp(-0.2 * np.sqrt(0.5 * (X1 ** 2 + X2 ** 2))) - np.exp(
                 0.5 * (np.cos(2 * np.pi * X1) + np.cos(2 * np.pi * X2))) + 20 + np.exp(1))
 
-            value = (-1* value).reshape((-1, 1))
-            return value
+            value = (-1 * value)
+            return np.array([value])
 
-        elif (self.true_func_type == "egg2d"):
+        elif (self.true_func_type == "EGG2D"):
             ## egg holder 2d function  Maxima = 959.64008971 @ x =[512,404.25425425]
-            X1 = x[:, 0]
-            X2 = x[:, 1]
+            X1 = x[0]
+            X2 = x[1]
 
-            value =  (-(X2 + 47) * np.sin(np.sqrt(np.abs(X2 + (X1/2) + 47))) - X1 * np.sin(np.sqrt(np.abs(X1 - (X2+47)))))
+            value = (-(X2 + 47) * np.sin(np.sqrt(np.abs(X2 + (X1/2) + 47))) - X1 * np.sin(np.sqrt(np.abs(X1 - (X2+47)))))
 
-            value = (-1* value).reshape((-1, 1))
-            return value
+            value = (-1 * value)
+            return np.array([value])
 
         elif (self.true_func_type == "michalewicz2d"):
             # Michalewicz maxima = 1.80116404 @ x = [2.20446091 1.56922396]
             X1 = x[:, 0]
             X2 = x[:, 1]
 
-            value =  np.sin(X1) * ((np.sin(((X1 ** 2) / np.pi))) ** 20) + np.sin(X2) * ((np.sin((2 * (X2 ** 2) / np.pi))) ** 20)
+            value = np.sin(X1) * ((np.sin(((X1 ** 2) / np.pi))) ** 20) + np.sin(X2) * ((np.sin((2 * (X2 ** 2) / np.pi))) ** 20)
 
-            value = (1* value).reshape((-1, 1))
-            return value
-
+            value = (1 * value)
+            return np.array([value])

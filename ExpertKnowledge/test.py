@@ -18,100 +18,6 @@ from matplotlib import cm
 import nlopt
 
 
-def true_func(X, Y):
-    return (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
-
-
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-
-# func = "par2d"
-func = "osc2d"
-
-if func == "par2d":
-    # Make data.
-    X = np.arange(-7, 7, 0.01)
-    Y = np.arange(-7, 7, 0.01)
-    X, Y = np.meshgrid(X, Y)
-    # R = np.sqrt(X**2 + Y**2)
-    # Z = np.sin(R)
-    # Z = np.sin(R)
-
-    Z = -1 * (X ** 2 + Y * 0.1)
-
-else:
-
-    X = np.arange(0, 5, 0.01)
-    Y = np.arange(0, 5, 0.01)
-    X, Y = np.meshgrid(X, Y)
-    # R = np.sqrt(X**2 + Y**2)
-    # Z = np.sin(R)
-    # Z = np.sin(R)
-
-    Z = true_func(X, Y)
-
-# Plot the surface.
-surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm, alpha=0.5,
-                       # surf = ax.plot_surface(X, Y, Z, cmap='viridis',
-                       linewidth=0, antialiased=False)
-
-x1 = np.random.uniform(2.5, 5, 10)
-x2 = np.random.uniform(0, 5, 10)
-y = true_func(x1, x2)
-print(y)
-
-ax.scatter(x1, x2, y, c="green", depthshade=False)
-# # Customize the z axis.
-# ax.set_zlim(0, 10000)
-# ax.zaxis.set_major_locator(LinearLocator(10))
-# ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-
-ax.set_xlabel("x1")
-ax.set_ylabel("x2")
-
-# Add a color bar which maps values to colors.
-fig.colorbar(surf, shrink=0.5, aspect=10)
-plt.show()
-
-exit()
-
-# # onlcick event
-
-expert_input = {}
-
-xbest_fig, xbest_ax = plt.subplots()
-xbest_ax.title.set_text('Input Xbest point for suggestion ')
-xbest_ax.set_xlim([0,1])
-
-obs = np.random.uniform(0, 1, 5)
-print(obs)
-xbest_ax.plot(obs,obs, "ro")
-
-def onclick_best(xbest_event):
-    # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-    #       ('double' if event.dblclick else 'single', event.button,
-    #        event.x, event.y, event.xdata, event.ydata))
-    print("Xbest:", xbest_event)
-    expert_input['xbest'] = xbest_event.xdata
-
-
-cid_xbest = xbest_fig.canvas.mpl_connect('button_press_event', onclick_best)
-xworst_fig, xworst_ax = plt.subplots()
-xworst_ax.title.set_text('Input Xworst point for suggestion ')
-xworst_ax.set_xlim([0,1])
-
-def onclick_worst(xworst_event):
-    # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-    #       ('double' if event.dblclick else 'single', event.button,
-    #        event.x, event.y, event.xdata, event.ydata))
-    print( "Xworst:", xworst_event)
-    expert_input['xworst'] = xworst_event.xdata
-
-cid = xworst_fig.canvas.mpl_connect('button_press_event', onclick_worst)
-
-plt.show()
-print(expert_input)
-exit()
 
 # # 10 runs Regret plotting
 
@@ -295,7 +201,7 @@ for acq in acq_fun_list:
 
     count += 1
 
-plt.axis([1, len(iterations_axes_values), 0, 2.5])
+plt.axis([1, len(iterations_axes_values), 0, 1.5])
 # plt.xticks(iterations_axes_values, iterations_axes_values)
 plt.title('Regret')
 plt.xlabel('Evaluations')
@@ -307,6 +213,100 @@ exit()
 
 
 
+def true_func(X, Y):
+    return (np.exp(-X) * np.sin(1.5 * np.pi * X)) + 1 + 0.03 * Y
+
+
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+
+# func = "par2d"
+func = "osc2d"
+
+if func == "par2d":
+    # Make data.
+    X = np.arange(-7, 7, 0.01)
+    Y = np.arange(-7, 7, 0.01)
+    X, Y = np.meshgrid(X, Y)
+    # R = np.sqrt(X**2 + Y**2)
+    # Z = np.sin(R)
+    # Z = np.sin(R)
+
+    Z = -1 * (X ** 2 + Y * 0.1)
+
+else:
+
+    X = np.arange(0, 5, 0.01)
+    Y = np.arange(0, 5, 0.01)
+    X, Y = np.meshgrid(X, Y)
+    # R = np.sqrt(X**2 + Y**2)
+    # Z = np.sin(R)
+    # Z = np.sin(R)
+
+    Z = true_func(X, Y)
+
+# Plot the surface.
+surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm, alpha=0.5,
+                       # surf = ax.plot_surface(X, Y, Z, cmap='viridis',
+                       linewidth=0, antialiased=False)
+
+x1 = np.random.uniform(2.5, 5, 10)
+x2 = np.random.uniform(0, 5, 10)
+y = true_func(x1, x2)
+print(y)
+
+ax.scatter(x1, x2, y, c="green", depthshade=False)
+# # Customize the z axis.
+# ax.set_zlim(0, 10000)
+# ax.zaxis.set_major_locator(LinearLocator(10))
+# ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+ax.set_xlabel("x1")
+ax.set_ylabel("x2")
+
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=10)
+plt.show()
+
+exit()
+
+# # onlcick event
+
+expert_input = {}
+
+xbest_fig, xbest_ax = plt.subplots()
+xbest_ax.title.set_text('Input Xbest point for suggestion ')
+xbest_ax.set_xlim([0,1])
+
+obs = np.random.uniform(0, 1, 5)
+print(obs)
+xbest_ax.plot(obs,obs, "ro")
+
+def onclick_best(xbest_event):
+    # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
+    #       ('double' if event.dblclick else 'single', event.button,
+    #        event.x, event.y, event.xdata, event.ydata))
+    print("Xbest:", xbest_event)
+    expert_input['xbest'] = xbest_event.xdata
+
+
+cid_xbest = xbest_fig.canvas.mpl_connect('button_press_event', onclick_best)
+xworst_fig, xworst_ax = plt.subplots()
+xworst_ax.title.set_text('Input Xworst point for suggestion ')
+xworst_ax.set_xlim([0,1])
+
+def onclick_worst(xworst_event):
+    # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
+    #       ('double' if event.dblclick else 'single', event.button,
+    #        event.x, event.y, event.xdata, event.ydata))
+    print( "Xworst:", xworst_event)
+    expert_input['xworst'] = xworst_event.xdata
+
+cid = xworst_fig.canvas.mpl_connect('button_press_event', onclick_worst)
+
+plt.show()
+print(expert_input)
+exit()
 
 
 

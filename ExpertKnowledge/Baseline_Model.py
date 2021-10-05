@@ -48,8 +48,9 @@ class BaselineModel:
         # PH.printme(PH.p1, "Weights before ending....", gp_baseline.len_weights)
         # gp_baseline.runGaussian(plot_files_identifier + "_BaseSuggestion_" + str(suggestion_count), "baseline", False)
 
-        plot_axes = [0, 1, acq_func_values.min() * 0.7, acq_func_values.max() * 2]
-        acq_func_obj.plot_acquisition_function(plot_files_identifier + "_Test_Baseline_acq_" + str(suggestion_count), gp_baseline.Xs,
+        if gp_baseline.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
+            plot_axes = [0, 1, acq_func_values.min() * 0.7, acq_func_values.max() * 2]
+            acq_func_obj.plot_acquisition_function(plot_files_identifier + "_Test_Baseline_acq_" + str(suggestion_count), gp_baseline.Xs,
                                                acq_func_values, plot_axes)
 
         return xnew, ynew

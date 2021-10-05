@@ -89,8 +89,9 @@ class HumanExpertModel:
         xnew_best, acq_func_values_best = acq_func_obj.max_acq_func("HumanExpert", noisy_suggestions, gp_humanexpert, suggestion_count)
         xnew_orig_best = np.multiply(xnew_best.T, (gp_humanexpert.Xmax - gp_humanexpert.Xmin)) + gp_humanexpert.Xmin
 
-        plot_axes = [0, 1, acq_func_values_best.min() * 0.7, acq_func_values_best.max() * 2]
-        acq_func_obj.plot_acquisition_function(file_identifier + "_Test_Best_acq_" + str(suggestion_count), gp_humanexpert.Xs,
+        if gp_humanexpert.number_of_dimensions == 1 and plot_iterations != 0 and suggestion_count % plot_iterations == 0:
+            plot_axes = [0, 1, acq_func_values_best.min() * 0.7, acq_func_values_best.max() * 2]
+            acq_func_obj.plot_acquisition_function(file_identifier + "_Test_Best_acq_" + str(suggestion_count), gp_humanexpert.Xs,
                                                acq_func_values_best, plot_axes)
 
         PH.printme(PH.p1, "This is the best value found after maximising Acq. ", "\tXBest: ", xnew_best, "\tOriginal:", xnew_orig_best)

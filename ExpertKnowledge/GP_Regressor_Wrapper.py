@@ -162,15 +162,42 @@ class GPRegressorWrapper:
             linspaceymin = -51
             linspaceymax = 1
 
-        if function_type == "OSC1D" or function_type == "BEN1D" or function_type == "GCL1D" or function_type == "ACK1D" or \
-                function_type == "LIN1D" or function_type == "LINSIN1D" :
-            number_of_dimensions = 1
-            oned_bounds = [[linspacexmin, linspacexmax]]
-            bounds = oned_bounds
+        elif function_type == "LEVY2D":
+            linspacexmin = -10
+            linspacexmax = 10
+            linspaceymin = -100
+            linspaceymax = 1
 
-        elif function_type == "OSC2D" or function_type == "PAR2D":
-            number_of_dimensions = 2
-            bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
+        elif function_type == "ACKLEY2D":
+            linspacexmin = -32.768
+            linspacexmax = 32.768
+            linspaceymin = -30
+            linspaceymax = 0
+
+        elif function_type == "BRANIN2D":
+            linspacexmin = 0
+            linspacexmax = 10
+            linspaceymin = -1
+            linspaceymax = 1
+
+        elif function_type == "EGG2D":
+            linspacexmin = -512
+            linspacexmax = 512
+            linspaceymin = -1000
+            linspaceymax = 1000
+
+
+        elif function_type == "HARTMANN3D":
+            linspacexmin = -512
+            linspacexmax = 512
+            linspaceymin = -1000
+            linspaceymax = 1000
+
+        elif function_type == "HARTMANN6D":
+            linspacexmin = -512
+            linspacexmax = 512
+            linspaceymin = -1000
+            linspaceymax = 1000
 
         Xmin = linspacexmin
         Xmax = linspacexmax
@@ -180,6 +207,31 @@ class GPRegressorWrapper:
         # For Ben1D and Lin1D Y- standardised
         ymax = 1
         ymin = 0
+
+        if function_type == "OSC1D" or function_type == "BEN1D" or function_type == "GCL1D" or function_type == "ACK1D" or \
+                function_type == "LIN1D" or function_type == "LINSIN1D" :
+            number_of_dimensions = 1
+            oned_bounds = [[linspacexmin, linspacexmax]]
+            bounds = oned_bounds
+
+        elif function_type == "BRANIN2D":
+            number_of_dimensions = 2
+            bounds = [[-5, 10], [0, 15]]
+            Xmin = np.array([-5, 0])
+            Xmax = np.array([10, 15])
+
+        elif function_type == "OSC2D" or function_type == "PAR2D" or function_type == "ACKLEY2D" or \
+                function_type == "EGG2D" or function_type == "LEVY2D":
+            number_of_dimensions = 2
+            bounds = [[linspacexmin, linspacexmax] for i in range(number_of_dimensions)]
+
+        elif function_type == "HARTMANN3D":
+            number_of_dimensions = 3
+            bounds = [[linspacexmin, linspacexmax] for i in range(number_of_dimensions)]
+
+        elif function_type == "HARTMANN6D":
+            number_of_dimensions = 6
+            bounds = [[linspacexmin, linspacexmax] for i in range(number_of_dimensions)]
 
         # sphere_bounds = [[linspacexmin, linspacexmax], [linspacexmin, linspacexmax]]
         # michalewicz2d_bounds = [[0, np.pi], [0, np.pi]]

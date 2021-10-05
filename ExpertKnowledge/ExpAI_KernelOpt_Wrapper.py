@@ -36,7 +36,7 @@ class ExpAIKerOptWrapper:
 
     def kernel_opt_wrapper(self, pwd_qualifier, full_time_stamp, function_type, external_input):
 
-        number_of_runs = 5
+        number_of_runs = 10
         number_of_restarts_acq = 100
         number_of_minimiser_restarts = 100
 
@@ -52,11 +52,11 @@ class ExpAIKerOptWrapper:
         nu = 0.1
 
         # Number of observations for human expert and ground truth models
-        number_of_observations_groundtruth = 30
+        number_of_observations_groundtruth = 50
         number_of_random_observations_humanexpert = 3
 
         # Total number of iterations
-        number_total_suggestions = 10
+        number_total_suggestions = 25
 
         epsilon_distance = 0.6
 
@@ -95,8 +95,8 @@ class ExpAIKerOptWrapper:
         # human_expert_input_method = "suggestion_correction"
         human_expert_input_method = "distance_maximisation"
 
-        simulated_human = False
-        # simulated_human = True
+        # simulated_human = False
+        simulated_human = True
 
         PH.printme(PH.p1, "\n###################################################################",
                    "\nAcq. Functions:", acq_fun_list, "   Number of Suggestions:", number_total_suggestions, "   Minimiser Restarts:",
@@ -109,8 +109,8 @@ class ExpAIKerOptWrapper:
                    estimated_kernel,
                    # "\n Optimisation method: DE-100+ Constraint on Condition Number",
                    # "\n Optimisation method: NLOPT + Constraint on Condition Number ",
-                   "\n Optimisation method: SLSQP + Constraint on Condition Number ",
-                   "\nSpecial Inputs: Simulated Human:", simulated_human,
+                   "\nOptimisation method: SLSQP + Constraint on Condition Number ",
+                   "\nSpecial Inputs: Simulated Human:", simulated_human, "   Expert Inputs Type:", human_expert_input_method
                    # "Normalised Acquisition function values + Two stage maximisation, Controlled Obs, Std Y, "
                    # " Noise = N(0, 0.1) GT-No N(0,0.1)"
                    )
@@ -143,8 +143,8 @@ class ExpAIKerOptWrapper:
             # HE_input_iterations = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             # HE_input_iterations = [1, 2, 8, 9, 12, 13]
             # HE_input_iterations = [2, 3]
-            HE_input_iterations = [3, 5, 6, 7]
-            # HE_input_iterations = [2, 4, 5, 6, 7, 10, 12, 14, 16, 18, 20]
+            # HE_input_iterations = [3, 5, 6, 7]
+            HE_input_iterations = [2, 4, 5, 6, 7, 10, 12, 14, 16, 18, 20]
 
             number_of_humanexpert_suggestions = len(HE_input_iterations)
 
@@ -533,13 +533,18 @@ if __name__ == "__main__":
     ker_opt_wrapper_obj = ExpAIKerOptWrapper()
 
     # function_type = "OSC1D"
-    function_type = "BEN1D"
+    # function_type = "BEN1D"
     # function_type = "LIN1D"
     # function_type = "GCL1D"
     # function_type = "ACK1D"
     # function_type = "OSC2D"
     # function_type = "PAR2D"
     # function_type = "LINSIN1D"
+    # function_type = "ACKLEY2D"
+    # function_type = "BRANIN2D"
+    function_type = "HARTMANN3D"
+    # function_type = "HARTMANN6D"
+    # function_type = "EGG2D"
 
     full_time_stamp = function_type + "_" + timestamp
     directory_full_qualifier_name = os.getcwd() + "/../../Experimental_Results/ExpertKnowledgeResults/" + full_time_stamp + "/"
